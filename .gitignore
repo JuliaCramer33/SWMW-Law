@@ -22,7 +22,6 @@
 
 # Ignore specific plugins (e.g. paid plugins you install manually)
 # Add any other plugins you don't want in the repo here.
-/plugins/advanced-custom-fields-pro/
 /plugins/fakerpress/
 
 # SASS, Node build files
