@@ -1,0 +1,169 @@
+@use "../variables/variables" as *;
+
+/*
+ * Image Split Block Styles
+ */
+.image-split-block {
+	.image-split-container {
+		display: flex;
+		gap: $spacing-8;
+		align-items: flex-start;
+
+		.image-split-column {
+			width: $width-half;
+			box-sizing: border-box;
+
+			&.image-side {
+				.image-stack {
+					position: relative;
+					width: $width-full;
+					overflow: hidden;
+
+					.image-1 {
+						display: block;
+						width: $width-full;
+						height: auto;
+						max-height: 840px;
+						object-fit: cover;
+						clip-path: polygon(0% 0%, 100% 0%, 71% 100%, 0% 100%);
+						z-index: $z-index-base;
+					}
+
+					.image-2 {
+						display: block;
+						width: 65%;
+						height: auto;
+						object-fit: cover;
+						position: absolute;
+						top: auto;
+						bottom: 5%;
+						left: auto;
+						right: 0;
+						clip-path: polygon(15% 0%, 100% 0%, 85% 100%, 0% 100%);
+						border-radius: $border-radius;
+						z-index: 2;
+						box-shadow: $box-shadow-lg;
+					}
+				}
+			}
+
+			&.content-side {
+				/* Optional content styles */
+			}
+		}
+	}
+
+	@media (max-width: $breakpoint-md) {
+		.image-split-container {
+			flex-direction: column;
+			gap: $spacing-5;
+
+			.image-split-column {
+				width: $width-full;
+			}
+
+			&.align-left,
+			&.align-right {
+				.image-side {
+					order: 1;
+				}
+				.content-side {
+					order: 2;
+				}
+			}
+		}
+	}
+}
+
+.image-split-block.align-left {
+	.image-split-container {
+		.image-side {
+			order: 1;
+			.image-1 {
+				clip-path: polygon(0% 0%, 100% 0%, 71% 100%, 0% 100%);
+			}
+			.image-2 {
+				right: 0;
+				left: auto;
+				clip-path: polygon(15% 0%, 100% 0%, 85% 100%, 0% 100%);
+			}
+		}
+		.content-side {
+			order: 2;
+		}
+	}
+}
+
+.image-split-block.align-right {
+	.image-split-container {
+		.image-side {
+			order: 2;
+			.image-stack {
+				.image-1 {
+					clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+				}
+				.image-2 {
+					right: auto;
+					left: 0;
+					clip-path: polygon(0% 0%, 85% 0%, 94% 100%, 15% 100%);
+				}
+			}
+		}
+		.content-side {
+			order: 1;
+		}
+	}
+}
+
+.image-split-column.image-side {
+	img {
+		max-width: 100%;
+		height: auto;
+		display: block;
+		margin-bottom: $spacing-3;
+	}
+
+	.image-stack {
+		position: relative;
+	}
+}
+
+/* Editor fallback: soft structure for block preview */
+.editor-styles-wrapper .wp-block-acf-image-split-block .image-split-container {
+	display: flex;
+	flex-wrap: wrap;
+	gap: $spacing-5;
+	align-items: flex-start;
+}
+
+.editor-styles-wrapper .wp-block-acf-image-split-block .image-split-column {
+	box-sizing: border-box;
+	width: $width-half;
+}
+
+.editor-styles-wrapper .wp-block-acf-image-split-block .image-stack {
+	display: flex;
+	flex-direction: column;
+	gap: $spacing-3;
+	position: relative;
+}
+
+.editor-styles-wrapper .wp-block-acf-image-split-block.align-right .image-split-container {
+	flex-direction: row-reverse;
+}
+
+.editor-styles-wrapper .wp-block-acf-image-split-block .image-1,
+.editor-styles-wrapper .wp-block-acf-image-split-block .image-2 {
+	clip-path: none;
+	position: static;
+	box-shadow: none;
+	border-radius: 0;
+}
+
+.editor-styles-wrapper .wp-block-acf-image-split-block .image-2 {
+	width: 65%;
+	margin-top: -$spacing-10;
+	margin-left: auto;
+	margin-right: auto;
+	z-index: 2;
+}

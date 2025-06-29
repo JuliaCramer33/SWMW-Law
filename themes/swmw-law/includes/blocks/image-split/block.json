@@ -1,0 +1,37 @@
+{
+  "name": "acf/image-split",
+  "title": "Image Split",
+  "description": "A block with two images on one side and content with InnerBlocks on the other, with alignment options.",
+  "category": "swmw-custom-blocks",
+  "icon": "images-alt2",
+  "keywords": [
+    "image",
+    "split",
+    "content",
+    "columns"
+  ],
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "template.php"
+  },
+  "supports": {
+    "anchor": true,
+    "customClassName": true,
+    "color": {
+      "background": true,
+      "text": true,
+      "link": true
+    },
+    "spacing": {
+      "padding": true,
+      "margin": true
+    },
+    "html": false,
+    "align": [
+      "left",
+      "right",
+      "full"
+    ]
+  },
+  "editorStyle": "file:./editor.css"
+}

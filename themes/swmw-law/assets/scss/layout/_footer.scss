@@ -1,0 +1,261 @@
+@use "../variables/variables" as *;
+@use "sass:math"; // Ensure math is imported
+
+.site-footer {
+	background-color: $color-white; // Changed to white background
+	color: $color-text; // Default text color for footer, can be overridden
+	font-size: $font-size-sm;
+	padding-top: $spacing-8;
+	padding-bottom: $spacing-4;
+
+	.widget-title {
+		color: $color-secondary; // Changed to Green
+		font-size: $font-size-lg; // Slightly larger for titles
+		font-weight: $font-weight-bold;
+		margin-bottom: $spacing-4;
+		display: flex;
+		align-items: center; // Vertically center align the text and the line
+
+		.widget-title-line {
+			flex-grow: 1; // Allows the line to take up remaining horizontal space
+			height: 0.5px; // Thickness of the line - TRYING 0.5px
+			background-color: $color-secondary; // Green line
+			margin-left: $spacing-3; // Space between the title text and the line
+		}
+	}
+
+	a {
+		color: $color-text; // Default link color in footer
+		text-decoration: none;
+
+		&:hover {
+			color: $color-secondary; // Hover to Green
+			text-decoration: underline;
+		}
+	}
+
+	.footer-bottom {
+		.footer-bottom-inner {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			border-top: 1px solid $color-divider;
+			margin-bottom: $spacing-6;
+			padding-top: $spacing-6;
+			align-items: center;
+			gap: $spacing-4;
+		}
+
+		.footer-copyright {
+			font-size: $font-size-xs;
+			color: $color-text;
+			flex-basis: 70%;
+
+			p {
+				margin-bottom: $spacing-2;
+
+				&:last-child {
+					margin-bottom: $spacing-0;
+				}
+			}
+
+			a {
+				color: $color-text;
+				text-decoration: underline;
+
+				&:hover {
+					color: $color-secondary;
+				}
+			}
+		}
+
+		.footer-disclaimer {
+			font-size: em(10px);
+			line-height: 1.4;
+			color: $color-text;
+			margin-top: $spacing-3;
+
+			a {
+				color: $color-text;
+				text-decoration: underline;
+
+				&:hover {
+					color: $color-secondary;
+				}
+			}
+		}
+
+		.footer-social {
+			flex-basis: 25%;
+			text-align: right;
+
+			.social-media-list {
+				list-style: none;
+				padding: $spacing-0;
+				margin: $spacing-0;
+				display: flex;
+				gap: $spacing-2;
+				justify-content: flex-end;
+
+				li a {
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					width: 36px;
+					height: 36px;
+					background-color: $color-gray-lightest;
+					border-radius: 50%;
+					color: $color-text;
+					font-size: $font-size-base;
+					text-decoration: none;
+					transition: background-color 0.2s ease, color 0.2s ease, filter 0.2s ease;
+
+					img.social-icon {
+						width: 60%;
+						height: 60%;
+						object-fit: contain;
+						filter: grayscale(100%) brightness(60%);
+					}
+
+					img.bbb-icon {
+						width: 70%;
+						height: 70%;
+					}
+
+					&:hover {
+						background-color: $color-secondary;
+
+						img.social-icon {
+							filter: brightness(0) invert(1);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	.footer-main {
+		padding-bottom: $spacing-8;
+
+		.footer-column {
+			padding: 0 $spacing-4;
+		}
+
+		.footer-offices {
+			h3 {
+				font-size: $font-size-base;
+				font-weight: $font-weight-bold;
+				color: $color-text;
+				margin-bottom: $spacing-1;
+			}
+
+			p {
+				margin-bottom: $spacing-2;
+				line-height: $base-line-height;
+			}
+
+			.office-location {
+				margin-bottom: $spacing-4;
+
+				&:last-child {
+					margin-bottom: $spacing-0;
+				}
+			}
+
+			.map-directions-link {
+				color: $color-secondary;
+				font-weight: $font-weight-medium;
+				text-decoration: underline;
+
+				&:hover {
+					text-decoration: none;
+				}
+			}
+		}
+
+		.footer-brand {
+			.site-logo img {
+				max-width: 200px;
+				margin-bottom: $spacing-3;
+			}
+
+			.footer-tagline {
+				font: $font-weight-normal #{$font-size-xl}/#{1.4} $font-poppins;
+				color: $color-secondary;
+				margin-top: $spacing-3;
+				padding-left: $spacing-1;
+				position: relative;
+
+				strong,
+				b {
+					font-weight: 700;
+				}
+
+				p {
+					margin-bottom: $spacing-1;
+					line-height: inherit;
+
+					&:last-child {
+						margin-bottom: 0;
+					}
+				}
+			}
+
+			.custom-logo-link {
+				display: inline-block;
+			}
+
+			.custom-logo {
+				max-width: 290px;
+				height: auto;
+			}
+		}
+
+		.footer-links {
+			.footer-nav-list {
+				list-style: none;
+				padding: $spacing-0;
+				margin: $spacing-0;
+				columns: 2;
+				gap: $spacing-4;
+
+				li {
+					margin-bottom: $spacing-2;
+
+					a {
+						color: $color-text;
+
+						&:hover {
+							color: $color-secondary;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// Responsive adjustments
+	@media (max-width: $breakpoint-md) {
+		.footer-main {
+			.footer-brand,
+			.footer-offices,
+			.footer-links {
+				margin-bottom: $spacing-6;
+			}
+		}
+
+		.footer-bottom-inner {
+			flex-direction: column;
+			text-align: center;
+		}
+
+		.footer-social {
+			text-align: center;
+			margin-top: $spacing-4;
+
+			.social-media-list {
+				justify-content: center;
+			}
+		}
+	}
+}

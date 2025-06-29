@@ -1,0 +1,448 @@
+/* stylelint-disable no-descending-specificity */
+@use "../variables/variables" as *;
+@use "../base/buttons" as *; // Ensure button mixins are available
+@use "sass:color";
+
+// themes/swmw-law/assets/scss/components/_navigation.scss
+
+// --- Base Navigation Styles ---
+.main-navigation,
+.utility-navigation {
+	ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		align-items: center;
+	}
+
+	li {
+		position: relative;
+		margin: 0 $spacing-1;
+
+		&:first-child {
+			margin-left: 0;
+		}
+
+		&:last-child {
+			margin-right: 0;
+		}
+	}
+
+	// General link styling (typography, base padding, display)
+	// Exclude links within li.button or links that are .button themselves
+	a:not(.button) { // Simplified this: if it's a button, it gets button styles.
+		text-decoration: none;
+		padding: $spacing-1 0;
+		display: block;
+		font-family: $font-montserrat;
+		font-weight: $font-weight-bold;
+		font-size: $font-size-base;
+		line-height: $h6-line-height;
+		letter-spacing: 0;
+	}
+}
+
+// --- Main Navigation Specifics ---
+.main-navigation {
+	// Override li margins for more space between top-level items
+	> ul > li {
+		margin: 0 $spacing-4;
+
+		&:first-child {
+			margin-left: 0;
+		}
+
+		&:last-child {
+			margin-right: 0;
+		}
+
+		// Target anchor tags that are direct children of these li,
+		// AND the LI parent does NOT have the class .button
+		// AND the A itself does NOT have the class .button
+		&:not(.button) > a:not(.button) {
+			position: relative;
+			color: $color-charcoal; // Specific color for main nav links
+			display: inline-block; // Override general 'block' for hover effect needs
+			padding: $spacing-1 $spacing-2; // Specific padding for these links
+			vertical-align: middle;
+			transition: color $transition-duration-base $transition-easing-ease-in-out;
+
+			// Left slanted line hover animation
+			&::before {
+				content: "";
+				position: absolute;
+				top: 20%;
+				width: 2px;
+				height: 60%;
+				background-color: $color-secondary;
+				transform-origin: center;
+				transition: transform $transition-duration-slow $transition-easing-ease-in-out;
+				left: 0;
+				transform: scaleY(0) skewX(-25deg); // User's current setting
+			}
+
+			&:hover,
+			&:focus {
+				color: $color-secondary;
+				text-decoration: none;
+
+				&::before {
+					transform: scaleY(1) skewX(-20deg); // User's current setting
+				}
+			}
+		}
+	}
+
+
+	// Dropdown arrow for items with children
+	.menu-item-has-children { // This targets the <li>
+		// Ensure this selector is specific to non-button links within .menu-item-has-children
+		&:not(.button) > a:not(.button) {
+			padding-right: $spacing-3;
+
+			&::after {
+				content: "";
+				display: inline-block;
+				position: absolute;
+				top: 50%;
+				right: -0.25em;
+				width: 6px;
+				height: 6px;
+				border: solid currentcolor;
+				border-width: 0 2px 2px 0;
+				transform: rotate(45deg) translateY(-75%);
+				transition: none;
+			}
+		}
+	}
+
+	// Dropdown sub-menu styles (within .main-navigation)
+	.menu-item-has-children:not(.menu-item-has-mega-menu):not(.button) {
+		// This applies to li.menu-item-has-children within .main-navigation
+
+		ul.sub-menu {
+			display: none;
+			position: absolute;
+			left: 0;
+			top: 100%;
+			background-color: $color-white;
+			border: 1px solid $color-divider;
+			padding: $spacing-1;
+			min-width: 180px;
+			z-index: $z-index-dropdown;
+
+			li {
+				margin: 0; // Override base li margin within sub-menus
+				width: 100%;
+
+				a {
+					padding: $spacing-1 $spacing-2;
+					color: $color-text;
+
+					&:hover {
+						color: $color-secondary;
+					}
+				}
+			}
+		}
+
+		&:hover > ul.sub-menu,
+		&:focus-within > ul.sub-menu {
+			display: block;
+		}
+	}
+
+	// Styling for the "Free Consultation" button within main navigation
+	li.button {
+
+		@include button-appearance;
+		@include button-animation;
+
+		padding: $spacing-1 $spacing-4 !important;
+
+		a {
+			color: $color-white !important;
+			text-decoration: none;
+			display: inline-block;
+			padding: inherit;
+
+			transition: color 0.7s cubic-bezier(0.7, 0, 0.3, 1);
+		}
+
+		&:hover,
+		&:focus {
+			text-decoration: none;
+
+			a {
+				color: $color-primary !important;
+			}
+		}
+	}
+}
+
+// --- Utility Navigation Specifics ---
+.utility-navigation {
+	ul {
+		justify-content: flex-end;
+	}
+
+	a:not(.button):not([class*="free-consultation-button"]) {
+		font-size: $font-size-sm;
+		color: $color-text;
+		padding: $spacing-2 $spacing-3;
+	}
+}
+
+// --- Header Phone Styles (Hardcoded in header.php) ---
+.header-phone,
+.mobile-header-phone {
+	display: flex;
+	align-items: center;
+
+	.phone-icon {
+		filter: brightness(0) saturate(100%) invert(48%) sepia(19%) saturate(1358%) hue-rotate(76deg) brightness(95%) contrast(89%);
+		margin-right: $spacing-1;
+	}
+
+	a,
+	a:link,
+	a:visited {
+		font-family: $font-poppins;
+		font-weight: $font-weight-bold;
+		font-size: $font-size-base;
+		line-height: 1.625;
+		letter-spacing: 0.05em;
+		color: $color-secondary;
+		text-align: right;
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+			color: color.adjust($color-secondary, $lightness: -10%);
+		}
+	}
+}
+
+// Specific adjustments if .header-phone is inside .utility-nav-wrapper but outside .utility-navigation
+.utility-nav-wrapper {
+	.header-phone {
+		border-left: 1px solid $color-border;
+		padding-left: $spacing-3;
+		margin-left: $spacing-1;
+	}
+}
+
+// --- Mobile hamburger icon ---
+.nav-toggle {
+	display: none; // Hidden by default, shown in media query
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	padding: 0;
+	width: 30px;
+	height: 22px;
+	position: relative;
+	z-index: $z-index-overlay + 1;
+
+	span {
+		display: block;
+		position: absolute;
+		height: 3px;
+		width: 100%;
+		background: $color-primary;
+		border-radius: 3px;
+		opacity: 1;
+		left: 0;
+		transform: rotate(0deg);
+		transition: 0.25s ease-in-out;
+
+		&:nth-child(1) {
+			top: 0;
+		}
+
+		&:nth-child(2),
+		&:nth-child(3) {
+			top: 8px;
+		}
+
+		&:nth-child(4) {
+			top: 16px;
+		}
+	}
+
+	&.is-active span {
+		&:nth-child(1),
+		&:nth-child(4) {
+			top: 8px;
+			width: 0%;
+			left: 50%;
+		}
+
+		&:nth-child(2) {
+			transform: rotate(45deg);
+		}
+
+		&:nth-child(3) {
+			transform: rotate(-45deg);
+		}
+	}
+}
+
+// --- Mobile Navigation Panel ---
+.mobile-navigation-panel {
+	position: fixed;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: $z-index-dropdown;
+	background-color: $color-white;
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height 0.3s ease-in-out;
+	border-top: 1px solid $color-divider;
+
+	&.is-open {
+		max-height: 100vh; // Use a large value to allow the panel to open fully
+		overflow-y: auto;
+	}
+
+	.mobile-navigation-panel-body {
+		padding: $spacing-4;
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+	}
+
+	.mobile-primary-navigation {
+		flex-grow: 1;
+		display: flex;
+	}
+
+	.mobile-primary-nav-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+		width: 100%;
+
+		li {
+			border-bottom: 1px solid $color-divider;
+
+			a {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				padding: $spacing-3 0;
+				font-family: $font-montserrat;
+				font-weight: $font-weight-bold;
+				text-decoration: none;
+				color: $color-charcoal;
+				width: 100%;
+				outline: none;
+			}
+
+			// Arrow styles for any item with children
+			&.menu-item-has-children > a .submenu-arrow {
+				width: 12px;
+				height: 12px;
+				background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 6l4 4 4-4' stroke='%23212529' fill='none' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+				background-size: contain;
+				background-repeat: no-repeat;
+				transition: transform 0.25s ease-in-out;
+			}
+
+			// Arrow rotation for any open item
+			&.is-open > a .submenu-arrow {
+				transform: rotate(180deg);
+			}
+		}
+
+		// Specific styles for top-level open items
+		> li.is-open > a {
+			color: $color-white;
+			background-color: $color-secondary;
+			margin: 0 (-$spacing-4);
+			padding: $spacing-3 $spacing-4;
+
+			.submenu-arrow {
+				background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 6l4 4 4-4' stroke='white' fill='none' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+			}
+		}
+
+		// Sub-menu specific styles
+		.sub-menu {
+			list-style: none;
+			padding-left: $spacing-4;
+			margin: 0;
+			max-height: 0;
+			overflow: hidden;
+			transition: max-height 0.3s ease-in-out;
+			background-color: $color-white;
+
+			a {
+				font-weight: $font-weight-normal;
+				padding: $spacing-2 0;
+			}
+		}
+
+		// CTA Button in the menu
+		li.button {
+			border-bottom: none;
+			margin-top: auto;
+			padding-top: $spacing-4;
+
+			a {
+				@include button-appearance;
+				@include button-animation;
+				padding: $spacing-2 $spacing-4 !important;
+				color: $color-white !important;
+				justify-content: center;
+
+				&:hover {
+					color: $color-primary !important;
+				}
+			}
+		}
+
+		// Phone button inherits from .button but gets an outline style
+		// li.mobile-phone-button {
+		// 	a {
+		// 		@include button-secondary-outline;
+		// 	}
+		// }
+	}
+
+	.mobile-bottom-links {
+		list-style: none;
+		padding: 0;
+		margin: $spacing-4 0 0;
+
+		.mobile-phone-button {
+			&.button {
+				border: none; // It's not a nav item.
+			}
+
+			a {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				gap: $spacing-2;
+
+				.phone-icon {
+					filter: brightness(0) invert(1);
+					width: 16px;
+					height: 16px;
+				}
+			}
+		}
+	}
+}
+
+body.mobile-menu-active {
+	overflow: hidden;
+}
+
+/* stylelint-enable no-descending-specificity */

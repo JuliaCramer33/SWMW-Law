@@ -1,0 +1,136 @@
+@use "../variables/variables" as *;
+
+// SCSS for Attorney Archive and Single Attorney Pages
+// themes/swmw-law/assets/scss/templates/_attorneys.scss
+
+// --- Attorney Archive Page Styles ---
+.attorney-archive-main {
+	// General styles for the main content area of the attorney archive if needed
+}
+
+.attorney-archive-container {
+	// Styles for the .container on the attorney archive (below hero)
+	padding-top: $spacing-8;
+	padding-bottom: $spacing-8;
+}
+
+.attorney-grid {
+	display: grid;
+	grid-template-columns: repeat(1, 1fr); // Mobile: 1 column;
+	gap: $spacing-6;
+
+	@media (min-width: $breakpoint-sm) { // Tablet: 2 columns;
+		grid-template-columns: repeat(2, 1fr)
+	}
+
+	@media (min-width: $breakpoint-md) { // Small Desktop: 3 columns;
+		grid-template-columns: repeat(3, 1fr)
+	}
+
+	@media (min-width: $breakpoint-lg) { // Desktop: 4 columns;
+		grid-template-columns: repeat(4, 1fr)
+	}
+}
+
+.attorney-card-item {
+	position: relative; // For stretched-link behavior
+	background-color: $color-white;
+
+	.attorney-card-image {
+		overflow: hidden; // Contain the zoomed image
+		a {
+			display: block;
+
+			&::after { // Stretched-link pseudo-element
+				content: "";
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				z-index: 1;
+			}
+
+			img {
+				width: 100%;
+				height: auto;
+				display: block;
+				aspect-ratio: 1 / 1.2;
+				object-fit: cover;
+				transition: transform 0.5s ease;
+			}
+		}
+	}
+
+	.attorney-card-content {
+		padding: $spacing-4;
+		text-align: left;
+	}
+
+	.attorney-card-title {
+		font-family: $font-poppins;
+		font-weight: $font-weight-bold;
+		font-size: $h4-font-size; // 24px
+		line-height: $h4-line-height;
+		margin: 0 0 $spacing-1;
+
+		a {
+			color: $color-secondary;
+			text-decoration: none;
+			transition: color 0.3s ease;
+			display: inline-flex; // Use flex to align text and icon
+			align-items: center;
+
+			&::after {
+				content: "";
+				display: inline-block;
+				margin-left: 0.5em;
+				width: 1em; // Adjust size as needed
+				height: 1em;
+				background-image: url(../images/arrow-right.svg);
+				background-size: contain;
+				background-repeat: no-repeat;
+				background-position: center;
+				opacity: 0;
+				transform: translateX(-5px);
+				transition: opacity 0.2s ease, transform 0.2s ease;
+			}
+		}
+	}
+
+	.attorney-card-position {
+		font-family: $font-montserrat;
+		font-size: $font-size-base;
+		font-weight: $font-weight-normal;
+		color: $color-text-light;
+		margin-bottom: 0;
+	}
+
+	&:hover {
+
+		.attorney-card-image img {
+			transform: scale(1.05);
+		}
+
+		.attorney-card-title a {
+			color: $color-primary;
+			text-decoration: underline;
+
+			&::after {
+				opacity: 1;
+				transform: translateX(0);
+			}
+		}
+	}
+}
+
+.load-more-attorneys-wrapper {
+	margin-top: $spacing-8;
+	text-align: center;
+}
+
+
+// --- Single Attorney Page Styles ---
+.attorney-single-page {
+	// General styles for single attorney page main content area
+}

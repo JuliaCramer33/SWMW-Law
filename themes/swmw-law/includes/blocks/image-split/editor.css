@@ -1,0 +1,61 @@
+.image-split-block {
+  padding: 2rem 0;
+}
+
+.image-split-container {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.image-split-block.align-right .image-split-container {
+  flex-direction: row-reverse;
+}
+
+.image-split-column {
+  width: calc(50% - 15px);
+  box-sizing: border-box;
+}
+
+.image-side .image-stack {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.image-side .image-1 {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  clip-path: polygon(0 0, 100% 0, 71% 100%, 0% 100%);
+  z-index: 1;
+}
+
+.image-side .image-2 {
+  display: block;
+  width: 65%;
+  height: auto;
+  object-fit: cover;
+  position: absolute;
+  bottom: 5%;
+  right: 0;
+  clip-path: polygon(15% 0%, 100% 0%, 85% 100%, 0% 100%);
+  border-radius: 8px;
+  z-index: 2;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Flip clip-paths for right-aligned version */
+.image-split-block.align-right .image-1 {
+  clip-path: polygon(29% 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+.image-split-block.align-right .image-2 {
+  clip-path: polygon(0% 0%, 85% 0%, 100% 100%, 15% 100%);
+  right: auto;
+  left: 0;
+}

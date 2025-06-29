@@ -1,0 +1,25 @@
+{
+  "extends": [
+    "@wordpress/stylelint-config/scss"
+  ],
+  "rules": {
+    "indentation": "tab",
+    "no-descending-specificity": null,
+    "max-line-length": null,
+    "function-url-quotes": "never",
+    "selector-class-pattern": null,
+    "font-family-no-missing-generic-family-keyword": null,
+    "comment-empty-line-before": null,
+    "rule-empty-line-before": [
+      "always",
+      {
+        "except": [
+          "first-nested"
+        ],
+        "ignore": [
+          "after-comment"
+        ]
+      }
+    ]
+  }
+}

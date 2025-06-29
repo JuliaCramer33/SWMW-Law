@@ -1,0 +1,215 @@
+@use "../variables/variables" as *;
+
+/* Column Width Utility Classes
+--------------------------------------------- */
+
+// Column width utility classes (primarily for Flexbox items)
+// Based on the 12-column grid system
+// Generated with responsive variants
+
+// --- Base Utilities ---
+
+// Generate .col-[1-12] classes
+@for $i from 1 through $grid-columns {
+	// Retrieve the corresponding width variable name
+	// Note: This relies on the variable names being predictable ($flex-col-1-width, etc.)
+	// A map could be used if names were irregular.
+	$width-var: var(--flex-col-#{$i}-width, #{flex-col-width($i)}); // Using CSS var with fallback for safety
+
+	.col-#{$i} {
+		flex: 0 0 auto; // Prevent growing/shrinking by default
+		width: $width-var; // Use the calculated percentage
+		max-width: $width-var; // Prevent exceeding the intended width
+	}
+}
+
+// Auto width column
+.col-auto {
+	flex: 0 0 auto;
+	width: auto;
+	max-width: 100%; // Should not exceed parent
+}
+
+// Equal width column (grows to fill space)
+.col {
+	flex-basis: 0;
+	flex-grow: 1;
+	max-width: 100%;
+}
+
+
+// --- Responsive Utilities ---
+
+@each $bpKey, $bpValue in $breakpoints {
+
+	@media (min-width: $bpValue) {
+
+		// Generate .col-[bp]-[1-12] classes
+		@for $i from 1 through $grid-columns {
+			$width-var: var(--flex-col-#{$i}-width, #{flex-col-width($i)}); // Using CSS var with fallback
+
+			.col-#{$bpKey}-#{$i} {
+				flex: 0 0 auto;
+				width: $width-var;
+				max-width: $width-var;
+			}
+		}
+
+		// Auto width column at breakpoint
+		.col-#{$bpKey}-auto {
+			flex: 0 0 auto;
+			width: auto;
+			max-width: 100%;
+		}
+
+		// Equal width column at breakpoint
+		.col-#{$bpKey} {
+			flex-basis: 0;
+			flex-grow: 1;
+			max-width: 100%;
+		}
+	}
+}
+
+/* Column Utilities */
+
+// Column Count
+.columns-1 {
+	column-count: 1 !important;
+}
+
+.columns-2 {
+	column-count: 2 !important;
+}
+
+.columns-3 {
+	column-count: 3 !important;
+}
+
+.columns-4 {
+	column-count: 4 !important;
+}
+
+// Column Gap
+.column-gap-0 {
+	column-gap: 0 !important;
+}
+
+.column-gap-1 {
+	column-gap: $spacing-1 !important;
+}
+
+.column-gap-2 {
+	column-gap: $spacing-2 !important;
+}
+
+.column-gap-3 {
+	column-gap: $spacing-3 !important;
+}
+
+.column-gap-4 {
+	column-gap: $spacing-4 !important;
+}
+
+.column-gap-5 {
+	column-gap: $spacing-5 !important;
+}
+
+.column-gap-6 {
+	column-gap: $spacing-6 !important;
+}
+
+// Column Rule
+.column-rule {
+	column-rule: 1px solid $color-border !important;
+}
+
+.column-rule-none {
+	column-rule: none !important;
+}
+
+// Column Span
+.column-span-all {
+	column-span: all !important;
+}
+
+.column-span-none {
+	column-span: none !important;
+}
+
+// Responsive Column Count
+@media (min-width: $breakpoint-sm) {
+
+	.columns-sm-1 {
+		column-count: 1 !important;
+	}
+
+	.columns-sm-2 {
+		column-count: 2 !important;
+	}
+
+	.columns-sm-3 {
+		column-count: 3 !important;
+	}
+
+	.columns-sm-4 {
+		column-count: 4 !important;
+	}
+}
+
+@media (min-width: $breakpoint-md) {
+
+	.columns-md-1 {
+		column-count: 1 !important;
+	}
+
+	.columns-md-2 {
+		column-count: 2 !important;
+	}
+
+	.columns-md-3 {
+		column-count: 3 !important;
+	}
+
+	.columns-md-4 {
+		column-count: 4 !important;
+	}
+}
+
+@media (min-width: $breakpoint-lg) {
+
+	.columns-lg-1 {
+		column-count: 1 !important;
+	}
+
+	.columns-lg-2 {
+		column-count: 2 !important;
+	}
+
+	.columns-lg-3 {
+		column-count: 3 !important;
+	}
+
+	.columns-lg-4 {
+		column-count: 4 !important;
+	}
+}
+
+@media (min-width: $breakpoint-xl) {
+
+	.columns-xl-1 {
+		column-count: 1 !important;
+	}
+
+	.columns-xl-2 {
+		column-count: 2 !important;
+	}
+
+	.columns-xl-3 {
+		column-count: 3 !important;
+	}
+
+	.columns-xl-4 {
+		column-count: 4 !important;
+	}
+}

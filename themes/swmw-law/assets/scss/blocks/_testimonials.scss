@@ -1,0 +1,154 @@
+@use "../variables/variables" as *;
+
+.testimonials-block {
+
+	.splide__list {
+		height: auto;
+	}
+
+	// The new stationary frame
+	.testimonial-frame {
+		position: relative;
+		padding: $spacing-10 $spacing-12; // Using SCSS variables directly
+		background: $color-background-alt;
+		border-radius: $border-radius-lg;
+		box-shadow: $box-shadow-sm;
+		border-left: 5px solid $color-secondary;
+	}
+
+	// The quote icon, positioned absolutely within the frame
+	.testimonial-quote-icon {
+		position: absolute;
+		top: $spacing-10;
+		left: $spacing-12;
+		width: 3.5rem; // Use width/height for SVG sizing
+		height: 3.5rem;
+		z-index: 1;
+
+		svg {
+			width: 100%;
+			height: 100%;
+		}
+	}
+
+	// The content that actually slides
+	.testimonial-slide-content {
+		padding-top: $spacing-12; // Creates space below the absolutely positioned quote icon/arrows
+	}
+
+	.quote-content {
+		font-family: $font-montserrat;
+		font-weight: $font-weight-bold;
+		font-style: italic;
+		font-size: $font-size-base;
+		line-height: 1.8; // Approx 29px based on 16px font size
+		letter-spacing: $letter-spacing-normal;
+		color: $color-text;
+		padding: $spacing-6 0;
+		margin: 0;
+	}
+
+	.testimonial-author {
+		display: flex;
+		align-items: center;
+		gap: $spacing-4;
+		padding-top: 0;
+		border-top: none;
+	}
+
+	.author-image {
+		flex-shrink: 0;
+		width: 4rem;
+		height: 4rem;
+		border-radius: 50%;
+		overflow: hidden;
+
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+	}
+
+	.author-name {
+		font-size: $font-size-lg;
+		font-weight: $font-weight-bold;
+		color: $color-secondary;
+		font-style: normal;
+	}
+
+	.author-location {
+		display: none; // The new design does not have a location
+	}
+
+	// Navigation arrows, positioned absolutely within the frame
+	.splide__arrows {
+		position: absolute;
+		top: $spacing-10;
+		right: $spacing-12;
+		display: flex;
+		gap: $spacing-5;
+		z-index: 1;
+	}
+
+	.splide__arrow {
+		position: static;
+		transform: none;
+		background: transparent;
+		border: none;
+		width: auto;
+		height: auto;
+		padding: 0;
+		transition: transform 0.2s ease-in-out;
+
+		svg {
+			stroke: $color-primary !important;
+			width: 1.75rem;
+			height: 1.75rem;
+			fill: none;
+			transition: stroke 0.2s ease-in-out;
+		}
+
+		&:hover svg {
+			stroke: $color-secondary !important;
+		}
+
+		&--next {
+			transform: rotate(180deg);
+		}
+	}
+
+	// Hiding elements from old design
+	.quote-mark {
+		display: none;
+	}
+}
+
+// Responsive adjustments
+@media (max-width: $breakpoint-md) {
+
+	.testimonials-block {
+
+		.testimonial-frame {
+			padding: $spacing-6 $spacing-5;
+		}
+
+		.testimonial-quote-icon {
+			top: $spacing-6;
+			left: $spacing-5;
+		}
+
+		.splide__arrows {
+			top: $spacing-6;
+			right: $spacing-5;
+		}
+
+		.testimonial-slide-content {
+			padding-top: $spacing-10;
+		}
+
+		.quote-content {
+			font-size: $font-size-base;
+		}
+	}
+}

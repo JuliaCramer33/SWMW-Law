@@ -1,0 +1,36 @@
+@use "colors" as *;
+
+/* Shadow Variables
+--------------------------------------------- */
+
+// CSS Custom Properties for SDS Shadows (can be defined in a global CSS file or here in :root)
+:root {
+	--sds-size-depth-0: 0;
+	--sds-size-depth-100: 2px; // Example for y-offset and blur
+	--sds-size-depth-negative-025: -1px; // Example for spread (negative makes shadow tighter)
+	--sds-color-black-100: rgba(0, 0, 0, 0.08);
+	--sds-color-black-200: rgba(0, 0, 0, 0.12);
+}
+
+// Box Shadows
+// Using semi-transparent black is common for versatile shadows.
+// Adjust color, offsets, blur, and spread as needed.
+
+$box-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+$box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+$box-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+$box-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+$box-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+$box-shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+$box-shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+$box-shadow-none: none;
+
+// Inner shadow example (less common)
+// $box-shadow-inner: inset 0 2px 4px rgba($color-black, 0.06);
+
+// Text Shadows (if needed)
+// $text-shadow: 1px 1px 1px rgba($color-black, 0.1);
+
+// SDS Box Shadows using CSS Custom Properties
+$sds-box-shadow-1: var(--sds-size-depth-0) var(--sds-size-depth-100) var(--sds-size-depth-100) var(--sds-size-depth-negative-025) var(--sds-color-black-100);
+$sds-box-shadow-2: var(--sds-size-depth-0) var(--sds-size-depth-100) var(--sds-size-depth-100) var(--sds-size-depth-negative-025) var(--sds-color-black-200);

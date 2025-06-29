@@ -1,0 +1,68 @@
+// @use "../variables/variables" as *;
+
+// /* Hero Split Overlap Styles */
+
+// .hero-split-overlap {
+// 	position: relative;
+// 	overflow: visible;
+// 	padding-block-end: clamp(60px, 8vw, 120px); /* reserve space for white strip */
+
+// 	&::after {
+// 		content: "";
+// 		position: absolute;
+// 		inset-inline: 0;
+// 		inset-block-end: 0;
+// 		height: clamp(60px, 8vw, 120px);
+// 		background: #fff;
+// 		z-index: 1;
+// 	}
+
+// 	/* ensure inner content is above pseudo */
+// 	.wp-block-cover__inner-container {
+// 		position: relative;
+// 		z-index: 2;
+// 		height: 100%;
+// 		display: flex;
+// 	}
+
+// 	.wp-block-columns {
+// 		/* override the default flex so we can use grid for more control */
+// 		display: grid !important;
+// 		grid-template-columns: 1fr 45%;
+// 		align-items: stretch;
+// 		height: 100%;
+// 		column-gap: clamp(2rem, 4vw, 4rem);
+// 	}
+
+// 	/* text column */
+// 	.wp-block-column:first-child {
+// 		display: flex;
+// 		flex-direction: column;
+// 		justify-content: center;
+// 	}
+
+// 	/* image column */
+// 	.wp-block-column:last-child {
+// 		display: flex;
+// 		align-items: center;
+// 		justify-content: flex-end;
+// 	}
+// }
+
+// .hero-split-overlap .wp-block-column:last-child {
+// 	position: relative;
+// 	overflow: visible;
+
+// 	.wp-block-image img {
+// 		position: absolute;
+// 		inset-block-end: -40px;
+// 		inset-inline-end: -40px;
+// 		width: clamp(260px, 35vw, 460px);
+// 		height: auto;
+// 		box-shadow: 0 10px 30px rgba(0, 0, 0, .25);
+// 	}
+// }
+
+// .hero-split-overlap .wp-block-column:first-child {
+// 	padding-inline-end: clamp(20px, 3vw, 60px);
+// } 

@@ -1,0 +1,84 @@
+@use "variables/variables" as *;
+
+/* Display Utility Classes
+--------------------------------------------- */
+
+$displays: none, inline, inline-block, block, grid, table, table-row, table-cell, flex, inline-flex;
+
+// Generate base display utilities
+@each $value in $displays {
+
+	.d-#{$value}
+
+ {
+		display: $value !important;
+	}
+}
+
+// Generate responsive display utilities
+@each $bpKey, $bpValue in $breakpoints {
+
+	@media (min-width: $bpValue) {
+
+		@each $value in $displays {
+
+			.d-#{$bpKey}
+
+-#{$value}
+
+ {
+				display: $value !important;
+			}
+		}
+
+		// Special case for print (if needed)
+		// .d-print-none { display: none !important; }
+		// .d-print-block { display: block !important; }
+		// ... etc
+	}
+}
+
+// Print-specific display utilities (outside responsive loop)
+// These apply only when printing
+@media print {
+
+	.d-print-none {
+		display: none !important;
+	}
+
+	.d-print-inline {
+		display: inline !important;
+	}
+
+	.d-print-inline-block {
+		display: inline-block !important;
+	}
+
+	.d-print-block {
+		display: block !important;
+	}
+
+	.d-print-grid {
+		display: grid !important;
+	}
+
+	.d-print-table {
+		display: table !important;
+	}
+
+	.d-print-table-row {
+		display: table-row !important;
+	}
+
+	.d-print-table-cell {
+		display: table-cell !important;
+	}
+
+	.d-print-flex {
+		display: flex !important;
+	}
+
+	.d-print-inline-flex {
+		display: inline-flex !important;
+	}
+}

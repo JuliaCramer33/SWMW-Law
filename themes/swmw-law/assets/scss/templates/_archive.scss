@@ -1,0 +1,282 @@
+@use "../variables/variables" as *;
+@use "sass:math";
+
+/*--------------------------------------------------------------------
+# Archive Hero (Legacy, consider for refactor/removal)
+--------------------------------------------------------------------*/
+
+// Styling for the News Archive hero section
+.news-archive-hero {
+	padding: $spacing-10 0;
+	position: relative;
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
+	color: $color-white;
+	min-height: 181px;
+	margin-bottom: $spacing-10;
+	display: flex;
+	align-items: center;
+
+	.container {
+		position: relative;
+		z-index: 2;
+		text-align: center; // Center title by default
+	}
+
+	/* stylelint-disable-next-line selector-class-pattern */
+	.page-header__title {
+		font-family: $heading-font-family;
+		font-weight: $font-weight-light;
+		line-height: $line-height-tight;
+		letter-spacing: $letter-spacing-normal;
+		color: inherit;
+		margin-top: 0;
+		margin-bottom: 0;
+		text-align: left;
+
+		strong {
+			font-weight: $font-weight-bold;
+		}
+	}
+}
+
+/*--------------------------------------------------------------------
+# News Grid & Cards
+--------------------------------------------------------------------*/
+
+.swmw-news-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+	gap: $spacing-8;
+	margin-bottom: $spacing-12;
+
+	@media (min-width: $breakpoint-md) {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	@media (min-width: $breakpoint-lg) {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+
+.swmw-post-card {
+	background-color: $color-white;
+	border: 1px solid $color-divider;
+	border-radius: 0; // The mockup has sharp corners
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	box-shadow: 0 4px 12px rgba($color-black, 0.08);
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+	&:hover {
+		transform: translateY(-5px);
+		box-shadow: 0 6px 16px rgba($color-black, 0.12);
+	}
+
+	&__image-wrapper {
+		position: relative;
+		width: 100%;
+		padding-top: 66.66%; // A taller aspect ratio, closer to mockup
+		background-color: $color-gray-lightest;
+
+		img,
+		a {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+	}
+
+	&__content {
+		padding: $spacing-6;
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+	}
+
+	&__meta {
+		font-size: $font-size-sm;
+		color: $color-text-light;
+		margin-bottom: $spacing-3;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: $spacing-2 $spacing-4;
+	}
+
+	&__date {
+		display: block;
+	}
+
+	&__title {
+		font-size: 1.25rem;
+		margin-top: 0;
+		margin-bottom: $spacing-3;
+		line-height: 1.4;
+
+		a {
+			text-decoration: none;
+			color: $color-text;
+			font-weight: $font-weight-bold;
+
+			&:hover {
+				color: $color-primary;
+			}
+		}
+	}
+
+	&__categories {
+
+		a {
+			color: $color-secondary;
+			text-decoration: none;
+			background-color: rgba($color-secondary, 0.1);
+			padding: 0.25em 0.8em;
+			border-radius: 4px;
+			font-size: $font-size-xs;
+			font-weight: $font-weight-medium;
+			white-space: nowrap;
+			border: 1px solid transparent;
+			transition: all 0.2s ease-in-out;
+
+			&:hover {
+				background-color: $color-secondary;
+				color: $color-white;
+			}
+		}
+	}
+
+	&__excerpt {
+		font-size: 0.95rem;
+		color: $color-text-light;
+		line-height: 1.6;
+		margin-bottom: $spacing-6;
+		flex-grow: 1;
+
+		p:last-of-type {
+			margin-bottom: 0;
+		}
+	}
+
+	&__footer {
+		margin-top: auto;
+		padding-top: $spacing-4;
+
+		.button {
+			background-color: $color-white;
+			color: $color-primary;
+
+			&::before {
+				background-color: $color-primary;
+			}
+
+			&:hover {
+				color: $color-white;
+			}
+		}
+	}
+}
+
+/* Pagination Styling will be added next */
+
+.card-container {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+	gap: $spacing-8;
+	margin-bottom: $spacing-12;
+
+	.card {
+		background-color: $color-white;
+		border: 1px solid $color-divider;
+		border-radius: $border-radius-lg;
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		box-shadow: $box-shadow-md;
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+		&:hover {
+			transform: translateY(-5px);
+			box-shadow: $box-shadow-lg;
+		}
+
+		.card-image {
+			position: relative;
+			width: 100%;
+			padding-top: 56.25%; // 16:9 aspect ratio;
+			overflow: hidden;
+			background-color: $color-gray-lightest;
+
+			img {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+		}
+
+		.card-content {
+			padding: $spacing-6;
+			display: flex;
+			flex-direction: column;
+			flex-grow: 1;
+
+			.card-title {
+				font-size: 1.3rem;
+				margin-top: 0;
+				margin-bottom: $spacing-3;
+				line-height: 1.3;
+
+				a {
+					text-decoration: none;
+					color: $color-text;
+
+					&:hover {
+						color: $color-primary;
+					}
+				}
+			}
+
+			.card-meta {
+				font-size: 0.85rem;
+				color: $color-text-light;
+				margin-bottom: $spacing-3;
+				display: flex;
+				flex-wrap: wrap;
+				gap: $spacing-2;
+			}
+
+			.card-excerpt {
+				font-size: 0.95rem;
+				color: $color-text-light;
+				line-height: 1.6;
+				margin-bottom: $spacing-6;
+				flex-grow: 1;
+			}
+
+			.read-more {
+				display: inline-block;
+				padding: 0.6em 1.2em;
+				background-color: $color-white;
+				color: $color-text;
+				text-decoration: none;
+				border: 1px solid $color-divider;
+				border-radius: 4px;
+				font-weight: 700;
+				transition: background-color 0.2s ease, color 0.2s ease;
+
+				&:hover {
+					background-color: $color-divider;
+					color: $color-text;
+				}
+			}
+		}
+	}
+}

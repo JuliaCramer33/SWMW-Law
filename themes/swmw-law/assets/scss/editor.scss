@@ -1,0 +1,16 @@
+/**
+ * Editor Styles
+ *
+ * All styles for the Gutenberg editor are enqueued here.
+ */
+
+// Import variables, mixins, etc.
+@use "variables/variables" as *;
+
+// Import Base Editor Styles
+@use "base/editor-base";
+
+// Import Block Styles
+// This will bring in all block styles, which is fine since editor-specific
+// styles are scoped within `.editor-styles-wrapper`.
+@use "blocks/blocks"; 

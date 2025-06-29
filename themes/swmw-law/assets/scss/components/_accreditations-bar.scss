@@ -1,0 +1,104 @@
+// _accreditations-bar.scss
+// Styling for the Accreditations Bar component, displayed above the main footer.
+
+@use "../variables/variables" as *;
+
+.accreditations-bar__container {
+	// This wrapper can be used to add vertical spacing if needed,
+	// especially when it's not overlapping.
+	padding-top: $spacing-8;
+	padding-bottom: $spacing-8;
+}
+
+.accreditations-bar {
+	background-color: $color-gray-lighter; // The darker gray for the title area
+	padding: $spacing-12 $spacing-16;
+	position: relative;
+	overflow: hidden;
+
+	// When it overlaps, remove the container's padding
+	&.accreditations-bar--overlap {
+
+		+ .accreditations-bar__container {
+			padding-top: 0;
+			padding-bottom: 0;
+		}
+	}
+
+	&__content {
+		display: flex;
+		align-items: stretch; // Make columns equal height
+		gap: $spacing-8;
+		position: relative;
+		z-index: 1;
+	}
+
+	&__title-area {
+		flex-shrink: 0;
+		padding-right: $spacing-16;
+		position: relative;
+		display: flex;
+		align-items: center;
+
+		// This creates the diagonal cut effect for the logo area
+		&::after {
+			content: "";
+			position: absolute;
+			top: -$spacing-12; // Break out of parent's bottom padding
+			right: 0;    // Break out of parent's right padding
+			width: 200vw;
+			height: 100%; // Ensure it covers the full height
+			background-color: $color-gray-lightest; // The lighter gray (#F6F6F8) for the logo area
+			transform: skewX(-20deg);
+			transform-origin: top right;
+			z-index: 0; // Behind the title and logos
+		}
+	}
+
+	&__title {
+		font-size: $h3-font-size;
+		color: $color-text;
+		margin: 0;
+		position: relative;
+		z-index: 1; // Ensure title is above the ::after element
+	}
+
+	&__logos-area {
+		flex-grow: 1;
+		position: relative;
+		z-index: 1; // Ensure logos are above the ::after element
+	}
+
+	&__logos {
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		gap: $spacing-8;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	&__logo-item {
+
+		img {
+			max-height: 50px;
+			width: auto;
+			object-fit: contain;
+			filter: grayscale(100%);
+			opacity: 0.8;
+			transition: all 0.3s ease;
+
+			&:hover {
+				filter: grayscale(0%);
+				opacity: 1;
+			}
+		}
+	}
+}
+
+// Modifier for when the bar needs to overlap the preceding section
+.accreditations-bar--overlap {
+	margin-top: -100px;
+	z-index: 10;
+}

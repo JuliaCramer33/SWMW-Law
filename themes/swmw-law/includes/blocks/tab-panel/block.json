@@ -1,0 +1,30 @@
+{
+  "name": "acf/tab-panel",
+  "title": "Tab Panel",
+  "description": "A single panel for the tabs block. Contains a title and a content area for other blocks.",
+  "category": "swmw-custom-blocks",
+  "icon": "text-page",
+  "keywords": [
+    "tab",
+    "panel",
+    "item"
+  ],
+  "parent": [
+    "acf/tabs"
+  ],
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "template.php"
+  },
+  "supports": {
+    "customClassName": true,
+    "html": false,
+    "reusable": false,
+    "innerBlocks": true,
+    "spacing": {
+      "margin": true,
+      "padding": true
+    },
+    "align": true
+  }
+}

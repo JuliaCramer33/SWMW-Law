@@ -1,0 +1,53 @@
+@use "sass:map";
+@use "../variables/layout" as *;
+@use "../variables/breakpoints" as *;
+
+/* Container Width Utility Classes
+--------------------------------------------- */
+
+// Base styles shared by all container types
+%container-base {
+	width: 100%;
+	padding-right: $container-padding-x;
+	padding-left: $container-padding-x;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+// Standard Responsive Container
+// Uses max-width that changes at each breakpoint.
+.container {
+	@extend %container-base;
+
+	// Apply max-width based on breakpoints
+	@media (min-width: map.get($breakpoints, "sm")) {
+		max-width: map.get($container-max-widths, "sm");
+	}
+
+	@media (min-width: map.get($breakpoints, "md")) {
+		max-width: map.get($container-max-widths, "md");
+	}
+
+	@media (min-width: map.get($breakpoints, "lg")) {
+		max-width: map.get($container-max-widths, "lg");
+	}
+}
+
+// Fixed-Width Containers
+// These classes maintain a fixed max-width across all screen sizes.
+@each $bpKey, $maxWidth in $container-max-widths {
+
+	.container-#{$bpKey}
+
+ {
+
+		@extend %container-base;
+		max-width: $maxWidth !important; // Fix the max-width
+	}
+}
+
+// Fluid Container
+// Always 100% width, but maintains padding.
+.container-fluid {
+	@extend %container-base;
+}

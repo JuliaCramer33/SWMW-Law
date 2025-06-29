@@ -1,0 +1,217 @@
+@use "../variables/variables" as *;
+
+// themes/swmw-law/assets/scss/layout/_header.scss
+// Styles for the main site header structure.
+
+.site-header {
+	position: relative; // Ensure this is a positioning context for the mega menu panel
+	padding: $spacing-2 $spacing-0;
+  // box-shadow: var(--sds-size-depth-0) var(--sds-size-depth-100) var(--sds-size-depth-100) var(--sds-size-depth-negative-025) var(--sds-color-black-100);
+
+	.inner { // This is your container
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.site-branding {
+		flex: 0 0 40%;
+
+		.site-logo img {
+			max-height: 60px; // Pixel value, consider if a variable is needed if this changes often
+			width: auto;
+			display: block;
+		}
+	}
+
+	.nav-wrapper {
+		// position: static; // Reverted
+		flex: 0 0 60%;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.utility-nav-wrapper {
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		padding-bottom: $spacing-2; // Was 0.5rem
+		margin-bottom: $spacing-2; // Was 0.5rem
+		border-bottom: 1px solid $color-divider; // Was #ddd
+		width: 100%;
+		order: 1;
+	}
+
+	.main-nav-wrapper {
+		// position: static; // Reverted
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		width: 100%;
+		padding-top: $spacing-2; // Was 0.5rem
+		order: 2;
+	}
+
+	.header-phone {
+		display: flex;
+		align-items: center;
+		margin-left: $spacing-6; // Was 1.5rem
+
+		.phone-icon {
+			width: $spacing-4; // Was 16px
+			height: $spacing-4; // Was 16px
+			fill: $color-secondary; // Was #4a773c (Green)
+			margin-right: $spacing-1; // Was 0.35rem
+		}
+
+		a {
+			color: $color-secondary; // Was #4a773c (Green)
+			text-decoration: none;
+			font-weight: $font-weight-medium; // Was 500
+			font-size: $font-size-sm; // Was 0.9rem
+
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+	}
+
+	// Mobile toggle
+	.nav-toggle {
+		display: block; // Show by default (mobile-first approach for this style block)
+		background: transparent;
+		border: none;
+		padding: $spacing-3; // Clickable area padding
+		cursor: pointer;
+		position: relative;
+		z-index: $z-index-sticky; // Ensure it's appropriately layered
+		line-height: 0; // Remove extra space if button has text/span flow issues
+
+		// The visible span that will act as the middle bar and container for pseudo-elements
+		> span:not(.screen-reader-text) {
+			display: block;
+			position: relative;
+			width: $spacing-6; // e.g., 24px
+			height: 2px;      // Thickness of the bars
+			background-color: $color-text; // Default color for hamburger bars
+			transition: background-color 0.15s 0.15s ease-in-out; // Delay fade out of middle bar
+
+			&::before,
+			&::after {
+				content: "";
+				position: absolute;
+				left: 0;
+				width: 100%;
+				height: 100%; // Same thickness as the main span
+				background-color: $color-text; // Default color
+				transition:
+					transform 0.3s ease-in-out,
+					top 0.3s 0.15s ease-in-out,
+					bottom 0.3s 0.15s ease-in-out,
+					background-color 0.3s ease-in-out;
+			}
+
+			&::before {
+				top: -$spacing-2; // Spacing for the top bar (e.g., -8px)
+			}
+
+			&::after {
+				bottom: -$spacing-2; // Spacing for the bottom bar (e.g., -8px)
+			}
+		}
+
+		// Active state (when .is-active or similar class is added to the button by JS)
+		&.is-active {
+
+			> span:not(.screen-reader-text) {
+				background-color: transparent; // Middle bar disappears
+				transition-delay: 0s;
+
+				&::before,
+				&::after {
+					background-color: $color-secondary; // X becomes green (your $color-secondary)
+					transition-delay: 0.15s; // Delay color change and transform until middle bar is gone
+				}
+
+				&::before {
+					top: 0;
+					transform: rotate(45deg);
+				}
+
+				&::after {
+					bottom: 0;
+					transform: rotate(-45deg);
+				}
+			}
+		}
+	}
+}
+
+@media (max-width: $breakpoint-lg) {
+
+	.site-header {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: $z-index-sticky;
+		background-color: $color-white;
+		padding: $spacing-2;
+		transition: top 0.3s ease-in-out;
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+
+		.inner {
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		.site-branding {
+			flex-basis: auto;
+			margin-right: $spacing-4;
+
+			.site-logo img {
+				max-height: 40px;
+			}
+		}
+
+		.nav-wrapper {
+			flex-basis: auto;
+			display: flex;
+			justify-content: flex-end;
+		}
+
+		.utility-nav-wrapper,
+		.main-nav-wrapper {
+			display: none;
+		}
+
+		.header-phone {
+			display: none;
+		}
+
+		.nav-toggle {
+			display: block;
+			margin: $spacing-0;
+		}
+	}
+}
+
+// Desktop view (min-width: $breakpoint-lg)
+@media (min-width: $breakpoint-lg) {
+
+	.site-header {
+
+		.nav-toggle {
+			display: none; // Hide on desktop
+		}
+		// Ensure desktop navs are visible if they were set to display:none for mobile
+		.main-nav-wrapper,
+		.utility-nav-wrapper {
+			display: flex; // Or whatever their default display type should be for desktop
+		}
+
+		.header-phone {
+			display: flex; // Ensure phone is visible on desktop if hidden for mobile
+		}
+	}
+}

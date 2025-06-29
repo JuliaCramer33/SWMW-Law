@@ -1,0 +1,15 @@
+# Dev Config
+.github/
+.vscode/
+.stylelintrc.json
+.prettierrc
+.prettierrc.json
+.eslintignore
+.eslintrc.js
+
+# Source files (deploy compiled assets only)
+assets/scss/
+
+# Other
+node_modules/
+README.md 

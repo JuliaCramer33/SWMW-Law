@@ -1,0 +1,25 @@
+/* Z-index Variables
+--------------------------------------------- */
+
+// Z-index scale for managing stacking contexts.
+// Higher numbers are on top.
+
+$z-index-deep-background: -10; // For elements truly behind everything
+$z-index-background: -1;
+
+$z-index-base: 1;          // Default stacking context for most elements
+$z-index-content-above: 10; // For content that needs to sit above base elements
+$z-index-skip-link: 100; // For skip to content links
+
+$z-index-dropdown: 1000;
+$z-index-overlay: $z-index-dropdown - 10; // For mobile menu overlay, etc.
+$z-index-sticky: 1020;     // For sticky headers/elements
+$z-index-fixed: 1030;      // For fixed position elements (like a utility bar)
+
+$z-index-modal-backdrop: 1040;
+$z-index-modal: 1050;
+
+$z-index-popover: 1060;
+$z-index-tooltip: 1070;
+
+$z-index-above-all: 9999; // For critical overlays, use sparingly

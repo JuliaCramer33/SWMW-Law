@@ -1,0 +1,60 @@
+@use "../variables/variables" as *;
+
+// themes/swmw-law/assets/scss/components/_breadcrumbs.scss
+
+.breadcrumbs-nav {
+	padding: $spacing-3 0; // Adjust padding as needed
+	background-color: $color-gray-f6; // Light background, adjust as per your design
+	border-bottom: 1px solid $color-border; // Subtle border
+	font-size: $font-size-sm;
+
+	.container {
+		// Container specific styles for breadcrumbs if needed, otherwise inherits global .container
+	}
+
+	.breadcrumbs-list {
+		list-style: none;
+		padding-left: 0;
+		margin: 0;
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap; // Allow wrapping if many items
+	}
+
+	.breadcrumb-item {
+		display: flex;
+		align-items: center;
+
+		a {
+			text-decoration: none;
+			color: $color-text-light; // Lighter color for links
+			transition: color $transition-duration-base ease;
+
+			&:hover,
+			&:focus {
+				color: $color-primary; // Primary color on hover/focus
+				text-decoration: underline;
+			}
+		}
+
+		&--home {
+			// Specific styles for home link if needed
+			.breadcrumb-home-icon {
+				margin-right: $spacing-1; // Space between icon and separator/next item
+				color: $color-text; // slightly darker icon
+				position: relative;
+				top: -1px; // Minor alignment adjustment
+			}
+		}
+
+		&--current {
+			color: $color-secondary; // Darker color for current page
+			font-weight: $font-weight-medium;
+		}
+	}
+
+	.breadcrumb-separator {
+		margin: 0 $spacing-2; // Space around separators
+		color: $color-text; // Corrected: use an existing variable for very light color
+	}
+}

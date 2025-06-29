@@ -1,0 +1,123 @@
+@use "sass:color";
+@use "../variables/variables" as *;
+
+.swmw-archive-page {
+
+	.swmw-featured-cases {
+		padding: 6rem 0;
+		position: relative;
+
+		// The ::before creates the skewed background panel.
+		// The section itself has no background, so this one shows through.
+		&::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 50%;
+			transform: translateX(-50%) skewY(-3deg);
+			width: 100vw;
+			height: 100%;
+			background-color: #f8f9fa;
+			z-index: -1;
+		}
+	}
+	
+	.swmw-all-results {
+		padding: 2rem 0;
+	}
+
+	.section-title {
+		font-family: $font-montserrat;
+		font-weight: $font-weight-bold;
+		font-size: 1rem;
+		letter-spacing: 0.1em;
+		color: $color-text-light;
+		margin-bottom: 2rem;
+		text-transform: uppercase;
+	}
+
+	.swmw-featured-cases-grid,
+	.swmw-results-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+		gap: 2rem;
+	}
+
+	.result-item-inner {
+		height: 100%;
+		background-color: $color-white;
+		border-radius: 0;
+		box-shadow: $box-shadow-md;
+		padding: $spacing-8 $spacing-6;
+		text-align: center;
+		border: 1px solid $color-gray-lighter;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.result-category {
+		display: inline-block;
+		align-self: center;
+		background-color: color.adjust($color-secondary, $lightness: 48%, $alpha: -0.5);
+		color: $color-secondary;
+		font-family: $font-montserrat;
+		font-weight: $font-weight-medium;
+		font-size: $font-size-sm;
+		padding: $spacing-1 $spacing-4;
+		border-radius: $border-radius-pill;
+		text-transform: uppercase;
+		margin-bottom: $spacing-6;
+		letter-spacing: 0.5px;
+	}
+
+	.result-amount {
+		color: $color-secondary;
+		font-family: $font-poppins;
+		font-weight: $font-weight-bold;
+		font-size: $h2-font-size;
+		line-height: 1.2;
+		margin: 0 0 $spacing-2;
+	}
+
+	.result-title {
+		font-family: $font-poppins;
+		font-weight: $font-weight-bold;
+		font-size: $font-size-base;
+		line-height: 1.4;
+		color: $color-text;
+		margin: 0 0 $spacing-4;
+	}
+
+	.result-description {
+		font-size: $font-size-base;
+		line-height: $line-height-relaxed;
+		color: $color-text-light;
+		margin-top: auto;
+	}
+
+	hr {
+		border: 0;
+		border-top: 1px solid $color-gray-lighter;
+		margin: 2rem auto;
+		max-width: 50%;
+	}
+}
+
+.archive-results-section {
+	background-color: $color-gray-lightest;
+	padding: $spacing-12 0;
+
+	.archive-results-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: $spacing-8;
+
+		@media (min-width: $breakpoint-md) {
+			grid-template-columns: repeat(2, 1fr);
+		}
+
+		@media (min-width: $breakpoint-lg) {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+}

@@ -1,0 +1,240 @@
+@use "../variables/variables" as *;
+
+/* Flexbox Utility Classes
+--------------------------------------------- */
+
+// Define maps for flex properties and their values
+$flex-directions: row, column, row-reverse, column-reverse;
+$justify-content-values: flex-start, flex-end, center, space-between, space-around, space-evenly;
+$align-items-values: flex-start, flex-end, center, baseline, stretch;
+$align-content-values: flex-start, flex-end, center, space-between, space-around, stretch; // Note: align-content requires flex-wrap: wrap
+$align-self-values: auto, flex-start, flex-end, center, baseline, stretch;
+$flex-wrap-values: wrap, nowrap, wrap-reverse;
+$flex-grow-shrink-values: 0, 1;
+
+// --- Base Utilities ---
+
+// Direction
+@each $value in $flex-directions {
+	.flex-#{$value} {
+		flex-direction: $value !important;
+	}
+}
+
+// Justify Content
+@each $value in $justify-content-values {
+	// Abbreviate long names
+	$abbr: $value;
+
+	@if $value == flex-start {
+		$abbr: start;
+	}
+
+	@if $value == flex-end {
+		$abbr: end;
+	}
+
+	@if $value == space-between {
+		$abbr: between;
+	}
+
+	@if $value == space-around {
+		$abbr: around;
+	}
+
+	@if $value == space-evenly {
+		$abbr: evenly;
+	}
+	.justify-content-#{$abbr} {
+		justify-content: $value !important;
+	}
+}
+
+// Align Items
+@each $value in $align-items-values {
+	$abbr: $value;
+
+	@if $value == flex-start {
+		$abbr: start;
+	}
+
+	@if $value == flex-end {
+		$abbr: end;
+	}
+	.align-items-#{$abbr} {
+		align-items: $value !important;
+	}
+}
+
+// Align Content
+@each $value in $align-content-values {
+	$abbr: $value;
+
+	@if $value == flex-start {
+		$abbr: start;
+	}
+
+	@if $value == flex-end {
+		$abbr: end;
+	}
+
+	@if $value == space-between {
+		$abbr: between;
+	}
+
+	@if $value == space-around {
+		$abbr: around;
+	}
+	.align-content-#{$abbr} {
+		align-content: $value !important;
+	}
+}
+
+// Align Self
+@each $value in $align-self-values {
+	$abbr: $value;
+
+	@if $value == flex-start {
+		$abbr: start;
+	}
+
+	@if $value == flex-end {
+		$abbr: end;
+	}
+	.align-self-#{$abbr} {
+		align-self: $value !important;
+	}
+}
+
+// Wrap
+@each $value in $flex-wrap-values {
+	.flex-#{$value} {
+		flex-wrap: $value !important;
+	}
+}
+
+// Grow and Shrink
+@each $value in $flex-grow-shrink-values {
+	.flex-grow-#{$value} {
+		flex-grow: $value !important;
+	}
+	.flex-shrink-#{$value} {
+		flex-shrink: $value !important;
+	}
+}
+
+// --- Responsive Utilities ---
+
+@each $bpKey, $bpValue in $breakpoints {
+
+	@media (min-width: $bpValue) {
+
+		// Direction
+		@each $value in $flex-directions {
+			.flex-#{$bpKey}-#{$value} {
+				flex-direction: $value !important;
+			}
+		}
+
+		// Justify Content
+		@each $value in $justify-content-values {
+			$abbr: $value;
+
+			@if $value == flex-start {
+				$abbr: start;
+			}
+
+			@if $value == flex-end {
+				$abbr: end;
+			}
+
+			@if $value == space-between {
+				$abbr: between;
+			}
+
+			@if $value == space-around {
+				$abbr: around;
+			}
+
+			@if $value == space-evenly {
+				$abbr: evenly;
+			}
+			.justify-content-#{$bpKey}-#{$abbr} {
+				justify-content: $value !important;
+			}
+		}
+
+		// Align Items
+		@each $value in $align-items-values {
+			$abbr: $value;
+
+			@if $value == flex-start {
+				$abbr: start;
+			}
+
+			@if $value == flex-end {
+				$abbr: end;
+			}
+			.align-items-#{$bpKey}-#{$abbr} {
+				align-items: $value !important;
+			}
+		}
+
+		// Align Content
+		@each $value in $align-content-values {
+			$abbr: $value;
+
+			@if $value == flex-start {
+				$abbr: start;
+			}
+
+			@if $value == flex-end {
+				$abbr: end;
+			}
+
+			@if $value == space-between {
+				$abbr: between;
+			}
+
+			@if $value == space-around {
+				$abbr: around;
+			}
+			.align-content-#{$bpKey}-#{$abbr} {
+				align-content: $value !important;
+			}
+		}
+
+		// Align Self
+		@each $value in $align-self-values {
+			$abbr: $value;
+
+			@if $value == flex-start {
+				$abbr: start;
+			}
+
+			@if $value == flex-end {
+				$abbr: end;
+			}
+			.align-self-#{$bpKey}-#{$abbr} {
+				align-self: $value !important;
+			}
+		}
+
+		// Wrap
+		@each $value in $flex-wrap-values {
+			.flex-#{$bpKey}-#{$value} {
+				flex-wrap: $value !important;
+			}
+		}
+
+		// Grow and Shrink
+		@each $value in $flex-grow-shrink-values {
+			.flex-#{$bpKey}-grow-#{$value} {
+				flex-grow: $value !important;
+			}
+			.flex-#{$bpKey}-shrink-#{$value} {
+				flex-shrink: $value !important;
+			}
+		}
+	}
+}

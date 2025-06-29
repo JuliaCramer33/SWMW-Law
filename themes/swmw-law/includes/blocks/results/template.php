@@ -1,0 +1,102 @@
+<?php
+/**
+ * Results Block Template.
+ *
+ * @param   array $block The block settings and attributes.
+ * @param   string $content The block inner HTML (empty).
+ * @param   bool $is_preview True during AJAX preview.
+ * @param   (int|string) $post_id The post ID this block is saved to.
+ *
+ * @package SWMW_Law
+ */
+
+$class_name = 'results-block';
+if ( ! empty( $block['className'] ) ) {
+    $class_name .= ' ' . $block['className'];
+}
+
+?>
+<section <?php echo wp_kses_post( get_block_wrapper_attributes( [ 'class' => $class_name ] ) ); ?>>
+    <?php
+    // --- Get Selected Results from ACF Relationship Field ---
+    $selected_results_ids = get_field('selected_results'); // ACF field name
+
+    // --- Query Arguments ---
+    $num_posts = apply_filters( 'swmw_results_block_num_posts', 6 ); // Default for fallback
+
+    if ( ! empty( $selected_results_ids ) && is_array( $selected_results_ids ) ) {
+        $args = array(
+            'post_type'      => 'swmw_result',
+            'post__in'       => $selected_results_ids,
+            'posts_per_page' => -1, // Show all selected posts
+            'orderby'        => 'post__in', // Order by the sequence they were selected
+        );
+    } else {
+        // Fallback to original query if no results are specifically selected
+        $args = array(
+            'post_type'      => 'swmw_result',
+            'posts_per_page' => $num_posts,
+            'orderby'        => 'date',
+            'order'          => 'DESC',
+        );
+    }
+
+    $results_query = new WP_Query( $args );
+
+    if ( $results_query->have_posts() ) :
+        ?>
+        <!-- Start: Results Slider -->
+        <div class="results-slider splide">
+            <div class="splide__track">
+                <ul class="splide__list">
+                    <?php
+                    $slide_count = 0;
+                    while ( $results_query->have_posts() ) :
+                        $results_query->the_post();
+                        $slide_count++;
+                    ?>
+                        <li class="splide__slide result-item">
+                            <div class="result-item-inner">
+                                <div class="result-content">
+                                    <?php
+                                    // Get and display the result category
+                                    $terms = get_the_terms(get_the_ID(), 'swmw_result_category');
+                                    if (!empty($terms) && !is_wp_error($terms)) {
+                                        $category = $terms[0];
+                                        echo '<span class="result-category">' . esc_html($category->name) . '</span>';
+                                    }
+
+                                    $result_amount = get_field( 'result_amount', get_the_ID() );
+                                    ?>
+
+                                    <?php if ( $result_amount ) : ?>
+                                        <h3 class="result-amount"><?php echo esc_html( $result_amount ); ?></h3>
+                                    <?php endif; ?>
+
+                                    <h4 class="result-title"><?php the_title(); ?></h4>
+
+                                    <?php if ( has_excerpt() ) : ?>
+                                        <div class="result-description">
+                                            <?php the_excerpt(); ?>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </li>
+                    <?php endwhile; ?>
+                    <?php // Debug info ?>
+                    <!-- Total Slides: <?php echo esc_html($slide_count); ?> -->
+                </ul>
+            </div>
+        </div>
+        <!-- End: Results Slider -->
+
+        <?php
+        wp_reset_postdata();
+    else :
+        ?>
+        <?php if ( $is_preview ) : ?>
+            <p><em>No results found. Please check your Results CPT or block settings.</em></p>
+        <?php endif; ?>
+    <?php endif; ?>
+</section>

@@ -1,0 +1,26 @@
+name: Deploy to WP Engine (Staging)
+
+on:
+  push:
+    branches:
+      - develop # Deploys when commits are pushed to the develop branch
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build assets
+        working-directory: ./themes/swmw-law
+        run: |
+          npm install
+          npm run build
+
+      - name: Deploy to WP Engine Staging
+        uses: wpengine/github-action-wpe-site-deploy@v3
+        with:
+          WPE_SSHG_KEY_PRIVATE: ${{ secrets.WPE_SSHG_KEY_PRIVATE }}
+          WPE_ENV: "swmwlawstg"
+          REMOTE_PATH: "wp-content/"
+          FLAGS: '-azvr --inplace --delete --exclude-from=.deployignore'

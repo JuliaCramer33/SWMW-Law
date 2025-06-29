@@ -1,0 +1,39 @@
+@use "../variables/variables" as *;
+
+.wp-block-acf-tabs .tabs-nav-container {
+	text-align: center;
+	margin-bottom: $spacing-8;
+}
+
+.wp-block-acf-tabs .tabs-nav {
+	display: inline-flex; // Center the nav by making it an inline element
+	background-color: $color-gray-lightest;
+	border-radius: $border-radius-pill;
+	padding: $spacing-1;
+}
+
+.wp-block-acf-tabs .tab-nav-item {
+	padding: $spacing-2 $spacing-5;
+	cursor: pointer;
+	font-weight: $font-weight-medium;
+	color: $color-text;
+	border-radius: $border-radius-pill;
+	transition: all 0.3s ease;
+}
+
+.wp-block-acf-tabs .tab-nav-item:hover {
+	color: $color-secondary;
+}
+
+.wp-block-acf-tabs .tab-nav-item.active {
+	background-color: $color-secondary;
+	color: $color-white;
+}
+
+.wp-block-acf-tabs .tab-content .wp-block-acf-tab-panel {
+	display: none;
+}
+
+.wp-block-acf-tabs .tab-content .wp-block-acf-tab-panel.active {
+	display: block;
+}

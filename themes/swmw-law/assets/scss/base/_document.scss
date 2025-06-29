@@ -1,0 +1,20 @@
+@use "../variables/variables" as *;
+
+/* Document */
+
+html {
+	font-size: 100%;
+	-webkit-text-size-adjust: 100%;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+body {
+	font-family: $base-font-family;
+	font-size: $base-font-size;
+	line-height: $base-line-height;
+	font-weight: $base-font-weight;
+	color: $base-text-color;
+	background-color: $color-background;
+	overflow-x: hidden;
+}

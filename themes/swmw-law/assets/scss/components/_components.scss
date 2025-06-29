@@ -1,0 +1,10 @@
+/* Component Styles Importer
+--------------------------------------------- */
+
+// Import global partials in a cascading order.
+
+@forward "navigation"; // Main navigation styles
+@forward "mega-menu";  // Mega menu specific styles
+@forward "pagination"; // Pagination styles
+@forward "accreditations-bar";
+// Add other component forwards as needed

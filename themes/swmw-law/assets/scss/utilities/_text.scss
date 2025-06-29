@@ -1,0 +1,159 @@
+@use "../variables/variables" as *;
+
+/* Text Utility Classes
+--------------------------------------------- */
+
+// Text alignment, weight, style, transform, etc.
+// Generated with responsive variants where applicable
+
+// --- Text Alignment ---
+$text-alignments: start, end, center, justify;
+
+// Base alignment utilities
+@each $align in $text-alignments {
+	.text-#{$align} {
+		text-align: $align !important;
+	}
+}
+
+// Responsive alignment utilities
+@each $bpKey, $bpValue in $breakpoints {
+
+	@media (min-width: $bpValue) {
+
+		@each $align in $text-alignments {
+			.text-#{$bpKey}-#{$align} {
+				text-align: $align !important;
+			}
+		}
+	}
+}
+
+// --- Text Wrapping & Breaking ---
+.text-wrap {
+	white-space: normal !important;
+}
+
+.text-nowrap {
+	white-space: nowrap !important;
+}
+
+.text-break {
+	word-wrap: break-word !important;
+	word-break: break-word !important;
+}
+
+// --- Text Transform ---
+.text-lowercase {
+	text-transform: lowercase !important;
+}
+
+.text-uppercase {
+	text-transform: uppercase !important;
+}
+
+.text-capitalize {
+	text-transform: capitalize !important;
+}
+
+// --- Font Weight ---
+// Using names based on variables
+.fw-light {
+	font-weight: $font-weight-light !important;
+}
+
+.fw-normal {
+	font-weight: $font-weight-normal !important;
+}
+
+.fw-medium {
+	font-weight: $font-weight-medium !important;
+}
+
+.fw-semibold {
+	font-weight: $font-weight-semibold !important;
+}
+
+.fw-bold {
+	font-weight: $font-weight-bold !important;
+}
+
+// Aliases
+.fw-lighter {
+	font-weight: lighter !important;
+}
+
+.fw-bolder {
+	font-weight: bolder !important;
+}
+
+// --- Font Style ---
+.fst-italic {
+	font-style: italic !important;
+}
+
+.fst-normal {
+	font-style: normal !important;
+}
+
+// --- Text Decoration ---
+.text-decoration-underline {
+	text-decoration: underline !important;
+}
+
+.text-decoration-line-through {
+	text-decoration: line-through !important;
+}
+
+.text-decoration-none {
+	text-decoration: none !important;
+}
+
+// --- Font Size ---
+// Using names mapping to heading levels might be intuitive
+// Or use a numerical scale if preferred (e.g., .fs-1, .fs-2)
+.fs-h1 {
+	font-size: $h1-font-size !important;
+} // Using h1 { font-size:... } map from _typography.scss
+.fs-h2 {
+	font-size: $h2-font-size !important;
+}
+
+.fs-h3 {
+	font-size: $h3-font-size !important;
+}
+
+.fs-h4 {
+	font-size: $h4-font-size !important;
+}
+
+.fs-h5 {
+	font-size: $h5-font-size !important;
+}
+
+.fs-h6 {
+	font-size: $h6-font-size !important;
+}
+
+.fs-base {
+	font-size: $base-font-size !important;
+} // Base body size
+// Add smaller sizes if needed from scale
+// .fs-sm { font-size: $font-size-sm !important; }
+// .fs-xs { font-size: $font-size-xs !important; }
+
+// --- Line Height ---
+.lh-1 {
+	line-height: 1 !important;
+}
+
+.lh-sm {
+	line-height: $base-line-height * 0.8 !important;
+} // Example modifier
+.lh-base {
+	line-height: $base-line-height !important;
+}
+
+.lh-lg {
+	line-height: $base-line-height * 1.2 !important;
+} // Example modifier

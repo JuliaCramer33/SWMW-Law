@@ -1,0 +1,85 @@
+@use "sass:meta"; // Import the meta module
+@use "../variables/variables";
+
+/* Color Utility Classes
+--------------------------------------------- */
+
+// Text and Background color utilities
+// Based on the theme color palette defined in variables.
+
+// Define which colors from the palette should have utilities
+$utility-colors: (
+	"primary": variables.$color-primary,
+	"secondary": variables.$color-secondary,
+	"accent": variables.$color-accent,
+	"success": variables.$color-success,
+	"warning": variables.$color-warning,
+	"error": variables.$color-error,
+	"info": variables.$color-info,
+	"white": variables.$color-white,
+	"black": variables.$color-black,
+	"text": variables.$color-text,
+	"text-light": variables.$color-text-light,
+	"link": variables.$color-link,
+	"bg": variables.$color-background,
+	"bg-alt": variables.$color-background-alt,
+
+	"gray-lightest": variables.$color-gray-lightest,
+	"gray-lighter": variables.$color-gray-lighter,
+	"gray-light": variables.$color-gray-light,
+	"gray": variables.$color-gray,
+	"gray-dark": variables.$color-gray-dark,
+	"gray-darker": variables.$color-gray-darker,
+	"gray-darkest": variables.$color-gray-darkest,
+	"charcoal": variables.$color-charcoal,
+	"onyx": variables.$color-onyx,
+	"gray-f6": variables.$color-gray-f6
+);
+
+// --- Text Color Utilities ---
+@each $name, $color in $utility-colors {
+	.text-#{$name} {
+		color: $color !important;
+	}
+}
+
+// Add specific hover states if needed, e.g., for links
+.text-link-hover:hover {
+	color: variables.$color-link-hover !important;
+}
+
+// --- Background Color Utilities ---
+@each $name, $color in $utility-colors {
+	// Don't generate bg utilities for colors intended only for text
+	@if $name != "text" and $name != "text-light" and $name != "link" {
+		.bg-#{$name} {
+			background-color: $color !important;
+		}
+	}
+}
+
+// --- Background Gradient Utilities ---
+// Only add if gradients are defined in _colors.scss
+
+// Check if gradient variables exist before creating classes to avoid errors
+// if those variables are not defined in _colors.scss
+@if variables.$gradient-green {
+
+	.bg-gradient-green {
+		background-image: variables.$gradient-green !important;
+	}
+}
+
+@if variables.$gradient-green-blue {
+
+	.bg-gradient-green-blue {
+		background-image: variables.$gradient-green-blue !important;
+	}
+}
+
+@if variables.$gradient-overlay {
+
+	.bg-gradient-overlay {
+		background-image: variables.$gradient-overlay !important;
+	}
+}
