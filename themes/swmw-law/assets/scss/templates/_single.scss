@@ -1,10 +1,10 @@
 @use "../variables/variables" as *;
 
-.swmw-single-post {
-	padding-top: $spacing-6; // Add space from breadcrumbs/header
+.single-post {
 
 	.single-post-hero {
-		margin-bottom: $spacing-10;
+    margin-bottom: $spacing-10;
+    padding-top: $spacing-6;
 
 		img {
 			width: 100%;
@@ -30,7 +30,8 @@
 
 		.category-pill {
 			display: inline-block;
-			background-color: rgba($color-secondary, 0.1);
+			background-color: $color-secondary-lighter;
+      border: 1px solid $color-secondary-light;
 			color: $color-secondary;
 			padding: 0.5em 1.2em;
 			border-radius: 20px; // Pill shape
@@ -64,7 +65,7 @@
 
 	.entry-header {
 		text-align: left;
-		margin-top: $spacing-5;
+		margin-top: $spacing-8;
 		margin-bottom: $spacing-10;
 	}
 

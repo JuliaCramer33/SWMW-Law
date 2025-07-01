@@ -3,6 +3,11 @@
  * Main SCSS file
  */
 
+@charset "UTF-8";
+
+// 1. Configuration and helpers
+@forward "variables/variables";
+
 // Modules
 @use "variables/variables" as *; // Make all forwarded variables globally accessible
 @use "base/base";
@@ -10,18 +15,7 @@
 @use "layout/header";
 @use "layout/layout";
 @use "components/components";
-@use "components/breadcrumbs";
-@use "components/accreditations-bar";
-@use "wordpress-overrides/wordpress";
 @use "blocks/blocks";
 @use "blocks/tabs";
-@use "blocks/tab-panel";
-@use "blocks/button-icon";
-@use "blocks/accordion";
-@use "blocks/attorneys";
-@use "blocks/testimonials";
-@use "blocks/results";
-@use "blocks/image-split";
-@use "blocks/hero-split";
 @use "templates/templates";
 

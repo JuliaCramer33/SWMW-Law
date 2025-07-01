@@ -28,7 +28,9 @@ function setup() {
      */
     add_theme_support( 'post-thumbnails' );
 
-    // Add support for wide-aligned blocks.
+    /**
+     * Add support for wide and full-width block alignments.
+     */
     add_theme_support( 'align-wide' );
 
     // Register navigation menus

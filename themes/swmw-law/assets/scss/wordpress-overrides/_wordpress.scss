@@ -45,6 +45,7 @@ a img.alignright {
 
 a img.alignnone {
 	margin: $spacing-4 $spacing-4 $spacing-4 0;
+  max-width: $container-sm;
 }
 
 a img.alignleft {

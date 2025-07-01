@@ -109,4 +109,58 @@
     // Handle cases where the script is loaded after the document is already complete
     onReady();
   }
-})(); 
+
+  // -----[ EDITOR-SAVE-VALIDATION ]-----
+  if (window.wp && window.wp.data && window.wp.plugins) {
+    const { select, dispatch } = window.wp.data;
+    const { registerPlugin } = window.wp.plugins;
+
+    // A simple component to render nothing, used for our plugin.
+    const CoreValidationPlugin = () => null;
+
+    registerPlugin('swmw-law-tabs-validation', {
+      render: () => {
+        const MIN_TABS = 2;
+
+        // Get all tabs blocks from the editor content.
+        const tabsBlocks = select('core/block-editor').getBlocks().filter(block => block.name === 'acf/tabs');
+
+        let isInvalid = false;
+        tabsBlocks.forEach(block => {
+          if (block.innerBlocks.length < MIN_TABS) {
+            isInvalid = true;
+
+            // Display a notice in the specific block that is invalid.
+            // Note: This relies on ACF's notice system. A more robust solution might
+            // use a custom notice component appended to the block.
+            const message = `This Tabs block requires at least ${MIN_TABS} Tab Panel blocks.`;
+            dispatch('core/notices').createNotice(
+              'error',
+              message,
+              {
+                id: `tabs-validation-error-${block.clientId}`,
+                isDismissible: false,
+                context: 'acf/block-notices/block-context', // Specific context for ACF block notices
+                additionalData: {
+                  clientId: block.clientId
+                }
+              }
+            );
+          } else {
+            // Remove the notice if the block is now valid.
+            dispatch('core/notices').removeNotice(`tabs-validation-error-${block.clientId}`);
+          }
+        });
+
+        // Lock/unlock the post saving.
+        if (isInvalid) {
+          dispatch('core/editor').lockPostSaving('tabs-validation');
+        } else {
+          dispatch('core/editor').unlockPostSaving('tabs-validation');
+        }
+
+        return CoreValidationPlugin();
+      }
+    });
+  }
+})();

@@ -28,7 +28,6 @@ get_header();
 			?>
 
 			<div class="entry-content attorney-bio-content">
-				<div class="container-lg">
 					<?php
 					the_content(
 						sprintf(
@@ -50,33 +49,8 @@ get_header();
 						'after'  => '</div>',
 					]);
 					?>
-				</div><!-- .container for content -->
 			</div><!-- .entry-content -->
 
-			<?php if ( get_edit_post_link() ) : ?>
-				<footer class="entry-footer">
-					<div class="container">
-						<?php
-						edit_post_link(
-							sprintf(
-								wp_kses(
-									/* translators: %s: Name of current post. Only visible to screen readers */
-									__( 'Edit <span class="screen-reader-text">%s</span>', 'swmw-law' ),
-									[
-										'span' => [
-											'class' => [],
-										],
-									]
-								),
-								get_the_title()
-							),
-							'<span class="edit-link">_</span>',
-							'</span>'
-						);
-						?>
-					</div><!-- .container for footer -->
-				</footer><!-- .entry-footer -->
-			<?php endif; ?>
 		</article><!-- #post-<?php the_ID(); ?> -->
 
 	<?php

@@ -17,13 +17,13 @@ $template = array(
 
 ?>
 <div <?php echo get_block_wrapper_attributes(); ?>>
-    <div class="tabs-nav-container">
+    <div class="tabs-nav-container container-sm">
         <div class="tabs-nav">
             <!-- Navigation items will be dynamically inserted here by JavaScript -->
         </div>
     </div>
 
-    <div class="tab-content">
+    <div class="tab-content container-sm">
         <InnerBlocks
             allowedBlocks="<?php echo esc_attr( wp_json_encode( $allowed_blocks ) ); ?>"
             template="<?php echo esc_attr( wp_json_encode( $template ) ); ?>"

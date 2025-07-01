@@ -12,15 +12,11 @@
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
     <?php if ( has_post_thumbnail() ) : ?>
-        <div class="single-post-hero-wrapper">
-            <div class="single-post-hero container">
-                <div class="single-post-hero--inner">
-                    <div class="single-post-hero--content">
-                        <?php the_post_thumbnail( 'full' ); ?>
-                    </div>
-                </div>
-            </div>
+      <div class="single-post-hero container">
+        <div class="single-post-hero--content">
+          <?php the_post_thumbnail( 'full' ); ?>
         </div>
+      </div>
     <?php endif; ?>
 
     
