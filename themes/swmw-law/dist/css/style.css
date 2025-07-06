@@ -8904,7 +8904,7 @@ label {
   align-items: center;
 }
 .site-header .site-branding {
-  flex: 0 0 40%;
+  flex: 0 0 30%;
 }
 .site-header .site-branding .site-logo img {
   max-height: 60px;
@@ -8912,7 +8912,7 @@ label {
   display: block;
 }
 .site-header .nav-wrapper {
-  flex: 0 0 60%;
+  flex: 0 0 70%;
   display: flex;
   flex-direction: column;
 }
@@ -9295,14 +9295,14 @@ label {
 .utility-navigation li:last-child {
   margin-right: 0;
 }
-.main-navigation a:not(.button),
-.utility-navigation a:not(.button) {
+.main-navigation a,
+.utility-navigation a {
   text-decoration: none;
   padding: 0.25rem 0;
   display: block;
   font-family: "Montserrat", sans-serif;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 0.875rem;
   line-height: 1.57;
   letter-spacing: 0;
 }

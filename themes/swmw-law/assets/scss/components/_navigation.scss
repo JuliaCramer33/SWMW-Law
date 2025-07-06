@@ -31,13 +31,13 @@
 
 	// General link styling (typography, base padding, display)
 	// Exclude links within li.button or links that are .button themselves
-	a:not(.button) { // Simplified this: if it's a button, it gets button styles.
+	a { // Simplified this: if it's a button, it gets button styles.
 		text-decoration: none;
 		padding: $spacing-1 0;
 		display: block;
 		font-family: $font-montserrat;
 		font-weight: $font-weight-bold;
-		font-size: $font-size-base;
+		font-size: $font-size-sm;
 		line-height: $h6-line-height;
 		letter-spacing: 0;
 	}
