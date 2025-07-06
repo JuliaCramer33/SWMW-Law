@@ -9285,7 +9285,7 @@ label {
 .main-navigation li,
 .utility-navigation li {
   position: relative;
-  margin: 0 0.25rem;
+  margin: 0 0.75rem;
 }
 .main-navigation li:first-child,
 .utility-navigation li:first-child {
@@ -9308,7 +9308,7 @@ label {
 }
 
 .main-navigation > ul > li {
-  margin: 0 1rem;
+  margin: 0 0.75rem;
 }
 .main-navigation > ul > li:first-child {
   margin-left: 0;
@@ -9385,77 +9385,13 @@ label {
   display: block;
 }
 .main-navigation li.button {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  font-family: "Montserrat", sans-serif;
-  font-weight: 600;
-  font-size: 1rem;
-  line-height: 1.5;
-  color: #fff;
-  background-color: #12477a;
-  border: 1px solid #12477a;
-  border-radius: 9999px;
-  text-decoration: none;
-  text-align: center;
-  cursor: pointer;
-  white-space: nowrap;
-  vertical-align: middle;
-  user-select: none;
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-  transition: color 0.7s cubic-bezier(0.7, 0, 0.3, 1), background-color 0.7s cubic-bezier(0.7, 0, 0.3, 1), box-shadow 0.2s ease-in-out;
-  padding: 0.25rem 1rem !important;
-}
-.main-navigation li.button::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 140%;
-  height: 100%;
-  background-color: #fff;
-  z-index: -1;
-  transform-origin: right center;
-  transform: translateX(100%) skewX(-25deg);
-  transition: transform 0.7s cubic-bezier(0.7, 0, 0.3, 1);
-}
-.main-navigation li.button:hover, .main-navigation li.button:focus {
-  text-decoration: none;
-  color: #12477a;
-}
-.main-navigation li.button:hover::before, .main-navigation li.button:focus::before {
-  transform: translateX(-2%) skewX(-25deg);
-}
-.main-navigation li.button:active {
-  color: #12477a;
-}
-.main-navigation li.button:visited:hover, .main-navigation li.button:visited:focus {
-  text-decoration: none;
-  color: #12477a;
-}
-.main-navigation li.button:visited:hover::before, .main-navigation li.button:visited:focus::before {
-  transform: translateX(-2%) skewX(-25deg);
-}
-.main-navigation li.button:disabled, .main-navigation li.button.is-disabled {
-  opacity: 0.65;
-  cursor: not-allowed;
-  color: #fff;
-  border-color: #12477a;
-  background-color: #12477a;
-}
-.main-navigation li.button:disabled:hover, .main-navigation li.button:disabled:focus, .main-navigation li.button.is-disabled:hover, .main-navigation li.button.is-disabled:focus {
-  color: #fff;
-  border-color: #12477a;
-}
-.main-navigation li.button:disabled:hover::before, .main-navigation li.button:disabled:focus::before, .main-navigation li.button.is-disabled:hover::before, .main-navigation li.button.is-disabled:focus::before {
-  transform: translateX(100%) skewX(-25deg);
+  padding: 0.25rem 1rem;
+  display: flex;
+  justify-content: center;
 }
 .main-navigation li.button a {
-  color: #fff !important;
-  text-decoration: none;
-  display: inline-block;
-  padding: inherit;
+  color: #fff;
+  font-weight: 600;
   transition: color 0.7s cubic-bezier(0.7, 0, 0.3, 1);
 }
 .main-navigation li.button:hover, .main-navigation li.button:focus {
@@ -9645,76 +9581,10 @@ label {
 .mobile-navigation-panel .mobile-primary-nav-list li.button {
   border-bottom: none;
   margin-top: auto;
-  padding-top: 1rem;
 }
 .mobile-navigation-panel .mobile-primary-nav-list li.button a {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  font-family: "Montserrat", sans-serif;
-  font-weight: 600;
-  font-size: 1rem;
-  line-height: 1.5;
-  color: #fff;
-  background-color: #12477a;
-  border: 1px solid #12477a;
-  border-radius: 9999px;
-  text-decoration: none;
-  text-align: center;
-  cursor: pointer;
-  white-space: nowrap;
-  vertical-align: middle;
-  user-select: none;
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-  transition: color 0.7s cubic-bezier(0.7, 0, 0.3, 1), background-color 0.7s cubic-bezier(0.7, 0, 0.3, 1), box-shadow 0.2s ease-in-out;
-  padding: 0.5rem 1rem !important;
   color: #fff !important;
   justify-content: center;
-}
-.mobile-navigation-panel .mobile-primary-nav-list li.button a::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 140%;
-  height: 100%;
-  background-color: #fff;
-  z-index: -1;
-  transform-origin: right center;
-  transform: translateX(100%) skewX(-25deg);
-  transition: transform 0.7s cubic-bezier(0.7, 0, 0.3, 1);
-}
-.mobile-navigation-panel .mobile-primary-nav-list li.button a:hover, .mobile-navigation-panel .mobile-primary-nav-list li.button a:focus {
-  text-decoration: none;
-  color: #12477a;
-}
-.mobile-navigation-panel .mobile-primary-nav-list li.button a:hover::before, .mobile-navigation-panel .mobile-primary-nav-list li.button a:focus::before {
-  transform: translateX(-2%) skewX(-25deg);
-}
-.mobile-navigation-panel .mobile-primary-nav-list li.button a:active {
-  color: #12477a;
-}
-.mobile-navigation-panel .mobile-primary-nav-list li.button a:visited:hover, .mobile-navigation-panel .mobile-primary-nav-list li.button a:visited:focus {
-  text-decoration: none;
-  color: #12477a;
-}
-.mobile-navigation-panel .mobile-primary-nav-list li.button a:visited:hover::before, .mobile-navigation-panel .mobile-primary-nav-list li.button a:visited:focus::before {
-  transform: translateX(-2%) skewX(-25deg);
-}
-.mobile-navigation-panel .mobile-primary-nav-list li.button a:disabled, .mobile-navigation-panel .mobile-primary-nav-list li.button a.is-disabled {
-  opacity: 0.65;
-  cursor: not-allowed;
-  color: #fff;
-  border-color: #12477a;
-  background-color: #12477a;
-}
-.mobile-navigation-panel .mobile-primary-nav-list li.button a:disabled:hover, .mobile-navigation-panel .mobile-primary-nav-list li.button a:disabled:focus, .mobile-navigation-panel .mobile-primary-nav-list li.button a.is-disabled:hover, .mobile-navigation-panel .mobile-primary-nav-list li.button a.is-disabled:focus {
-  color: #fff;
-  border-color: #12477a;
-}
-.mobile-navigation-panel .mobile-primary-nav-list li.button a:disabled:hover::before, .mobile-navigation-panel .mobile-primary-nav-list li.button a:disabled:focus::before, .mobile-navigation-panel .mobile-primary-nav-list li.button a.is-disabled:hover::before, .mobile-navigation-panel .mobile-primary-nav-list li.button a.is-disabled:focus::before {
-  transform: translateX(100%) skewX(-25deg);
 }
 .mobile-navigation-panel .mobile-primary-nav-list li.button a:hover {
   color: #12477a !important;

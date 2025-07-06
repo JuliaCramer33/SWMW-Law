@@ -28,6 +28,19 @@ function setup() {
      */
     add_theme_support( 'post-thumbnails' );
 
+    /*
+     * Add support for custom logo.
+     *
+     * @link https://developer.wordpress.org/themes/functionality/custom-logo/
+     */
+    add_theme_support( 'custom-logo', [
+        'height'      => 100,
+        'width'       => 400,
+        'flex-height' => true,
+        'flex-width'  => true,
+        'header-text' => [ 'site-title', 'site-description' ],
+    ] );
+
     /**
      * Add support for wide and full-width block alignments.
      */

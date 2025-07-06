@@ -18,7 +18,7 @@
 
 	li {
 		position: relative;
-		margin: 0 $spacing-1;
+		margin: 0 $spacing-3;
 
 		&:first-child {
 			margin-left: 0;
@@ -47,7 +47,7 @@
 .main-navigation {
 	// Override li margins for more space between top-level items
 	> ul > li {
-		margin: 0 $spacing-4;
+		margin: 0 $spacing-3;
 
 		&:first-child {
 			margin-left: 0;
@@ -156,17 +156,13 @@
 	// Styling for the "Free Consultation" button within main navigation
 	li.button {
 
-		@include button-appearance;
-		@include button-animation;
-
-		padding: $spacing-1 $spacing-4 !important;
+		padding: $spacing-1 $spacing-4;
+		display: flex;
+		justify-content: center;
 
 		a {
-			color: $color-white !important;
-			text-decoration: none;
-			display: inline-block;
-			padding: inherit;
-
+			color: $color-white;
+			font-weight: $font-weight-semibold;
 			transition: color 0.7s cubic-bezier(0.7, 0, 0.3, 1);
 		}
 
@@ -392,12 +388,8 @@
 		li.button {
 			border-bottom: none;
 			margin-top: auto;
-			padding-top: $spacing-4;
 
 			a {
-				@include button-appearance;
-				@include button-animation;
-				padding: $spacing-2 $spacing-4 !important;
 				color: $color-white !important;
 				justify-content: center;
 
@@ -406,13 +398,6 @@
 				}
 			}
 		}
-
-		// Phone button inherits from .button but gets an outline style
-		// li.mobile-phone-button {
-		// 	a {
-		// 		@include button-secondary-outline;
-		// 	}
-		// }
 	}
 
 	.mobile-bottom-links {
