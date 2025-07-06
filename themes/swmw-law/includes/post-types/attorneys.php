@@ -57,11 +57,11 @@ function register_attorney_content() {
         'show_in_admin_bar'     => true,
         'show_in_nav_menus'     => true,
         'can_export'            => true,
-        'has_archive'           => 'attorneys',
+        'has_archive'           => 'our-attorneys',
         'exclude_from_search'   => false,
         'publicly_queryable'    => true,
         'capability_type'       => 'post',
-        'rewrite'               => [ 'slug' => 'attorneys', 'with_front' => false ],
+        'rewrite'               => [ 'slug' => 'our-attorneys', 'with_front' => false ],
         'show_in_rest'          => true,
     ];
     register_post_type( 'attorney', $attorney_args );

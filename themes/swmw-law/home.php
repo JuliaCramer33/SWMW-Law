@@ -13,23 +13,23 @@ get_template_part( 'template-parts/hero-archive' );
 <?php get_template_part( 'template-parts/breadcrumbs' ); ?>
 
 <main id="main" class="site-main container-lg">
-		<div class="swmw-news-grid--inner">
-			<?php
-			if ( have_posts() ) :
-				echo '<div class="swmw-news-grid">';
-				/* Start the Loop */
-				while ( have_posts() ) :
-					the_post();
+			<div class="swmw-news-grid--inner">
+		<?php
+		if ( have_posts() ) :
+			echo '<div class="swmw-news-grid">';
+			/* Start the Loop */
+			while ( have_posts() ) :
+				the_post();
 
-					/*
-					 * Include the Post-Type-specific template for the content.
-					 * If you want to override this in a child theme, then include a file
-					 * called content-___.php (where ___ is the Post Type name) and that will be used instead.
-					 */
-					get_template_part( 'template-parts/content', 'post-card' );
+				/*
+				 * Include the Post-Type-specific template for the content.
+				 * If you want to override this in a child theme, then include a file
+				 * called content-___.php (where ___ is the Post Type name) and that will be used instead.
+				 */
+				get_template_part( 'template-parts/content', 'post-card' );
 
-				endwhile;
-				echo '</div><!-- .swmw-news-grid -->';
+			endwhile;
+			echo '</div><!-- .swmw-news-grid -->';
 
 				the_posts_pagination(
 					[

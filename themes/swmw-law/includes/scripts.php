@@ -90,6 +90,17 @@ function scripts() {
         );
     }
 
+    // Conditionally enqueue the hero dropdown nav script if the pattern is present on the page.
+    if ( $post && ( strpos( $post->post_content, 'hero-dropdown-nav-wrapper' ) !== false ) ) {
+        wp_enqueue_script(
+            'swmw-law-hero-dropdown-nav',
+            get_template_directory_uri() . '/assets/js/hero-dropdown-nav.js',
+            array(), // No dependencies
+            filemtime( get_template_directory() . '/assets/js/hero-dropdown-nav.js' ),
+            true // Load in footer
+        );
+    }
+
     // Enqueue mobile menu script - REMOVED as it is now part of main.js
     /*
     wp_enqueue_script(
