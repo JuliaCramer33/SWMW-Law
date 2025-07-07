@@ -20,6 +20,62 @@ class SWMW_Law_Mega_Menu_Walker extends \Walker_Nav_Menu {
 	private $mega_parent_item_title = '';
 	private $mega_parent_item_url = ''; // Store URL of the mega parent
 	private $mega_parent_item_id = ''; // Store ID of the mega parent for ARIA
+	private $items_with_grandchildren = array(); // Track which items have 3+ levels
+
+	/**
+	 * Pre-scan menu items to identify which have grandchildren (3+ levels)
+	 */
+	private function identify_items_with_grandchildren( $elements ) {
+		$items_by_parent = array();
+		
+		// Group items by their parent
+		foreach ( $elements as $element ) {
+			$parent_id = $element->menu_item_parent;
+			if ( ! isset( $items_by_parent[ $parent_id ] ) ) {
+				$items_by_parent[ $parent_id ] = array();
+			}
+			$items_by_parent[ $parent_id ][] = $element;
+		}
+		
+		// Find top-level items with grandchildren
+		if ( isset( $items_by_parent[0] ) ) {
+			foreach ( $items_by_parent[0] as $top_level_item ) {
+				if ( $this->has_grandchildren( $top_level_item->ID, $items_by_parent ) ) {
+					$this->items_with_grandchildren[] = $top_level_item->ID;
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Check if an item has grandchildren
+	 */
+	private function has_grandchildren( $item_id, $items_by_parent ) {
+		// Get children of this item
+		if ( ! isset( $items_by_parent[ $item_id ] ) ) {
+			return false;
+		}
+		
+		// Check if any child has its own children
+		foreach ( $items_by_parent[ $item_id ] as $child_item ) {
+			if ( isset( $items_by_parent[ $child_item->ID ] ) && ! empty( $items_by_parent[ $child_item->ID ] ) ) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
+	/**
+	 * Override walk to pre-scan menu items
+	 */
+	public function walk( $elements, $max_depth, ...$args ) {
+		// Pre-scan to identify items with grandchildren
+		$this->identify_items_with_grandchildren( $elements );
+		
+		// Call parent walk method
+		return parent::walk( $elements, $max_depth, ...$args );
+	}
 
 	public function start_lvl( &$output, $depth = 0, $args = null ) {
 		$indent = str_repeat( "\t", $depth );
@@ -71,7 +127,8 @@ class SWMW_Law_Mega_Menu_Walker extends \Walker_Nav_Menu {
 		$classes = empty( $item->classes ) ? array() : (array) $item->classes;
 		$classes[] = 'menu-item-' . $item->ID;
 
-		if ( $depth === 0 && $this->has_children ) { 
+		// Only apply mega menu to items with grandchildren (3+ levels)
+		if ( $depth === 0 && $this->has_children && in_array( $item->ID, $this->items_with_grandchildren ) ) { 
 			$classes[] = 'menu-item-has-mega-menu';
 			$this->current_item_is_mega_parent = true;
 			$this->mega_parent_item_title = $item->title;

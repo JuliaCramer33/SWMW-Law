@@ -117,7 +117,7 @@
 		}
 	}
 
-	// Dropdown sub-menu styles (within .main-navigation)
+	// Dropdown sub-menu styles (within .main-navigation) - for 2-level menus only
 	.menu-item-has-children:not(.menu-item-has-mega-menu):not(.button) {
 		// This applies to li.menu-item-has-children within .main-navigation
 
@@ -128,20 +128,32 @@
 			top: 100%;
 			background-color: $color-white;
 			border: 1px solid $color-divider;
-			padding: $spacing-1;
-			min-width: 180px;
+			box-shadow: $box-shadow-lg;
+			padding: $spacing-2;
+			min-width: 200px;
 			z-index: $z-index-dropdown;
+			border-radius: $border-radius;
 
 			li {
 				margin: 0; // Override base li margin within sub-menus
 				width: 100%;
 
 				a {
-					padding: $spacing-1 $spacing-2;
-					color: $color-text;
+					padding: $spacing-2 $spacing-3;
+					color: $color-charcoal;
+					font-family: $font-montserrat;
+					font-weight: $font-weight-bold;
+					font-size: $font-size-sm;
+					line-height: $h6-line-height;
+					letter-spacing: 0;
+					border-radius: $border-radius-sm;
+					transition: background-color 0.2s ease, color 0.2s ease;
 
-					&:hover {
-						color: $color-secondary;
+					&:hover,
+					&:focus {
+						background-color: $color-secondary;
+						color: $color-white;
+						text-decoration: none;
 					}
 				}
 			}

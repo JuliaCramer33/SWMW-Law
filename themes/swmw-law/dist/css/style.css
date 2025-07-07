@@ -9366,20 +9366,31 @@ label {
   top: 100%;
   background-color: #fff;
   border: 1px solid #e0e0e0;
-  padding: 0.25rem;
-  min-width: 180px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  padding: 0.5rem;
+  min-width: 200px;
   z-index: 1000;
+  border-radius: 0.5rem;
 }
 .main-navigation .menu-item-has-children:not(.menu-item-has-mega-menu):not(.button) ul.sub-menu li {
   margin: 0;
   width: 100%;
 }
 .main-navigation .menu-item-has-children:not(.menu-item-has-mega-menu):not(.button) ul.sub-menu li a {
-  padding: 0.25rem 0.5rem;
+  padding: 0.5rem 0.75rem;
   color: #43383e;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  font-size: 0.875rem;
+  line-height: 1.57;
+  letter-spacing: 0;
+  border-radius: 0.25rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
-.main-navigation .menu-item-has-children:not(.menu-item-has-mega-menu):not(.button) ul.sub-menu li a:hover {
-  color: #417e4b;
+.main-navigation .menu-item-has-children:not(.menu-item-has-mega-menu):not(.button) ul.sub-menu li a:hover, .main-navigation .menu-item-has-children:not(.menu-item-has-mega-menu):not(.button) ul.sub-menu li a:focus {
+  background-color: #417e4b;
+  color: #fff;
+  text-decoration: none;
 }
 .main-navigation .menu-item-has-children:not(.menu-item-has-mega-menu):not(.button):hover > ul.sub-menu, .main-navigation .menu-item-has-children:not(.menu-item-has-mega-menu):not(.button):focus-within > ul.sub-menu {
   display: block;
