@@ -14,6 +14,19 @@
 	margin-left: auto;
 }
 
+.container,
+.container-lg,
+.container-md,
+.container-sm,
+.container-fluid {
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: $container-padding-x;
+	padding-right: $container-padding-x;
+	box-sizing: border-box;
+}
+
 // Standard Responsive Container
 // Uses max-width that changes at each breakpoint.
 .container {

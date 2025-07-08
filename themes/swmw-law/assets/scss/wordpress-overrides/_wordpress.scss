@@ -1,205 +1,249 @@
 // Main WordPress Overrides Aggregator
 // This file forwards all specific WordPress override partials.
+@use "sass:map";
 @use "../variables/variables" as *;
+@use "../variables/breakpoints" as *;
 @use "../base/buttons" as *; // Ensure button mixins are available
 
-/* WordPress Core */
+/* ==========================================================================
+   #WORDPRESS-CONTENT-WIDTHS
+   ========================================================================== */
 
-.alignnone {
-	margin: $spacing-4 $spacing-4 $spacing-4 0;
+// NOTE: Use descendant selectors so width rules apply to blocks at any nesting level, not just direct children.
+
+// 1. Default (none): 100% width, inherits universal container padding
+// Default container alignment
+.wp-block,
+.wp-block-group,
+.wp-block-image,
+.wp-acf-block {
+  max-width: $container-max-width-lg;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: $container-padding-x;
+  padding-right: $container-padding-x;
+  box-sizing: border-box;
 }
 
-.aligncenter,
-div.aligncenter {
-	display: block;
-	margin: $spacing-4 auto;
+// Custom "sm" alignment
+.wp-block.alignsm,
+.wp-block-group.alignsm,
+.alignsm {
+  max-width: $container-max-width-sm;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: $container-padding-x;
+  padding-right: $container-padding-x;
+  box-sizing: border-box;
 }
 
-.alignright {
-	float: right;
-	margin: $spacing-4 0 $spacing-4 $spacing-4;
-}
-
-.alignleft {
-	float: left;
-	margin: $spacing-4 $spacing-4 $spacing-4 0;
-}
-
-.alignfull {
-	width: 100vw;
-	margin-left: calc(50% - 50vw);
-	margin-right: calc(50% - 50vw);
-}
-
+// Wide
+.wp-block.alignwide,
+.wp-block-group.alignwide,
 .alignwide {
-	width: 100%;
-	max-width: var(--wp--style--global--wide-size, 1320px);
-	margin-inline: auto;
-	padding-inline: $container-padding-x;
+  max-width: 1140px !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 1.5rem !important;
+  padding-right: 1.5rem !important;
+  box-sizing: border-box !important;
 }
+
+// Full
+.wp-block.alignfull,
+.wp-block-group.alignfull,
+.alignfull {
+  max-width: 100vw !important;
+  width: 100vw !important;
+  margin-left: calc(50% - 50vw) !important;
+  margin-right: calc(50% - 50vw) !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
+
+
+/* ================================
+   IMAGE ALIGNMENT OVERRIDES
+   ================================ */
 
 a img.alignright {
-	float: right;
-	margin: $spacing-4 0 $spacing-4 $spacing-4;
+  float: right;
+  margin: $spacing-4 0 $spacing-4 $spacing-4;
 }
 
 a img.alignnone {
-	margin: $spacing-4 $spacing-4 $spacing-4 0;
-  max-width: $container-sm;
+  margin: $spacing-4 $spacing-4 $spacing-4 0;
+  max-width: $container-max-width-sm;
 }
 
 a img.alignleft {
-	float: left;
-	margin: $spacing-4 $spacing-4 $spacing-4 0;
+  float: left;
+  margin: $spacing-4 $spacing-4 $spacing-4 0;
 }
 
 a img.aligncenter {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
+
+/* ================================
+   WORDPRESS CAPTION STYLES
+   ================================ */
 
 .wp-caption {
-	background: $color-background;
-	border: 1px solid $color-border;
-	max-width: 96%;
-	padding: $spacing-2;
-	text-align: center;
+  background: $color-background;
+  border: 1px solid $color-border;
+  max-width: 96%;
+  padding: $spacing-2;
+  text-align: center;
 
-	&.alignnone,
-	&.alignleft {
-		margin: $spacing-4 $spacing-4 $spacing-4 0;
-	}
+  &.alignnone,
+  &.alignleft {
+    margin: $spacing-4 $spacing-4 $spacing-4 0;
+  }
 
-	&.alignright {
-		margin: $spacing-4 0 $spacing-4 $spacing-4;
-	}
+  &.alignright {
+    margin: $spacing-4 0 $spacing-4 $spacing-4;
+  }
 
-	img {
-		border: 0 none;
-		height: auto;
-		margin: 0;
-		max-width: 98.5%;
-		padding: 0;
-		width: auto;
-	}
+  img {
+    border: 0 none;
+    height: auto;
+    margin: 0;
+    max-width: 98.5%;
+    padding: 0;
+    width: auto;
+  }
 
-	p.wp-caption-text {
-		font-size: $font-size-sm;
-		line-height: $base-line-height;
-		margin: 0;
-		padding: $spacing-2 0;
-	}
+  p.wp-caption-text {
+    font-size: $font-size-sm;
+    line-height: $base-line-height;
+    margin: 0;
+    padding: $spacing-2 0;
+  }
 }
+
+/* ================================
+   ACCESSIBILITY
+   ================================ */
 
 .screen-reader-text {
-	clip: rect(1px, 1px, 1px, 1px);
-	position: absolute !important;
-	height: 1px;
-	width: 1px;
-	overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
 
-	&:focus {
-		background-color: $color-background;
-		border-radius: $border-radius;
-		box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
-		clip: auto !important;
-		color: $color-text;
-		display: block;
-		font-size: $font-size-sm;
-		font-weight: $font-weight-bold;
-		height: auto;
-		left: $spacing-1;
-		line-height: normal;
-		padding: $spacing-3;
-		text-decoration: none;
-		top: $spacing-1;
-		width: auto;
-		z-index: 100000;
-	}
+  &:focus {
+    background-color: $color-background;
+    border-radius: $border-radius;
+    box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
+    clip: auto !important;
+    color: $color-text;
+    display: block;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-bold;
+    height: auto;
+    left: $spacing-1;
+    line-height: normal;
+    padding: $spacing-3;
+    text-decoration: none;
+    top: $spacing-1;
+    width: auto;
+    z-index: 100000;
+  }
 }
 
+/* ================================
+   GALLERY STYLES
+   ================================ */
+
 .gallery {
-	margin-bottom: $spacing-4;
+  margin-bottom: $spacing-4;
 
-	&-item {
-		display: inline-block;
-		text-align: center;
-		vertical-align: top;
-		width: 100%;
-		padding: $spacing-2;
+  &-item {
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+    width: 100%;
+    padding: $spacing-2;
 
-		img {
-			border: none;
-			vertical-align: middle;
-		}
-	}
+    img {
+      border: none;
+      vertical-align: middle;
+    }
+  }
 
-	&-columns-2 .gallery-item {
-		max-width: 50%;
-	}
+  &-columns-2 .gallery-item {
+    max-width: 50%;
+  }
 
-	&-columns-3 .gallery-item {
-		max-width: 33.33%;
-	}
+  &-columns-3 .gallery-item {
+    max-width: 33.33%;
+  }
 
-	&-columns-4 .gallery-item {
-		max-width: 25%;
-	}
+  &-columns-4 .gallery-item {
+    max-width: 25%;
+  }
 
-	&-columns-5 .gallery-item {
-		max-width: 20%;
-	}
+  &-columns-5 .gallery-item {
+    max-width: 20%;
+  }
 
-	&-columns-6 .gallery-item {
-		max-width: 16.66%;
-	}
+  &-columns-6 .gallery-item {
+    max-width: 16.66%;
+  }
 
-	&-columns-7 .gallery-item {
-		max-width: 14.28%;
-	}
+  &-columns-7 .gallery-item {
+    max-width: 14.28%;
+  }
 
-	&-columns-8 .gallery-item {
-		max-width: 12.5%;
-	}
+  &-columns-8 .gallery-item {
+    max-width: 12.5%;
+  }
 
-	&-columns-9 .gallery-item {
-		max-width: 11.11%;
-	}
+  &-columns-9 .gallery-item {
+    max-width: 11.11%;
+  }
 }
 
 .gallery-caption {
-	display: block;
-	font-size: $font-size-sm;
-	padding: $spacing-2;
-	margin: 0;
+  display: block;
+  font-size: $font-size-sm;
+  padding: $spacing-2;
+  margin: 0;
 }
 
-// Blockquotes
+/* ================================
+   BLOCKQUOTE STYLES
+   ================================ */
+
 blockquote {
-	margin: 0 0 $spacing-6 $spacing-6;
-	padding: 0 0 0 $spacing-6;
-	border-left: 3px solid $color-border;
-	font-style: italic;
+  margin: 0 0 $spacing-6 $spacing-6;
+  padding: 0 0 0 $spacing-6;
+  border-left: 3px solid $color-border;
+  font-style: italic;
 
-	p:last-child {
-		margin-bottom: $spacing-0;
-	}
+  p:last-child {
+    margin-bottom: $spacing-0;
+  }
 }
 
-// WordPress Core Button Enhancements
-// Apply custom animation to default (fill) and outline buttons.
+/* ================================
+   WORDPRESS BUTTON ENHANCEMENTS
+   ================================ */
 
 // Default (Fill) Button Style
 .wp-block-button:not(.is-style-outline) .wp-block-button__link {
-
-	@include button-appearance;
-	@include button-animation;
+  @include button-appearance;
+  @include button-animation;
 }
 
 // Outline Button Style
 .wp-block-button.is-style-outline .wp-block-button__link {
-
-	@include button-animation;
+  @include button-animation;
 }
 

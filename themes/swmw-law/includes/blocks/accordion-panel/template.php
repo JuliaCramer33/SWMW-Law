@@ -14,7 +14,7 @@
 $panel_title = get_field('panel_title') ?: 'Accordion Title'; // Fallback for title
 $open_by_default = get_field('open_by_default');
 
-$classes = ['accordion-panel'];
+$classes = ['wp-block', 'accordion-panel'];
 if ( $open_by_default ) {
     $classes[] = 'is-open';
 }

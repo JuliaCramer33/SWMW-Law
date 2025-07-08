@@ -10,18 +10,18 @@
 		align-items: flex-start;
 
 		.image-split-column {
-			width: $width-half;
+			width: $flex-col-6-width;
 			box-sizing: border-box;
 
 			&.image-side {
 				.image-stack {
 					position: relative;
-					width: $width-full;
+					width: $flex-col-12-width;
 					overflow: hidden;
 
 					.image-1 {
 						display: block;
-						width: $width-full;
+						width: $flex-col-12-width;
 						height: auto;
 						max-height: 840px;
 						object-fit: cover;
@@ -59,7 +59,7 @@
 			gap: $spacing-5;
 
 			.image-split-column {
-				width: $width-full;
+				width: $flex-col-12-width;
 			}
 
 			&.align-left,
@@ -138,7 +138,7 @@
 
 .editor-styles-wrapper .wp-block-acf-image-split-block .image-split-column {
 	box-sizing: border-box;
-	width: $width-half;
+	width: $flex-col-6-width;
 }
 
 .editor-styles-wrapper .wp-block-acf-image-split-block .image-stack {

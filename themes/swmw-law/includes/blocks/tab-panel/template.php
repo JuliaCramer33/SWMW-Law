@@ -11,7 +11,7 @@ $allowed_blocks = true; // Allow all blocks inside a panel.
 // Get the tab title field.
 $tab_title = get_field( 'tab_title' ) ?: 'Tab';
 
-$wrapper_attributes = get_block_wrapper_attributes( [ 'data-tab-title' => esc_attr( $tab_title ) ] );
+$wrapper_attributes = get_block_wrapper_attributes( [ 'class' => 'wp-block', 'data-tab-title' => esc_attr( $tab_title ) ] );
 
 ?>
 <div <?php echo $wrapper_attributes; ?>>

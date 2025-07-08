@@ -14,6 +14,6 @@
 $allowed_blocks = array( 'acf/accordion-panel' );
 
 ?>
-<div <?php echo get_block_wrapper_attributes( [ 'class' => 'accordion-block' ] ); ?>>
+<div <?php echo wp_kses_post( get_block_wrapper_attributes( [ 'class' => 'wp-block accordion-block' ] ) ); ?>>
     <InnerBlocks allowedBlocks="<?php echo esc_attr( wp_json_encode( $allowed_blocks ) ); ?>" />
 </div> 

@@ -28,7 +28,7 @@ $image_2 = get_field('image_2'); // Expects image array
 $image_alignment = get_field('image_alignment') ?: 'left'; // Default to left
 
 // Combine all classes for the wrapper
-$all_wrapper_classes = [ 'image-split-block', 'align-' . $image_alignment ];
+$all_wrapper_classes = [ 'wp-block', 'image-split-block', 'align-' . $image_alignment ];
 if ( ! empty( $block['className'] ) ) {
     $all_wrapper_classes[] = $block['className'];
 }

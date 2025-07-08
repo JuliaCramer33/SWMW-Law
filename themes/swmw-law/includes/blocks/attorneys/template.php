@@ -23,7 +23,7 @@ if (!empty($selected_attorneys)) {
     $attorneys_query = new WP_Query($args);
     ?>
 
-    <div <?php echo get_block_wrapper_attributes( [ 'class' => 'attorneys-block' ] ); ?>>
+    <div <?php echo wp_kses_post( get_block_wrapper_attributes( [ 'class' => 'wp-block attorneys-block' ] ) ); ?>>
         <?php if ($attorneys_query->have_posts()) : ?>
           <div class="attorneys-slider-wrapper container-lg">
             <div class="splide">

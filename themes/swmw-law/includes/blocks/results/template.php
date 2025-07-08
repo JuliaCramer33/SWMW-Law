@@ -10,7 +10,7 @@
  * @package SWMW_Law
  */
 
-$class_name = 'results-block';
+$class_name = 'wp-block results-block';
 if ( ! empty( $block['className'] ) ) {
     $class_name .= ' ' . $block['className'];
 }
