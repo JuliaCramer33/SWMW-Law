@@ -277,6 +277,120 @@ if (typeof window !== 'undefined' && typeof document !== 'undefined') {
 
 /***/ }),
 
+/***/ "./assets/js/hero-dropdown-nav.js":
+/*!****************************************!*\
+  !*** ./assets/js/hero-dropdown-nav.js ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   initHeroDropdownNav: () => (/* binding */ initHeroDropdownNav)
+/* harmony export */ });
+/**
+ * Hero Dropdown Navigation Toggle
+ * Adds toggle functionality for dropdown navigation in hero sections
+ */
+
+function initHeroDropdownNav() {
+  // Find all hamburger menu toggles
+  const toggles = document.querySelectorAll('.hamburger-menu-toggle');
+  toggles.forEach(function (toggle) {
+    // Get the menu title from the navigation block
+    const heroNav = toggle.closest('.hero-dropdown-menu');
+    const navBlock = heroNav ? heroNav.querySelector('.hero-nav-list') : null;
+    let menuTitle = 'Menu'; // Default fallback
+
+    if (navBlock) {
+      // Try multiple ways to get the navigation title
+      const navTitle = navBlock.getAttribute('data-menu-title') ||
+      // Custom data attribute
+      navBlock.getAttribute('aria-label') ||
+      // WordPress navigation label
+      navBlock.getAttribute('data-title') ||
+      // Alternative title attribute
+      navBlock.querySelector('.wp-block-navigation__container')?.getAttribute('aria-label') || navBlock.querySelector('.wp-block-navigation__container')?.getAttribute('data-title');
+      if (navTitle && navTitle.trim() !== '') {
+        menuTitle = navTitle.trim();
+      }
+    }
+
+    // Set the initial label text
+    const label = toggle.querySelector('.hamburger-label');
+    if (label) {
+      label.textContent = menuTitle;
+    }
+    toggle.addEventListener('click', function (event) {
+      // Prevent default behavior
+      event.preventDefault();
+      if (heroNav) {
+        // Toggle the is-open class
+        heroNav.classList.toggle('is-open');
+
+        // Update hamburger icon animation
+        const hamburgerIcon = toggle.querySelector('.hamburger-icon');
+        if (hamburgerIcon) {
+          hamburgerIcon.classList.toggle('is-active');
+        }
+
+        // Update label text
+        if (label) {
+          const isOpen = heroNav.classList.contains('is-open');
+          label.textContent = isOpen ? 'Close' : menuTitle;
+        }
+      }
+    });
+
+    // Add close button functionality
+    const closeButton = heroNav ? heroNav.querySelector('.hero-nav-close') : null;
+    if (closeButton) {
+      closeButton.addEventListener('click', function (event) {
+        event.preventDefault();
+        if (heroNav) {
+          // Remove the is-open class
+          heroNav.classList.remove('is-open');
+
+          // Update hamburger icon animation
+          const hamburgerIcon = toggle.querySelector('.hamburger-icon');
+          if (hamburgerIcon) {
+            hamburgerIcon.classList.remove('is-active');
+          }
+
+          // Update label text back to original
+          if (label) {
+            label.textContent = menuTitle;
+          }
+        }
+      });
+    }
+
+    // Add click outside handler to close menu
+    document.addEventListener('click', function (event) {
+      if (heroNav && heroNav.classList.contains('is-open')) {
+        // Check if click is outside the menu
+        if (!heroNav.contains(event.target)) {
+          // Remove the is-open class
+          heroNav.classList.remove('is-open');
+
+          // Update hamburger icon animation
+          const hamburgerIcon = toggle.querySelector('.hamburger-icon');
+          if (hamburgerIcon) {
+            hamburgerIcon.classList.remove('is-active');
+          }
+
+          // Update label text back to original
+          if (label) {
+            label.textContent = menuTitle;
+          }
+        }
+      }
+    });
+  });
+}
+
+/***/ }),
+
 /***/ "./assets/js/mega-menu.js":
 /*!********************************!*\
   !*** ./assets/js/mega-menu.js ***!
@@ -702,6 +816,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _blocks_attorneys_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./blocks/attorneys.js */ "./assets/js/blocks/attorneys.js");
 /* harmony import */ var _blocks_attorneys_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_blocks_attorneys_js__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _blocks_accordion_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./blocks/accordion.js */ "./assets/js/blocks/accordion.js");
+/* harmony import */ var _hero_dropdown_nav_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./hero-dropdown-nav.js */ "./assets/js/hero-dropdown-nav.js");
 //Import any JS here
 
  // Import the module
@@ -711,6 +826,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+console.log('MAIN.JS - Imported initHeroDropdownNav:', typeof _hero_dropdown_nav_js__WEBPACK_IMPORTED_MODULE_7__.initHeroDropdownNav);
 // Import other modules like initModals if you create them
 
 /**
@@ -721,7 +838,7 @@ __webpack_require__.r(__webpack_exports__);
 (function ($) {
   'use strict';
 
-  // console.log('MAIN.JS JQUERY WRAPPER EXECUTING');
+  console.log('MAIN.JS JQUERY WRAPPER EXECUTING');
 
   /**
    * Initialize modal functionality - kept here for now, can be modularized later if desired
@@ -743,7 +860,7 @@ __webpack_require__.r(__webpack_exports__);
 
   // Document ready
   $(document).ready(function () {
-    // console.log('MAIN.JS DOCUMENT READY');
+    console.log('MAIN.JS DOCUMENT READY');
     (0,_mobile_menu_js__WEBPACK_IMPORTED_MODULE_1__.initMobileMenu)();
     (0,_mobile_menu_js__WEBPACK_IMPORTED_MODULE_1__.initMobileSubMenus)(); // Call the new mobile submenu initializer
     console.log('MAIN.JS - ABOUT TO CALL initMegaMenus()');
@@ -752,14 +869,61 @@ __webpack_require__.r(__webpack_exports__);
     console.log('MAIN.JS - ABOUT TO CALL moveMegaPanels()');
     (0,_mega_menu_js__WEBPACK_IMPORTED_MODULE_2__.moveMegaPanels)();
     console.log('MAIN.JS - ABOUT TO CALL equalizeMegaMenuHeights()');
-    (0,_mega_menu_js__WEBPACK_IMPORTED_MODULE_2__.equalizeMegaMenuHeights)();
-    initModals(); // Assuming this is still initialized here
-    (0,_button_hover_animation_js__WEBPACK_IMPORTED_MODULE_0__["default"])();
-    (0,_blocks_results_js__WEBPACK_IMPORTED_MODULE_3__.initResultsSlider)(); // Initialize the results slider
-    (0,_blocks_testimonials_js__WEBPACK_IMPORTED_MODULE_4__.initTestimonialsSlider)(); // Initialize the testimonials slider
-    (0,_blocks_attorneys_js__WEBPACK_IMPORTED_MODULE_5__.initAttorneysSlider)(); // Initialize the attorneys slider
-    initLoadMoreAttorneys(); // Initialize the load more attorneys functionality
-    new _blocks_accordion_js__WEBPACK_IMPORTED_MODULE_6__.AccordionBlock();
+    try {
+      (0,_mega_menu_js__WEBPACK_IMPORTED_MODULE_2__.equalizeMegaMenuHeights)();
+      console.log('MAIN.JS - FINISHED CALLING equalizeMegaMenuHeights()');
+    } catch (error) {
+      console.error('MAIN.JS - ERROR in equalizeMegaMenuHeights():', error);
+    }
+    try {
+      initModals(); // Assuming this is still initialized here
+      console.log('MAIN.JS - FINISHED CALLING initModals()');
+    } catch (error) {
+      console.error('MAIN.JS - ERROR in initModals():', error);
+    }
+    try {
+      (0,_button_hover_animation_js__WEBPACK_IMPORTED_MODULE_0__["default"])();
+      console.log('MAIN.JS - FINISHED CALLING initializeButtonHoverAnimation()');
+    } catch (error) {
+      console.error('MAIN.JS - ERROR in initializeButtonHoverAnimation():', error);
+    }
+    try {
+      (0,_blocks_results_js__WEBPACK_IMPORTED_MODULE_3__.initResultsSlider)(); // Initialize the results slider
+      console.log('MAIN.JS - FINISHED CALLING initResultsSlider()');
+    } catch (error) {
+      console.error('MAIN.JS - ERROR in initResultsSlider():', error);
+    }
+    try {
+      (0,_blocks_testimonials_js__WEBPACK_IMPORTED_MODULE_4__.initTestimonialsSlider)(); // Initialize the testimonials slider
+      console.log('MAIN.JS - FINISHED CALLING initTestimonialsSlider()');
+    } catch (error) {
+      console.error('MAIN.JS - ERROR in initTestimonialsSlider():', error);
+    }
+    try {
+      (0,_blocks_attorneys_js__WEBPACK_IMPORTED_MODULE_5__.initAttorneysSlider)(); // Initialize the attorneys slider
+      console.log('MAIN.JS - FINISHED CALLING initAttorneysSlider()');
+    } catch (error) {
+      console.error('MAIN.JS - ERROR in initAttorneysSlider():', error);
+    }
+    try {
+      initLoadMoreAttorneys(); // Initialize the load more attorneys functionality
+      console.log('MAIN.JS - FINISHED CALLING initLoadMoreAttorneys()');
+    } catch (error) {
+      console.error('MAIN.JS - ERROR in initLoadMoreAttorneys():', error);
+    }
+    try {
+      new _blocks_accordion_js__WEBPACK_IMPORTED_MODULE_6__.AccordionBlock();
+      console.log('MAIN.JS - FINISHED CALLING AccordionBlock()');
+    } catch (error) {
+      console.error('MAIN.JS - ERROR in AccordionBlock():', error);
+    }
+    console.log('MAIN.JS - ABOUT TO CALL initHeroDropdownNav()');
+    try {
+      (0,_hero_dropdown_nav_js__WEBPACK_IMPORTED_MODULE_7__.initHeroDropdownNav)(); // Initialize the hero dropdown navigation
+      console.log('MAIN.JS - FINISHED CALLING initHeroDropdownNav()');
+    } catch (error) {
+      console.error('MAIN.JS - ERROR in initHeroDropdownNav():', error);
+    }
   });
 
   // Window load - can also be modularized if needed

@@ -1,0 +1,166 @@
+@use "../variables/variables" as *;
+
+/**
+ * Hero Dropdown Menu Block Styles
+ * Styles for the hero dropdown menu ACF block
+ */
+
+.hero-dropdown-menu {
+  width: 100%;
+
+  .hero-dropdown-container {
+    position: relative;
+    width: 100%;
+  }
+
+  .hamburger-menu-toggle {
+    display: flex;
+    align-items: center;
+    gap: $spacing-4;
+    padding: $spacing-4 $spacing-8;
+    background-color: $color-gray-lightest;
+    color: $color-text;
+    border-radius: $border-radius;
+    cursor: pointer;
+    transition: $transition-base;
+    border: none;
+    font-size: 14px;
+    font-family: $font-montserrat;
+    font-weight: $font-weight-semibold;
+    box-shadow: $box-shadow;
+    width: 100%;
+
+    &:hover, &:focus {
+      background-color: $color-background-light;
+      color: $color-primary;
+    }
+  }
+
+  .hamburger-icon {
+    display: flex;
+    flex-direction: column;
+    width: 20px;
+    height: 16px;
+    justify-content: space-between;
+
+    span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background-color: $color-text;
+      transition: $transition-base;
+      border-radius: $border-radius-pill;
+    }
+
+    &.is-active {
+      span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+      span:nth-child(2) { opacity: 0; }
+      span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+    }
+  }
+
+  .hamburger-label {
+    font-weight: $font-weight-bold;
+    color: $color-text;
+    font-size: 14px;
+    font-family: $font-montserrat;
+  }
+
+  .hero-nav-list {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background-color: white;
+    box-shadow: $box-shadow-lg;
+    border-radius: 0 0 $border-radius $border-radius;
+    padding: $spacing-4 0;
+    margin-top: 0;
+    z-index: $z-index-dropdown;
+    text-align: left;
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      li {
+        margin: 0;
+
+        a {
+          display: block;
+          padding: $spacing-4 $spacing-8;
+          color: $color-text;
+          text-decoration: none;
+          font-size: 14px;
+          font-family: $font-montserrat;
+          font-weight: $font-weight-semibold;
+          transition: $transition-base;
+          border-radius: $border-radius;
+
+          &:hover, &:focus {
+            background-color: $color-background-light;
+            color: $color-primary;
+          }
+        }
+
+        &.is-active > a,
+        &.current-menu-item > a {
+          background-color: $color-secondary;
+          color: $color-white;
+        }
+      }
+    }
+  }
+
+  &.is-open {
+    .hamburger-menu-toggle {
+      border-radius: $border-radius $border-radius 0 0;
+      color: $color-secondary;
+    }
+
+    .hamburger-icon span {
+      background-color: $color-secondary;
+    }
+
+    .hamburger-label {
+      color: $color-secondary;
+    }
+
+    .hero-nav-list {
+      display: block;
+    }
+  }
+
+  .hero-nav-close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.75rem;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: #12477a;
+    cursor: pointer;
+    z-index: 101;
+    padding: 0;
+    line-height: 1;
+    transition: color 0.2s;
+    &:hover, &:focus {
+      color: #417e4b;
+      outline: none;
+    }
+  }
+
+  // Responsive styles
+  @media (max-width: 768px) {
+    .hero-nav-list {
+      min-width: 220px;
+      max-width: calc(100vw - 2rem);
+      right: 0;
+      left: auto;
+      transform: none;
+    }
+  }
+} 

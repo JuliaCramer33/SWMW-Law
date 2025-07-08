@@ -11,6 +11,8 @@ import { initResultsSlider } from './blocks/results.js';
 import { initTestimonialsSlider } from './blocks/testimonials.js';
 import { initAttorneysSlider } from './blocks/attorneys.js';
 import { AccordionBlock } from './blocks/accordion.js';
+import { initHeroDropdownNav } from './hero-dropdown-nav.js';
+console.log('MAIN.JS - Imported initHeroDropdownNav:', typeof initHeroDropdownNav);
 // Import other modules like initModals if you create them
 
 /**
@@ -20,7 +22,7 @@ import { AccordionBlock } from './blocks/accordion.js';
 
 (function ($) {
   'use strict';
-  // console.log('MAIN.JS JQUERY WRAPPER EXECUTING');
+  console.log('MAIN.JS JQUERY WRAPPER EXECUTING');
 
   /**
    * Initialize modal functionality - kept here for now, can be modularized later if desired
@@ -42,7 +44,7 @@ import { AccordionBlock } from './blocks/accordion.js';
 
   // Document ready
   $(document).ready(function () {
-    // console.log('MAIN.JS DOCUMENT READY');
+    console.log('MAIN.JS DOCUMENT READY');
     initMobileMenu();
     initMobileSubMenus(); // Call the new mobile submenu initializer
     console.log('MAIN.JS - ABOUT TO CALL initMegaMenus()');
@@ -51,14 +53,69 @@ import { AccordionBlock } from './blocks/accordion.js';
     console.log('MAIN.JS - ABOUT TO CALL moveMegaPanels()');
     moveMegaPanels();
     console.log('MAIN.JS - ABOUT TO CALL equalizeMegaMenuHeights()');
-    equalizeMegaMenuHeights();
-    initModals(); // Assuming this is still initialized here
-    initializeButtonHoverAnimation();
-    initResultsSlider(); // Initialize the results slider
-    initTestimonialsSlider(); // Initialize the testimonials slider
-    initAttorneysSlider(); // Initialize the attorneys slider
-    initLoadMoreAttorneys(); // Initialize the load more attorneys functionality
-    new AccordionBlock();
+    try {
+      equalizeMegaMenuHeights();
+      console.log('MAIN.JS - FINISHED CALLING equalizeMegaMenuHeights()');
+    } catch (error) {
+      console.error('MAIN.JS - ERROR in equalizeMegaMenuHeights():', error);
+    }
+
+    try {
+      initModals(); // Assuming this is still initialized here
+      console.log('MAIN.JS - FINISHED CALLING initModals()');
+    } catch (error) {
+      console.error('MAIN.JS - ERROR in initModals():', error);
+    }
+
+    try {
+      initializeButtonHoverAnimation();
+      console.log('MAIN.JS - FINISHED CALLING initializeButtonHoverAnimation()');
+    } catch (error) {
+      console.error('MAIN.JS - ERROR in initializeButtonHoverAnimation():', error);
+    }
+
+    try {
+      initResultsSlider(); // Initialize the results slider
+      console.log('MAIN.JS - FINISHED CALLING initResultsSlider()');
+    } catch (error) {
+      console.error('MAIN.JS - ERROR in initResultsSlider():', error);
+    }
+
+    try {
+      initTestimonialsSlider(); // Initialize the testimonials slider
+      console.log('MAIN.JS - FINISHED CALLING initTestimonialsSlider()');
+    } catch (error) {
+      console.error('MAIN.JS - ERROR in initTestimonialsSlider():', error);
+    }
+
+    try {
+      initAttorneysSlider(); // Initialize the attorneys slider
+      console.log('MAIN.JS - FINISHED CALLING initAttorneysSlider()');
+    } catch (error) {
+      console.error('MAIN.JS - ERROR in initAttorneysSlider():', error);
+    }
+
+    try {
+      initLoadMoreAttorneys(); // Initialize the load more attorneys functionality
+      console.log('MAIN.JS - FINISHED CALLING initLoadMoreAttorneys()');
+    } catch (error) {
+      console.error('MAIN.JS - ERROR in initLoadMoreAttorneys():', error);
+    }
+
+    try {
+      new AccordionBlock();
+      console.log('MAIN.JS - FINISHED CALLING AccordionBlock()');
+    } catch (error) {
+      console.error('MAIN.JS - ERROR in AccordionBlock():', error);
+    }
+
+    console.log('MAIN.JS - ABOUT TO CALL initHeroDropdownNav()');
+    try {
+      initHeroDropdownNav(); // Initialize the hero dropdown navigation
+      console.log('MAIN.JS - FINISHED CALLING initHeroDropdownNav()');
+    } catch (error) {
+      console.error('MAIN.JS - ERROR in initHeroDropdownNav():', error);
+    }
   });
 
   // Window load - can also be modularized if needed

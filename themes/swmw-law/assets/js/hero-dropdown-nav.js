@@ -3,13 +3,13 @@
  * Adds toggle functionality for dropdown navigation in hero sections
  */
 
-document.addEventListener('DOMContentLoaded', function () {
+export function initHeroDropdownNav() {
   // Find all hamburger menu toggles
   const toggles = document.querySelectorAll('.hamburger-menu-toggle');
 
   toggles.forEach(function (toggle) {
     // Get the menu title from the navigation block
-    const heroNav = toggle.closest('.hero-dropdown-nav');
+    const heroNav = toggle.closest('.hero-dropdown-menu');
     const navBlock = heroNav ? heroNav.querySelector('.hero-nav-list') : null;
 
     let menuTitle = 'Menu'; // Default fallback
@@ -55,5 +55,51 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       }
     });
+
+    // Add close button functionality
+    const closeButton = heroNav ? heroNav.querySelector('.hero-nav-close') : null;
+    if (closeButton) {
+      closeButton.addEventListener('click', function (event) {
+        event.preventDefault();
+
+        if (heroNav) {
+          // Remove the is-open class
+          heroNav.classList.remove('is-open');
+
+          // Update hamburger icon animation
+          const hamburgerIcon = toggle.querySelector('.hamburger-icon');
+          if (hamburgerIcon) {
+            hamburgerIcon.classList.remove('is-active');
+          }
+
+          // Update label text back to original
+          if (label) {
+            label.textContent = menuTitle;
+          }
+        }
+      });
+    }
+
+    // Add click outside handler to close menu
+    document.addEventListener('click', function (event) {
+      if (heroNav && heroNav.classList.contains('is-open')) {
+        // Check if click is outside the menu
+        if (!heroNav.contains(event.target)) {
+          // Remove the is-open class
+          heroNav.classList.remove('is-open');
+
+          // Update hamburger icon animation
+          const hamburgerIcon = toggle.querySelector('.hamburger-icon');
+          if (hamburgerIcon) {
+            hamburgerIcon.classList.remove('is-active');
+          }
+
+          // Update label text back to original
+          if (label) {
+            label.textContent = menuTitle;
+          }
+        }
+      }
+    });
   });
-}); 
+} 
