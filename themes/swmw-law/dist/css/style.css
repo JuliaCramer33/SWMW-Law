@@ -10608,7 +10608,6 @@ body.mobile-menu-active {
 .image-split-block .image-split-container .image-split-column.image-side .image-stack {
   position: relative;
   width: 100%;
-  overflow: hidden;
 }
 .image-split-block .image-split-container .image-split-column.image-side .image-stack .image-1 {
   display: block;
@@ -10626,7 +10625,7 @@ body.mobile-menu-active {
   object-fit: cover;
   position: absolute;
   top: auto;
-  bottom: 5%;
+  bottom: -16%;
   left: auto;
   right: 0;
   clip-path: polygon(15% 0%, 100% 0%, 85% 100%, 0% 100%);

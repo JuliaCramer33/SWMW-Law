@@ -17,7 +17,6 @@
 				.image-stack {
 					position: relative;
 					width: $flex-col-12-width;
-					overflow: hidden;
 
 					.image-1 {
 						display: block;
@@ -36,7 +35,7 @@
 						object-fit: cover;
 						position: absolute;
 						top: auto;
-						bottom: 5%;
+						bottom: -16%;
 						left: auto;
 						right: 0;
 						clip-path: polygon(15% 0%, 100% 0%, 85% 100%, 0% 100%);
