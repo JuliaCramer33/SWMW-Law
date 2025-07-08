@@ -22,8 +22,8 @@ add_action( 'init', function () {
 			'description' => __( 'A row for showcasing speaking engagements, presentations, and conference appearances.', 'swmw-law' ),
 			'categories'  => [ 'content' ],
 			'content'     => <<<'EOT'
-<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"1rem","bottom":"1rem","left":"1.25rem","right":"1.25rem"},"blockGap":"0"},"border":{"radius":"6px"},"color":{"background":"#f8f9fa"}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group alignfull has-background" style="background-color:#f8f9fa;border-radius:6px;padding-top:1rem;padding-right:1.25rem;padding-bottom:1rem;padding-left:1.25rem"><!-- wp:heading {"level":4,"style":{"typography":{"fontWeight":"600"}},"textColor":"charcoal","fontSize":"medium"} -->
+<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"0.625rem","bottom":"0.625rem","left":"1.25rem","right":"1.25rem"},"blockGap":"0"},"border":{"radius":"6px"},"color":{"background":"#f8f9fa"}},"layout":{"type":"constrained"}} -->
+<div class="wp-block-group alignfull has-background" style="background-color:#f8f9fa;border-radius:6px;padding-top:0.625rem;padding-right:1.25rem;padding-bottom:0.625rem;padding-left:1.25rem"><!-- wp:heading {"level":4,"style":{"typography":{"fontWeight":"600"}},"textColor":"charcoal","fontSize":"medium"} -->
 <h4 class="has-charcoal-color has-text-color has-medium-font-size" style="font-weight:600">"Daimler: Where Do We Belong and Where Are We Going?"</h4>
 <!-- /wp:heading -->
 

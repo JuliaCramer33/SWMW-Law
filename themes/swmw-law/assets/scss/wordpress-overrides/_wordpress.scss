@@ -63,6 +63,13 @@
   box-sizing: border-box !important;
 }
 
+// Allow padding on full-width blocks when explicitly set
+.wp-block.alignfull[style*="padding"],
+.wp-block-group.alignfull[style*="padding"],
+.alignfull[style*="padding"] {
+  padding: inherit !important;
+}
+
 
 /* ================================
    IMAGE ALIGNMENT OVERRIDES
