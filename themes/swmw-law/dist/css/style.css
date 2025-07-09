@@ -11600,6 +11600,18 @@ body.mobile-menu-active {
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 2rem;
 }
+.swmw-archive-page .swmw-results-grid .wp-block,
+.swmw-archive-page .swmw-results-grid .wp-block-group,
+.swmw-archive-page .swmw-results-grid .wp-block-image,
+.swmw-archive-page .swmw-results-grid .wp-acf-block {
+  max-width: 100%;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  box-sizing: border-box;
+}
 .swmw-archive-page .result-item-inner {
   height: 100%;
   background-color: #fff;
