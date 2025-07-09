@@ -136,7 +136,7 @@ add_action( 'after_setup_theme', __NAMESPACE__ . '\swmw_law_content_width', 0 );
  */
 function swmw_law_attorney_archive_posts_per_page( $query ) {
     if ( ! is_admin() && $query->is_main_query() && is_post_type_archive( 'attorney' ) ) {
-        $query->set( 'posts_per_page', 8 ); // Display 8 attorneys initially
+        $query->set( 'posts_per_page', 16 ); // Display 16 attorneys initially
     }
 }
 add_action( 'pre_get_posts', __NAMESPACE__ . '\swmw_law_attorney_archive_posts_per_page' );
@@ -191,13 +191,16 @@ function swmw_law_load_more_attorneys_handler() {
     }
 
     $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
-    $posts_per_page = 8; // Load 8 attorneys per AJAX request
+    $posts_per_page = 16; // Load 16 attorneys per AJAX request
 
     $args = [
         'post_type'      => 'attorney',
         'posts_per_page' => $posts_per_page,
         'paged'          => $page,
         'post_status'    => 'publish',
+        'meta_key'       => '_attorney_position_priority',
+        'orderby'        => 'meta_value_num title',
+        'order'          => 'ASC',
     ];
 
     $attorneys_query = new \WP_Query( $args );
