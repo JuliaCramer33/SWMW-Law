@@ -46,9 +46,11 @@ if (!empty($selected_attorneys)) {
                                         </a>
                                     </h3>
 
-                                    <?php if ( get_field( 'attorney_title', get_the_ID() ) ) : ?>
+                                    <?php 
+                                    $positions = get_the_terms( get_the_ID(), 'attorney_position' );
+                                    if ( $positions && !is_wp_error( $positions ) ) : ?>
                                         <div class="attorney-title">
-                                            <p><?php the_field( 'attorney_title', get_the_ID() ); ?></p>
+                                            <p><?php echo esc_html( $positions[0]->name ); ?></p>
                                         </div>
                                     <?php endif; ?>
                                 </div>

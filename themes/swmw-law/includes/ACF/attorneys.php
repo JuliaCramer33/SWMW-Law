@@ -19,16 +19,16 @@ function register_attorney_acf_fields() {
         acf_add_local_field_group([
             'key' => 'group_attorney_details', // Unique key
             'title' => 'Attorney Details',
-            'fields' => [
-                [
-                    'key' => 'field_attorney_title', // Unique key for the field
-                    'label' => 'Title',
-                    'name' => 'attorney_title',
-                    'type' => 'text',
-                    'instructions' => 'Enter the attorney\'s professional title (e.g., Partner, Associate).',
-                    'required' => 1, // Make it required
-                ],
-            ],
+            // 'fields' => [
+            //     [
+            //         'key' => 'field_attorney_title', // Unique key for the field
+            //         'label' => 'Title',
+            //         'name' => 'attorney_title',
+            //         'type' => 'text',
+            //         'instructions' => 'Enter the attorney\'s professional title (e.g., Partner, Associate).',
+            //         'required' => 1, // Make it required
+            //     ],
+            // ],
             'location' => [
                 [
                     [

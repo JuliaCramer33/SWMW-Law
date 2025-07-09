@@ -7,7 +7,8 @@
 
 // Get the attorney's data
 $attorney_name  = get_the_title();
-$attorney_title = get_field('attorney_title'); // ACF Field for the job title
+$attorney_positions = get_the_terms( get_the_ID(), 'attorney_position' ); // Use the new taxonomy
+$attorney_title = ($attorney_positions && !is_wp_error($attorney_positions)) ? $attorney_positions[0]->name : '';
 $portrait_url   = get_the_post_thumbnail_url( get_the_ID(), 'large' ); // Use a larger image size
 $states         = get_the_terms( get_the_ID(), 'attorney_license' ); // Corrected Custom Taxonomy 'attorney_license'
 

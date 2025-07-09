@@ -142,21 +142,10 @@ function swmw_law_attorney_archive_posts_per_page( $query ) {
 add_action( 'pre_get_posts', __NAMESPACE__ . '\swmw_law_attorney_archive_posts_per_page' );
 
 /**
- * Sorts the attorney archive page alphabetically by last name.
- *
- * @param string   $orderby The ORDER BY clause of the query.
- * @param WP_Query $query   The WP_Query instance (passed by reference).
- * @return string The modified ORDER BY clause.
+ * Sorts the attorney archive page by position priority, then alphabetically.
+ * This is now handled by the attorney post type registration in includes/post-types/attorneys.php
+ * which uses meta_key '_attorney_position_priority' for sorting.
  */
-function swmw_law_sort_attorneys_by_last_name( $orderby, $query ) {
-	// Check if we are on the main attorney archive page and it's the main query.
-	if ( $query->is_main_query() && is_post_type_archive( 'attorney' ) ) {
-		// Order by the last word in the post_title field (assuming it's the last name).
-		$orderby = "SUBSTRING_INDEX(post_title, ' ', -1) ASC";
-	}
-	return $orderby;
-}
-add_filter( 'posts_orderby', __NAMESPACE__ . '\swmw_law_sort_attorneys_by_last_name', 10, 2 );
 
 /**
  * Modify the main query for the blog (news) archive.

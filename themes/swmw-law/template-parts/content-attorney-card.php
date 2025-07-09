@@ -5,7 +5,8 @@
  * @package SWMW_Law
  */
 
-$position = get_field( 'attorney_title' ); // Corrected field name
+$positions = get_the_terms( get_the_ID(), 'attorney_position' );
+$position = ($positions && !is_wp_error($positions)) ? $positions[0]->name : '';
 ?>
 <article id="post-<?php the_ID(); ?>" <?php post_class('attorney-card-item'); ?>>
 	<div class="attorney-card-image">
