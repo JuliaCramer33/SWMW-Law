@@ -8903,6 +8903,156 @@ label {
     width: 16.666667%;
   }
 }
+/* Z-index Utility Classes
+--------------------------------------------- */
+.z-base {
+  z-index: 1 !important;
+}
+
+.z-content-above {
+  z-index: 10 !important;
+}
+
+.z-skip-link {
+  z-index: 100 !important;
+}
+
+.z-dropdown {
+  z-index: 1000 !important;
+}
+
+.z-overlay {
+  z-index: 990 !important;
+}
+
+.z-sticky {
+  z-index: 1020 !important;
+}
+
+.z-fixed {
+  z-index: 1030 !important;
+}
+
+.z-modal-backdrop {
+  z-index: 1040 !important;
+}
+
+.z-modal {
+  z-index: 1050 !important;
+}
+
+.z-popover {
+  z-index: 1060 !important;
+}
+
+.z-tooltip {
+  z-index: 1070 !important;
+}
+
+.z-above-all {
+  z-index: 9999 !important;
+}
+
+.z-background {
+  z-index: -1 !important;
+}
+
+.z-deep-background {
+  z-index: -10 !important;
+}
+
+.z-0 {
+  z-index: 0 !important;
+}
+
+.z-1 {
+  z-index: 1 !important;
+}
+
+.z-10 {
+  z-index: 10 !important;
+}
+
+.z-20 {
+  z-index: 20 !important;
+}
+
+.z-30 {
+  z-index: 30 !important;
+}
+
+.z-40 {
+  z-index: 40 !important;
+}
+
+.z-50 {
+  z-index: 50 !important;
+}
+
+.z-100 {
+  z-index: 100 !important;
+}
+
+.z-200 {
+  z-index: 200 !important;
+}
+
+.z-300 {
+  z-index: 300 !important;
+}
+
+.z-400 {
+  z-index: 400 !important;
+}
+
+.z-500 {
+  z-index: 500 !important;
+}
+
+.z-1000 {
+  z-index: 1000 !important;
+}
+
+.z-2000 {
+  z-index: 2000 !important;
+}
+
+.z-3000 {
+  z-index: 3000 !important;
+}
+
+.z-4000 {
+  z-index: 4000 !important;
+}
+
+.z-5000 {
+  z-index: 5000 !important;
+}
+
+.z-9999 {
+  z-index: 9999 !important;
+}
+
+.z-n1 {
+  z-index: -1 !important;
+}
+
+.z-n10 {
+  z-index: -10 !important;
+}
+
+.z-n100 {
+  z-index: -100 !important;
+}
+
+.z-auto {
+  z-index: auto !important;
+}
+
+.z-inherit {
+  z-index: inherit !important;
+}
+
 /*!
  * SWMW Law Theme
  * Main SCSS file
@@ -11619,7 +11769,6 @@ body.mobile-menu-active {
    ========================================================================== */
 .wp-block,
 .wp-block-group,
-.wp-block-image,
 .wp-acf-block {
   max-width: 100%;
   width: 100%;
