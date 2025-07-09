@@ -11769,6 +11769,7 @@ body.mobile-menu-active {
    ========================================================================== */
 .wp-block,
 .wp-block-group,
+.wp-block-columns,
 .wp-acf-block {
   max-width: 100%;
   width: 100%;
@@ -11781,6 +11782,8 @@ body.mobile-menu-active {
 
 .wp-block.alignsm,
 .wp-block-group.alignsm,
+.wp-block-columns.alignsm,
+.wp-acf-block.alignsm,
 .alignsm {
   max-width: 960px;
   margin-left: auto;
@@ -11792,6 +11795,8 @@ body.mobile-menu-active {
 
 .wp-block.alignwide,
 .wp-block-group.alignwide,
+.wp-block-columns.alignwide,
+.wp-acf-block.alignwide,
 .alignwide {
   max-width: 1140px !important;
   width: 100% !important;
@@ -11804,6 +11809,8 @@ body.mobile-menu-active {
 
 .wp-block.alignfull,
 .wp-block-group.alignfull,
+.wp-block-columns.alignfull,
+.wp-acf-block.alignfull,
 .alignfull {
   max-width: 100vw !important;
   width: 100vw !important;
@@ -11815,6 +11822,8 @@ body.mobile-menu-active {
 
 .wp-block.alignfull[style*=padding],
 .wp-block-group.alignfull[style*=padding],
+.wp-block-columns.alignfull[style*=padding],
+.wp-acf-block.alignfull[style*=padding],
 .alignfull[style*=padding] {
   padding: inherit !important;
 }
