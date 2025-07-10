@@ -9579,6 +9579,9 @@ label {
 .utility-navigation ul {
   justify-content: flex-end;
 }
+.utility-navigation ul li {
+  margin: 0;
+}
 .utility-navigation a:not(.button):not([class*=free-consultation-button]) {
   font-size: 0.875rem;
   color: #43383e;

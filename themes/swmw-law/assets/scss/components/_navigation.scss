@@ -193,6 +193,10 @@
 .utility-navigation {
 	ul {
 		justify-content: flex-end;
+
+		li {
+			margin: 0;
+		}
 	}
 
 	a:not(.button):not([class*="free-consultation-button"]) {
