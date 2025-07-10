@@ -101,6 +101,14 @@
 		padding: 0;
 		transition: transform 0.2s ease-in-out;
 
+		&.splide__arrow--prev {
+			transform: rotate(180deg) !important;
+		}
+
+		&.splide__arrow--next {
+			transform: rotate(180deg) !important;
+		}
+
 		svg {
 			stroke: $color-primary !important;
 			width: 1.75rem;

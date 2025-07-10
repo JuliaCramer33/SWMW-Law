@@ -105,6 +105,10 @@
 			transform: rotate(180deg) !important;
 		}
 
+		&.splide__arrow--prev {
+			transform: rotate(180deg) !important;
+		}
+
 		svg {
 			stroke: #12477a !important;
 			width: 2.5rem;

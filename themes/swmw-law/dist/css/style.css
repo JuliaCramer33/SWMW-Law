@@ -10416,6 +10416,7 @@ body.mobile-menu-active {
 }
 .attorneys-block .attorney-image img {
   transition: transform 0.5s ease;
+  width: 100%;
 }
 .attorneys-block .attorney-image a {
   color: #417e4b;
@@ -10546,6 +10547,12 @@ body.mobile-menu-active {
   padding: 0;
   transition: transform 0.2s ease-in-out;
 }
+.testimonials-block .splide__arrow.splide__arrow--prev {
+  transform: rotate(180deg) !important;
+}
+.testimonials-block .splide__arrow.splide__arrow--next {
+  transform: rotate(180deg) !important;
+}
 .testimonials-block .splide__arrow svg {
   stroke: #12477a !important;
   width: 1.75rem;
@@ -10664,6 +10671,9 @@ body.mobile-menu-active {
   transition: transform 0.2s ease-in-out;
 }
 .results-block .splide__arrow.splide__arrow--next {
+  transform: rotate(180deg) !important;
+}
+.results-block .splide__arrow.splide__arrow--prev {
   transform: rotate(180deg) !important;
 }
 .results-block .splide__arrow svg {
