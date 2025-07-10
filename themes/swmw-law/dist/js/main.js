@@ -191,6 +191,13 @@ function initTestimonialsSlider() {
     return;
   }
   sliders.forEach(slider => {
+    const slides = slider.querySelectorAll('.splide__slide');
+    if (slides.length <= 1) {
+      // If only one testimonial, do NOT initialize Splide
+      const arrows = slider.querySelector('.splide__arrows');
+      if (arrows) arrows.style.display = 'none';
+      return;
+    }
     const splide = new Splide(slider, {
       type: 'loop',
       perPage: 1,

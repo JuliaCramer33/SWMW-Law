@@ -24,6 +24,22 @@
 		height: auto;
 	}
 
+	// Styles for the static grid layout (3 or fewer results)
+	.results-grid {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: $spacing-6;
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: $spacing-4 0;
+
+		.result-item {
+			flex: 0 0 320px;
+			max-width: 320px;
+		}
+	}
+
 	// Styles for each individual result card
 	.result-item-inner {
 		height: 100%;
@@ -144,6 +160,22 @@
 			overflow-x: auto;
 			gap: 1.5rem;
 			padding-bottom: 1rem;
+		}
+
+		// Editor styles for static grid layout
+		.results-grid {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			gap: 1.5rem;
+			max-width: 1200px;
+			margin: 0 auto;
+			padding: 1rem 0;
+
+			.result-item {
+				flex: 0 0 320px;
+				max-width: 320px;
+			}
 		}
 
 		.result-card {

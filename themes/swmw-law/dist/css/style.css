@@ -10607,6 +10607,19 @@ body.mobile-menu-active {
 .results-block .splide__list {
   height: auto;
 }
+.results-block .results-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 0;
+}
+.results-block .results-grid .result-item {
+  flex: 0 0 320px;
+  max-width: 320px;
+}
 .results-block .result-item-inner {
   height: 100%;
   background-color: #fff;
@@ -10703,6 +10716,19 @@ body.mobile-menu-active {
   overflow-x: auto;
   gap: 1.5rem;
   padding-bottom: 1rem;
+}
+.editor-styles-wrapper .wp-block-acf-results .results-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 0;
+}
+.editor-styles-wrapper .wp-block-acf-results .results-grid .result-item {
+  flex: 0 0 320px;
+  max-width: 320px;
 }
 .editor-styles-wrapper .wp-block-acf-results .result-card {
   flex: 0 0 320px;

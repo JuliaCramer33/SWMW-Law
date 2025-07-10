@@ -42,9 +42,11 @@ if ( ! empty( $block['className'] ) ) {
     }
 
     $results_query = new WP_Query( $args );
+    $results_count = $results_query->found_posts;
 
     if ( $results_query->have_posts() ) :
         ?>
+        <?php if ($results_count > 3) : ?>
         <!-- Start: Results Slider -->
         <div class="results-slider splide">
             <div class="splide__track">
@@ -90,6 +92,40 @@ if ( ! empty( $block['className'] ) ) {
             </div>
         </div>
         <!-- End: Results Slider -->
+        <?php else : // 3 or fewer results, output directly ?>
+            <div class="results-grid">
+                <?php while ( $results_query->have_posts() ) : $results_query->the_post(); ?>
+                    <div class="result-item">
+                        <div class="result-item-inner">
+                            <div class="result-content">
+                                <?php
+                                // Get and display the result category
+                                $terms = get_the_terms(get_the_ID(), 'swmw_result_category');
+                                if (!empty($terms) && !is_wp_error($terms)) {
+                                    $category = $terms[0];
+                                    echo '<span class="result-category">' . esc_html($category->name) . '</span>';
+                                }
+
+                                $result_amount = get_field( 'result_amount', get_the_ID() );
+                                ?>
+
+                                <?php if ( $result_amount ) : ?>
+                                    <h3 class="result-amount"><?php echo esc_html( $result_amount ); ?></h3>
+                                <?php endif; ?>
+
+                                <h4 class="result-title"><?php the_title(); ?></h4>
+
+                                <?php if ( has_excerpt() ) : ?>
+                                    <div class="result-description">
+                                        <?php the_excerpt(); ?>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                <?php endwhile; ?>
+            </div>
+        <?php endif; ?>
 
         <?php
         wp_reset_postdata();
