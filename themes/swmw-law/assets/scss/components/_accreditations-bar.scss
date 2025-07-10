@@ -130,7 +130,7 @@
 		}
 
 		&__logos {
-			justify-content: flex-end; // Right-align logos on desktop
+			justify-content: space-evenly; // Right-align logos on desktop
 			flex-wrap: nowrap; // Prevent wrapping on desktop
 		}
 	}

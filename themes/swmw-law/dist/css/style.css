@@ -10098,7 +10098,7 @@ body.mobile-menu-active {
     height: 200px;
   }
   .accreditations-bar__logos {
-    justify-content: flex-end;
+    justify-content: space-evenly;
     flex-wrap: nowrap;
   }
   .accreditations-bar--overlap {
