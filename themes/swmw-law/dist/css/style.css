@@ -9407,6 +9407,7 @@ label {
 }
 .site-footer .footer-main .footer-links .footer-nav-list li a {
   color: #43383e;
+  font-weight: 700;
 }
 .site-footer .footer-main .footer-links .footer-nav-list li a:hover {
   color: #417e4b;
