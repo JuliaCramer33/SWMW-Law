@@ -12,6 +12,7 @@ import { initTestimonialsSlider } from './blocks/testimonials.js';
 import { initAttorneysSlider } from './blocks/attorneys.js';
 import { AccordionBlock } from './blocks/accordion.js';
 import { initHeroDropdownNav } from './hero-dropdown-nav.js';
+import { initBlockAnimations } from './blocks/animations.js';
 console.log('MAIN.JS - Imported initHeroDropdownNav:', typeof initHeroDropdownNav);
 // Import other modules like initModals if you create them
 
@@ -116,6 +117,25 @@ console.log('MAIN.JS - Imported initHeroDropdownNav:', typeof initHeroDropdownNa
     } catch (error) {
       console.error('MAIN.JS - ERROR in initHeroDropdownNav():', error);
     }
+
+    try {
+      initBlockAnimations(); // Initialize block animations
+      console.log('MAIN.JS - FINISHED CALLING initBlockAnimations()');
+    } catch (error) {
+      console.error('MAIN.JS - ERROR in initBlockAnimations():', error);
+    }
+
+    // Add global toggle for animations (for debugging)
+    window.swmwToggleAnimations = function () {
+      const body = document.body;
+      if (body.classList.contains('no-animations')) {
+        body.classList.remove('no-animations');
+        console.log('SWMW: Animations enabled');
+      } else {
+        body.classList.add('no-animations');
+        console.log('SWMW: Animations disabled');
+      }
+    };
   });
 
   // Window load - can also be modularized if needed

@@ -1,0 +1,97 @@
+// Animation Variables
+$animation-duration: 0.6s;
+$animation-easing: cubic-bezier(0.4, 0, 0.2, 1);
+$animation-delay: 0.1s;
+
+// Fade In Animation
+[data-animate="fade-in"] {
+  opacity: 0;
+  transition: opacity $animation-duration $animation-easing !important;
+  &.animated {
+    opacity: 1;
+  }
+}
+
+// Slide Up Animation
+[data-animate="slide-up"] {
+  opacity: 0;
+  transform: translateY(30px) !important;
+  transition: opacity $animation-duration $animation-easing,
+              transform $animation-duration $animation-easing !important;
+  &.animated {
+    opacity: 1;
+    transform: translateY(0) !important;
+  }
+}
+
+// Slide In Right Animation
+[data-animate="slide-in-right"] {
+  opacity: 0;
+  transform: translateX(40px) !important;
+  transition: opacity $animation-duration $animation-easing,
+              transform $animation-duration $animation-easing !important;
+  &.animated {
+    opacity: 1;
+    transform: translateX(0) !important;
+  }
+}
+
+// Slide In Left Animation
+[data-animate="slide-in-left"] {
+  opacity: 0;
+  transform: translateX(-40px) !important;
+  transition: opacity $animation-duration $animation-easing,
+              transform $animation-duration $animation-easing !important;
+  &.animated {
+    opacity: 1;
+    transform: translateX(0) !important;
+  }
+}
+
+// Staggered animations for consecutive blocks
+[data-animate] {
+  &:nth-child(1) { transition-delay: 0s; }
+  &:nth-child(2) { transition-delay: 0.1s; }
+  &:nth-child(3) { transition-delay: 0.2s; }
+  &:nth-child(4) { transition-delay: 0.3s; }
+  &:nth-child(5) { transition-delay: 0.4s; }
+  &:nth-child(6) { transition-delay: 0.5s; }
+  &:nth-child(7) { transition-delay: 0.6s; }
+  &:nth-child(8) { transition-delay: 0.7s; }
+  &:nth-child(9) { transition-delay: 0.8s; }
+  &:nth-child(10) { transition-delay: 0.9s; }
+}
+
+// Disable animations on mobile for better performance
+@media (max-width: 768px) {
+  [data-animate] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    &.animated {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+}
+
+// Optional: Add a class to disable animations globally
+.no-animations {
+  [data-animate] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    &.animated {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+}
+
+// Ensure animations don't interfere with existing layouts
+[data-animate] {
+  position: relative;
+  &.animated {
+    position: relative;
+  }
+} 

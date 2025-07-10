@@ -90,19 +90,6 @@ function scripts() {
         );
     }
 
-
-
-    // Enqueue mobile menu script - REMOVED as it is now part of main.js
-    /*
-    wp_enqueue_script(
-        'swmw-law-mobile-menu',
-        SWMW_LAW_URI . '/dist/js/mobile-menu.js',
-        [], // No dependencies for this basic script
-        SWMW_LAW_VERSION,
-        true // Load in footer
-    );
-    */
-
     if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
         wp_enqueue_script( 'comment-reply' );
     }
@@ -136,3 +123,32 @@ function admin_scripts() {
     }
 }
 add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\admin_scripts' ); 
+
+// Register block styles for animations
+add_action( 'init', function() {
+    $animation_styles = [
+        [
+            'name'  => 'animate-fade-in',
+            'label' => __( 'Fade In', 'swmw-law' ),
+        ],
+        [
+            'name'  => 'animate-slide-up',
+            'label' => __( 'Slide Up', 'swmw-law' ),
+        ],
+        [
+            'name'  => 'animate-slide-in-right',
+            'label' => __( 'Slide In Right', 'swmw-law' ),
+        ],
+        [
+            'name'  => 'animate-slide-in-left',
+            'label' => __( 'Slide In Left', 'swmw-law' ),
+        ],
+    ];
+
+    $all_blocks = \WP_Block_Type_Registry::get_instance()->get_all_registered();
+    foreach ( $all_blocks as $block_name => $block_type ) {
+        foreach ( $animation_styles as $style ) {
+            register_block_style( $block_name, $style );
+        }
+    }
+} ); 

@@ -364,3 +364,33 @@ function swmw_law_add_newsfeed_admin_bar_link( $wp_admin_bar ) {
     }
 }
 add_action( 'admin_bar_menu', __NAMESPACE__ . '\swmw_law_add_newsfeed_admin_bar_link', 81 );
+
+/**
+ * Add animation data attributes to Gutenberg blocks if block style is enabled, without modifying classes.
+ */
+function swmw_law_add_block_animation_attributes( $block_content, $block ) {
+    // Skip if we're in the admin or if content is empty
+    if ( is_admin() || empty( $block_content ) ) {
+        return $block_content;
+    }
+
+    if ( isset( $block['attrs']['className'] ) ) {
+        $className = $block['attrs']['className'];
+        $attr = '';
+        if ( strpos( $className, 'is-style-animate-fade-in' ) !== false ) {
+            $attr = ' data-animate="fade-in"';
+        } elseif ( strpos( $className, 'is-style-animate-slide-up' ) !== false ) {
+            $attr = ' data-animate="slide-up"';
+        } elseif ( strpos( $className, 'is-style-animate-slide-in-right' ) !== false ) {
+            $attr = ' data-animate="slide-in-right"';
+        } elseif ( strpos( $className, 'is-style-animate-slide-in-left' ) !== false ) {
+            $attr = ' data-animate="slide-in-left"';
+        }
+        if ( $attr && strpos( $block_content, 'data-animate=' ) === false ) {
+            // Add the data-animate attribute after the first class="..."
+            $block_content = preg_replace('/(class="[^"]*")/i', '$1' . $attr, $block_content, 1);
+        }
+    }
+    return $block_content;
+}
+add_filter( 'render_block', __NAMESPACE__ . '\swmw_law_add_block_animation_attributes', 10, 2 );
