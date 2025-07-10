@@ -13,7 +13,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Include ACF field group definitions.
 require_once SWMW_LAW_DIR . 'includes/ACF/field-groups/archive-heroes.php';
 require_once SWMW_LAW_DIR . 'includes/ACF/options.php';
-require_once SWMW_LAW_DIR . 'includes/ACF/attorneys.php';
 require_once SWMW_LAW_DIR . 'includes/ACF/testimonials.php';
 require_once SWMW_LAW_DIR . 'includes/ACF/results.php';
 require_once SWMW_LAW_DIR . 'includes/ACF/page-settings.php';

@@ -5,73 +5,73 @@
  * @package SWMW_Law
  */
 
-namespace SWMW_Law\Post_Types\Attorneys;
+ namespace SWMW_Law\Post_Types\Attorneys;
 
-// Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
-/**
- * Registers the Attorney custom post type.
- */
-function register_attorney_cpt() {
-
-	$labels = array(
-		'name'                  => _x( 'Attorneys', 'Post Type General Name', 'swmw-law-theme' ),
-		'singular_name'         => _x( 'Attorney', 'Post Type Singular Name', 'swmw-law-theme' ),
-		'menu_name'             => __( 'Attorneys', 'swmw-law-theme' ),
-		'name_admin_bar'        => __( 'Attorney', 'swmw-law-theme' ),
-		'archives'              => __( 'Attorney Archives', 'swmw-law-theme' ),
-		'attributes'            => __( 'Attorney Attributes', 'swmw-law-theme' ),
-		'parent_item_colon'     => __( 'Parent Attorney:', 'swmw-law-theme' ),
-		'all_items'             => __( 'All Attorneys', 'swmw-law-theme' ),
-		'add_new_item'          => __( 'Add New Attorney', 'swmw-law-theme' ),
-		'add_new'               => __( 'Add New', 'swmw-law-theme' ),
-		'new_item'              => __( 'New Attorney', 'swmw-law-theme' ),
-		'edit_item'             => __( 'Edit Attorney', 'swmw-law-theme' ),
-		'update_item'           => __( 'Update Attorney', 'swmw-law-theme' ),
-		'view_item'             => __( 'View Attorney', 'swmw-law-theme' ),
-		'view_items'            => __( 'View Attorneys', 'swmw-law-theme' ),
-		'search_items'          => __( 'Search Attorney', 'swmw-law-theme' ),
-		'not_found'             => __( 'Not found', 'swmw-law-theme' ),
-		'not_found_in_trash'    => __( 'Not found in Trash', 'swmw-law-theme' ),
-		'featured_image'        => __( 'Attorney Photo', 'swmw-law-theme' ),
-		'set_featured_image'    => __( 'Set attorney photo', 'swmw-law-theme' ),
-		'remove_featured_image' => __( 'Remove attorney photo', 'swmw-law-theme' ),
-		'use_featured_image'    => __( 'Use as attorney photo', 'swmw-law-theme' ),
-		'insert_into_item'      => __( 'Insert into attorney', 'swmw-law-theme' ),
-		'uploaded_to_this_item' => __( 'Uploaded to this attorney', 'swmw-law-theme' ),
-		'items_list'            => __( 'Attorneys list', 'swmw-law-theme' ),
-		'items_list_navigation' => __( 'Attorneys list navigation', 'swmw-law-theme' ),
-		'filter_items_list'     => __( 'Filter attorneys list', 'swmw-law-theme' ),
-	);
-	$args   = array(
-		'label'                 => __( 'Attorney', 'swmw-law-theme' ),
-		'description'           => __( 'Post type for attorneys.', 'swmw-law-theme' ),
-		'labels'                => $labels,
-		'supports'              => array( 'title', 'thumbnail', 'excerpt' ),
-		'hierarchical'          => false,
-		'public'                => true,
-		'show_ui'               => true,
-		'show_in_menu'          => true,
-		'menu_position'         => 20,
-		'menu_icon'             => 'dashicons-groups',
-		'show_in_admin_bar'     => true,
-		'show_in_nav_menus'     => true,
-		'can_export'            => true,
-		'has_archive'           => 'attorneys',
-		'exclude_from_search'   => false,
-		'publicly_queryable'    => true,
-		'capability_type'       => 'post',
-		'rewrite'               => array( 'slug' => 'attorneys', 'with_front' => false ),
-		'show_in_rest'          => true,
-	);
-	register_post_type( 'attorney', $args );
-
-}
-add_action( 'init', __NAMESPACE__ . '\register_attorney_cpt', 0 );
-
+ // Exit if accessed directly.
+ if ( ! defined( 'ABSPATH' ) ) {
+   exit;
+ }
+ 
+ /**
+  * Registers the Attorney custom post type.
+  */
+ function register_attorney_cpt() {
+ 
+   $labels = array(
+     'name'                  => _x( 'Attorneys', 'Post Type General Name', 'swmw-law-theme' ),
+     'singular_name'         => _x( 'Attorney', 'Post Type Singular Name', 'swmw-law-theme' ),
+     'menu_name'             => __( 'Attorneys', 'swmw-law-theme' ),
+     'name_admin_bar'        => __( 'Attorney', 'swmw-law-theme' ),
+     'archives'              => __( 'Attorney Archives', 'swmw-law-theme' ),
+     'attributes'            => __( 'Attorney Attributes', 'swmw-law-theme' ),
+     'parent_item_colon'     => __( 'Parent Attorney:', 'swmw-law-theme' ),
+     'all_items'             => __( 'All Attorneys', 'swmw-law-theme' ),
+     'add_new_item'          => __( 'Add New Attorney', 'swmw-law-theme' ),
+     'add_new'               => __( 'Add New', 'swmw-law-theme' ),
+     'new_item'              => __( 'New Attorney', 'swmw-law-theme' ),
+     'edit_item'             => __( 'Edit Attorney', 'swmw-law-theme' ),
+     'update_item'           => __( 'Update Attorney', 'swmw-law-theme' ),
+     'view_item'             => __( 'View Attorney', 'swmw-law-theme' ),
+     'view_items'            => __( 'View Attorneys', 'swmw-law-theme' ),
+     'search_items'          => __( 'Search Attorney', 'swmw-law-theme' ),
+     'not_found'             => __( 'Not found', 'swmw-law-theme' ),
+     'not_found_in_trash'    => __( 'Not found in Trash', 'swmw-law-theme' ),
+     'featured_image'        => __( 'Attorney Photo', 'swmw-law-theme' ),
+     'set_featured_image'    => __( 'Set attorney photo', 'swmw-law-theme' ),
+     'remove_featured_image' => __( 'Remove attorney photo', 'swmw-law-theme' ),
+     'use_featured_image'    => __( 'Use as attorney photo', 'swmw-law-theme' ),
+     'insert_into_item'      => __( 'Insert into attorney', 'swmw-law-theme' ),
+     'uploaded_to_this_item' => __( 'Uploaded to this attorney', 'swmw-law-theme' ),
+     'items_list'            => __( 'Attorneys list', 'swmw-law-theme' ),
+     'items_list_navigation' => __( 'Attorneys list navigation', 'swmw-law-theme' ),
+     'filter_items_list'     => __( 'Filter attorneys list', 'swmw-law-theme' ),
+   );
+   $args   = array(
+     'label'                 => __( 'Attorney', 'swmw-law-theme' ),
+     'description'           => __( 'Post type for attorneys.', 'swmw-law-theme' ),
+     'labels'                => $labels,
+     		'supports'              => array( 'title', 'editor', 'thumbnail', 'excerpt' ),
+     'hierarchical'          => false,
+     'public'                => true,
+     'show_ui'               => true,
+     'show_in_menu'          => true,
+     'menu_position'         => 20,
+     'menu_icon'             => 'dashicons-groups',
+     'show_in_admin_bar'     => true,
+     'show_in_nav_menus'     => true,
+     'can_export'            => true,
+     'has_archive'           => 'attorneys',
+     'exclude_from_search'   => false,
+     'publicly_queryable'    => true,
+     'capability_type'       => 'post',
+     'rewrite'               => array( 'slug' => 'attorneys', 'with_front' => false ),
+     'show_in_rest'          => true,
+   );
+   register_post_type( 'attorney', $args );
+ 
+ }
+ add_action( 'init', __NAMESPACE__ . '\register_attorney_cpt', 0 );
+ 
 /**
  * Registers the Attorney Position custom taxonomy.
  */
