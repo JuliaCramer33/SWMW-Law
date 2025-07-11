@@ -1,73 +1,99 @@
-// _pagination.scss
-// Styles for post pagination
+// =============================================================================
+// PAGINATION
+// =============================================================================
+// Pagination component for navigating through multiple pages of content.
+// Features circular page numbers with hover effects and accessible navigation.
+// Structure:
+//   .swmw-pagination
+//     .nav-links
+//       .page-numbers (numbered pages)
+//       .prev/.next (navigation arrows)
+//       .dots (ellipsis for skipped pages)
+//       .screen-reader-text (accessibility)
+// Usage:
+//   <nav class="swmw-pagination">
+//     <div class="nav-links">
+//       <a class="page-numbers prev" href="#">← Previous</a>
+//       <a class="page-numbers" href="#">1</a>
+//       <span class="page-numbers current">2</span>
+//       <a class="page-numbers" href="#">3</a>
+//       <span class="page-numbers dots">...</span>
+//       <a class="page-numbers" href="#">10</a>
+//       <a class="page-numbers next" href="#">Next →</a>
+//     </div>
+//   </nav>
+// =============================================================================
 
 @use "../variables/variables" as *;
 
 .swmw-pagination {
-	margin: 3rem 0;
+  margin: $spacing-6 0;
 
-	.nav-links {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		gap: 0.5rem;
+  .nav-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: $spacing-2;
 
-		.page-numbers {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			text-decoration: none;
-			color: $color-primary;
-			border: 1px solid $color-divider;
-			border-radius: 50%;
-			height: 40px;
-			width: 40px;
-			font-weight: $font-weight-medium;
-			transition: all 0.2s ease-in-out;
+    .page-numbers {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: $color-primary;
+      border: 1px solid $color-divider;
+      border-radius: 50%;
+      height: 40px;
+      width: 40px;
+      font-weight: $font-weight-medium;
+      transition: all $transition-duration-base ease-in-out;
 
-			&.current {
-				background-color: $color-secondary;
-				border-color: $color-secondary;
-				color: $color-white;
-			}
+      // Current page styling
+      &.current {
+        background-color: $color-secondary;
+        border-color: $color-secondary;
+        color: $color-white;
+      }
 
-			&:not(.current):not(.dots):hover {
-				border-color: $color-primary;
-				background-color: rgba($color-primary, 0.1);
-			}
+      // Hover effect for clickable pages
+      &:not(.current):not(.dots):hover {
+        border-color: $color-primary;
+        background-color: rgba($color-primary, 0.1);
+      }
 
-			&.dots {
-				border: none;
-				color: $color-text-light;
-			}
-		}
+      // Ellipsis styling
+      &.dots {
+        border: none;
+        color: $color-text-light;
+      }
+    }
 
-		.prev,
-		.next {
-			// Remove the circle shape
-			border: none;
-			background-color: transparent;
-			width: auto;
-			height: auto;
+    // Previous/Next navigation arrows
+    .prev,
+    .next {
+      border: none;
+      background-color: transparent;
+      width: auto;
+      height: auto;
 
-			&:hover {
-				color: $color-secondary;
-				background-color: transparent; // Ensure no background on hover
-			}
-		}
+      &:hover {
+        color: $color-secondary;
+        background-color: transparent;
+      }
+    }
 
-		// Hide the screen reader text visually
-		.screen-reader-text {
-			border: 0;
-			clip: rect(1px, 1px, 1px, 1px);
-			clip-path: inset(50%);
-			height: 1px;
-			margin: -1px;
-			overflow: hidden;
-			padding: 0;
-			position: absolute;
-			width: 1px;
-			word-wrap: normal !important;
-		}
-	}
+    // Accessibility: Hide screen reader text visually
+    .screen-reader-text {
+      border: 0;
+      clip: rect(1px, 1px, 1px, 1px);
+      clip-path: inset(50%);
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      padding: 0;
+      position: absolute;
+      width: 1px;
+      word-wrap: normal !important;
+    }
+  }
 }

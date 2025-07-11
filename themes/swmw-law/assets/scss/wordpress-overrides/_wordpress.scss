@@ -253,12 +253,14 @@ blockquote {
 
 // Default (Fill) Button Style
 .wp-block-button:not(.is-style-outline) .wp-block-button__link {
+
   @include button-appearance;
   @include button-animation;
 }
 
 // Outline Button Style
 .wp-block-button.is-style-outline .wp-block-button__link {
+
   @include button-animation;
 }
 

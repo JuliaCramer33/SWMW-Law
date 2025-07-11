@@ -1,8 +1,9 @@
 @use "../variables/variables" as *;
 
 /**
- * Hero Dropdown Menu Block Styles
+ * Hero Dropdown Menu Block Styles (Pattern)
  * Styles for the hero dropdown menu ACF block
+ * This is a reusable pattern for dropdown navigation menus
  */
 
 .hero-dropdown-menu {
@@ -13,6 +14,7 @@
     width: 100%;
   }
 
+  // Hamburger menu toggle button
   .hamburger-menu-toggle {
     display: flex;
     align-items: center;
@@ -24,18 +26,20 @@
     cursor: pointer;
     transition: $transition-base;
     border: none;
-    font-size: 14px;
+    font-size: $font-size-sm;
     font-family: $font-montserrat;
     font-weight: $font-weight-semibold;
     box-shadow: $box-shadow;
     width: 100%;
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       background-color: $color-background-light;
       color: $color-primary;
     }
   }
 
+  // Hamburger icon styles
   .hamburger-icon {
     display: flex;
     flex-direction: column;
@@ -53,19 +57,31 @@
     }
 
     &.is-active {
-      span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
-      span:nth-child(2) { opacity: 0; }
-      span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+      span {
+        &:nth-child(1) {
+          transform: rotate(45deg) translate(4px, 4px);
+        }
+
+        &:nth-child(2) {
+          opacity: 0;
+        }
+
+        &:nth-child(3) {
+          transform: rotate(-45deg) translate(5px, -5px);
+        }
+      }
     }
   }
 
+  // Hamburger label
   .hamburger-label {
     font-weight: $font-weight-bold;
     color: $color-text;
-    font-size: 14px;
+    font-size: $font-size-sm;
     font-family: $font-montserrat;
   }
 
+  // Dropdown navigation list
   .hero-nav-list {
     display: none;
     position: absolute;
@@ -73,7 +89,7 @@
     left: 0;
     right: 0;
     width: 100%;
-    background-color: white;
+    background-color: $color-white;
     box-shadow: $box-shadow-lg;
     border-radius: 0 0 $border-radius $border-radius;
     padding: $spacing-4 0;
@@ -94,13 +110,14 @@
           padding: $spacing-4 $spacing-8;
           color: $color-text;
           text-decoration: none;
-          font-size: 14px;
+          font-size: $font-size-sm;
           font-family: $font-montserrat;
           font-weight: $font-weight-semibold;
           transition: $transition-base;
           border-radius: $border-radius;
 
-          &:hover, &:focus {
+          &:hover,
+          &:focus {
             background-color: $color-background-light;
             color: $color-primary;
           }
@@ -115,6 +132,29 @@
     }
   }
 
+  // Close button
+  .hero-nav-close {
+    position: absolute;
+    top: $spacing-2;
+    right: $spacing-3;
+    background: none;
+    border: none;
+    font-size: $font-size-xl;
+    color: $color-primary;
+    cursor: pointer;
+    z-index: 101;
+    padding: 0;
+    line-height: 1;
+    transition: color 0.2s;
+
+    &:hover,
+    &:focus {
+      color: $color-secondary;
+      outline: none;
+    }
+  }
+
+  // Open state styles
   &.is-open {
     .hamburger-menu-toggle {
       border-radius: $border-radius $border-radius 0 0;
@@ -134,25 +174,6 @@
     }
   }
 
-  .hero-nav-close {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.75rem;
-    background: none;
-    border: none;
-    font-size: 2rem;
-    color: #12477a;
-    cursor: pointer;
-    z-index: 101;
-    padding: 0;
-    line-height: 1;
-    transition: color 0.2s;
-    &:hover, &:focus {
-      color: #417e4b;
-      outline: none;
-    }
-  }
-
   // Responsive styles
   @media (max-width: 768px) {
     .hero-nav-list {
@@ -163,4 +184,4 @@
       transform: none;
     }
   }
-} 
+}

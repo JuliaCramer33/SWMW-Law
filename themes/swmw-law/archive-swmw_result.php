@@ -88,15 +88,21 @@ get_template_part( 'template-parts/hero-archive' );
 
 				<?php
 				// Pagination for the main query.
-				the_posts_pagination(
-					[
-						'prev_text'          => esc_html__( '< Prev', 'swmw-law' ),
-						'next_text'          => esc_html__( 'Next >', 'swmw-law' ),
-						'screen_reader_text' => esc_html__( 'Results navigation', 'swmw-law' ),
-						'aria_label'         => esc_html__( 'Results', 'swmw-law' ),
-						'class'              => 'swmw-pagination',
-					]
-				);
+				// the_posts_pagination(
+				//     [
+				//         'prev_text'          => esc_html__( '< Prev', 'swmw-law' ),
+				//         'next_text'          => esc_html__( 'Next >', 'swmw-law' ),
+				//         'screen_reader_text' => esc_html__( 'Results navigation', 'swmw-law' ),
+				//         'aria_label'         => esc_html__( 'Results', 'swmw-law' ),
+				//         'class'              => 'swmw-pagination',
+				//     ]
+				// );
+				?>
+				<?php
+				global $wp_query;
+				if ( $wp_query->max_num_pages > 1 ) :
+					echo '<div class="load-more-results-wrapper text-center"><button id="load-more-results" class="button">Load More Results</button></div>';
+				endif;
 				?>
 			<?php else : ?>
 				<p><?php esc_html_e( 'No other results found.', 'swmw-law' ); ?></p>

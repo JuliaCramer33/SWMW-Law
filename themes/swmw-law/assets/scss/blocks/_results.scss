@@ -1,232 +1,173 @@
 @use "sass:color";
 @use "../variables/variables" as *;
 
+/**
+ * Results Block Styles (Pattern)
+ * Styles for the results ACF block
+ * This block shares card styles with the results archive template
+ */
+
 .results-block {
+  // Splide slider base styles
+  .results-slider.splide {
+    display: flex;
+    flex-direction: column;
 
-	.results-slider.splide {
-		display: flex;
-		flex-direction: column;
-	}
+    .splide__track {
+      order: 1; // Ensure track is the first item
+    }
 
-	.splide__track {
-		order: 1; // Ensure track is the first item
-	}
+    .splide__slide {
+      padding: $spacing-2 0; // Vertical padding only
+    }
 
-	// The parent section should have the light gray background color from your mock.
-	// e.g., background-color: $color-background-alt; padding: $section-padding-y 0;
+    .splide__list {
+      height: auto;
+    }
 
-	.splide__slide {
-		// Gutter space is now controlled by the Splide `gap` option in JS.
-		padding: $spacing-2 0; // Removing horizontal padding, keeping vertical for space
-	}
+    // Navigation arrows
+    .splide__arrows {
+      order: 2; // Ensure arrows are below the track
+      position: static;
+      margin-top: $spacing-8;
+      display: flex;
+      justify-content: center;
+      gap: $spacing-10;
 
-	.splide__list {
-		height: auto;
-	}
+      .splide__arrow {
+        position: static;
+        transform: none;
+        background: transparent;
+        border: none;
+        width: auto;
+        height: auto;
+        opacity: 1;
+        padding: 0;
+        transition: transform 0.2s ease-in-out;
 
-	// Styles for the static grid layout (3 or fewer results)
-	.results-grid {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
-		gap: $spacing-6;
-		max-width: 1200px;
-		margin: 0 auto;
-		padding: $spacing-4 0;
+        &.splide__arrow--next,
+        &.splide__arrow--prev {
+          transform: rotate(180deg) !important;
+        }
 
-		.result-item {
-			flex: 0 0 320px;
-			max-width: 320px;
-		}
-	}
+        svg {
+          stroke: $color-primary !important;
+          width: 2.5rem;
+          height: 2.5rem;
+          fill: none;
+          transition: stroke 0.2s ease-in-out;
+        }
 
-	// Styles for each individual result card
-	.result-item-inner {
-		height: 100%;
-		background-color: $color-white;
-		border-radius: 0; // Removed rounded corners
-		box-shadow: $box-shadow-md;
-		padding: $spacing-8 $spacing-6;
-		text-align: center;
-		border: 1px solid $color-gray-lighter;
-	}
+        &:hover {
+          background: transparent;
 
-	// The "Verdict" or "Settlement" badge
-	.result-category {
-		display: inline-block;
-		align-self: center; // Horizontally center the badge
-		background-color: color.adjust($color-secondary, $lightness: 48%, $alpha: -0.5);
-		color: $color-secondary;
-		font-family: $font-montserrat;
-		font-weight: $font-weight-medium;
-		font-size: $font-size-sm;
-		padding: $spacing-1 $spacing-4;
-		border-radius: $border-radius-pill;
-		text-transform: uppercase;
-		margin-bottom: $spacing-6;
-		letter-spacing: 0.5px;
-	}
+          svg {
+            stroke: $color-secondary !important;
+          }
+        }
 
-	// The large dollar amount
-	.result-amount {
-		color: $color-secondary;
-		font-family: $font-poppins;
-		font-weight: $font-weight-bold;
-		font-size: $h2-font-size;
-		line-height: 1.2;
-		margin: 0 0 $spacing-2;
-	}
+        &:disabled {
+          opacity: 0.4;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
 
-	// The main title of the result
-	.result-title {
-		font-family: $font-poppins;
-		font-weight: $font-weight-bold;
-		font-size: $font-size-base;
-		line-height: 1.4;
-		color: $color-text;
-		margin: 0 0 $spacing-4;
-	}
+  // Static grid layout (3 or fewer results)
+  .results-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: $spacing-6;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: $spacing-4 0;
 
-	// The descriptive text
-	.result-description {
-		font-size: $font-size-base;
-		line-height: $line-height-relaxed;
-		color: $color-text-light;
-		margin-top: auto; // Pushes description to the bottom
-	}
-
-	// Container for the navigation arrows
-	.splide__arrows {
-		order: 2; // Ensure arrows are the second item, appearing below the track
-		position: static; // Force arrows into document flow
-		margin-top: $spacing-8; // Increase space above the arrows
-		display: flex;
-		justify-content: center;
-		gap: $spacing-10; // Increase space between the arrows
-	}
-
-	// Individual arrow button
-	.splide__arrow {
-		position: static;
-		transform: none;
-		background: transparent;
-		border: none;
-		width: auto;
-		height: auto;
-		opacity: 1;
-		padding: 0; // Remove any default padding on the button
-		transition: transform 0.2s ease-in-out; // Add transition for smooth rotation
-
-		&.splide__arrow--next {
-			transform: rotate(180deg) !important;
-		}
-
-		&.splide__arrow--prev {
-			transform: rotate(180deg) !important;
-		}
-
-		svg {
-			stroke: #12477a !important;
-			width: 2.5rem;
-			height: 2.5rem;
-			fill: none;
-			transition: stroke 0.2s ease-in-out;
-		}
-
-		&:hover {
-			background: transparent;
-
-			svg {
-				stroke: $color-secondary !important;
-			}
-		}
-
-		&:disabled {
-			opacity: 0.4;
-			cursor: not-allowed;
-		}
-	}
+    .result-item {
+      flex: 0 0 320px;
+      max-width: 320px;
+    }
+  }
 }
 
-/* Editor-Only Styles
+/* Editor Styles
 --------------------------------------------- */
 .editor-styles-wrapper {
+  .wp-block-acf-results {
+    .results-slider-wrapper {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      gap: $spacing-6;
+      padding-bottom: $spacing-4;
+    }
 
-	.wp-block-acf-results {
+    // Editor styles for static grid layout
+    .results-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: $spacing-6;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: $spacing-4 0;
 
-		.results-slider-wrapper {
-			display: flex;
-			flex-wrap: nowrap;
-			overflow-x: auto;
-			gap: 1.5rem;
-			padding-bottom: 1rem;
-		}
+      .result-item {
+        flex: 0 0 320px;
+        max-width: 320px;
+      }
+    }
 
-		// Editor styles for static grid layout
-		.results-grid {
-			display: flex;
-			flex-wrap: wrap;
-			justify-content: center;
-			gap: 1.5rem;
-			max-width: 1200px;
-			margin: 0 auto;
-			padding: 1rem 0;
+    .result-card {
+      flex: 0 0 320px;
+      max-width: 320px;
+      background-color: var(--wp--preset--color--background);
+      border: 1px solid var(--wp--preset--color--primary);
+      padding: $spacing-8;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      height: auto;
+      color: var(--wp--preset--color--secondary);
 
-			.result-item {
-				flex: 0 0 320px;
-				max-width: 320px;
-			}
-		}
+      .result-badge {
+        position: absolute;
+        top: $spacing-6;
+        right: $spacing-6;
+        background-color: var(--wp--preset--color--primary);
+        color: var(--wp--preset--color--background);
+        padding: $spacing-1 $spacing-3;
+        font-size: var(--wp--preset--font-size--small);
+        font-weight: $font-weight-medium;
+        text-transform: uppercase;
+      }
 
-		.result-card {
-			flex: 0 0 320px;
-			max-width: 320px;
-			background-color: var(--wp--preset--color--background);
-			border: 1px solid var(--wp--preset--color--primary);
-			padding: 2rem;
-			display: flex;
-			flex-direction: column;
-			justify-content: space-between;
-			position: relative;
-			height: auto;
-			color: var(--wp--preset--color--secondary);
+      .result-amount {
+        font-size: var(--wp--preset--font-size--xx-large);
+        font-weight: $font-weight-semibold;
+        color: var(--wp--preset--color--primary);
+        line-height: 1.2;
+        margin-bottom: $spacing-2;
+      }
 
-			.result-badge {
-				position: absolute;
-				top: 1.5rem;
-				right: 1.5rem;
-				background-color: var(--wp--preset--color--primary);
-				color: var(--wp--preset--color--background);
-				padding: 0.25rem 0.75rem;
-				font-size: var(--wp--preset--font-size--small);
-				font-weight: 500;
-				text-transform: uppercase;
-			}
+      .result-subtitle {
+        font-size: var(--wp--preset--font-size--medium);
+        font-weight: $font-weight-semibold;
+        margin-bottom: $spacing-4;
+        line-height: 1.4;
+      }
 
-			.result-amount {
-				font-size: var(--wp--preset--font-size--xx-large);
-				font-weight: 600;
-				color: var(--wp--preset--color--primary);
-				line-height: 1.2;
-				margin-bottom: 0.5rem;
-			}
+      .result-excerpt {
+        font-size: var(--wp--preset--font-size--normal);
+        line-height: 1.6;
+        margin: 0;
+      }
+    }
 
-			.result-subtitle {
-				font-size: var(--wp--preset--font-size--medium);
-				font-weight: 600;
-				margin-bottom: 1rem;
-				line-height: 1.4;
-			}
-
-			.result-excerpt {
-				font-size: var(--wp--preset--font-size--normal);
-				line-height: 1.6;
-				margin: 0;
-			}
-		}
-
-		.splide__arrows {
-			display: none;
-		}
-	}
+    .splide__arrows {
+      display: none;
+    }
+  }
 }

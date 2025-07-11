@@ -1,171 +1,15 @@
 @use "../variables/variables" as *;
 
-/* Border Utility Classes
+/* Border Utility Classes (Simplified for Gutenberg)
 --------------------------------------------- */
 
-// Border-radius utilities
-// Based on the border variables.
-// --- General Border Radius ---
-.rounded {
-	border-radius: $border-radius !important;
-}
-
-.rounded-sm {
-	border-radius: $border-radius-sm !important;
-}
-
-.rounded-lg {
-	border-radius: $border-radius-lg !important;
-}
-
-.rounded-pill {
-	border-radius: $border-radius-pill !important;
-}
-
-.rounded-circle {
-	border-radius: $border-radius-circle !important;
-}
-
-.rounded-0 {
-	border-radius: $border-radius-none !important;
-}
-
-// --- Individual Corner Border Radius ---
-// Top corners
-.rounded-top {
-	border-top-left-radius: $border-radius !important;
-	border-top-right-radius: $border-radius !important;
-}
-
-.rounded-top-sm {
-	border-top-left-radius: $border-radius-sm !important;
-	border-top-right-radius: $border-radius-sm !important;
-}
-
-.rounded-top-lg {
-	border-top-left-radius: $border-radius-lg !important;
-	border-top-right-radius: $border-radius-lg !important;
-}
-
-.rounded-top-pill {
-	border-top-left-radius: $border-radius-pill !important;
-	border-top-right-radius: $border-radius-pill !important;
-}
-
-.rounded-top-circle {
-	border-top-left-radius: $border-radius-circle !important;
-	border-top-right-radius: $border-radius-circle !important;
-}
-
-.rounded-top-0 {
-	border-top-left-radius: $border-radius-none !important;
-	border-top-right-radius: $border-radius-none !important;
-}
-
-// Bottom corners
-.rounded-bottom {
-	border-bottom-left-radius: $border-radius !important;
-	border-bottom-right-radius: $border-radius !important;
-}
-
-.rounded-bottom-sm {
-	border-bottom-left-radius: $border-radius-sm !important;
-	border-bottom-right-radius: $border-radius-sm !important;
-}
-
-.rounded-bottom-lg {
-	border-bottom-left-radius: $border-radius-lg !important;
-	border-bottom-right-radius: $border-radius-lg !important;
-}
-
-.rounded-bottom-pill {
-	border-bottom-left-radius: $border-radius-pill !important;
-	border-bottom-right-radius: $border-radius-pill !important;
-}
-
-.rounded-bottom-circle {
-	border-bottom-left-radius: $border-radius-circle !important;
-	border-bottom-right-radius: $border-radius-circle !important;
-}
-
-.rounded-bottom-0 {
-	border-bottom-left-radius: $border-radius-none !important;
-	border-bottom-right-radius: $border-radius-none !important;
-}
-
-// Start (left in LTR, right in RTL) corners
-.rounded-start {
-	border-top-left-radius: $border-radius !important;
-	border-bottom-left-radius: $border-radius !important;
-}
-
-.rounded-start-sm {
-	border-top-left-radius: $border-radius-sm !important;
-	border-bottom-left-radius: $border-radius-sm !important;
-}
-
-.rounded-start-lg {
-	border-top-left-radius: $border-radius-lg !important;
-	border-bottom-left-radius: $border-radius-lg !important;
-}
-
-.rounded-start-pill {
-	border-top-left-radius: $border-radius-pill !important;
-	border-bottom-left-radius: $border-radius-pill !important;
-}
-
-.rounded-start-circle {
-	border-top-left-radius: $border-radius-circle !important;
-	border-bottom-left-radius: $border-radius-circle !important;
-}
-
-.rounded-start-0 {
-	border-top-left-radius: $border-radius-none !important;
-	border-bottom-left-radius: $border-radius-none !important;
-}
-
-// End (right in LTR, left in RTL) corners
-.rounded-end {
-	border-top-right-radius: $border-radius !important;
-	border-bottom-right-radius: $border-radius !important;
-}
-
-.rounded-end-sm {
-	border-top-right-radius: $border-radius-sm !important;
-	border-bottom-right-radius: $border-radius-sm !important;
-}
-
-.rounded-end-lg {
-	border-top-right-radius: $border-radius-lg !important;
-	border-bottom-right-radius: $border-radius-lg !important;
-}
-
-.rounded-end-pill {
-	border-top-right-radius: $border-radius-pill !important;
-	border-bottom-right-radius: $border-radius-pill !important;
-}
-
-.rounded-end-circle {
-	border-top-right-radius: $border-radius-circle !important;
-	border-bottom-right-radius: $border-radius-circle !important;
-}
-
-.rounded-end-0 {
-	border-top-right-radius: $border-radius-none !important;
-	border-bottom-right-radius: $border-radius-none !important;
-}
-
-// --- Additive/Subtractive Border Utilities (Optional) ---
-// Example: Add a border to all sides
-.border {
-	border: $border-width-base solid $color-border !important;
-}
-
+// --- Border Removal Utilities (Still useful outside blocks) ---
+// Remove all borders
 .border-0 {
 	border: 0 !important;
 }
 
-// Example: Remove a border from all sides
+// Remove specific borders
 .border-top-0 {
 	border-top: 0 !important;
 }
@@ -184,104 +28,14 @@
 	border-end: 0 !important;
 }
 
-// Border Top
-.border-top {
-	border-top: $border-width-base solid $color-border !important;
-}
-
-// Border Right
-.border-right {
-	border-right: $border-width-base solid $color-border !important;
+// Remove left/right borders (for LTR/RTL compatibility)
+.border-left-0 {
+	border-left: 0 !important;
 }
 
 .border-right-0 {
 	border-right: 0 !important;
 }
 
-// Border Left
-.border-left {
-	border-left: $border-width-base solid $color-border !important;
-}
-
-.border-left-0 {
-	border-left: 0 !important;
-}
-
-// Border Color
-.border-primary {
-	border-color: $color-primary !important;
-}
-
-.border-secondary {
-	border-color: $color-secondary !important;
-}
-
-.border-success {
-	border-color: $color-success !important;
-}
-
-.border-danger {
-	border-color: $color-error !important;
-}
-
-.border-warning {
-	border-color: $color-warning !important;
-}
-
-.border-info {
-	border-color: $color-info !important;
-}
-
-.border-light {
-	border-color: $color-gray-lightest !important;
-}
-
-.border-dark {
-	border-color: $color-onyx !important;
-}
-
-.border-white {
-	border-color: $color-white !important;
-}
-
-// Border Width
-.border-1 {
-	border-width: 1px !important;
-}
-
-.border-2 {
-	border-width: 2px !important;
-}
-
-.border-3 {
-	border-width: 3px !important;
-}
-
-.border-4 {
-	border-width: 4px !important;
-}
-
-.border-5 {
-	border-width: 5px !important;
-}
-
-// Border Style
-.border-solid {
-	border-style: solid !important;
-}
-
-.border-dashed {
-	border-style: dashed !important;
-}
-
-.border-dotted {
-	border-style: dotted !important;
-}
-
-.border-double {
-	border-style: double !important;
-}
-
-.border-none {
-	border-style: none !important;
-}
+// Simplified border utilities for Gutenberg-based theme.
+// Removed border radius, width, style, and color utilities as Gutenberg handles these.

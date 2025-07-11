@@ -12,7 +12,7 @@
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
     <?php if ( has_post_thumbnail() ) : ?>
-      <div class="single-post-hero container">
+      <div class="single-post-hero">
         <div class="single-post-hero--content">
           <?php the_post_thumbnail( 'full' ); ?>
         </div>
@@ -24,7 +24,7 @@
           <div class="post-content-container">
             <div class="container">
               <div class="post-content-inner">
-                <div class="entry-meta">
+                <div class="entry-meta container-md">
                     <?php
                     $categories = get_the_category();
                     if ( ! empty( $categories ) ) {
@@ -38,7 +38,7 @@
                     <hr class="meta-separator" />
                     
                 </div><!-- .entry-meta -->
-                <div class="container">
+                <div class="container-sm">
                   <span class="posted-on"><?php echo get_the_date(); ?></span>
                   <header class="entry-header">
                       <?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>

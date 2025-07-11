@@ -3,7 +3,7 @@
 /* Elements */
 
 p {
-	margin-bottom: $paragraph-margin-bottom;
+  margin-bottom: $paragraph-margin-bottom;
 }
 
 h1,
@@ -12,196 +12,195 @@ h3,
 h4,
 h5,
 h6 {
-	margin-top: 0;
-	margin-bottom: $heading-margin-bottom;
-	font-family: $heading-font-family;
-	font-weight: inherit;
-	color: $heading-text-color;
-	text-rendering: optimizelegibility;
+  margin-top: 0;
+  margin-bottom: $heading-margin-bottom;
+  font-family: $heading-font-family;
+  font-weight: inherit;
+  color: $heading-text-color;
+  text-rendering: optimizelegibility;
 }
 
 h1 {
-	font-size: $h1-font-size;
-	line-height: $h1-line-height;
+  font-size: $h1-font-size;
+  line-height: $h1-line-height;
 }
 
 h2 {
-	font-size: $h2-font-size;
-	line-height: $h2-line-height;
+  font-size: $h2-font-size;
+  line-height: $h2-line-height;
 }
 
 h3 {
-	font-size: $h3-font-size;
-	line-height: $h3-line-height;
+  font-size: $h3-font-size;
+  line-height: $h3-line-height;
 }
 
 h4 {
-	font-size: $h4-font-size;
-	line-height: $h4-line-height;
+  font-size: $h4-font-size;
+  line-height: $h4-line-height;
 }
 
 h5 {
-	font-size: $h5-font-size;
-	line-height: $h5-line-height;
+  font-size: $h5-font-size;
+  line-height: $h5-line-height;
 }
 
 h6 {
-	font-family: $base-font-family;
-	font-size: $h6-font-size;
-	line-height: $h6-line-height;
+  font-family: $base-font-family;
+  font-size: $h6-font-size;
+  line-height: $h6-line-height;
 }
 
 a {
-	color: $color-link;
-	text-decoration: none;
-	transition: $transition-base;
+  color: $color-link;
+  text-decoration: none;
+  transition: $transition-base;
 
-	&:hover,
-	&:focus {
-		color: $color-link-hover;
-		text-decoration: underline;
-	}
+  &:hover,
+  &:focus {
+    color: $color-link-hover;
+    text-decoration: underline;
+  }
 
-	&:focus {
-		outline: 2px solid $color-primary;
-		outline-offset: 2px;
-	}
+  &:focus {
+    outline: 2px solid $color-primary;
+    outline-offset: 2px;
+  }
 }
 
 ul,
 ol {
-	margin-bottom: $spacing-5;
-	padding-left: $spacing-6;
+  margin-bottom: $spacing-5;
+  padding-left: $spacing-6;
 }
 
 li > ul,
 li > ol {
-	margin-bottom: 0;
-	margin-top: $spacing-3;
+  margin-bottom: 0;
+  margin-top: $spacing-3;
 }
 
 dl {
-	margin-bottom: $spacing-5;
+  margin-bottom: $spacing-5;
 }
 
 dt {
-	font-weight: $font-weight-semibold;
-	margin-top: $spacing-4;
+  font-weight: $font-weight-semibold;
+  margin-top: $spacing-4;
 }
 
 dd {
-	margin-left: $spacing-6;
-	margin-bottom: $spacing-3;
+  margin-left: $spacing-6;
+  margin-bottom: $spacing-3;
 }
 
 strong,
 b {
-	font-weight: $font-weight-bold;
+  font-weight: $font-weight-bold;
 }
 
 em,
 i {
-	font-style: italic;
+  font-style: italic;
 }
 
 blockquote {
-	margin: 0 $spacing-8 $spacing-5;
-	padding: $spacing-4 $spacing-6;
-	border-left: 4px solid $color-border;
-	font-style: italic;
-	color: $color-text-light;
+  margin: 0 $spacing-8 $spacing-5;
+  padding: $spacing-4 $spacing-6;
+  border-left: 4px solid $color-border;
+  font-style: italic;
+  color: $color-text-light;
 
-	p:last-child {
-		margin-bottom: 0;
-	}
+  p:last-child {
+    margin-bottom: 0;
+  }
 }
 
 pre,
 code,
 kbd,
 samp {
-	font-family: $font-monospace;
-	font-size: 0.9em;
+  font-family: $font-monospace;
+  font-size: 0.9em;
 }
 
 pre {
-	display: block;
-	margin-bottom: $spacing-5;
-	padding: $spacing-4;
-	overflow-x: auto;
-	background-color: $color-background-alt;
-	border: 1px solid $color-border;
-	border-radius: $border-radius-sm;
-	color: $color-text;
-	white-space: pre-wrap;
-	word-wrap: break-word;
+  display: block;
+  margin-bottom: $spacing-5;
+  padding: $spacing-4;
+  overflow-x: auto;
+  background-color: $color-background-alt;
+  border: 1px solid $color-border;
+  border-radius: $border-radius-sm;
+  color: $color-text;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }
 
 code {
-	padding: $spacing-1 $spacing-2;
-	background-color: $color-gray-lightest;
-	border-radius: $border-radius-sm;
-	color: $color-accent;
+  padding: $spacing-1 $spacing-2;
+  background-color: $color-gray-lightest;
+  border-radius: $border-radius-sm;
+  color: $color-accent;
 }
 
 hr {
-	display: block;
-	height: $border-width-base;
-	border: 0;
-	border-top: $border-width-base solid $color-border;
-	margin: $spacing-8 0;
-	padding: 0;
+  display: block;
+  height: $border-width-base;
+  border: 0;
+  border-top: $border-width-base solid $color-border;
+  margin: $spacing-8 0;
+  padding: 0;
 }
 
 figure {
-	margin: 0 0 $spacing-5;
+  margin: 0 0 $spacing-5;
 }
 
 figcaption {
-	margin-top: $spacing-3;
-	font-size: 0.9em;
-	font-style: italic;
-	color: $color-text-light;
-	text-align: center;
+  margin-top: $spacing-3;
+  font-size: 0.9em;
+  font-style: italic;
+  color: $color-text-light;
+  text-align: center;
 }
 
 table {
-	width: 100%;
-	margin-bottom: $spacing-5;
-	border-collapse: collapse;
-	border: $border-width-base solid $color-border;
+  width: 100%;
+  margin-bottom: $spacing-5;
+  border-collapse: collapse;
+  border: $border-width-base solid $color-border;
 }
 
 th,
 td {
-	padding: $spacing-3 $spacing-4;
-	text-align: left;
-	border: $border-width-base solid $color-border;
+  padding: $spacing-3 $spacing-4;
+  text-align: left;
+  border: $border-width-base solid $color-border;
 }
 
 th {
-	font-weight: $font-weight-semibold;
-	background-color: $color-background-alt;
+  font-weight: $font-weight-semibold;
+  background-color: $color-background-alt;
 }
 
 // Ensure lists within content areas have their default styles
 .entry-content {
+  ul,
+  ol {
+    margin-bottom: 1.5em;
+    padding-left: 1.5em;
+  }
 
-	ul,
-	ol {
-		margin-bottom: 1.5em;
-		padding-left: 1.5em; // Standard indentation for lists
-	}
+  ul {
+    list-style: disc;
+  }
 
-	ul {
-		list-style: disc;
-	}
+  ol {
+    list-style: decimal;
+  }
 
-	ol {
-		list-style: decimal;
-	}
-
-	li {
-		margin-bottom: 0.5em;
-	}
+  li {
+    margin-bottom: 0.5em;
+  }
 }

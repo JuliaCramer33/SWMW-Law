@@ -26,3 +26,4 @@ $spacing-64: $base-spacing-unit * 16;  // 256px
 
 // Common usage examples (can be overridden or extended)
 $section-padding-y: $spacing-16; // Default vertical padding for sections
+$hero-min-height: 181px; // For archive hero min height, matches legacy design

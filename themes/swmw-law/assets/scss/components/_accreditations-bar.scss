@@ -1,49 +1,38 @@
-// _accreditations-bar.scss
-// Styling for the Accreditations Bar component, displayed above the main footer.
-
 @use "../variables/variables" as *;
 
-.accreditations-bar__container {
-	// This wrapper can be used to add vertical spacing if needed,
-	// especially when it's not overlapping.
-	padding-top: $spacing-8;
-	padding-bottom: $spacing-8;
-}
+/**
+ * Accreditations Bar Component (Pattern)
+ * Styling for the Accreditations Bar component, displayed above the main footer
+ * This is a reusable pattern for displaying accreditation logos with title
+ */
 
 .accreditations-bar {
-	background-color: $color-gray-lightest;
-	padding: $spacing-8 $spacing-6; // Mobile padding first
-	position: relative;
-	overflow: hidden;
+  background-color: $color-gray-lightest;
+  padding: $spacing-8 $spacing-6; // Mobile padding first
+  position: relative;
+  overflow: hidden;
 
-	// When it overlaps, remove the container's padding
-	&.accreditations-bar--overlap {
+  // Content wrapper
+  &__content {
+    display: flex;
+    flex-direction: column; // Stacked on mobile
+    align-items: center; // Center content on mobile
+    gap: $spacing-6;
+    position: relative;
+    z-index: 1;
+  }
 
-		+ .accreditations-bar__container {
-			padding-top: 0;
-			padding-bottom: 0;
-		}
-	}
+  // Title area
+  &__title-area {
+    flex-shrink: 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-right: 0; // No padding on mobile
+    text-align: center; // Center title on mobile
 
-	&__content {
-		display: flex;
-		flex-direction: column; // Stacked on mobile
-		align-items: center; // Center content on mobile
-		gap: $spacing-6;
-		position: relative;
-		z-index: 1;
-	}
-
-	&__title-area {
-		flex-shrink: 0;
-		position: relative;
-		display: flex;
-		align-items: center;
-		padding-right: 0; // No padding on mobile
-		text-align: center; // Center title on mobile
-
-		// Hide diagonal separator on mobile by default
-		&::after {
+    // Diagonal separator background
+    &::after {
       display: block;
       content: "";
       position: absolute;
@@ -55,87 +44,98 @@
       transform: skewX(-20deg);
       transform-origin: top right;
       z-index: 0;
-		}
-	}
+    }
+  }
 
-	&__title {
-		font-size: $h3-font-size;
-		color: $color-text;
-		margin: 0;
-		position: relative;
-		z-index: 1;
-	}
+  // Title text
+  &__title {
+    font-size: $h3-font-size;
+    color: $color-text;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+  }
 
-	&__logos-area {
-		flex-grow: 1;
-		position: relative;
-		z-index: 1;
-	}
+  // Logos area
+  &__logos-area {
+    flex-grow: 1;
+    position: relative;
+    z-index: 1;
+  }
 
-	&__logos {
-		display: flex;
-		justify-content: center; // Center logos on mobile
-		align-items: center;
-		gap: $spacing-8;
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		flex-wrap: wrap; // Allow logos to wrap
-	}
+  // Logos container
+  &__logos {
+    display: flex;
+    justify-content: center; // Center logos on mobile
+    align-items: center;
+    gap: $spacing-8;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap; // Allow logos to wrap
+  }
 
-	&__logo-item {
+  // Individual logo items
+  &__logo-item {
+    img {
+      max-height: 50px;
+      width: auto;
+      object-fit: contain;
+      filter: grayscale(100%);
+      opacity: 0.8;
+      transition: all 0.3s ease;
 
-		img {
-			max-height: 50px;
-			width: auto;
-			object-fit: contain;
-			filter: grayscale(100%);
-			opacity: 0.8;
-			transition: all 0.3s ease;
+      &:hover {
+        filter: grayscale(0%);
+        opacity: 1;
+      }
+    }
+  }
 
-			&:hover {
-				filter: grayscale(0%);
-				opacity: 1;
-			}
-		}
-	}
+  // Overlap modifier
+  &--overlap {
+    margin-top: -60px; // Mobile overlap margin
+    z-index: 10;
+
+    + .accreditations-bar__container {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+
+  // Desktop styles
+  @media (min-width: $breakpoint-lg) {
+    padding: $spacing-12 $spacing-16; // Desktop padding
+
+    &__content {
+      flex-direction: row; // Side-by-side on desktop
+      align-items: stretch; // Make columns equal height
+    }
+
+    &__title-area {
+      padding-right: $spacing-16; // Restore desktop padding
+      text-align: left; // Align text to the left
+
+      // Re-enable and style the diagonal separator for desktop
+      &::after {
+        width: 200vw;
+        height: 200px;
+      }
+    }
+
+    &__logos {
+      justify-content: space-evenly; // Right-align logos on desktop
+      flex-wrap: nowrap; // Prevent wrapping on desktop
+    }
+
+    &--overlap {
+      margin-top: -100px; // Desktop overlap margin
+    }
+  }
 }
 
-// Modifier for when the bar needs to overlap the preceding section
-.accreditations-bar--overlap {
-	margin-top: -60px; // Mobile overlap margin
-	z-index: 10;
-}
-
-
-// Desktop styles - applied on screens larger than the breakpoint
-@media (min-width: $breakpoint-lg) {
-	.accreditations-bar {
-		padding: $spacing-12 $spacing-16; // Desktop padding
-
-		&__content {
-			flex-direction: row; // Side-by-side on desktop
-			align-items: stretch; // Make columns equal height
-		}
-
-		&__title-area {
-			padding-right: $spacing-16; // Restore desktop padding
-			text-align: left; // Align text to the left
-
-			// Re-enable and style the diagonal separator for desktop
-			&::after {
-				width: 200vw;
-				height: 200px;
-			}
-		}
-
-		&__logos {
-			justify-content: space-evenly; // Right-align logos on desktop
-			flex-wrap: nowrap; // Prevent wrapping on desktop
-		}
-	}
-
-	.accreditations-bar--overlap {
-		margin-top: -100px; // Desktop overlap margin
-	}
+// Container wrapper for spacing
+.accreditations-bar__container {
+  padding-top: $spacing-8;
+  padding-bottom: $spacing-8;
 }

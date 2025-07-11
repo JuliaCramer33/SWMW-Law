@@ -1,139 +1,152 @@
 @use "../variables/variables" as *;
 
+/* Attorneys Block Styles
+--------------------------------------------- */
+
 .attorneys-block {
-	padding: $spacing-6 0;
+  padding: $spacing-6 0;
 
-	.splide {
-		position: relative;
-	}
+  // Splide slider base styles
+  .splide {
+    position: relative;
 
-	.splide__track {
-		overflow: hidden;
-	}
+    &__track {
+      overflow: hidden;
+    }
 
-	.splide__list {
-		display: flex;
-		align-items: flex-start;
-		height: auto !important; // Override Splide's default
-	}
+    &__list {
+      display: flex;
+      align-items: flex-start;
+      height: auto !important; // Override Splide's default
+    }
 
-	.splide__slide {
-		flex-shrink: 0;
-		width: 100%;
+    &__slide {
+      flex-shrink: 0;
+      width: 100%;
 
-		@media (min-width: $breakpoint-md) {
-			width: 50%;
-		}
+      @media (min-width: $breakpoint-md) {
+        width: 50%;
+      }
 
-		@media (min-width: $breakpoint-lg) {
-			width: 33.333%;
-		}
+      @media (min-width: $breakpoint-lg) {
+        width: 33.333%;
+      }
 
-		@media (min-width: 1200px) {
-			width: 25%;
-		}
-	}
+      @media (min-width: 1200px) {
+        width: 25%;
+      }
+    }
 
-	.splide__arrows {
+    // Navigation arrows
+    &__arrows {
+      .splide__arrow {
+        position: absolute;
+        top: 40%;
+        transform: translateY(-50%);
+        background: transparent;
+        border: none;
+        opacity: 0.7;
+        transition: opacity 0.2s ease;
+        z-index: 10;
 
-		.splide__arrow {
-			position: absolute;
-			top: 40%;
-			transform: translateY(-50%);
-			background: transparent;
-			border: none;
-			opacity: 0.7;
-			transition: opacity 0.2s ease;
-			z-index: 10;
+        &--prev {
+          left: -50px;
 
-			&--prev {
-				left: -50px;
+          svg {
+            transform: rotate(360deg);
+          }
+        }
 
-				svg {
-					transform: rotate(360deg);
-				}
-			}
+        &--next {
+          right: -50px;
+        }
 
-			&--next {
-				right: -50px;
-			}
+        svg {
+          stroke: $color-primary;
+          fill: none !important;
+          width: 14px;
+          height: 22px;
+        }
 
-			svg {
-				stroke: $color-primary;
-				fill: none !important;
-				width: 14px;
-				height: 22px;
-			}
+        &:hover {
+          opacity: 1;
+        }
 
-			&:hover {
-				opacity: 1;
-			}
+        &:disabled {
+          opacity: 0.3;
+        }
+      }
+    }
+  }
 
-			&:disabled {
-				opacity: 0.3;
-			}
-		}
-	}
+  // Attorney item styles
+  .attorney-item {
+    &-inner {
+      position: relative; // Establish a positioning context for the stretched link
+    }
 
-	.attorney-item-inner {
-		position: relative; // Establish a positioning context for the stretched link.
-	}
+    // Hover effects
+    &:hover {
+      .attorney-image img {
+        transform: scale(1.05);
+      }
 
-	.attorney-image {
-		overflow: hidden; // Contain the zoomed image
+      .attorney-name a {
+        color: $color-primary;
+        text-decoration: underline;
+      }
+    }
+  }
 
-		img {
-			transition: transform 0.5s ease;
-			width: 100%;
-		}
+  // Attorney image styles
+  .attorney-image {
+    overflow: hidden; // Contain the zoomed image
 
-		a {
-			color: $color-secondary;
-			text-decoration: none;
+    img {
+      transition: transform 0.5s ease;
+      width: 100%;
+    }
 
-			&::after {
-				content: "";
-				position: absolute;
-				top: 0;
-				left: 0;
-				right: 0;
-				bottom: 0;
-				z-index: 1; // Ensure it's clickable
-			}
+    a {
+      color: $color-secondary;
+      text-decoration: none;
 
-			&:hover {
-				text-decoration: underline;
-			}
-		}
-	}
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1; // Ensure it's clickable
+      }
 
-	.attorney-item:hover .attorney-image img {
-		transform: scale(1.05);
-	}
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
 
-	.attorney-item:hover .attorney-name a {
-		color: $color-primary;
-		text-decoration: underline;
-	}
+  // Attorney name styles
+  .attorney-name {
+    font-family: $font-poppins;
+    font-weight: $font-weight-bold;
+    font-size: $h4-font-size; // 24px
+    line-height: $h4-line-height; // 29px / 24px
+    margin-top: $spacing-4;
 
-	.attorney-name {
-		font-family: $font-poppins;
-		font-weight: $font-weight-bold;
-		font-size: $h4-font-size; // 24px
-		line-height: $h4-line-height; // 29px / 24px
-		margin-top: $spacing-4;
+    a {
+      color: $color-secondary;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+  }
 
-		a {
-			color: $color-secondary;
-			text-decoration: none;
-			transition: color 0.3s ease;
-		}
-	}
-
-	.attorney-title {
-		color: $color-text-light;
-		font-family: $font-montserrat;
-		font-size: $font-size-base;
-		font-weight: $font-weight-normal;
-	}
+  // Attorney title styles
+  .attorney-title {
+    color: $color-text-light;
+    font-family: $font-montserrat;
+    font-size: $font-size-base;
+    font-weight: $font-weight-normal;
+  }
 }

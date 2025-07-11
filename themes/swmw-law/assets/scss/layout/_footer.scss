@@ -2,261 +2,346 @@
 @use "sass:math"; // Ensure math is imported
 
 .site-footer {
-	background-color: $color-white; // Changed to white background
-	color: $color-text; // Default text color for footer, can be overridden
-	font-size: $font-size-sm;
-	padding-top: $spacing-8;
-	padding-bottom: $spacing-4;
+  background-color: $color-white; // Changed to white background
+  color: $color-text; // Default text color for footer, can be overridden
+  font-size: $font-size-sm;
+  padding-top: $spacing-8;
+  padding-bottom: $spacing-4;
 
-	.widget-title {
-		color: $color-secondary; // Changed to Green
-		font-size: $font-size-lg; // Slightly larger for titles
-		font-weight: $font-weight-bold;
-		margin-bottom: $spacing-4;
-		display: flex;
-		align-items: center; // Vertically center align the text and the line
+  a {
+    color: $color-text; // Default link color in footer
+    text-decoration: none;
 
-		.widget-title-line {
-			flex-grow: 1; // Allows the line to take up remaining horizontal space
-			height: 0.5px; // Thickness of the line - TRYING 0.5px
-			background-color: $color-secondary; // Green line
-			margin-left: $spacing-3; // Space between the title text and the line
-		}
-	}
+    &:hover {
+      color: $color-secondary; // Hover to Green
+      text-decoration: underline;
+    }
+  }
 
-	a {
-		color: $color-text; // Default link color in footer
-		text-decoration: none;
+  .footer-main {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding-bottom: $spacing-8;
 
-		&:hover {
-			color: $color-secondary; // Hover to Green
-			text-decoration: underline;
-		}
-	}
+    .footer-brand {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding: 0 $spacing-4;
+      margin-bottom: $spacing-6;
 
-	.footer-bottom {
-		.footer-bottom-inner {
-			display: flex;
-			flex-wrap: wrap;
-			justify-content: space-between;
-			border-top: 1px solid $color-divider;
-			margin-bottom: $spacing-6;
-			padding-top: $spacing-6;
-			align-items: center;
-			gap: $spacing-4;
-		}
+      .footer-branded-separator {
+        max-width: 200px;
+        margin-bottom: $spacing-3;
+      }
 
-		.footer-copyright {
-			font-size: $font-size-xs;
-			color: $color-text;
-			flex-basis: 70%;
+      .footer-tagline {
+        font: $font-weight-normal #{$font-size-xl}/#{1.4} $font-poppins;
+        color: $color-secondary;
+        margin-top: $spacing-3;
+        padding-left: $spacing-1;
+        position: relative;
 
-			p {
-				margin-bottom: $spacing-2;
+        strong,
+        b {
+          font-weight: 700;
+        }
 
-				&:last-child {
-					margin-bottom: $spacing-0;
-				}
-			}
+        p {
+          margin-bottom: $spacing-1;
+          line-height: inherit;
 
-			a {
-				color: $color-text;
-				text-decoration: underline;
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
 
-				&:hover {
-					color: $color-secondary;
-				}
-			}
-		}
+      .custom-logo-link {
+        display: inline-block;
+      }
+    }
 
-		.footer-disclaimer {
-			font-size: em(10px);
-			line-height: 1.4;
-			color: $color-text;
-			margin-top: $spacing-3;
+    .footer-link-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-4;
+      width: 100%;
 
-			a {
-				color: $color-text;
-				text-decoration: underline;
+      .widget-title {
+        color: $color-secondary; // Changed to Green
+        font-size: $font-size-lg; // Slightly larger for titles
+        font-weight: $font-weight-bold;
+        margin-bottom: $spacing-4;
+        display: flex;
+        align-items: center; // Vertically center align the text and the line
 
-				&:hover {
-					color: $color-secondary;
-				}
-			}
-		}
+        .widget-title-line {
+          flex-grow: 1; // Allows the line to take up remaining horizontal space
+          height: 0.5px; // Thickness of the line - TRYING 0.5px
+          background-color: $color-secondary; // Green line
+          margin-left: $spacing-3; // Space between the title text and the line
+        }
+      }
 
-		.footer-social {
-			flex-basis: 25%;
-			text-align: right;
+      .footer-offices,
+      .footer-links {
+        width: 100%;
+        padding: $spacing-4 0;
+        display: flex;
+        flex-direction: column;
+      }
 
-			.social-media-list {
-				list-style: none;
-				padding: $spacing-0;
-				margin: $spacing-0;
-				display: flex;
-				gap: $spacing-2;
-				justify-content: flex-end;
+      .footer-offices {
+        h3 {
+          font-size: $font-size-base;
+          font-weight: $font-weight-bold;
+          color: $color-text;
+          margin-bottom: $spacing-1;
+        }
 
-				li a {
-					display: flex;
-					align-items: center;
-					justify-content: center;
-					width: 36px;
-					height: 36px;
-					background-color: $color-gray-lightest;
-					border-radius: 50%;
-					color: $color-text;
-					font-size: $font-size-base;
-					text-decoration: none;
-					transition: background-color 0.2s ease, color 0.2s ease, filter 0.2s ease;
+        p {
+          margin-bottom: $spacing-2;
+          line-height: $base-line-height;
+        }
 
-					img.social-icon {
-						width: 60%;
-						height: 60%;
-						object-fit: contain;
-						filter: grayscale(100%) brightness(60%);
-					}
+        .office-location {
+          margin-bottom: $spacing-4;
 
-					img.bbb-icon {
-						width: 70%;
-						height: 70%;
-					}
+          &:last-child {
+            margin-bottom: $spacing-0;
+          }
+        }
 
-					&:hover {
-						background-color: $color-secondary;
+        .map-directions-link {
+          color: $color-secondary;
+          font-weight: $font-weight-medium;
+          text-decoration: underline;
 
-						img.social-icon {
-							filter: brightness(0) invert(1);
-						}
-					}
-				}
-			}
-		}
-	}
+          &:hover {
+            text-decoration: none;
+          }
+        }
+      }
 
-	.footer-main {
-		padding-bottom: $spacing-8;
+      .footer-links {
+        .footer-nav-list {
+          list-style: none;
+          padding: $spacing-0;
+          margin: $spacing-0;
+          columns: 2;
+          gap: $spacing-4;
 
-		.footer-column {
-			padding: 0 $spacing-4;
-		}
+          li {
+            margin-bottom: $spacing-2;
 
-		.footer-offices {
-			h3 {
-				font-size: $font-size-base;
-				font-weight: $font-weight-bold;
-				color: $color-text;
-				margin-bottom: $spacing-1;
-			}
+            a {
+              color: $color-text;
+              font-weight: $font-weight-bold;
 
-			p {
-				margin-bottom: $spacing-2;
-				line-height: $base-line-height;
-			}
+              &:hover {
+                color: $color-secondary;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 
-			.office-location {
-				margin-bottom: $spacing-4;
+  .footer-bottom {
+    .footer-bottom-inner {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      border-top: 1px solid $color-divider;
+      margin-bottom: $spacing-6;
+      padding-top: $spacing-6;
+      align-items: center;
+      gap: $spacing-4;
+      text-align: center;
+    }
 
-				&:last-child {
-					margin-bottom: $spacing-0;
-				}
-			}
+    .footer-copyright {
+      font-size: $font-size-xs;
+      color: $color-text;
+      flex-basis: 70%;
 
-			.map-directions-link {
-				color: $color-secondary;
-				font-weight: $font-weight-medium;
-				text-decoration: underline;
+      p {
+        margin-bottom: $spacing-2;
 
-				&:hover {
-					text-decoration: none;
-				}
-			}
-		}
+        &:last-child {
+          margin-bottom: $spacing-0;
+        }
+      }
 
-		.footer-brand {
-			.site-logo img {
-				max-width: 200px;
-				margin-bottom: $spacing-3;
-			}
+      a {
+        color: $color-text;
+        text-decoration: underline;
 
-			.footer-tagline {
-				font: $font-weight-normal #{$font-size-xl}/#{1.4} $font-poppins;
-				color: $color-secondary;
-				margin-top: $spacing-3;
-				padding-left: $spacing-1;
-				position: relative;
+        &:hover {
+          color: $color-secondary;
+        }
+      }
+    }
 
-				strong,
-				b {
-					font-weight: 700;
-				}
+    .footer-disclaimer {
+      font-size: em(10px);
+      line-height: 1.4;
+      color: $color-text;
+      margin-top: $spacing-3;
 
-				p {
-					margin-bottom: $spacing-1;
-					line-height: inherit;
+      a {
+        color: $color-text;
+        text-decoration: underline;
 
-					&:last-child {
-						margin-bottom: 0;
-					}
-				}
-			}
+        &:hover {
+          color: $color-secondary;
+        }
+      }
+    }
 
-			.custom-logo-link {
-				display: inline-block;
-			}
+    .footer-social {
+      flex-basis: 25%;
+      text-align: right;
 
-			.custom-logo {
-				max-width: 290px;
-				height: auto;
-			}
-		}
+      .social-media-list {
+        list-style: none;
+        padding: $spacing-0;
+        margin: $spacing-0;
+        display: flex;
+        gap: $spacing-2;
+        justify-content: flex-end;
 
-		.footer-links {
-			.footer-nav-list {
-				list-style: none;
-				padding: $spacing-0;
-				margin: $spacing-0;
-				columns: 2;
-				gap: $spacing-4;
+        li a {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 36px;
+          height: 36px;
+          background-color: $color-gray-lightest;
+          border-radius: 50%;
+          color: $color-text;
+          font-size: $font-size-base;
+          text-decoration: none;
+          transition: background-color 0.2s ease, color 0.2s ease, filter 0.2s ease;
 
-				li {
-					margin-bottom: $spacing-2;
+          img.social-icon {
+            width: 60%;
+            height: 60%;
+            object-fit: contain;
+            filter: grayscale(100%) brightness(60%);
+          }
 
-					a {
-						color: $color-text;
-						font-weight: $font-weight-bold;
+          img.bbb-icon {
+            width: 70%;
+            height: 70%;
+          }
 
-						&:hover {
-							color: $color-secondary;
-						}
-					}
-				}
-			}
-		}
-	}
+          &:hover {
+            background-color: $color-secondary;
 
-	// Responsive adjustments
-	@media (max-width: $breakpoint-md) {
-		.footer-main {
-			.footer-brand,
-			.footer-offices,
-			.footer-links {
-				margin-bottom: $spacing-6;
-			}
-		}
+            img.social-icon {
+              filter: brightness(0) invert(1);
+            }
+          }
+        }
+      }
+    }
+  }
 
-		.footer-bottom-inner {
-			flex-direction: column;
-			text-align: center;
-		}
+  // Tablet (min-width: $breakpoint-sm)
+  @media (min-width: $breakpoint-sm) {
+    .footer-main {
+      .footer-brand,
+      .footer-link-wrapper {
+        padding: $spacing-2 0;
+      }
 
-		.footer-social {
-			text-align: center;
-			margin-top: $spacing-4;
+      .footer-link-wrapper {
+        gap: $spacing-2;
+      }
+    }
 
-			.social-media-list {
-				justify-content: center;
-			}
-		}
-	}
+    .footer-links .footer-nav-list {
+      columns: 1;
+      gap: $spacing-2;
+    }
+
+    .footer-offices .office-location {
+      margin-bottom: $spacing-2;
+    }
+  }
+
+  // Desktop (min-width: $breakpoint-md)
+  @media (min-width: $breakpoint-md) {
+    .footer-main {
+      flex-direction: row;
+
+      .footer-brand {
+        flex: 1 0 30%;
+        max-width: 30%;
+        margin-bottom: 0;
+      }
+
+      .footer-link-wrapper {
+        flex: 0 0 70%;
+        max-width: 70%;
+        flex-direction: row;
+        gap: $spacing-6;
+
+        .footer-offices,
+        .footer-links {
+          flex: 1 1 0;
+          max-width: 50%;
+          padding: 0 $spacing-4;
+        }
+
+        .footer-links {
+          .footer-nav-list {
+            columns: 1;
+          }
+        }
+      }
+    }
+
+    .footer-bottom-inner {
+      flex-direction: row;
+      text-align: left;
+    }
+
+    .footer-social {
+      text-align: right;
+
+      .social-media-list {
+        justify-content: flex-end;
+      }
+    }
+  }
+
+  // Desktop (min-width: $breakpoint-lg)
+  @media (min-width: $breakpoint-lg) {
+    .footer-main {
+      flex-direction: row;
+
+      .footer-brand {
+        flex: 1 0 40%;
+        max-width: 40%;
+      }
+
+      .footer-link-wrapper {
+        flex: 0 0 60%;
+        max-width: 60%;
+
+        .footer-links {
+          .footer-nav-list {
+            columns: 2;
+          }
+        }
+      }
+    }
+  }
 }

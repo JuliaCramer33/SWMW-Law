@@ -1,0 +1,86 @@
+// =============================================================================
+// RESULT CARD
+// =============================================================================
+// Shared result card component used across blocks and templates.
+// Provides consistent styling for attorney results, settlements, and verdicts.
+// Structure:
+//   .result-item-inner (card container)
+//     .result-category (badge)
+//     .result-amount (monetary value)
+//     .result-title (case title)
+//     .result-description (case details)
+// Usage:
+//   <div class="result-item-inner">
+//     <span class="result-category">Settlement</span>
+//     <div class="result-amount">$2.5 Million</div>
+//     <h3 class="result-title">Personal Injury Case</h3>
+//     <p class="result-description">Successfully negotiated settlement...</p>
+//   </div>
+// =============================================================================
+
+@use "sass:color";
+@use "../variables/variables" as *;
+
+// =============================================================================
+// RESULT CARD CONTAINER
+// =============================================================================
+
+.result-item-inner {
+  height: 100%;
+  background-color: $color-white;
+  border-radius: 0;
+  box-shadow: $box-shadow-md;
+  padding: $spacing-8 $spacing-6;
+  text-align: center;
+  border: 1px solid $color-gray-lighter;
+  display: flex;
+  flex-direction: column;
+}
+
+// =============================================================================
+// RESULT CARD ELEMENTS
+// =============================================================================
+
+// Category badge
+.result-category {
+  display: inline-block;
+  align-self: center;
+  background-color: color.adjust($color-secondary, $lightness: 48%, $alpha: -0.5);
+  color: $color-secondary;
+  font-family: $font-montserrat;
+  font-weight: $font-weight-medium;
+  font-size: $font-size-sm;
+  padding: $spacing-1 $spacing-4;
+  border-radius: $border-radius-pill;
+  text-transform: uppercase;
+  margin-bottom: $spacing-6;
+  letter-spacing: 0.5px;
+}
+
+// Monetary amount
+.result-amount {
+  color: $color-secondary;
+  font-family: $font-poppins;
+  font-weight: $font-weight-bold;
+  font-size: $h2-font-size;
+  line-height: 1.2;
+  margin: 0 0 $spacing-2;
+}
+
+// Case title
+.result-title {
+  font-family: $font-poppins;
+  font-weight: $font-weight-bold;
+  font-size: $font-size-base;
+  line-height: 1.4;
+  color: $color-text;
+  margin: 0 0 $spacing-4;
+}
+
+// Case description
+.result-description {
+  font-size: $font-size-base;
+  line-height: $line-height-relaxed;
+  color: $color-text-light;
+  margin-top: auto; // Pushes description to the bottom
+}

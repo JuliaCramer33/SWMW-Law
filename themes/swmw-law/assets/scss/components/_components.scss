@@ -1,11 +1,21 @@
-/* Component Styles Importer
---------------------------------------------- */
+// =============================================================================
+// COMPONENTS IMPORTER
+// =============================================================================
+// Central import file for all component styles.
+// Imports are organized by dependency order and functionality.
+// Order matters: Base components first, then complex components
+// that may depend on base styles.
+// =============================================================================
 
-// Import global partials in a cascading order.
+// Base Components (foundational styles)
+@forward "animations";        // Animation system and utilities
+@forward "breadcrumbs";       // Breadcrumb navigation
+@forward "pagination";        // Pagination controls
 
-@forward "navigation"; // Main navigation styles
-@forward "mega-menu";  // Mega menu specific styles
-@forward "pagination"; // Pagination styles
-@forward "accreditations-bar";
-@forward "breadcrumbs";
-// Add other component forwards as needed
+// Navigation Components (interdependent)
+@forward "navigation";        // Main navigation styles
+@forward "mega-menu";        // Mega menu specific styles
+
+// Content Components (standalone)
+@forward "accreditations-bar"; // Accreditations display bar
+@forward "result-card";       // Attorney result card component

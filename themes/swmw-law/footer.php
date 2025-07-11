@@ -35,8 +35,8 @@
 
 		<footer id="colophon" class="site-footer" role="contentinfo">
 			<div class="container-lg">
-				<div class="footer-main d-flex flex-wrap row-gutter-6">
-					<div class="footer-column footer-brand col-12 col-md-4 px-6">
+				<div class="footer-main">
+					<div class="footer-column footer-brand">
 						<?php
 						if ( function_exists( 'the_custom_logo' ) && has_custom_logo() ) {
 							the_custom_logo();
@@ -58,62 +58,64 @@
 						</div>
 					</div>
 
-					<div class="footer-column footer-offices col-12 col-md-4 px-6">
-						<h2 class="widget-title">
-							<span class="widget-title-text"><?php esc_html_e( 'Our Offices', 'swmw-law' ); ?></span>
-							<span class="widget-title-line"></span>
-						</h2>
-						<div class="office-locations d-flex flex-wrap row-gutter-2">
-							<?php
-							if ( have_rows( 'footer_offices', 'option' ) ) :
-								while ( have_rows( 'footer_offices', 'option' ) ) : the_row();
-									$office_name     = get_sub_field( 'office_name' );
-									$office_address  = get_sub_field( 'office_address' );
-									$office_map_link = get_sub_field( 'office_map_link' );
-									?>
-									<div class="office-location col-6 px-2">
-										<?php if ( $office_name ) : ?>
-											<h3><?php echo esc_html( $office_name ); ?></h3>
-										<?php endif; ?>
-										<?php if ( $office_address ) : ?>
-											<p><?php echo wp_kses_post( $office_address ); ?></p>
-										<?php endif; ?>
-										<?php 
-										if ( $office_map_link && !empty( $office_map_link['url'] ) ) :
-											$link_url   = $office_map_link['url'];
-											$link_title = !empty( $office_map_link['title'] ) ? $office_map_link['title'] : __( 'Map & Directions', 'swmw-law' );
-											$link_target = !empty( $office_map_link['target'] ) ? $office_map_link['target'] : '';
-											?>
-											<a href="<?php echo esc_url( $link_url ); ?>" class="map-directions-link"<?php if ( ! empty( $link_target ) ) { echo ' target="' . esc_attr( $link_target ) . '"'; } ?>><?php echo esc_html( $link_title ); ?></a>
-										<?php endif; ?>
-									</div>
-									<?php 
-								endwhile;
-							else :
-								// No rows found
-							endif;
-							?>
-						</div>
-					</div>
-
-					<div class="footer-column footer-links col-12 col-md-4 px-6">
-						<h2 class="widget-title">
-							<span class="widget-title-text"><?php esc_html_e( 'Helpful Links', 'swmw-law' ); ?></span>
-							<span class="widget-title-line"></span>
-						</h2>
-						<?php if ( has_nav_menu( 'footer' ) ) : ?>
-							<nav class="footer-navigation" aria-label="<?php esc_attr_e( 'Footer Menu', 'swmw-law' ); ?>">
+					<div class="footer-link-wrapper">
+						<div class="footer-column footer-offices">
+							<h2 class="widget-title">
+								<span class="widget-title-text"><?php esc_html_e( 'Our Offices', 'swmw-law' ); ?></span>
+								<span class="widget-title-line"></span>
+							</h2>
+							<div class="office-locations d-flex flex-wrap row-gutter-2">
 								<?php
-								wp_nav_menu(
-									array(
-										'theme_location' => 'footer',
-										'menu_class'     => 'footer-nav-list',
-										'depth'          => 1, // Assuming flat list based on comp
-									)
-								);
+								if ( have_rows( 'footer_offices', 'option' ) ) :
+									while ( have_rows( 'footer_offices', 'option' ) ) : the_row();
+										$office_name     = get_sub_field( 'office_name' );
+										$office_address  = get_sub_field( 'office_address' );
+										$office_map_link = get_sub_field( 'office_map_link' );
+										?>
+										<div class="office-location col-6 px-2">
+											<?php if ( $office_name ) : ?>
+												<h3><?php echo esc_html( $office_name ); ?></h3>
+											<?php endif; ?>
+											<?php if ( $office_address ) : ?>
+												<p><?php echo wp_kses_post( $office_address ); ?></p>
+											<?php endif; ?>
+											<?php 
+											if ( $office_map_link && !empty( $office_map_link['url'] ) ) :
+												$link_url   = $office_map_link['url'];
+												$link_title = !empty( $office_map_link['title'] ) ? $office_map_link['title'] : __( 'Map & Directions', 'swmw-law' );
+												$link_target = !empty( $office_map_link['target'] ) ? $office_map_link['target'] : '';
+												?>
+												<a href="<?php echo esc_url( $link_url ); ?>" class="map-directions-link"<?php if ( ! empty( $link_target ) ) { echo ' target="' . esc_attr( $link_target ) . '"'; } ?>><?php echo esc_html( $link_title ); ?></a>
+											<?php endif; ?>
+										</div>
+										<?php 
+									endwhile;
+								else :
+									// No rows found
+								endif;
 								?>
-							</nav>
-						<?php endif; ?>
+							</div>
+						</div>
+
+						<div class="footer-column footer-links">
+							<h2 class="widget-title">
+								<span class="widget-title-text"><?php esc_html_e( 'Helpful Links', 'swmw-law' ); ?></span>
+								<span class="widget-title-line"></span>
+							</h2>
+							<?php if ( has_nav_menu( 'footer' ) ) : ?>
+								<nav class="footer-navigation" aria-label="<?php esc_attr_e( 'Footer Menu', 'swmw-law' ); ?>">
+									<?php
+									wp_nav_menu(
+										array(
+											'theme_location' => 'footer',
+											'menu_class'     => 'footer-nav-list',
+											'depth'          => 1, // Assuming flat list based on comp
+										)
+									);
+									?>
+								</nav>
+							<?php endif; ?>
+						</div>
 					</div>
 				</div>
 			</div>

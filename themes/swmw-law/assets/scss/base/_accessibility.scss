@@ -3,30 +3,30 @@
 /* Accessibility */
 
 .screen-reader-text {
-	border: 0;
-	clip: rect(1px, 1px, 1px, 1px);
-	clip-path: inset(50%);
-	height: 1px;
-	margin: -1px;
-	overflow: hidden;
-	padding: 0;
-	position: absolute !important;
-	width: 1px;
-	word-wrap: normal !important;
+  border: 0;
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  word-wrap: normal !important;
 }
 
 .skip-link {
-	position: absolute;
-	top: -40px;
-	left: 0;
-	background: $color-background;
-	color: $color-link;
-	padding: $spacing-3 $spacing-4;
-	z-index: $z-index-skip-link;
-	transition: top 0.3s ease-in-out;
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: $color-background;
+  color: $color-link;
+  padding: $spacing-3 $spacing-4;
+  z-index: $z-index-skip-link;
+  transition: top 0.3s ease-in-out;
 
-	&:focus {
-		top: 0;
-		text-decoration: underline;
-	}
+  &:focus {
+    top: 0;
+    text-decoration: underline;
+  }
 }

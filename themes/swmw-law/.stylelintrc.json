@@ -3,7 +3,7 @@
     "@wordpress/stylelint-config/scss"
   ],
   "rules": {
-    "indentation": "tab",
+    "indentation": 2,
     "no-descending-specificity": null,
     "max-line-length": null,
     "function-url-quotes": "never",

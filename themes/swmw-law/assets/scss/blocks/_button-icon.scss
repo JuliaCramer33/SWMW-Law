@@ -1,14 +1,13 @@
 .wp-block-button {
+  .wp-block-button__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em; // Adjust as needed
+  }
 
-	.wp-block-button__link {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.5em; // Adjust as needed
-	}
-
-	.wp-block-button__icon {
-		width: 1em;
-		height: 1em;
-		object-fit: contain;
-	}
+  .wp-block-button__icon {
+    width: 1em;
+    height: 1em;
+    object-fit: contain;
+  }
 }

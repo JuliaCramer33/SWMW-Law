@@ -224,6 +224,76 @@ add_action( 'wp_ajax_load_more_attorneys', __NAMESPACE__ . '\swmw_law_load_more_
 add_action( 'wp_ajax_nopriv_load_more_attorneys', __NAMESPACE__ . '\swmw_law_load_more_attorneys_handler' );
 
 /**
+ * AJAX handler for loading more results (swmw_result).
+ */
+function swmw_law_load_more_results_handler() {
+    // Verify nonce for security
+    if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'swmw_law_load_more_results_nonce' ) ) {
+        wp_send_json_error( ['message' => 'Invalid security token'], 403 );
+        wp_die();
+    }
+
+    $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
+    $posts_per_page = get_option('posts_per_page');
+
+    $args = [
+        'post_type'      => 'swmw_result',
+        'posts_per_page' => $posts_per_page,
+        'paged'          => $page,
+        'post_status'    => 'publish',
+        'tax_query'      => [
+            [
+                'taxonomy' => 'swmw_result_status',
+                'field'    => 'slug',
+                'terms'    => 'featured',
+                'operator' => 'NOT IN',
+            ],
+        ],
+    ];
+
+    $results_query = new \WP_Query( $args );
+
+    if ( $results_query->have_posts() ) :
+        ob_start();
+        while ( $results_query->have_posts() ) :
+            $results_query->the_post();
+            // Use the same markup as in your grid:
+            $case_types     = get_the_terms( get_the_ID(), 'swmw_result_category' );
+            $case_type_name = ! empty( $case_types ) && ! is_wp_error( $case_types ) ? $case_types[0]->name : '';
+            ?>
+            <div class="result-item-inner">
+                <?php if ( $case_type_name ) : ?>
+                    <span class="result-category"><?php echo esc_html( $case_type_name ); ?></span>
+                <?php endif; ?>
+                <h3 class="result-amount"><?php echo esc_html( get_field( 'result_amount' ) ); ?></h3>
+                <h4 class="result-title"><?php the_title(); ?></h4>
+                <div class="result-description">
+                    <?php the_excerpt(); ?>
+                </div>
+            </div>
+            <?php
+        endwhile;
+        $html = ob_get_clean();
+        wp_send_json_success( [
+            'html'        => $html,
+            'max_pages'   => $results_query->max_num_pages,
+            'current_page'=> $page
+        ] );
+    else :
+        wp_send_json_success( [
+            'html'        => '',
+            'max_pages'   => $results_query->max_num_pages,
+            'current_page'=> $page
+        ] );
+    endif;
+
+    wp_reset_postdata();
+    wp_die();
+}
+add_action( 'wp_ajax_load_more_results', __NAMESPACE__ . '\swmw_law_load_more_results_handler' );
+add_action( 'wp_ajax_nopriv_load_more_results', __NAMESPACE__ . '\swmw_law_load_more_results_handler' );
+
+/**
  * Render the icon on the front-end for the core/button block.
  *
  * @param string $block_content The block content.
