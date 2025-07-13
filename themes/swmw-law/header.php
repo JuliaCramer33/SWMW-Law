@@ -60,13 +60,21 @@
               ?>
                 <div class="header-phone">
                   <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/phone-icon.svg' ); ?>" alt="<?php esc_attr_e( 'Phone Icon', 'swmw-law' ); ?>" class="phone-icon" />
-                  <a href="tel:<?php echo esc_attr( preg_replace( '/[^0-9+]', '', $phone_number ) ); ?>"><?php echo esc_html( $phone_number ); ?></a>
+                  <a href="tel:<?php echo esc_attr( preg_replace( '/[^0-9+]/', '', $phone_number ) ); ?>">
+									<svg class="phone-icon" viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true">
+										<path d="M0 0h24v24H0V0z" fill="none"/>
+										<path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+									</svg>
+									<span><?php echo esc_html( $phone_number ); ?></span>
+								</a>
                 </div>
               <?php endif; ?>
             </div>
           </div>
 				</div>
 			</header>
+
+			<div class="mobile-menu-overlay" aria-hidden="true"></div>
 
 			<div id="mobile-navigation-panel" class="mobile-navigation-panel" aria-hidden="true" tabindex="-1">
 				<div class="mobile-navigation-panel-body">
@@ -80,23 +88,8 @@
 						) );
 						?>
 					</nav>
-					<ul class="mobile-bottom-links">
-						<?php
-						$phone_number = get_theme_mod( 'swmw_law_phone' );
-						if ( ! empty( $phone_number ) ) :
-						?>
-							<li class="button mobile-phone-button">
-								<a href="tel:<?php echo esc_attr( preg_replace( '/[^0-9+]/', '', $phone_number ) ); ?>">
-									<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/phone-icon.svg' ); ?>" alt="<?php esc_attr_e( 'Phone Icon', 'swmw-law' ); ?>" class="phone-icon" />
-									<span><?php echo esc_html( $phone_number ); ?></span>
-								</a>
-							</li>
-						<?php endif; ?>
-					</ul>
-					<?php
-					// If you also want the utility menu in the mobile panel:
-					/*
-					if ( has_nav_menu( 'utility_header') ) : ?>
+					
+					<?php if ( has_nav_menu( 'utility_header' ) ) : ?>
 						<nav class="mobile-utility-navigation" role="navigation" aria-label="<?php esc_attr_e( 'Mobile Utility Navigation', 'swmw-law' ); ?>">
 							<?php
 							wp_nav_menu( array(
@@ -106,8 +99,37 @@
 							) );
 							?>
 						</nav>
-					<?php endif; */
-					?>
+					<?php endif; ?>
+					
+					<ul class="mobile-bottom-links">
+						<?php
+						// Add CTA button (you can customize this)
+						$cta_text = get_theme_mod( 'swmw_law_cta_text', 'Free Consultation' );
+						$cta_link = get_theme_mod( 'swmw_law_cta_link', '/contact' );
+						if ( ! empty( $cta_text ) ) :
+						?>
+							<li class="button mobile-cta-button">
+								<a href="<?php echo esc_url( $cta_link ); ?>">
+									<span><?php echo esc_html( $cta_text ); ?></span>
+								</a>
+							</li>
+						<?php endif; ?>
+						
+						<?php
+						$phone_number = get_theme_mod( 'swmw_law_phone' );
+						if ( ! empty( $phone_number ) ) :
+						?>
+							<li class="button mobile-phone-button">
+								<a href="tel:<?php echo esc_attr( preg_replace( '/[^0-9+]/', '', $phone_number ) ); ?>">
+									<svg class="phone-icon" viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true">
+										<path d="M0 0h24v24H0V0z" fill="none"/>
+										<path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+									</svg>
+									<span><?php echo esc_html( $phone_number ); ?></span>
+								</a>
+							</li>
+						<?php endif; ?>
+					</ul>
 				</div>
 			</div>
 

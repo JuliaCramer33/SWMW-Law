@@ -20,13 +20,15 @@
   white-space: nowrap;
   vertical-align: middle;
   user-select: none;
+  position: relative; // Ensure positioning context
+  pointer-events: all; // Ensure entire button is clickable
 }
 
 @mixin button-animation($swipe-bg-color: $color-white, $hover-text-color: $color-primary) {
   position: relative;
   overflow: hidden;
   z-index: 1;
-  transition: color 0.7s cubic-bezier(0.7, 0, 0.3, 1), background-color 0.7s cubic-bezier(0.7, 0, 0.3, 1), box-shadow 0.2s ease-in-out;
+  transition: color 0.4s cubic-bezier(0.7, 0, 0.3, 1), background-color 0.4s cubic-bezier(0.7, 0, 0.3, 1), box-shadow 0.2s ease-in-out;
 
   &::before {
     content: "";
@@ -40,6 +42,7 @@
     transform-origin: right center;
     transform: translateX(100%) skewX(-25deg);
     transition: transform 0.7s cubic-bezier(0.7, 0, 0.3, 1);
+    pointer-events: none; // Prevent interference with hover detection
   }
 
   &:hover,

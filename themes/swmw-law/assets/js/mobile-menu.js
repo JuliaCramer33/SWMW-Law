@@ -1,11 +1,12 @@
 export function initMobileMenu() {
   const navToggle = document.querySelector('.nav-toggle');
   const mobileNavPanel = document.getElementById('mobile-navigation-panel');
+  const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
   const siteHeader = document.querySelector('.site-header');
   const siteMain = document.querySelector('.site-main');
   let headerPlaceholder = null;
 
-  if (!navToggle || !mobileNavPanel || !siteHeader || !siteMain) {
+  if (!navToggle || !mobileNavPanel || !siteHeader || !siteMain || !mobileMenuOverlay) {
     return;
   }
 
@@ -47,20 +48,30 @@ export function initMobileMenu() {
       topOffset += adminBar.offsetHeight;
     }
     mobileNavPanel.style.top = `${topOffset}px`;
+    mobileNavPanel.style.bottom = '';
+    mobileNavPanel.style.right = '0';
+    mobileNavPanel.style.left = '';
+    // Set height to fill the viewport below the header/admin bar
+    const availableHeight = window.innerHeight - topOffset;
+    mobileNavPanel.style.height = `${availableHeight}px`;
 
     document.body.classList.add('mobile-menu-active');
     navToggle.classList.add('is-active');
     mobileNavPanel.classList.add('is-open');
+    mobileMenuOverlay.classList.add('is-active');
     navToggle.setAttribute('aria-expanded', 'true');
     mobileNavPanel.setAttribute('aria-hidden', 'false');
+    mobileMenuOverlay.setAttribute('aria-hidden', 'false');
   };
 
   const closeMenu = () => {
     document.body.classList.remove('mobile-menu-active');
     navToggle.classList.remove('is-active');
     mobileNavPanel.classList.remove('is-open');
+    mobileMenuOverlay.classList.remove('is-active');
     navToggle.setAttribute('aria-expanded', 'false');
     mobileNavPanel.setAttribute('aria-hidden', 'true');
+    mobileMenuOverlay.setAttribute('aria-hidden', 'true');
   };
 
   navToggle.addEventListener('click', () => {
@@ -70,6 +81,9 @@ export function initMobileMenu() {
       openMenu();
     }
   });
+
+  // Close menu when overlay is clicked
+  mobileMenuOverlay.addEventListener('click', closeMenu);
 
   // Handle header stickiness on load and resize
   handleHeaderStickiness();

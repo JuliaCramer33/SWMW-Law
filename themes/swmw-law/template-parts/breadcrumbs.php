@@ -27,10 +27,6 @@ if ( is_home() ) {
     $current_page_title = get_the_title();
 }
 
-// Path to the About Us page (can be made dynamic via theme options if needed later)
-$about_us_url = home_url( '/about-us/' ); // Assuming 'about-us' is the slug
-$about_us_title = __( 'About Us', 'swmw-law' );
-
 ?>
 <nav aria-label="<?php esc_attr_e( 'Breadcrumbs', 'swmw-law' ); ?>" class="breadcrumbs-nav">
     <div class="container-lg">
@@ -41,12 +37,29 @@ $about_us_title = __( 'About Us', 'swmw-law' );
                     <span class="screen-reader-text"><?php esc_html_e( 'Home', 'swmw-law' ); ?></span>
                 </a>
             </li>
-            <?php if ( is_post_type_archive( 'attorney' ) || ( is_singular('attorney') && get_post_type_object('attorney') && get_post_type_object('attorney')->has_archive ) ) : // Show 'About Us' only for attorney archive or single attorneys if archive exists ?>
+            <?php
+            // Add parent archive for single posts (blog/news)
+            if ( is_single() && get_post_type() === 'post' && get_option('page_for_posts') ) : ?>
                 <li class="breadcrumb-item breadcrumb-separator" aria-hidden="true">/</li>
                 <li class="breadcrumb-item">
-                    <a href="<?php echo esc_url( $about_us_url ); ?>"><?php echo esc_html( $about_us_title ); ?></a>
+                    <a href="<?php echo esc_url( get_permalink( get_option('page_for_posts') ) ); ?>">
+                        <?php echo esc_html( get_the_title( get_option('page_for_posts') ) ); ?>
+                    </a>
                 </li>
-            <?php endif; ?>
+            <?php
+            // Add parent archive for custom post types
+            elseif ( is_singular() && ! is_page() && 'post' !== get_post_type() ) :
+                $cpt_breadcrumb_type = get_post_type();
+                $post_type_obj = get_post_type_object( $cpt_breadcrumb_type );
+                if ( $post_type_obj && $post_type_obj->has_archive ) :
+                    $archive_link = get_post_type_archive_link( $cpt_breadcrumb_type );
+                    $archive_label = $post_type_obj->labels->name;
+            ?>
+                <li class="breadcrumb-item breadcrumb-separator" aria-hidden="true">/</li>
+                <li class="breadcrumb-item">
+                    <a href="<?php echo esc_url( $archive_link ); ?>"><?php echo esc_html( $archive_label ); ?></a>
+                </li>
+            <?php endif; endif; ?>
             <li class="breadcrumb-item breadcrumb-separator" aria-hidden="true">/</li>
             <li class="breadcrumb-item breadcrumb-item--current" aria-current="page">
                 <?php echo wp_kses_post( $current_page_title ); // Use wp_kses_post if title can contain HTML (e.g. search results span) ?>
