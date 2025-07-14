@@ -9549,29 +9549,33 @@ body.mobile-menu-active {
   width: 100%;
   margin-bottom: 16%;
 }
-.image-split-block .image-split-container .image-split-column.image-side .image-stack .image-1 {
+.image-split-block .image-split-container .image-split-column.image-side .image-stack .clipped-wrapper {
+  overflow: hidden;
+  border-radius: 0.5rem;
+  display: inline-block;
+}
+.image-split-block .image-split-container .image-split-column.image-side .image-stack .clipped-wrapper.image-1-wrapper {
+  min-height: 790px;
+  width: 100%;
+}
+.image-split-block .image-split-container .image-split-column.image-side .image-stack .clipped-wrapper.image-2-wrapper {
+  min-height: 560px;
+  position: absolute;
+  bottom: -50px;
+  width: 65%;
+  z-index: 2;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+.image-split-block .image-split-container .image-split-column.image-side .image-stack .clipped-wrapper img {
+  min-height: inherit;
   display: block;
   width: 100%;
   height: auto;
-  max-height: 840px;
   object-fit: cover;
-  clip-path: polygon(0% 0%, 100% 0%, 71% 100%, 0% 100%);
-  z-index: 1;
-}
-.image-split-block .image-split-container .image-split-column.image-side .image-stack .image-2 {
-  display: block;
-  width: 65%;
-  height: auto;
-  object-fit: cover;
-  position: absolute;
-  top: auto;
-  bottom: -16%;
-  left: auto;
-  right: 0;
-  clip-path: polygon(15% 0%, 100% 0%, 85% 100%, 0% 100%);
-  border-radius: 0.5rem;
-  z-index: 2;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  clip-path: none;
+  border-radius: 0;
 }
 .image-split-block .image-split-container .image-split-column.content-side {
   /* Optional content styles */
@@ -9594,13 +9598,13 @@ body.mobile-menu-active {
 .image-split-block.align-left .image-split-container .image-side {
   order: 1;
 }
-.image-split-block.align-left .image-split-container .image-side .image-1 {
+.image-split-block.align-left .image-split-container .image-side .image-1-wrapper {
   clip-path: polygon(0% 0%, 100% 0%, 71% 100%, 0% 100%);
 }
-.image-split-block.align-left .image-split-container .image-side .image-2 {
+.image-split-block.align-left .image-split-container .image-side .image-2-wrapper {
+  clip-path: polygon(15% 0%, 100% 0%, 85% 100%, 0% 100%);
   right: 0;
   left: auto;
-  clip-path: polygon(15% 0%, 100% 0%, 85% 100%, 0% 100%);
 }
 .image-split-block.align-left .image-split-container .content-side {
   order: 2;
@@ -9608,19 +9612,20 @@ body.mobile-menu-active {
 .image-split-block.align-right .image-split-container .image-side {
   order: 2;
 }
-.image-split-block.align-right .image-split-container .image-side .image-stack .image-1 {
-  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+.image-split-block.align-right .image-split-container .image-side .image-stack .image-1-wrapper {
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 29% 100%);
 }
-.image-split-block.align-right .image-split-container .image-side .image-stack .image-2 {
-  right: auto;
-  left: 0;
+.image-split-block.align-right .image-split-container .image-side .image-stack .image-2-wrapper {
   clip-path: polygon(0% 0%, 85% 0%, 100% 100%, 15% 100%);
+  left: 0;
+  right: auto;
 }
 .image-split-block.align-right .image-split-container .content-side {
   order: 1;
 }
 
 .image-split-column.image-side img {
+  min-height: inherit;
   max-width: 100%;
   height: auto;
   display: block;
@@ -9630,8 +9635,6 @@ body.mobile-menu-active {
   position: relative;
 }
 
-/* Editor Styles
---------------------------------------------- */
 .editor-styles-wrapper .wp-block-acf-image-split-block .image-split-container {
   display: flex;
   flex-wrap: wrap;

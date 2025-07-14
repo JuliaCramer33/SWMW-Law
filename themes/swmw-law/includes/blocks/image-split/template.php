@@ -43,13 +43,18 @@ $container_classes = ['image-split-container'];
 		<div class="image-split-column image-side">
 			<?php if ( $image_1 || $image_2 ) : ?>
 				<div class="image-stack">
-					<?php if ( $image_1 && !empty($image_1['url']) ) : ?>
-						<img src="<?php echo esc_url( $image_1['url'] ); ?>" alt="<?php echo esc_attr( $image_1['alt'] ); ?>" class="image-1" />
-					<?php endif; ?>
-					<?php if ( $image_2 && !empty($image_2['url']) ) : ?>
-						<img src="<?php echo esc_url( $image_2['url'] ); ?>" alt="<?php echo esc_attr( $image_2['alt'] ); ?>" class="image-2" />
-					<?php endif; ?>
-				</div>
+          <?php if ( $image_1 && !empty($image_1['url']) ) : ?>
+            <div class="clipped-wrapper image-1-wrapper">
+              <img src="<?php echo esc_url( $image_1['url'] ); ?>" alt="<?php echo esc_attr( $image_1['alt'] ); ?>" class="image-1" />
+            </div>
+          <?php endif; ?>
+
+          <?php if ( $image_2 && !empty($image_2['url']) ) : ?>
+            <div class="clipped-wrapper image-2-wrapper">
+              <img src="<?php echo esc_url( $image_2['url'] ); ?>" alt="<?php echo esc_attr( $image_2['alt'] ); ?>" class="image-2" />
+            </div>
+          <?php endif; ?>
+        </div>
 			<?php else : ?>
 				<?php if ( $is_preview ) : ?>
 					<p><em>Please select images in the block settings.</em></p>
