@@ -12,14 +12,16 @@ add_action( 'init', function () {
 	}
 
 	if ( function_exists( 'register_block_pattern' ) ) {
+		$image_url = get_template_directory_uri() . '/assets/images/placeholder-hero.png';
+
 		register_block_pattern( 'swmw-law/hero-centered', [
 			'title'       => __( 'Hero – Centered', 'swmw-law' ),
 			'description' => __( 'A centered hero with a background image, heading, paragraph, and call-to-action button.', 'swmw-law' ),
 			'categories'  => [ 'hero' ],
 			'content'     => <<<EOT
-<!-- wp:cover {"url":"http://swmw-law.local/wp-content/uploads/2025/06/Testimonials-Hero-Image.png","id":376,"dimRatio":0,"isUserOverlayColor":true,"minHeight":775,"sizeSlug":"full","align":"full","className":"has-background-dim-30"} -->
+<!-- wp:cover {"url":"$image_url","dimRatio":0,"isUserOverlayColor":true,"minHeight":775,"sizeSlug":"full","align":"full","className":"has-background-dim-30"} -->
 <div class="wp-block-cover alignfull has-background-dim-30" style="min-height:775px">
-  <img class="wp-block-cover__image-background wp-image-376 size-full" alt="" src="http://swmw-law.local/wp-content/uploads/2025/06/Testimonials-Hero-Image.png" data-object-fit="cover"/>
+  <img class="wp-block-cover__image-background size-full" alt="" src="$image_url" data-object-fit="cover"/>
   <span aria-hidden="true" class="wp-block-cover__background has-background-dim-0 has-background-dim"></span>
   <div class="wp-block-cover__inner-container">
     <!-- wp:group {"className":"is-style-animate-slide-up","style":{"spacing":{"padding":{"top":"var:preset|spacing|20"}}},"layout":{"type":"constrained"}} -->

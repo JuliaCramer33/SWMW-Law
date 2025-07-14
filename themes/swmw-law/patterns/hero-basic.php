@@ -12,14 +12,15 @@ add_action( 'init', function () {
 	}
 
 	if ( function_exists( 'register_block_pattern' ) ) {
+		$image_url = get_template_directory_uri() . '/assets/images/placeholder-hero.png';
 		register_block_pattern( 'swmw-law/hero-basic', [
 			'title'       => __( 'Hero – Basic', 'swmw-law' ),
 			'description' => __( 'A basic hero layout with a background image, overlay, title, button, and paragraph.', 'swmw-law' ),
 			'categories'  => [ 'hero' ],
 			'content'     => <<<EOT
-<!-- wp:cover {"url":"http://swmw-law.local/wp-content/uploads/2025/06/Attorney-Hero-Image.png","id":357,"dimRatio":0,"customOverlayColor":"#194a49","isUserOverlayColor":false,"focalPoint":{"x":0.46,"y":0.5},"minHeight":277,"minHeightUnit":"px","contentPosition":"center center","sizeSlug":"full","metadata":{"categories":["hero"],"patternName":"swmw-law/hero-basic","name":"Hero – Basic"},"style":{"spacing":{"padding":{"top":"var:preset|spacing|20","bottom":"var:preset|spacing|20","left":"var:preset|spacing|10","right":"var:preset|spacing|10"}},"dimensions":{"aspectRatio":"auto"}},"layout":{"type":"default"}} -->
+<!-- wp:cover {"url":"$image_url","dimRatio":0,"customOverlayColor":"#194a49","isUserOverlayColor":false,"focalPoint":{"x":0.46,"y":0.5},"minHeight":277,"minHeightUnit":"px","contentPosition":"center center","sizeSlug":"full","metadata":{"categories":["hero"],"patternName":"swmw-law/hero-basic","name":"Hero – Basic"},"style":{"spacing":{"padding":{"top":"var:preset|spacing|20","bottom":"var:preset|spacing|20","left":"var:preset|spacing|10","right":"var:preset|spacing|10"}},"dimensions":{"aspectRatio":"auto"}},"layout":{"type":"default"}} -->
 <div class="wp-block-cover" style="padding-top:var(--wp--preset--spacing--20);padding-right:var(--wp--preset--spacing--10);padding-bottom:var(--wp--preset--spacing--20);padding-left:var(--wp--preset--spacing--10);min-height:277px">
-  <img class="wp-block-cover__image-background wp-image-357 size-full" alt="" src="http://swmw-law.local/wp-content/uploads/2025/06/Attorney-Hero-Image.png" style="object-position:46% 50%" data-object-fit="cover" data-object-position="46% 50%"/>
+  <img class="wp-block-cover__image-background size-full" alt="" src="$image_url" style="object-position:46% 50%" data-object-fit="cover" data-object-position="46% 50%"/>
   <span aria-hidden="true" class="wp-block-cover__background has-background-dim-0 has-background-dim" style="background-color:#194a49"></span>
   <div class="wp-block-cover__inner-container">
     <!-- wp:columns {"align":"wide","className":"container-xxl"} -->
@@ -45,7 +46,7 @@ add_action( 'init', function () {
       <!-- wp:column {"verticalAlignment":"center"} -->
       <div class="wp-block-column is-vertically-aligned-center">
         <!-- wp:paragraph -->
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec magna sed turpis sagittis maximus eu a arcu. Vivamus in ornare sem, in convallis arcu. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nunc sollicitudin elit feugiat libero mattis imperdiet. Donec porttitor mi sed orci feugiat euismod vitae eu mi. Curabitur non turpis lacus. Nunc cursus euismod nisi nec luctus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec magna sed turpis sagittis maximus eu a arcu. Vivamus in ornare sem, in convallis arcu...</p>
         <!-- /wp:paragraph -->
       </div>
       <!-- /wp:column -->

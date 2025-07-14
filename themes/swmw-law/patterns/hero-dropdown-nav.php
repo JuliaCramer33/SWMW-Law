@@ -12,14 +12,15 @@ add_action( 'init', function () {
 	}
 
 	if ( function_exists( 'register_block_pattern' ) ) {
+		$image_url = get_template_directory_uri() . '/assets/images/placeholder-hero.png';
 		register_block_pattern( 'swmw/hero-with-dropdown-nav', [
 			'title'       => __( 'Hero with Dropdown Nav', 'swmw-law' ),
 			'description' => __( 'A hero with a headline and a dropdown-style navigation menu block.', 'swmw-law' ),
 			'categories'  => [ 'hero' ],
 			'content'     => <<<EOT
-<!-- wp:cover {"url":"http://swmw-law.local/wp-content/uploads/2025/07/Attorney-Detail-Hero-Image-1-1024x430.png","id":569,"dimRatio":0,"customOverlayColor":"#1b514e","isUserOverlayColor":false,"minHeight":400,"sizeSlug":"large","metadata":{"categories":["hero"],"patternName":"swmw/hero-with-dropdown-nav","name":"Hero with Dropdown Nav"},"align":"full"} -->
+<!-- wp:cover {"url":"$image_url","dimRatio":0,"customOverlayColor":"#1b514e","isUserOverlayColor":false,"minHeight":400,"sizeSlug":"large","metadata":{"categories":["hero"],"patternName":"swmw/hero-with-dropdown-nav","name":"Hero with Dropdown Nav"},"align":"full"} -->
 <div class="wp-block-cover alignfull" style="min-height:400px">
-	<img class="wp-block-cover__image-background wp-image-569 size-large" alt="" src="http://swmw-law.local/wp-content/uploads/2025/07/Attorney-Detail-Hero-Image-1-1024x430.png" data-object-fit="cover"/>
+	<img class="wp-block-cover__image-background size-large" alt="" src="$image_url" data-object-fit="cover"/>
 	<span aria-hidden="true" class="wp-block-cover__background has-background-dim-0 has-background-dim" style="background-color:#1b514e"></span>
 	<div class="wp-block-cover__inner-container">
 		<!-- wp:columns {"verticalAlignment":"center"} -->
