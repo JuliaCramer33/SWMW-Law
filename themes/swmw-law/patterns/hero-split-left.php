@@ -3,51 +3,46 @@
  * Title: Hero – Split Left
  * Slug: swmw-law/hero-split-left
  * Categories: hero
- * Description: Split layout hero with content on the left and image overlap effect.
+ * Description: Hero block with left-aligned placeholder content and a background image.
  */
 
-$placeholders = [
-    'https://s.w.org/images/core/5.3/WP-Brand-1.svg',
-    'https://s.w.org/images/core/5.3/WP-Brand-2.svg',
-    'https://s.w.org/images/core/5.3/WP-Brand-3.svg',
-    'https://s.w.org/images/core/5.3/WP-Brand-4.svg',
-];
-$rand_placeholder = $placeholders[ array_rand($placeholders) ];
+add_action( 'init', function () {
+	if ( function_exists( 'register_block_pattern_category' ) ) {
+		register_block_pattern_category( 'hero', [ 'label' => __( 'Hero', 'swmw-law' ) ] );
+	}
 
-add_action( 'init', function () use ($rand_placeholder) {
-    if ( function_exists( 'register_block_pattern_category' ) ) {
-        register_block_pattern_category( 'hero', [ 'label' => __( 'Hero', 'swmw-law' ) ] );
-    }
-
-    if ( function_exists( 'register_block_pattern' ) ) {
-        register_block_pattern( 'swmw-law/hero-split-left', [
-            'title'       => __( 'Hero – Split Left', 'swmw-law' ),
-            'description' => __( 'Split layout hero with content on the left and image overlap effect.', 'swmw-law' ),
-            'categories'  => [ 'hero' ],
-            'content'     => <<<EOT
-<!-- wp:cover {"overlayColor":"primary","dimRatio":30,"minHeight":500,"isUserOverlayColor":true,"align":"full","className":"hero-split-overlap","layout":{"type":"constrained"}} -->
-<div class="wp-block-cover alignfull has-background-dim-30" style="min-height:500px">
-  <span aria-hidden="true" class="wp-block-cover__background has-primary-background-color has-background-dim-30 has-background-dim"></span>
+	if ( function_exists( 'register_block_pattern' ) ) {
+		register_block_pattern( 'swmw-law/hero-split-left', [
+			'title'       => __( 'Hero – Split Left', 'swmw-law' ),
+			'description' => __( 'Hero block with left-aligned placeholder content and a background image.', 'swmw-law' ),
+			'categories'  => [ 'hero' ],
+			'content'     => <<<EOT
+<!-- wp:cover {"url":"http://swmw-law.local/wp-content/uploads/2025/06/Location-Hero-Image-1.png","id":418,"dimRatio":0,"overlayColor":"primary","isUserOverlayColor":true,"focalPoint":{"x":0.5,"y":0.02},"minHeight":750,"sizeSlug":"full","metadata":{"categories":["hero"],"patternName":"swmw-law/hero-split-left","name":"Hero – Split Left"},"align":"full","className":"has-background-dim-30 is-style-animate-fade-in","layout":{"type":"constrained"}} -->
+<div class="wp-block-cover alignfull has-background-dim-30 is-style-animate-fade-in" style="min-height:750px">
+  <img class="wp-block-cover__image-background wp-image-418 size-full" alt="" src="http://swmw-law.local/wp-content/uploads/2025/06/Location-Hero-Image-1.png" style="object-position:50% 2%" data-object-fit="cover" data-object-position="50% 2%" />
+  <span aria-hidden="true" class="wp-block-cover__background has-primary-background-color has-background-dim-0 has-background-dim"></span>
   <div class="wp-block-cover__inner-container">
-
-    <!-- wp:columns {"align":"wide"} -->
-    <div class="wp-block-columns alignwide">
-    
-      <!-- wp:column -->
-      <div class="wp-block-column">
+    <!-- wp:columns {"verticalAlignment":"center","align":"wide"} -->
+    <div class="wp-block-columns alignwide are-vertically-aligned-center">
+      <!-- wp:column {"verticalAlignment":"center"} -->
+      <div class="wp-block-column is-vertically-aligned-center">
         <!-- wp:heading {"level":1} -->
-        <h1>Your Hero Title Here</h1>
+        <h1 class="wp-block-heading"><strong>Headline</strong> Goes Here</h1>
+        <!-- /wp:heading -->
+
+        <!-- wp:heading -->
+        <h2 class="wp-block-heading">Subheading with <strong>Emphasis</strong></h2>
         <!-- /wp:heading -->
 
         <!-- wp:paragraph -->
-        <p>This is a short supporting description about your services, mission, or call to action.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sit amet semper leo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur vel nisi a libero malesuada sodales. Suspendisse potenti. Etiam sed lorem a turpis facilisis finibus.</p>
         <!-- /wp:paragraph -->
 
         <!-- wp:buttons -->
         <div class="wp-block-buttons">
-          <!-- wp:button {"backgroundColor":"secondary","textColor":"white"} -->
+          <!-- wp:button {"backgroundColor":"white","textColor":"secondary"} -->
           <div class="wp-block-button">
-            <a class="wp-block-button__link has-white-color has-secondary-background-color has-text-color has-background" href="#">Learn More</a>
+            <a class="wp-block-button__link has-secondary-color has-white-background-color has-text-color has-background wp-element-button" href="#">Call to Action</a>
           </div>
           <!-- /wp:button -->
         </div>
@@ -55,23 +50,15 @@ add_action( 'init', function () use ($rand_placeholder) {
       </div>
       <!-- /wp:column -->
 
-      <!-- wp:column -->
-      <div class="wp-block-column">
-        <!-- wp:image {"sizeSlug":"large"} -->
-        <figure class="wp-block-image size-large">
-          <img src="{$rand_placeholder}" alt="Placeholder image"/>
-        </figure>
-        <!-- /wp:image -->
-      </div>
+      <!-- wp:column {"verticalAlignment":"center"} -->
+      <div class="wp-block-column is-vertically-aligned-center"></div>
       <!-- /wp:column -->
-
     </div>
     <!-- /wp:columns -->
-
   </div>
 </div>
 <!-- /wp:cover -->
 EOT
-        ] );
-    }
+		] );
+	}
 } );
