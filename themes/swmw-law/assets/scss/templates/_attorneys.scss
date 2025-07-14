@@ -12,6 +12,7 @@
 .attorney-archive-container {
   padding-top: $spacing-8;
   padding-bottom: $spacing-8;
+  margin-bottom: 100px; //this helps with the accred banner - padding.
 }
 
 // -----------------------------------------------------------------------------
@@ -138,9 +139,3 @@
   text-align: center;
 }
 
-// -----------------------------------------------------------------------------
-// Single Attorney Page (General Styles)
-// -----------------------------------------------------------------------------
-.attorney-single-page {
-  // General styles for single attorney page main content area
-}
