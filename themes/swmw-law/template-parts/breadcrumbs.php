@@ -17,8 +17,13 @@ if ( is_home() ) {
     // For the blog page, get the title of the page assigned to posts.
     $current_page_title = get_the_title( get_option( 'page_for_posts', true ) );
 } elseif ( is_archive() ) {
-    // For any other archive (category, tag, etc.).
-    $current_page_title = get_the_archive_title();
+    // For category archives, keep the label as is.
+    if ( is_category() ) {
+        $current_page_title = single_cat_title( '', false );
+    } else {
+        // For all other archives, remove 'Archive:' or similar prefixes.
+        $current_page_title = preg_replace( '/^.*?:\s*/', '', get_the_archive_title() );
+    }
 } elseif ( is_search() ) {
     // For search results.
     $current_page_title = sprintf( esc_html__( 'Search Results for: %s', 'swmw-law' ), '<span>' . get_search_query() . '</span>' );
@@ -39,11 +44,11 @@ if ( is_home() ) {
             </li>
             <?php
             // Add parent archive for single posts (blog/news)
-            if ( is_single() && get_post_type() === 'post' && get_option('page_for_posts') ) : ?>
+            if ( is_single() && get_post_type() === 'post' ) : ?>
                 <li class="breadcrumb-item breadcrumb-separator" aria-hidden="true">/</li>
                 <li class="breadcrumb-item">
-                    <a href="<?php echo esc_url( get_permalink( get_option('page_for_posts') ) ); ?>">
-                        <?php echo esc_html( get_the_title( get_option('page_for_posts') ) ); ?>
+                    <a href="<?php echo esc_url( home_url( '/newsfeed/' ) ); ?>">
+                        News
                     </a>
                 </li>
             <?php

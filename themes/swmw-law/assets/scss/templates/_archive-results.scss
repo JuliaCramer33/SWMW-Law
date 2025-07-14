@@ -2,6 +2,8 @@
 @use "../variables/variables" as *;
 
 .swmw-archive-page {
+  margin-bottom: 150px; //this helps with the accred banner - padding.
+  
   .swmw-featured-cases {
     padding: 6rem 0;
     position: relative;

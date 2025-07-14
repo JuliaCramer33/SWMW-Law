@@ -8114,6 +8114,7 @@ label {
  */
 .swmw-pagination {
   margin: 1.5rem 0;
+  margin-bottom: 150px;
 }
 .swmw-pagination .nav-links {
   display: flex;
@@ -10349,6 +10350,9 @@ body.mobile-menu-active {
  * SWMW Law Theme
  * Main SCSS file
  */
+.swmw-archive-page {
+  margin-bottom: 150px;
+}
 .swmw-archive-page .swmw-featured-cases {
   padding: 6rem 0;
   position: relative;
