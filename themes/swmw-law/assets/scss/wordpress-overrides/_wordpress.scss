@@ -11,21 +11,6 @@
 
 // NOTE: Use descendant selectors so width rules apply to blocks at any nesting level, not just direct children.
 
-// 1. Default (none): 100% width, inherits universal container padding
-// Default container alignment
-.wp-block,
-.wp-block-group,
-.wp-block-columns,
-.wp-acf-block {
-  max-width: $container-max-width-lg;
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: $container-padding-x;
-  padding-right: $container-padding-x;
-  box-sizing: border-box;
-}
-
 // Custom "sm" alignment
 .wp-block.alignsm,
 .wp-block-group.alignsm,
@@ -46,7 +31,7 @@
 .wp-block-columns.alignwide,
 .wp-acf-block.alignwide,
 .alignwide {
-  max-width: 1140px !important;
+  max-width: 100% !important;
   width: 100% !important;
   margin-left: auto !important;
   margin-right: auto !important;
@@ -55,7 +40,7 @@
   box-sizing: border-box !important;
 }
 
-// Full
+// // Full
 .wp-block.alignfull,
 .wp-block-group.alignfull,
 .wp-block-columns.alignfull,
@@ -65,18 +50,17 @@
   width: 100vw !important;
   margin-left: calc(50% - 50vw) !important;
   margin-right: calc(50% - 50vw) !important;
-  padding: 0 !important;
+  padding-right: 0 !important;
   box-sizing: border-box !important;
 }
 
 // Allow padding on full-width blocks when explicitly set
-.wp-block.alignfull[style*="padding"],
-.wp-block-group.alignfull[style*="padding"],
-.wp-block-columns.alignfull[style*="padding"],
-.wp-acf-block.alignfull[style*="padding"],
-.alignfull[style*="padding"] {
-  padding: inherit !important;
-}
+// .wp-block.alignfull[style*="padding"],
+// .wp-block-group.alignfull[style*="padding"],
+// .wp-block-columns.alignfull[style*="padding"],
+// .alignfull[style*="padding"] {
+//   padding: inherit !important;
+// }
 
 
 /* ================================

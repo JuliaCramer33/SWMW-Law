@@ -10512,19 +10512,6 @@ body.mobile-menu-active {
 /* ==========================================================================
    #WORDPRESS-CONTENT-WIDTHS
    ========================================================================== */
-.wp-block,
-.wp-block-group,
-.wp-block-columns,
-.wp-acf-block {
-  max-width: 100%;
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  box-sizing: border-box;
-}
-
 .wp-block.alignsm,
 .wp-block-group.alignsm,
 .wp-block-columns.alignsm,
@@ -10543,7 +10530,7 @@ body.mobile-menu-active {
 .wp-block-columns.alignwide,
 .wp-acf-block.alignwide,
 .alignwide {
-  max-width: 1140px !important;
+  max-width: 100% !important;
   width: 100% !important;
   margin-left: auto !important;
   margin-right: auto !important;
@@ -10561,16 +10548,8 @@ body.mobile-menu-active {
   width: 100vw !important;
   margin-left: calc(50% - 50vw) !important;
   margin-right: calc(50% - 50vw) !important;
-  padding: 0 !important;
+  padding-right: 0 !important;
   box-sizing: border-box !important;
-}
-
-.wp-block.alignfull[style*=padding],
-.wp-block-group.alignfull[style*=padding],
-.wp-block-columns.alignfull[style*=padding],
-.wp-acf-block.alignfull[style*=padding],
-.alignfull[style*=padding] {
-  padding: inherit !important;
 }
 
 /* ================================

@@ -9,7 +9,7 @@
 get_header();
 ?>
 
-<div class="page-content">
+<div class="page-content container-lg">
   <?php
   while ( have_posts() ) :
     the_post();
