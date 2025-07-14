@@ -21,10 +21,11 @@ if ( empty( $accreditations_logos ) ) {
 	return;
 }
 
-// Check if the overlap style should be applied for this specific page.
+// Default overlap ON unless explicitly set to false
 $bar_classes = [ 'accreditations-bar' ];
-if ( get_field( 'accreditations_bar_overlap' ) ) {
-	$bar_classes[] = 'accreditations-bar--overlap';
+$overlap = get_field( 'accreditations_bar_overlap' );
+if ( $overlap !== '0' && $overlap !== 0 && $overlap !== false ) {
+    $bar_classes[] = 'accreditations-bar--overlap';
 }
 ?>
 <div class="accreditations-bar__container">

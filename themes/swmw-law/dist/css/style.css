@@ -231,26 +231,31 @@ h6 {
 h1 {
   font-size: 3rem;
   line-height: 1.245;
+  font-weight: 300;
 }
 
 h2 {
   font-size: 2rem;
   line-height: 1.59;
+  font-weight: 300;
 }
 
 h3 {
   font-size: 1.75rem;
   line-height: 1.35;
+  font-weight: 300;
 }
 
 h4 {
   font-size: 1.5rem;
   line-height: 1.208;
+  font-weight: 300;
 }
 
 h5 {
   font-size: 1.25rem;
   line-height: 1.45;
+  font-weight: 300;
 }
 
 h6 {
