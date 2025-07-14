@@ -56,7 +56,7 @@ $container_classes = ['image-split-container'];
 				<?php endif; ?>
 			<?php endif; ?>
 		</div>
-		<div class="image-split-column content-side">
+		<div class="image-split-column content-side container-lg">
 			<InnerBlocks />
 		</div>
 	</div>
