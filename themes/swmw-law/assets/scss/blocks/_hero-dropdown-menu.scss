@@ -30,7 +30,7 @@
     // Force the dropdown to be visible above all content
     .hero-nav-list {
       position: absolute;
-      z-index: 9999; // Very high z-index to ensure visibility
+      z-index: 1002; // High enough to be above main navigation but not interfere
     }
   }
 

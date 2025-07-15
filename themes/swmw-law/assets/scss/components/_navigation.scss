@@ -96,19 +96,19 @@
       position: absolute;
       left: 0;
       top: 100%;
+      padding-top: $spacing-5;
       background-color: $color-white;
-      border: 1px solid $color-divider;
       box-shadow: $box-shadow-lg;
       padding: $spacing-2;
-      min-width: 200px;
+      min-width: 300px;
       z-index: $z-index-dropdown;
-      border-radius: $border-radius;
 
       li {
+        margin: 0;
+
         a {
           padding: $spacing-2 $spacing-3;
           color: $color-charcoal;
-          border-radius: $border-radius-sm;
 
           &:hover,
           &:focus {
@@ -121,7 +121,7 @@
 
     &:hover > ul.sub-menu,
     &:focus-within > ul.sub-menu {
-      display: block;
+      display: block !important;
     }
   }
 

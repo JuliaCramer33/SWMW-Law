@@ -8258,25 +8258,26 @@ label {
   position: absolute;
   left: 0;
   top: 100%;
+  padding-top: 1.25rem;
   background-color: #fff;
-  border: 1px solid #e0e0e0;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   padding: 0.5rem;
-  min-width: 200px;
+  min-width: 300px;
   z-index: 1000;
-  border-radius: 0.5rem;
+}
+.main-navigation .menu-item-has-children:not(.menu-item-has-mega-menu):not(.button) ul.sub-menu li {
+  margin: 0;
 }
 .main-navigation .menu-item-has-children:not(.menu-item-has-mega-menu):not(.button) ul.sub-menu li a {
   padding: 0.5rem 0.75rem;
   color: #43383e;
-  border-radius: 0.25rem;
 }
 .main-navigation .menu-item-has-children:not(.menu-item-has-mega-menu):not(.button) ul.sub-menu li a:hover, .main-navigation .menu-item-has-children:not(.menu-item-has-mega-menu):not(.button) ul.sub-menu li a:focus {
   background-color: #417e4b;
   color: #fff;
 }
 .main-navigation .menu-item-has-children:hover > ul.sub-menu, .main-navigation .menu-item-has-children:focus-within > ul.sub-menu {
-  display: block;
+  display: block !important;
 }
 .main-navigation .menu-item.button {
   padding: 0.25rem 1rem;
@@ -9594,7 +9595,7 @@ nav .menu-item.button,
 }
 .hero-dropdown-menu.is-open .hero-nav-list {
   position: absolute;
-  z-index: 9999;
+  z-index: 1002;
 }
 .hero-dropdown-menu .hamburger-menu-toggle {
   display: flex;
