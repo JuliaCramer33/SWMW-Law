@@ -419,7 +419,6 @@ function initHeroDropdownNav() {
     if (!toggle || !navList || !navItems) return;
 
     // Get configuration from data attributes
-    const includeH3s = heroMenu.dataset.includeH3s === 'true';
     const scrollOffset = parseInt(heroMenu.dataset.scrollOffset) || 100;
 
     // Get menu title
@@ -477,23 +476,21 @@ function initHeroDropdownNav() {
 
       // Find all H2 and H3 headings - try multiple selectors for better coverage
       let headings = [];
-
       // Try to find headings in main content areas first
       const contentSelectors = ['main', '.entry-content', '.content-area', '#main', '.container', 'article', '.post-content', '.page-content'];
       for (const selector of contentSelectors) {
         const content = document.querySelector(selector);
         if (content) {
-          const foundHeadings = content.querySelectorAll('h2, h3');
+          const foundHeadings = content.querySelectorAll('h2');
           if (foundHeadings.length > 0) {
             headings = Array.from(foundHeadings);
             break;
           }
         }
       }
-
       // If no headings found in content areas, search the entire document
       if (headings.length === 0) {
-        headings = Array.from(document.querySelectorAll('h2, h3'));
+        headings = Array.from(document.querySelectorAll('h2'));
       }
       if (headings.length === 0) {
         navItems.innerHTML = '<li class="hero-nav-empty"><span>No headings found on this page</span></li>';
@@ -512,31 +509,18 @@ function initHeroDropdownNav() {
      */
     function buildNavigationStructure(headings) {
       const structure = [];
-      let currentH2 = null;
       headings.forEach(function (heading) {
         const text = heading.textContent.trim();
-        const tagName = heading.tagName.toLowerCase();
-
         // Skip empty headings
         if (!text) return;
-
         // Generate ID if not present
         if (!heading.id) {
           heading.id = generateHeadingId(text);
         }
-        if (tagName === 'h2') {
-          currentH2 = {
-            id: heading.id,
-            text: text,
-            children: []
-          };
-          structure.push(currentH2);
-        } else if (tagName === 'h3' && includeH3s && currentH2) {
-          currentH2.children.push({
-            id: heading.id,
-            text: text
-          });
-        }
+        structure.push({
+          id: heading.id,
+          text: text
+        });
       });
       return structure;
     }
@@ -549,16 +533,7 @@ function initHeroDropdownNav() {
         return '<li class="hero-nav-empty"><span>No headings found on this page</span></li>';
       }
       return structure.map(function (item) {
-        let html = `<li><a href="#${item.id}">${escapeHtml(item.text)}</a>`;
-        if (item.children && item.children.length > 0) {
-          html += '<ul class="hero-nav-submenu">';
-          html += item.children.map(function (child) {
-            return `<li class="hero-nav-submenu-item"><a href="#${child.id}">${escapeHtml(child.text)}</a></li>`;
-          }).join('');
-          html += '</ul>';
-        }
-        html += '</li>';
-        return html;
+        return `<li><a href="#${item.id}">${escapeHtml(item.text)}</a></li>`;
       }).join('');
     }
 

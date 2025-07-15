@@ -6,7 +6,6 @@
  */
 
 $menu_title = get_field('menu_title') ?: 'Page Navigation';
-$include_h3s = get_field('include_h3s') ?: true;
 $scroll_offset = get_field('scroll_offset') ?: 100;
 $manual_items = get_field('manual_items');
 
@@ -17,8 +16,7 @@ if ( ! empty( $block['className'] ) ) {
 
 // Data attributes for JavaScript
 $data_attributes = sprintf(
-    'data-include-h3s="%s" data-scroll-offset="%d"',
-    $include_h3s ? 'true' : 'false',
+    'data-scroll-offset="%d"',
     $scroll_offset
 );
 ?>

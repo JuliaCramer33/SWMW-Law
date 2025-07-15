@@ -20,17 +20,6 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
                 'default_value' => 'Page Navigation',
             ),
             array(
-                'key' => 'field_dropdown_menu_include_h3s',
-                'label' => 'Include H3 Subheadings',
-                'name' => 'include_h3s',
-                'type' => 'true_false',
-                'instructions' => 'Show H3 headings as submenu items under their parent H2.',
-                'default_value' => 1,
-                'ui' => 1,
-                'ui_on_text' => 'Yes',
-                'ui_off_text' => 'No',
-            ),
-            array(
                 'key' => 'field_dropdown_menu_scroll_offset',
                 'label' => 'Scroll Offset',
                 'name' => 'scroll_offset',
