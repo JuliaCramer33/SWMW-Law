@@ -1,24 +1,6 @@
-/* stylelint-disable function-url-quotes */
 // =============================================================================
 // NAVIGATION
 // =============================================================================
-// Complete navigation system including main navigation, utility navigation,
-// mobile navigation, and phone number display components.
-// Features:
-// - Main navigation with hover animations and dropdown menus
-// - Utility navigation for secondary links
-// - Mobile hamburger menu with slide-up panel
-// - Phone number display with icon
-// - Support for mega menus (handled in _mega-menu.scss)
-// Structure:
-//   .main-navigation (desktop primary nav)
-//   .utility-navigation (desktop secondary nav)
-//   .nav-toggle (mobile hamburger)
-//   .mobile-navigation-panel (mobile nav container)
-//   .header-phone (phone number display)
-// =============================================================================
-
-/* stylelint-disable no-descending-specificity */
 @use "../variables/variables" as *;
 @use "../base/buttons" as *;
 @use "sass:color";
@@ -41,13 +23,8 @@
     position: relative;
     margin: 0 $spacing-3;
 
-    &:first-child {
-      margin-left: 0;
-    }
-
-    &:last-child {
-      margin-right: 0;
-    }
+    &:first-child { margin-left: 0; }
+    &:last-child { margin-right: 0; }
   }
 
   a {
@@ -58,7 +35,6 @@
     font-weight: $font-weight-bold;
     font-size: $font-size-sm;
     line-height: $h6-line-height;
-    letter-spacing: 0;
   }
 }
 
@@ -68,43 +44,28 @@
 
 .main-navigation {
   > ul > li {
-    margin: 0 $spacing-3;
-
-    &:first-child {
-      margin-left: 0;
-    }
-
-    &:last-child {
-      margin-right: 0;
-    }
-
-    // Main navigation links (excluding buttons)
     &:not(.button) > a:not(.button) {
       position: relative;
       color: $color-charcoal;
       display: inline-block;
       padding: $spacing-1 $spacing-2;
-      vertical-align: middle;
       transition: color $transition-duration-base $transition-easing-ease-in-out;
 
-      // Left slanted line hover animation
       &::before {
         content: "";
         position: absolute;
         top: 20%;
+        left: 0;
         width: 2px;
         height: 60%;
         background-color: $color-secondary;
-        transform-origin: center;
-        transition: transform $transition-duration-slow $transition-easing-ease-in-out;
-        left: 0;
         transform: scaleY(0) skewX(-25deg);
+        transition: transform $transition-duration-slow $transition-easing-ease-in-out;
       }
 
       &:hover,
       &:focus {
         color: $color-secondary;
-        text-decoration: none;
 
         &::before {
           transform: scaleY(1) skewX(-20deg);
@@ -113,14 +74,12 @@
     }
   }
 
-  // Dropdown arrow for items with children
   .menu-item-has-children {
     &:not(.button) > a:not(.button) {
       padding-right: $spacing-3;
 
       &::after {
         content: "";
-        display: inline-block;
         position: absolute;
         top: 50%;
         right: -0.25em;
@@ -129,14 +88,10 @@
         border: solid currentcolor;
         border-width: 0 2px 2px 0;
         transform: rotate(45deg) translateY(-75%);
-        transition: none;
       }
     }
-  }
 
-  // Dropdown sub-menu styles (2-level menus only)
-  .menu-item-has-children:not(.menu-item-has-mega-menu):not(.button) {
-    ul.sub-menu {
+    &:not(.menu-item-has-mega-menu):not(.button) ul.sub-menu {
       display: none;
       position: absolute;
       left: 0;
@@ -150,25 +105,15 @@
       border-radius: $border-radius;
 
       li {
-        margin: 0;
-        width: 100%;
-
         a {
           padding: $spacing-2 $spacing-3;
           color: $color-charcoal;
-          font-family: $font-montserrat;
-          font-weight: $font-weight-bold;
-          font-size: $font-size-sm;
-          line-height: $h6-line-height;
-          letter-spacing: 0;
           border-radius: $border-radius-sm;
-          transition: background-color 0.2s ease, color 0.2s ease;
 
           &:hover,
           &:focus {
             background-color: $color-secondary;
             color: $color-white;
-            text-decoration: none;
           }
         }
       }
@@ -180,25 +125,15 @@
     }
   }
 
-  // CTA Button styling
-  li.button {
+  .menu-item.button {
     padding: $spacing-1 $spacing-4;
-    display: flex;
-    justify-content: center;
+    display: none !important; // shown on desktop only
 
     a {
       color: $color-white;
       font-weight: $font-weight-semibold;
-      transition: color 0.7s cubic-bezier(0.7, 0, 0.3, 1);
-    }
 
-    &:hover,
-    &:focus {
-      text-decoration: none;
-
-      a {
-        color: $color-primary !important;
-      }
+      &:hover { color: $color-primary !important; }
     }
   }
 }
@@ -211,27 +146,23 @@
   ul {
     justify-content: flex-end;
 
-    li {
-      margin: 0;
-    }
+    li { margin: 0; }
   }
 
   a:not(.button):not([class*="free-consultation-button"]) {
     font-size: $font-size-sm;
     color: $color-text;
     padding: $spacing-2 $spacing-3;
-    transition: color $transition-duration-base ease;
 
     &:hover,
     &:focus {
       color: $color-secondary;
-      text-decoration: none;
     }
   }
 }
 
 // =============================================================================
-// HEADER PHONE DISPLAY
+// HEADER PHONE
 // =============================================================================
 
 .header-phone,
@@ -244,17 +175,11 @@
     margin-right: $spacing-1;
   }
 
-  a,
-  a:link,
-  a:visited {
+  a {
     font-family: $font-poppins;
     font-weight: $font-weight-bold;
     font-size: $font-size-base;
-    line-height: 1.625;
-    letter-spacing: 0.05em;
     color: $color-secondary;
-    text-align: right;
-    text-decoration: none;
 
     &:hover {
       text-decoration: underline;
@@ -263,31 +188,15 @@
   }
 }
 
-.utility-nav-wrapper {
-  .header-phone {
-    border-left: 1px solid $color-border;
-    padding-left: $spacing-3;
-    margin-left: $spacing-1;
-  }
+.utility-nav-wrapper .header-phone {
+  border-left: 1px solid $color-border;
+  padding-left: $spacing-3;
+  margin-left: $spacing-1;
 }
 
 // =============================================================================
-// MOBILE HAMBURGER TOGGLE
+// MOBILE NAVIGATION
 // =============================================================================
-
-// Hide button from main navigation on mobile
-@media (max-width: #{$breakpoint-md - 1px}) {
-  .main-navigation li.button {
-    display: none;
-  }
-}
-
-// Hide mobile buttons on desktop
-@media (min-width: #{$breakpoint-md}) {
-  .mobile-bottom-links {
-    display: none;
-  }
-}
 
 .nav-toggle {
   display: none;
@@ -302,24 +211,17 @@
   position: relative;
   z-index: $z-index-overlay + 1;
 
-  @media (max-width: #{$breakpoint-md - 1px}) {
-    display: flex;
-  }
-
   .hamburger {
-    display: inline-block;
     width: 32px;
     height: 32px;
     position: relative;
 
     span {
-      display: block;
       position: absolute;
       height: 3px;
       width: 100%;
       background: $color-primary;
       border-radius: 3px;
-      opacity: 1;
       left: 0;
       transition: 0.25s ease-in-out;
 
@@ -330,21 +232,15 @@
   }
 
   &.is-active .hamburger span {
-    &:nth-child(1) {
-      transform: rotate(45deg) translate(4px, 4px);
-    }
-    &:nth-child(2) {
-      opacity: 0;
-    }
-    &:nth-child(3) {
-      transform: rotate(-45deg) translate(5px, -5px);
-    }
+    &:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+    &:nth-child(2) { opacity: 0; }
+    &:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+  }
+
+  @media (max-width: #{$breakpoint-md - 1px}) {
+    display: flex;
   }
 }
-
-// =============================================================================
-// MOBILE NAVIGATION PANEL
-// =============================================================================
 
 .mobile-navigation-panel {
   position: fixed;
@@ -359,19 +255,16 @@
   transform: translateX(100%);
   transition: transform 0.3s cubic-bezier(0.7,0,0.3,1);
   border-top: 1px solid $color-divider;
-  max-height: 100vh;
 
   &.is-open {
     transform: translateX(0);
-    max-height: 100vh;
     overflow-y: auto;
-    overflow-x: hidden;
   }
 
   .mobile-navigation-panel-body {
-    height: 100%;
     display: flex;
     flex-direction: column;
+    height: 100%;
   }
 
   .mobile-primary-navigation,
@@ -381,10 +274,11 @@
     width: 100%;
   }
 
-  .mobile-primary-nav-list {
+  .mobile-primary-nav-list,
+  .mobile-utility-nav-list {
     list-style: none;
-    padding: 0;
     margin: 0;
+    padding: 0;
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -397,51 +291,33 @@
         padding: $spacing-3 $spacing-4;
         font-family: $font-montserrat;
         font-weight: $font-weight-bold;
-        text-decoration: none;
-        color: $color-charcoal;
-        width: 100%;
-        outline: none;
         font-size: $font-size-sm;
-        background: none;
-        border: none;
+        color: $color-charcoal;
 
         &:hover {
           color: $color-secondary;
         }
       }
 
-      // Arrow styles for items with children
       &.menu-item-has-children > a .submenu-arrow {
         width: 12px;
         height: 12px;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 6l4 4 4-4' stroke='%23212529' fill='none' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-        background-size: contain;
-        background-repeat: no-repeat;
-        transition: transform 0.25s ease-in-out;
+        background: url("data:image/svg+xml,%3Csvg ... %3E") no-repeat center / contain;
       }
 
-      // Arrow rotation for open items
       &.is-open > a .submenu-arrow {
         transform: rotate(180deg);
       }
     }
 
-    // Top-level open items
     > li.is-open > a {
       color: $color-white;
       background-color: $color-secondary;
-
-      .submenu-arrow {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 6l4 4 4-4' stroke='white' fill='none' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-      }
     }
 
-    // Sub-menu styles
     .sub-menu {
       background-color: $color-gray-lightest;
-      list-style: none;
       padding-left: $spacing-4;
-      margin: 0;
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.3s ease-in-out;
@@ -452,130 +328,59 @@
     }
   }
 
-  .mobile-utility-nav-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-
-    li {
-      a {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: $spacing-3 $spacing-4;
-        font-family: $font-montserrat;
-        font-weight: $font-weight-bold;
-        text-decoration: none;
-        color: $color-charcoal;
-        width: 100%;
-        outline: none;
-        font-size: $font-size-sm;
-        background: none;
-        border: none;
-
-        &:hover {
-          color: $color-secondary;
-        }
-      }
-    }
-  }
-
   .mobile-bottom-links {
-    margin-top: auto;
-    list-style: none;
-    padding: 0;
+    display: block;
     margin: $spacing-4;
     margin-top: auto;
 
-    .mobile-cta-button,
-    .mobile-phone-button {
-      &.button {
-        width: 100%;
-        margin-bottom: $spacing-3;
+    .button {
+      width: 100%;
+      margin-bottom: $spacing-3;
 
-        &:last-child {
-          margin-bottom: 0;
-        }
-
-        a {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: $spacing-2;
-          color: $color-white;
-          text-decoration: none;
-          width: 100%;
-        }
+      a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: $spacing-2;
+        color: $color-white;
       }
-    }
 
-    .mobile-cta-button {
-      &.button {
-
-        &:hover {
-          a {
-            color: $color-primary;
-          }
-        }
-      }
-    }
-
-    .mobile-phone-button {
-      &.button {
+      &.mobile-phone-button {
+        background: $color-white;
         border-color: $color-secondary;
-        background-color: $color-white;
 
-        &:before {
-          background-color: $color-secondary;
-        }
+        a { color: $color-secondary; }
 
-        a {
-          color: $color-secondary;
-        }
-
-        .phone-icon {
-          color: inherit;
-          width: 16px;
-          height: 16px;
-          transition: color 0.2s;
-        }
-
-        &:hover {
-          a {
-            color: $color-white;
-          }
-          .phone-icon {
-            color: $color-white;
-          }
-        }
+        &:hover a { color: $color-white; }
       }
     }
   }
 }
-
-// Hide main nav CTA button on mobile
-@media (max-width: #{$breakpoint-md - 1px}) {
-  .mobile-primary-nav-list li.button {
-    display: none;
-  }
-}
-
-// Hide mobile buttons on desktop
-@media (min-width: #{$breakpoint-md}) {
-  .mobile-bottom-links {
-    display: none;
-  }
-}
-
-// =============================================================================
-// MOBILE MENU STATE
-// =============================================================================
 
 body.mobile-menu-active {
   overflow: hidden;
 }
 
-/* stylelint-enable no-descending-specificity */
+// RESPONSIVE
+@media (min-width: $breakpoint-lg) {
+  .main-navigation li.button { display: flex; }
+  .mobile-bottom-links { display: none; }
+}
+
+// Hide main nav button by default (mobile/tablet)
+nav .button,
+nav .menu-item.button,
+.main-navigation .button,
+.main-navigation .menu-item.button {
+  display: none !important;
+}
+
+// Show main nav button on desktop only
+@media (min-width: $breakpoint-lg) {
+  nav .button,
+  nav .menu-item.button,
+  .main-navigation .button,
+  .main-navigation .menu-item.button {
+    display: block !important;
+  }
+}

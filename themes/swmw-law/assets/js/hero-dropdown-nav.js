@@ -1,105 +1,339 @@
 /**
- * Hero Dropdown Navigation Toggle
- * Adds toggle functionality for dropdown navigation in hero sections
+ * Hero Dropdown Navigation - Auto-generated from H2/H3 headings
+ * Creates anchor navigation from page headings with smooth scrolling
  */
 
 export function initHeroDropdownNav() {
-  // Find all hamburger menu toggles
-  const toggles = document.querySelectorAll('.hamburger-menu-toggle');
+  // Find all hero dropdown menus
+  const heroMenus = document.querySelectorAll('.hero-dropdown-menu');
 
-  toggles.forEach(function (toggle) {
-    // Get the menu title from the navigation block
-    const heroNav = toggle.closest('.hero-dropdown-menu');
-    const navBlock = heroNav ? heroNav.querySelector('.hero-nav-list') : null;
+  heroMenus.forEach(function (heroMenu) {
+    const toggle = heroMenu.querySelector('.hamburger-menu-toggle');
+    const navList = heroMenu.querySelector('.hero-nav-list');
+    const navItems = heroMenu.querySelector('.hero-nav-items');
 
-    let menuTitle = 'Menu'; // Default fallback
+    if (!toggle || !navList || !navItems) return;
 
-    if (navBlock) {
-      // Try multiple ways to get the navigation title
-      const navTitle = navBlock.getAttribute('data-menu-title') ||  // Custom data attribute
-        navBlock.getAttribute('aria-label') ||         // WordPress navigation label
-        navBlock.getAttribute('data-title') ||         // Alternative title attribute
-        navBlock.querySelector('.wp-block-navigation__container')?.getAttribute('aria-label') ||
-        navBlock.querySelector('.wp-block-navigation__container')?.getAttribute('data-title');
+    // Get configuration from data attributes
+    const includeH3s = heroMenu.dataset.includeH3s === 'true';
+    const scrollOffset = parseInt(heroMenu.dataset.scrollOffset) || 100;
 
-      if (navTitle && navTitle.trim() !== '') {
-        menuTitle = navTitle.trim();
-      }
-    }
-
-    // Set the initial label text
+    // Get menu title
     const label = toggle.querySelector('.hamburger-label');
-    if (label) {
-      label.textContent = menuTitle;
-    }
+    const menuTitle = label ? label.textContent : 'Page Navigation';
 
+    // Initialize navigation
+    initNavigation();
+
+    // Toggle functionality
     toggle.addEventListener('click', function (event) {
-      // Prevent default behavior
       event.preventDefault();
-
-      if (heroNav) {
-        // Toggle the is-open class
-        heroNav.classList.toggle('is-open');
-
-        // Update hamburger icon animation
-        const hamburgerIcon = toggle.querySelector('.hamburger-icon');
-
-        if (hamburgerIcon) {
-          hamburgerIcon.classList.toggle('is-active');
-        }
-
-        // Update label text
-        if (label) {
-          const isOpen = heroNav.classList.contains('is-open');
-          label.textContent = isOpen ? 'Close' : menuTitle;
-        }
-      }
+      toggleMenu();
     });
 
-    // Add close button functionality
-    const closeButton = heroNav ? heroNav.querySelector('.hero-nav-close') : null;
+    // Close button functionality
+    const closeButton = heroMenu.querySelector('.hero-nav-close');
     if (closeButton) {
       closeButton.addEventListener('click', function (event) {
         event.preventDefault();
-
-        if (heroNav) {
-          // Remove the is-open class
-          heroNav.classList.remove('is-open');
-
-          // Update hamburger icon animation
-          const hamburgerIcon = toggle.querySelector('.hamburger-icon');
-          if (hamburgerIcon) {
-            hamburgerIcon.classList.remove('is-active');
-          }
-
-          // Update label text back to original
-          if (label) {
-            label.textContent = menuTitle;
-          }
-        }
+        closeMenu();
       });
     }
 
-    // Add click outside handler to close menu
+    // Click outside to close
     document.addEventListener('click', function (event) {
-      if (heroNav && heroNav.classList.contains('is-open')) {
-        // Check if click is outside the menu
-        if (!heroNav.contains(event.target)) {
-          // Remove the is-open class
-          heroNav.classList.remove('is-open');
+      if (heroMenu.classList.contains('is-open') && !heroMenu.contains(event.target)) {
+        closeMenu();
+      }
+    });
 
-          // Update hamburger icon animation
-          const hamburgerIcon = toggle.querySelector('.hamburger-icon');
-          if (hamburgerIcon) {
-            hamburgerIcon.classList.remove('is-active');
-          }
+    // Handle navigation clicks
+    navList.addEventListener('click', function (event) {
+      const link = event.target.closest('a[href^="#"]');
+      if (link) {
+        event.preventDefault();
+        const targetId = link.getAttribute('href').substring(1);
+        scrollToSection(targetId);
+        closeMenu();
+      }
+    });
 
-          // Update label text back to original
-          if (label) {
-            label.textContent = menuTitle;
+    // Update active state on scroll
+    let scrollTimeout;
+    window.addEventListener('scroll', function () {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(updateActiveState, 100);
+
+      // Reposition dropdown if it's open
+      if (heroMenu.classList.contains('is-open')) {
+        positionDropdown();
+      }
+    });
+
+    // Initialize active state
+    updateActiveState();
+
+    // Handle window resize
+    window.addEventListener('resize', function () {
+      if (heroMenu.classList.contains('is-open')) {
+        positionDropdown();
+      }
+    });
+
+    /**
+     * Initialize navigation by scanning page for headings
+     */
+    function initNavigation() {
+      // Check if manual items already exist
+      const existingItems = navItems.querySelectorAll('li:not(.hero-nav-loading)');
+      if (existingItems.length > 0) {
+        // Remove loading state
+        const loadingItem = navItems.querySelector('.hero-nav-loading');
+        if (loadingItem) {
+          loadingItem.remove();
+        }
+        return;
+      }
+
+      // Find all H2 and H3 headings - try multiple selectors for better coverage
+      let headings = [];
+
+      // Try to find headings in main content areas first
+      const contentSelectors = [
+        'main',
+        '.entry-content',
+        '.content-area',
+        '#main',
+        '.container',
+        'article',
+        '.post-content',
+        '.page-content'
+      ];
+
+      for (const selector of contentSelectors) {
+        const content = document.querySelector(selector);
+        if (content) {
+          const foundHeadings = content.querySelectorAll('h2, h3');
+          if (foundHeadings.length > 0) {
+            headings = Array.from(foundHeadings);
+            break;
           }
         }
       }
-    });
+
+      // If no headings found in content areas, search the entire document
+      if (headings.length === 0) {
+        headings = Array.from(document.querySelectorAll('h2, h3'));
+      }
+
+      console.log('Found headings:', headings.length, headings.map(h => h.textContent.trim()));
+
+      if (headings.length === 0) {
+        navItems.innerHTML = '<li class="hero-nav-empty"><span>No headings found on this page</span></li>';
+        return;
+      }
+
+      // Build navigation structure
+      const navStructure = buildNavigationStructure(headings);
+
+      // Generate HTML
+      navItems.innerHTML = generateNavigationHTML(navStructure);
+    }
+
+    /**
+     * Build navigation structure from headings
+     */
+    function buildNavigationStructure(headings) {
+      const structure = [];
+      let currentH2 = null;
+
+      headings.forEach(function (heading) {
+        const text = heading.textContent.trim();
+        const tagName = heading.tagName.toLowerCase();
+
+        // Skip empty headings
+        if (!text) return;
+
+        // Generate ID if not present
+        if (!heading.id) {
+          heading.id = generateHeadingId(text);
+        }
+
+        if (tagName === 'h2') {
+          currentH2 = {
+            id: heading.id,
+            text: text,
+            children: []
+          };
+          structure.push(currentH2);
+        } else if (tagName === 'h3' && includeH3s && currentH2) {
+          currentH2.children.push({
+            id: heading.id,
+            text: text
+          });
+        }
+      });
+
+      console.log('Navigation structure:', structure);
+      return structure;
+    }
+
+    /**
+     * Generate navigation HTML
+     */
+    function generateNavigationHTML(structure) {
+      if (structure.length === 0) {
+        return '<li class="hero-nav-empty"><span>No headings found on this page</span></li>';
+      }
+
+      return structure.map(function (item) {
+        let html = `<li><a href="#${item.id}">${escapeHtml(item.text)}</a>`;
+
+        if (item.children && item.children.length > 0) {
+          html += '<ul class="hero-nav-submenu">';
+          html += item.children.map(function (child) {
+            return `<li class="hero-nav-submenu-item"><a href="#${child.id}">${escapeHtml(child.text)}</a></li>`;
+          }).join('');
+          html += '</ul>';
+        }
+
+        html += '</li>';
+        return html;
+      }).join('');
+    }
+
+    /**
+     * Generate heading ID from text
+     */
+    function generateHeadingId(text) {
+      return text
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .trim('-');
+    }
+
+    /**
+     * Escape HTML to prevent XSS
+     */
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    /**
+     * Toggle menu open/closed
+     */
+    function toggleMenu() {
+      const isOpen = heroMenu.classList.contains('is-open');
+
+      if (!isOpen) {
+        // Position the dropdown when opening
+        positionDropdown();
+      }
+
+      heroMenu.classList.toggle('is-open');
+
+      const hamburgerIcon = toggle.querySelector('.hamburger-icon');
+      if (hamburgerIcon) {
+        hamburgerIcon.classList.toggle('is-active');
+      }
+
+      if (label) {
+        const isOpen = heroMenu.classList.contains('is-open');
+        label.textContent = isOpen ? 'Close' : menuTitle;
+      }
+
+      // Update ARIA attributes
+      const isExpanded = heroMenu.classList.contains('is-open');
+      toggle.setAttribute('aria-expanded', isExpanded);
+    }
+
+    /**
+ * Position the dropdown correctly when using fixed positioning
+ */
+    function positionDropdown() {
+      const toggleRect = toggle.getBoundingClientRect();
+      const navList = heroMenu.querySelector('.hero-nav-list');
+
+      if (navList) {
+        // Position below the toggle button using viewport coordinates
+        navList.style.top = (toggleRect.bottom + 5) + 'px';
+        navList.style.left = toggleRect.left + 'px';
+        navList.style.width = Math.min(400, toggleRect.width) + 'px';
+      }
+    }
+
+    /**
+     * Close menu
+     */
+    function closeMenu() {
+      heroMenu.classList.remove('is-open');
+
+      const hamburgerIcon = toggle.querySelector('.hamburger-icon');
+      if (hamburgerIcon) {
+        hamburgerIcon.classList.remove('is-active');
+      }
+
+      if (label) {
+        label.textContent = menuTitle;
+      }
+
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+
+    /**
+     * Smooth scroll to section
+     */
+    function scrollToSection(targetId) {
+      const targetElement = document.getElementById(targetId);
+      if (!targetElement) {
+        console.log('Target element not found:', targetId);
+        return;
+      }
+
+      const targetPosition = targetElement.offsetTop - scrollOffset;
+
+      console.log('Scrolling to:', targetId, 'at position:', targetPosition);
+
+      window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth'
+      });
+    }
+
+    /**
+     * Update active navigation state based on scroll position
+     */
+    function updateActiveState() {
+      const headings = document.querySelectorAll('h2, h3');
+      if (headings.length === 0) return;
+
+      const scrollPosition = window.scrollY + scrollOffset + 50; // Add buffer
+      let activeHeading = null;
+
+      // Find the current active heading
+      headings.forEach(function (heading) {
+        const headingTop = heading.offsetTop;
+        if (scrollPosition >= headingTop) {
+          activeHeading = heading;
+        }
+      });
+
+      // Update navigation active states
+      const navLinks = navItems.querySelectorAll('a[href^="#"]');
+      navLinks.forEach(function (link) {
+        link.parentElement.classList.remove('is-active');
+      });
+
+      if (activeHeading) {
+        const activeLink = navItems.querySelector(`a[href="#${activeHeading.id}"]`);
+        if (activeLink) {
+          activeLink.parentElement.classList.add('is-active');
+        }
+      }
+    }
   });
 } 

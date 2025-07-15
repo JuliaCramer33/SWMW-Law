@@ -59,7 +59,6 @@
               if ( ! empty( $phone_number ) ) :
               ?>
                 <div class="header-phone">
-                  <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/phone-icon.svg' ); ?>" alt="<?php esc_attr_e( 'Phone Icon', 'swmw-law' ); ?>" class="phone-icon" />
                   <a href="tel:<?php echo esc_attr( preg_replace( '/[^0-9+]/', '', $phone_number ) ); ?>">
 									<svg class="phone-icon" viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true">
 										<path d="M0 0h24v24H0V0z" fill="none"/>
