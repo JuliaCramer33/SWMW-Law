@@ -29,23 +29,14 @@
             display: inline-block;
 
             &.image-1-wrapper {
-              min-height: 790px;
               width: 100%;
             }
 
             &.image-2-wrapper {
-              min-height: 560px;
               position: absolute;
               bottom: -50px;
-              width: 65%;
               z-index: 2;
-            
-              // // ✅ Add these:
-              // clip-path: polygon(0% 0%, 85% 0%, 100% 100%, 15% 100%);
-              border-radius: $border-radius;
               overflow: hidden;
-            
-              box-shadow: $box-shadow-lg;
             }            
 
             img {
@@ -54,7 +45,6 @@
               width: 100%;
               height: auto;
               object-fit: cover;
-              clip-path: none;
               border-radius: 0;
             }
           }
@@ -94,12 +84,7 @@
       .image-side {
         order: 1;
 
-        .image-1-wrapper {
-          clip-path: polygon(0% 0%, 100% 0%, 71% 100%, 0% 100%);
-        }
-
         .image-2-wrapper {
-          clip-path: polygon(15% 0%, 100% 0%, 85% 100%, 0% 100%);
           right: 0;
           left: auto;
         }
@@ -117,14 +102,8 @@
         order: 2;
 
         .image-stack {
-          .image-1-wrapper {
-            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 29% 100%);
-          }
 
           .image-2-wrapper {
-            clip-path: polygon(0% 0%, 85% 0%, 100% 100%, 15% 100%);
-
-
             left: 0;
             right: auto;
           }

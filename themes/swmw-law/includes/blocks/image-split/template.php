@@ -27,6 +27,9 @@ $image_1 = get_field('image_1'); // Expects image array
 $image_2 = get_field('image_2'); // Expects image array
 $image_alignment = get_field('image_alignment') ?: 'left'; // Default to left
 
+// Animation direction for images
+$image_animation = ($image_alignment === 'right') ? 'slide-in-right' : 'slide-in-left';
+
 // Combine all classes for the wrapper
 $all_wrapper_classes = [ 'wp-block', 'image-split-block', 'align-' . $image_alignment ];
 if ( ! empty( $block['className'] ) ) {
@@ -44,13 +47,13 @@ $container_classes = ['image-split-container'];
 			<?php if ( $image_1 || $image_2 ) : ?>
 				<div class="image-stack">
           <?php if ( $image_1 && !empty($image_1['url']) ) : ?>
-            <div class="clipped-wrapper image-1-wrapper">
+            <div class="clipped-wrapper image-1-wrapper" data-animate="<?php echo esc_attr($image_animation); ?>">
               <img src="<?php echo esc_url( $image_1['url'] ); ?>" alt="<?php echo esc_attr( $image_1['alt'] ); ?>" class="image-1" />
             </div>
           <?php endif; ?>
 
           <?php if ( $image_2 && !empty($image_2['url']) ) : ?>
-            <div class="clipped-wrapper image-2-wrapper">
+            <div class="clipped-wrapper image-2-wrapper" data-animate="<?php echo esc_attr($image_animation); ?>">
               <img src="<?php echo esc_url( $image_2['url'] ); ?>" alt="<?php echo esc_attr( $image_2['alt'] ); ?>" class="image-2" />
             </div>
           <?php endif; ?>
