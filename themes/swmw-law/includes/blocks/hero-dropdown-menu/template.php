@@ -33,6 +33,9 @@ $data_attributes = sprintf(
       <span class="hamburger-label"><?php echo esc_html( $menu_title ); ?></span>
     </button>
     <nav class="hero-nav-list" id="hero-nav-list" aria-label="<?php echo esc_attr( $menu_title ); ?>">
+      <div class="hero-nav-header">
+        <h3 class="hero-nav-title"><?php echo esc_html( $menu_title ); ?></h3>
+      </div>
       <ul class="hero-nav-items">
         <?php if ( $manual_items && ! empty( $manual_items ) ) : ?>
           <!-- Manual navigation items -->

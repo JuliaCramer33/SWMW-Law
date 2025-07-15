@@ -1,8 +1,12 @@
 /**
  * Initializes sliders for the Attorneys Block.
  */
-document.addEventListener('DOMContentLoaded', () => {
+export function initAttorneysSlider() {
   const sliders = document.querySelectorAll('.attorneys-block .splide');
+
+  if (sliders.length === 0) {
+    return; // No sliders found on this page
+  }
 
   sliders.forEach((slider) => {
     new Splide(slider, {
@@ -20,4 +24,4 @@ document.addEventListener('DOMContentLoaded', () => {
       },
     }).mount();
   });
-});
+}

@@ -31,14 +31,7 @@ export function initHeroDropdownNav() {
       toggleMenu();
     });
 
-    // Close button functionality
-    const closeButton = heroMenu.querySelector('.hero-nav-close');
-    if (closeButton) {
-      closeButton.addEventListener('click', function (event) {
-        event.preventDefault();
-        closeMenu();
-      });
-    }
+
 
     // Click outside to close
     document.addEventListener('click', function (event) {
@@ -58,20 +51,7 @@ export function initHeroDropdownNav() {
       }
     });
 
-    // Update active state on scroll
-    let scrollTimeout;
-    window.addEventListener('scroll', function () {
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(updateActiveState, 100);
 
-      // Reposition dropdown if it's open
-      if (heroMenu.classList.contains('is-open')) {
-        positionDropdown();
-      }
-    });
-
-    // Initialize active state
-    updateActiveState();
 
     // Handle window resize
     window.addEventListener('resize', function () {
@@ -126,7 +106,7 @@ export function initHeroDropdownNav() {
         headings = Array.from(document.querySelectorAll('h2, h3'));
       }
 
-      console.log('Found headings:', headings.length, headings.map(h => h.textContent.trim()));
+
 
       if (headings.length === 0) {
         navItems.innerHTML = '<li class="hero-nav-empty"><span>No headings found on this page</span></li>';
@@ -174,7 +154,7 @@ export function initHeroDropdownNav() {
         }
       });
 
-      console.log('Navigation structure:', structure);
+
       return structure;
     }
 
@@ -252,15 +232,15 @@ export function initHeroDropdownNav() {
     }
 
     /**
- * Position the dropdown correctly when using fixed positioning
- */
+     * Position the dropdown correctly when using fixed positioning
+     */
     function positionDropdown() {
       const toggleRect = toggle.getBoundingClientRect();
       const navList = heroMenu.querySelector('.hero-nav-list');
 
       if (navList) {
         // Position below the toggle button using viewport coordinates
-        navList.style.top = (toggleRect.bottom + 5) + 'px';
+        navList.style.top = (toggleRect.bottom) + 'px';
         navList.style.left = toggleRect.left + 'px';
         navList.style.width = Math.min(400, toggleRect.width) + 'px';
       }
@@ -290,50 +270,34 @@ export function initHeroDropdownNav() {
     function scrollToSection(targetId) {
       const targetElement = document.getElementById(targetId);
       if (!targetElement) {
-        console.log('Target element not found:', targetId);
         return;
       }
 
-      const targetPosition = targetElement.offsetTop - scrollOffset;
+      // Use getBoundingClientRect for more accurate positioning
+      const rect = targetElement.getBoundingClientRect();
+      const currentScrollY = window.scrollY;
+      const targetPosition = currentScrollY + rect.top;
 
-      console.log('Scrolling to:', targetId, 'at position:', targetPosition);
+      // Calculate the correct scroll position
+      let finalScrollPosition = targetPosition;
+
+      // Check if header is fixed (mobile) and adjust accordingly
+      const header = document.querySelector('.site-header');
+      if (header && window.getComputedStyle(header).position === 'fixed') {
+        // On mobile with fixed header, account for header height
+        const headerHeight = header.offsetHeight;
+        finalScrollPosition = finalScrollPosition - headerHeight - 20; // 20px extra buffer
+      } else {
+        // On desktop, use the configured scroll offset
+        finalScrollPosition = finalScrollPosition - scrollOffset;
+      }
 
       window.scrollTo({
-        top: targetPosition,
+        top: Math.max(0, finalScrollPosition), // Ensure we don't scroll to negative position
         behavior: 'smooth'
       });
     }
 
-    /**
-     * Update active navigation state based on scroll position
-     */
-    function updateActiveState() {
-      const headings = document.querySelectorAll('h2, h3');
-      if (headings.length === 0) return;
 
-      const scrollPosition = window.scrollY + scrollOffset + 50; // Add buffer
-      let activeHeading = null;
-
-      // Find the current active heading
-      headings.forEach(function (heading) {
-        const headingTop = heading.offsetTop;
-        if (scrollPosition >= headingTop) {
-          activeHeading = heading;
-        }
-      });
-
-      // Update navigation active states
-      const navLinks = navItems.querySelectorAll('a[href^="#"]');
-      navLinks.forEach(function (link) {
-        link.parentElement.classList.remove('is-active');
-      });
-
-      if (activeHeading) {
-        const activeLink = navItems.querySelector(`a[href="#${activeHeading.id}"]`);
-        if (activeLink) {
-          activeLink.parentElement.classList.add('is-active');
-        }
-      }
-    }
   });
 } 

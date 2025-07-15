@@ -9,13 +9,14 @@
 .hero-dropdown-menu {
   width: 100%;
   position: relative; // Ensure proper stacking context
-  z-index: 999; // Below main navigation but above content
+  z-index: 1001; // Above main navigation
   // Ensure the dropdown can escape overflow constraints
   overflow: visible;
 
   .hero-dropdown-container {
     position: relative;
     width: 100%;
+    overflow: visible;
   }
 
   // Hamburger menu toggle button
@@ -26,7 +27,7 @@
     padding: $spacing-4 $spacing-8;
     background-color: $color-gray-lightest;
     color: $color-text;
-    border-radius: $border-radius;
+    border-radius: 8px;
     cursor: pointer;
     transition: $transition-base;
     border: none;
@@ -88,21 +89,20 @@
   // Dropdown navigation list
   .hero-nav-list {
     display: none;
-    position: fixed; // Change to fixed to escape overflow constraints
+    position: fixed;
     top: auto; // Will be set by JavaScript
     left: auto; // Will be set by JavaScript
     width: 100%;
-    max-width: 400px; // Set a max width
+    max-width: 400px;
     background-color: $color-white;
     box-shadow: $box-shadow-lg;
-    border-radius: $border-radius;
+    border-radius: 0 0 8px 8px;
     padding: $spacing-4 0;
     margin-top: 0;
-    z-index: 1000; // Below main navigation but above content
+    z-index: 1002; // Above main navigation and parent
     text-align: left;
     // Ensure the dropdown can escape any overflow constraints
     overflow: visible;
-    transform: none;
 
     ul {
       list-style: none;
@@ -121,7 +121,7 @@
           font-family: $font-montserrat;
           font-weight: $font-weight-semibold;
           transition: $transition-base;
-          border-radius: $border-radius;
+          border-radius: 0;
 
           &:hover,
           &:focus {
@@ -130,11 +130,7 @@
           }
         }
 
-        &.is-active > a,
-        &.current-menu-item > a {
-          background-color: $color-secondary;
-          color: $color-white;
-        }
+
 
         // Submenu styles
         .hero-nav-submenu {
@@ -159,11 +155,7 @@
               }
             }
 
-            &.is-active > a {
-              background-color: $color-secondary;
-              color: $color-white;
-              font-weight: $font-weight-medium; // Medium weight when active
-            }
+
           }
         }
       }
@@ -179,45 +171,30 @@
     font-size: $font-size-sm;
   }
 
-  // Close button
-  .hero-nav-close {
-    position: absolute;
-    top: $spacing-2;
-    right: $spacing-3;
-    background: none;
-    border: none;
-    font-size: $font-size-xl;
-    color: $color-primary;
-    cursor: pointer;
-    z-index: 799; // Below main navigation but above content
-    padding: 0;
-    line-height: 1;
-    transition: color 0.2s;
 
-    &:hover,
-    &:focus {
-      color: $color-secondary;
-      outline: none;
-    }
-  }
 
   // Open state styles
   &.is-open {
     .hamburger-menu-toggle {
-      border-radius: $border-radius $border-radius 0 0;
-      color: $color-secondary;
+      border-radius: 8px 8px 0 0;
+      color: $color-text;
     }
 
     .hamburger-icon span {
-      background-color: $color-secondary;
+      background-color: $color-text;
     }
 
     .hamburger-label {
-      color: $color-secondary;
+      color: $color-text;
     }
 
     .hero-nav-list {
       display: block;
+    }
+
+    // Hide the green header when open
+    .hero-nav-header {
+      display: none;
     }
   }
 
@@ -226,7 +203,7 @@
     .hero-nav-list {
       min-width: 220px;
       max-width: calc(100vw - 2rem);
-      // Remove right/left positioning since it's handled by JavaScript
+      // Fixed positioning handled by JavaScript
     }
   }
 }

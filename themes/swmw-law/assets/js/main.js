@@ -13,7 +13,7 @@ import { initAttorneysSlider } from './blocks/attorneys.js';
 import { AccordionBlock } from './blocks/accordion.js';
 import { initHeroDropdownNav } from './hero-dropdown-nav.js';
 import { initBlockAnimations } from './blocks/animations.js';
-console.log('MAIN.JS - Imported initHeroDropdownNav:', typeof initHeroDropdownNav);
+
 // Import other modules like initModals if you create them
 
 /**
@@ -23,7 +23,44 @@ console.log('MAIN.JS - Imported initHeroDropdownNav:', typeof initHeroDropdownNa
 
 (function ($) {
   'use strict';
-  console.log('MAIN.JS JQUERY WRAPPER EXECUTING');
+
+
+  /**
+   * Initialize skip link functionality
+   */
+  function initSkipLink() {
+    const skipLink = document.querySelector('.skip-link');
+    const mainContent = document.getElementById('main');
+
+    if (!skipLink || !mainContent) {
+      return;
+    }
+
+    skipLink.addEventListener('click', function (e) {
+      e.preventDefault();
+
+      // Focus the main content area
+      mainContent.focus();
+
+      // Add a visual indicator that focus has moved (optional)
+      mainContent.classList.add('skip-link-target');
+      setTimeout(() => {
+        mainContent.classList.remove('skip-link-target');
+      }, 2000);
+
+      // Announce to screen readers that we've skipped to main content
+      const announcement = document.createElement('div');
+      announcement.setAttribute('aria-live', 'polite');
+      announcement.setAttribute('aria-atomic', 'true');
+      announcement.className = 'sr-only';
+      announcement.textContent = 'Skipped to main content';
+      document.body.appendChild(announcement);
+
+      setTimeout(() => {
+        document.body.removeChild(announcement);
+      }, 1000);
+    });
+  }
 
   /**
    * Initialize modal functionality - kept here for now, can be modularized later if desired
@@ -45,60 +82,56 @@ console.log('MAIN.JS - Imported initHeroDropdownNav:', typeof initHeroDropdownNa
 
   // Document ready
   $(document).ready(function () {
-    console.log('MAIN.JS DOCUMENT READY');
+
+    // Initialize skip link functionality
+    try {
+      initSkipLink();
+    } catch (error) {
+      console.error('MAIN.JS - ERROR in initSkipLink():', error);
+    }
+
     initMobileMenu();
     initMobileSubMenus(); // Call the new mobile submenu initializer
-    console.log('MAIN.JS - ABOUT TO CALL initMegaMenus()');
     initMegaMenus();
-    console.log('MAIN.JS - FINISHED CALLING initMegaMenus()');
-    console.log('MAIN.JS - ABOUT TO CALL moveMegaPanels()');
     moveMegaPanels();
-    console.log('MAIN.JS - ABOUT TO CALL equalizeMegaMenuHeights()');
     try {
       equalizeMegaMenuHeights();
-      console.log('MAIN.JS - FINISHED CALLING equalizeMegaMenuHeights()');
     } catch (error) {
       console.error('MAIN.JS - ERROR in equalizeMegaMenuHeights():', error);
     }
 
     try {
       initModals(); // Assuming this is still initialized here
-      console.log('MAIN.JS - FINISHED CALLING initModals()');
     } catch (error) {
       console.error('MAIN.JS - ERROR in initModals():', error);
     }
 
     try {
       initializeButtonHoverAnimation();
-      console.log('MAIN.JS - FINISHED CALLING initializeButtonHoverAnimation()');
     } catch (error) {
       console.error('MAIN.JS - ERROR in initializeButtonHoverAnimation():', error);
     }
 
     try {
       initResultsSlider(); // Initialize the results slider
-      console.log('MAIN.JS - FINISHED CALLING initResultsSlider()');
     } catch (error) {
       console.error('MAIN.JS - ERROR in initResultsSlider():', error);
     }
 
     try {
       initTestimonialsSlider(); // Initialize the testimonials slider
-      console.log('MAIN.JS - FINISHED CALLING initTestimonialsSlider()');
     } catch (error) {
       console.error('MAIN.JS - ERROR in initTestimonialsSlider():', error);
     }
 
     try {
       initAttorneysSlider(); // Initialize the attorneys slider
-      console.log('MAIN.JS - FINISHED CALLING initAttorneysSlider()');
     } catch (error) {
       console.error('MAIN.JS - ERROR in initAttorneysSlider():', error);
     }
 
     try {
       initLoadMoreAttorneys(); // Initialize the load more attorneys functionality
-      console.log('MAIN.JS - FINISHED CALLING initLoadMoreAttorneys()');
     } catch (error) {
       console.error('MAIN.JS - ERROR in initLoadMoreAttorneys():', error);
     }
@@ -106,29 +139,24 @@ console.log('MAIN.JS - Imported initHeroDropdownNav:', typeof initHeroDropdownNa
     // Initialize Load More Results functionality
     try {
       initLoadMoreResults();
-      console.log('MAIN.JS - FINISHED CALLING initLoadMoreResults()');
     } catch (error) {
       console.error('MAIN.JS - ERROR in initLoadMoreResults():', error);
     }
 
     try {
       new AccordionBlock();
-      console.log('MAIN.JS - FINISHED CALLING AccordionBlock()');
     } catch (error) {
       console.error('MAIN.JS - ERROR in AccordionBlock():', error);
     }
 
-    console.log('MAIN.JS - ABOUT TO CALL initHeroDropdownNav()');
     try {
       initHeroDropdownNav(); // Initialize the hero dropdown navigation
-      console.log('MAIN.JS - FINISHED CALLING initHeroDropdownNav()');
     } catch (error) {
       console.error('MAIN.JS - ERROR in initHeroDropdownNav():', error);
     }
 
     try {
       initBlockAnimations(); // Initialize block animations
-      console.log('MAIN.JS - FINISHED CALLING initBlockAnimations()');
     } catch (error) {
       console.error('MAIN.JS - ERROR in initBlockAnimations():', error);
     }
@@ -138,10 +166,8 @@ console.log('MAIN.JS - Imported initHeroDropdownNav:', typeof initHeroDropdownNa
       const body = document.body;
       if (body.classList.contains('no-animations')) {
         body.classList.remove('no-animations');
-        console.log('SWMW: Animations enabled');
       } else {
         body.classList.add('no-animations');
-        console.log('SWMW: Animations disabled');
       }
     };
   });

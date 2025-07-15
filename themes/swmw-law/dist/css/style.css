@@ -564,6 +564,12 @@ label {
   text-decoration: underline;
 }
 
+.skip-link-target {
+  outline: 2px solid #12477a;
+  outline-offset: 2px;
+  transition: outline 0.2s ease-in-out;
+}
+
 /*!
  * SWMW Law Theme
  * Main SCSS file
@@ -9574,12 +9580,13 @@ nav .menu-item.button,
 .hero-dropdown-menu {
   width: 100%;
   position: relative;
-  z-index: 999;
+  z-index: 1001;
   overflow: visible;
 }
 .hero-dropdown-menu .hero-dropdown-container {
   position: relative;
   width: 100%;
+  overflow: visible;
 }
 .hero-dropdown-menu .hamburger-menu-toggle {
   display: flex;
@@ -9588,7 +9595,7 @@ nav .menu-item.button,
   padding: 1rem 2rem;
   background-color: #f6f6f6;
   color: #43383e;
-  border-radius: 0.5rem;
+  border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
   border: none;
@@ -9641,13 +9648,12 @@ nav .menu-item.button,
   max-width: 400px;
   background-color: #fff;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  border-radius: 0.5rem;
+  border-radius: 0 0 8px 8px;
   padding: 1rem 0;
   margin-top: 0;
-  z-index: 1000;
+  z-index: 1002;
   text-align: left;
   overflow: visible;
-  transform: none;
 }
 .hero-dropdown-menu .hero-nav-list ul {
   list-style: none;
@@ -9666,15 +9672,11 @@ nav .menu-item.button,
   font-family: "Montserrat", sans-serif;
   font-weight: 600;
   transition: all 0.2s ease;
-  border-radius: 0.5rem;
+  border-radius: 0;
 }
 .hero-dropdown-menu .hero-nav-list ul li a:hover, .hero-dropdown-menu .hero-nav-list ul li a:focus {
   background-color: #f9f9f9;
   color: #12477a;
-}
-.hero-dropdown-menu .hero-nav-list ul li.is-active > a, .hero-dropdown-menu .hero-nav-list ul li.current-menu-item > a {
-  background-color: #417e4b;
-  color: #fff;
 }
 .hero-dropdown-menu .hero-nav-list ul li .hero-nav-submenu {
   list-style: none;
@@ -9694,11 +9696,6 @@ nav .menu-item.button,
   color: #12477a;
   font-weight: 500;
 }
-.hero-dropdown-menu .hero-nav-list ul li .hero-nav-submenu .hero-nav-submenu-item.is-active > a {
-  background-color: #417e4b;
-  color: #fff;
-  font-weight: 500;
-}
 .hero-dropdown-menu .hero-nav-loading,
 .hero-dropdown-menu .hero-nav-empty {
   padding: 1rem 2rem;
@@ -9706,36 +9703,21 @@ nav .menu-item.button,
   font-style: italic;
   font-size: 0.875rem;
 }
-.hero-dropdown-menu .hero-nav-close {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.75rem;
-  background: none;
-  border: none;
-  font-size: 1.25rem;
-  color: #12477a;
-  cursor: pointer;
-  z-index: 799;
-  padding: 0;
-  line-height: 1;
-  transition: color 0.2s;
-}
-.hero-dropdown-menu .hero-nav-close:hover, .hero-dropdown-menu .hero-nav-close:focus {
-  color: #417e4b;
-  outline: none;
-}
 .hero-dropdown-menu.is-open .hamburger-menu-toggle {
-  border-radius: 0.5rem 0.5rem 0 0;
-  color: #417e4b;
+  border-radius: 8px 8px 0 0;
+  color: #43383e;
 }
 .hero-dropdown-menu.is-open .hamburger-icon span {
-  background-color: #417e4b;
+  background-color: #43383e;
 }
 .hero-dropdown-menu.is-open .hamburger-label {
-  color: #417e4b;
+  color: #43383e;
 }
 .hero-dropdown-menu.is-open .hero-nav-list {
   display: block;
+}
+.hero-dropdown-menu.is-open .hero-nav-header {
+  display: none;
 }
 @media (max-width: 768px) {
   .hero-dropdown-menu .hero-nav-list {

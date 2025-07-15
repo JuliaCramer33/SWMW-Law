@@ -1,4 +1,5 @@
 /******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
 /***/ "./assets/js/blocks/accordion.js":
@@ -7,7 +8,6 @@
   \***************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   AccordionBlock: () => (/* binding */ AccordionBlock)
@@ -87,7 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
   \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   initBlockAnimations: () => (/* binding */ initBlockAnimations),
@@ -99,33 +98,15 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 function initBlockAnimations() {
-  console.log('SWMW: Initializing block animations...');
-
   // Check if we're in the admin
   if (document.body.classList.contains('wp-admin')) {
-    console.log('SWMW: In admin, skipping animations');
     return;
   }
 
-  // Test: Check if any blocks have the data attribute
-  const allBlocks = document.querySelectorAll('.wp-block');
-  console.log('SWMW: Total blocks found:', allBlocks.length);
-  const animatedBlocks = document.querySelectorAll('[data-animate]');
-  console.log('SWMW: Blocks with data-animate attribute:', animatedBlocks.length);
-
-  // Log the first few blocks to see their structure
-  allBlocks.forEach((block, index) => {
-    if (index < 5) {
-      console.log('SWMW: Block', index, 'classes:', block.className, 'data-animate:', block.getAttribute('data-animate'));
-    }
-  });
-
   // Check if Intersection Observer is supported
   if (!('IntersectionObserver' in window)) {
-    console.log('SWMW: IntersectionObserver not supported, using fallback');
     // Fallback: animate all blocks immediately
     const blocks = document.querySelectorAll('[data-animate]');
-    console.log('SWMW: Found', blocks.length, 'blocks to animate');
     if (blocks.length > 0) {
       blocks.forEach(block => {
         block.classList.add('animated');
@@ -140,7 +121,6 @@ function initBlockAnimations() {
     observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          console.log('SWMW: Animating block:', entry.target, 'with animation:', entry.target.getAttribute('data-animate'));
           entry.target.classList.add('animated');
           // Once animated, stop observing
           observer.unobserve(entry.target);
@@ -158,18 +138,14 @@ function initBlockAnimations() {
 
   // Observe all blocks with data-animate attribute
   const animatedBlocksToObserve = document.querySelectorAll('[data-animate]');
-  console.log('SWMW: Found', animatedBlocksToObserve.length, 'blocks with data-animate attribute');
   if (animatedBlocksToObserve.length > 0) {
     animatedBlocksToObserve.forEach(block => {
       try {
         observer.observe(block);
-        console.log('SWMW: Observing block:', block, 'with animation:', block.getAttribute('data-animate'));
       } catch (error) {
         console.warn('SWMW: Could not observe block:', error);
       }
     });
-  } else {
-    console.log('SWMW: No blocks found with data-animate attribute');
   }
 
   // Optional: Re-initialize animations when content is loaded via AJAX
@@ -213,13 +189,20 @@ function toggleAnimations() {
 /*!***************************************!*\
   !*** ./assets/js/blocks/attorneys.js ***!
   \***************************************/
-/***/ (() => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   initAttorneysSlider: () => (/* binding */ initAttorneysSlider)
+/* harmony export */ });
 /**
  * Initializes sliders for the Attorneys Block.
  */
-document.addEventListener('DOMContentLoaded', () => {
+function initAttorneysSlider() {
   const sliders = document.querySelectorAll('.attorneys-block .splide');
+  if (sliders.length === 0) {
+    return; // No sliders found on this page
+  }
   sliders.forEach(slider => {
     new Splide(slider, {
       type: 'loop',
@@ -240,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }).mount();
   });
-});
+}
 
 /***/ }),
 
@@ -250,7 +233,6 @@ document.addEventListener('DOMContentLoaded', () => {
   \*************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   initResultsSlider: () => (/* binding */ initResultsSlider)
@@ -305,7 +287,6 @@ function initResultsSlider() {
   \******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   initTestimonialsSlider: () => (/* binding */ initTestimonialsSlider)
@@ -360,7 +341,6 @@ function initTestimonialsSlider() {
   \*********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -420,7 +400,6 @@ if (typeof window !== 'undefined' && typeof document !== 'undefined') {
   \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   initHeroDropdownNav: () => (/* binding */ initHeroDropdownNav)
@@ -456,15 +435,6 @@ function initHeroDropdownNav() {
       toggleMenu();
     });
 
-    // Close button functionality
-    const closeButton = heroMenu.querySelector('.hero-nav-close');
-    if (closeButton) {
-      closeButton.addEventListener('click', function (event) {
-        event.preventDefault();
-        closeMenu();
-      });
-    }
-
     // Click outside to close
     document.addEventListener('click', function (event) {
       if (heroMenu.classList.contains('is-open') && !heroMenu.contains(event.target)) {
@@ -482,21 +452,6 @@ function initHeroDropdownNav() {
         closeMenu();
       }
     });
-
-    // Update active state on scroll
-    let scrollTimeout;
-    window.addEventListener('scroll', function () {
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(updateActiveState, 100);
-
-      // Reposition dropdown if it's open
-      if (heroMenu.classList.contains('is-open')) {
-        positionDropdown();
-      }
-    });
-
-    // Initialize active state
-    updateActiveState();
 
     // Handle window resize
     window.addEventListener('resize', function () {
@@ -540,7 +495,6 @@ function initHeroDropdownNav() {
       if (headings.length === 0) {
         headings = Array.from(document.querySelectorAll('h2, h3'));
       }
-      console.log('Found headings:', headings.length, headings.map(h => h.textContent.trim()));
       if (headings.length === 0) {
         navItems.innerHTML = '<li class="hero-nav-empty"><span>No headings found on this page</span></li>';
         return;
@@ -584,7 +538,6 @@ function initHeroDropdownNav() {
           });
         }
       });
-      console.log('Navigation structure:', structure);
       return structure;
     }
 
@@ -650,14 +603,14 @@ function initHeroDropdownNav() {
     }
 
     /**
-    * Position the dropdown correctly when using fixed positioning
-    */
+     * Position the dropdown correctly when using fixed positioning
+     */
     function positionDropdown() {
       const toggleRect = toggle.getBoundingClientRect();
       const navList = heroMenu.querySelector('.hero-nav-list');
       if (navList) {
         // Position below the toggle button using viewport coordinates
-        navList.style.top = toggleRect.bottom + 5 + 'px';
+        navList.style.top = toggleRect.bottom + 'px';
         navList.style.left = toggleRect.left + 'px';
         navList.style.width = Math.min(400, toggleRect.width) + 'px';
       }
@@ -684,45 +637,32 @@ function initHeroDropdownNav() {
     function scrollToSection(targetId) {
       const targetElement = document.getElementById(targetId);
       if (!targetElement) {
-        console.log('Target element not found:', targetId);
         return;
       }
-      const targetPosition = targetElement.offsetTop - scrollOffset;
-      console.log('Scrolling to:', targetId, 'at position:', targetPosition);
+
+      // Use getBoundingClientRect for more accurate positioning
+      const rect = targetElement.getBoundingClientRect();
+      const currentScrollY = window.scrollY;
+      const targetPosition = currentScrollY + rect.top;
+
+      // Calculate the correct scroll position
+      let finalScrollPosition = targetPosition;
+
+      // Check if header is fixed (mobile) and adjust accordingly
+      const header = document.querySelector('.site-header');
+      if (header && window.getComputedStyle(header).position === 'fixed') {
+        // On mobile with fixed header, account for header height
+        const headerHeight = header.offsetHeight;
+        finalScrollPosition = finalScrollPosition - headerHeight - 20; // 20px extra buffer
+      } else {
+        // On desktop, use the configured scroll offset
+        finalScrollPosition = finalScrollPosition - scrollOffset;
+      }
       window.scrollTo({
-        top: targetPosition,
+        top: Math.max(0, finalScrollPosition),
+        // Ensure we don't scroll to negative position
         behavior: 'smooth'
       });
-    }
-
-    /**
-     * Update active navigation state based on scroll position
-     */
-    function updateActiveState() {
-      const headings = document.querySelectorAll('h2, h3');
-      if (headings.length === 0) return;
-      const scrollPosition = window.scrollY + scrollOffset + 50; // Add buffer
-      let activeHeading = null;
-
-      // Find the current active heading
-      headings.forEach(function (heading) {
-        const headingTop = heading.offsetTop;
-        if (scrollPosition >= headingTop) {
-          activeHeading = heading;
-        }
-      });
-
-      // Update navigation active states
-      const navLinks = navItems.querySelectorAll('a[href^="#"]');
-      navLinks.forEach(function (link) {
-        link.parentElement.classList.remove('is-active');
-      });
-      if (activeHeading) {
-        const activeLink = navItems.querySelector(`a[href="#${activeHeading.id}"]`);
-        if (activeLink) {
-          activeLink.parentElement.classList.add('is-active');
-        }
-      }
     }
   });
 }
@@ -735,7 +675,6 @@ function initHeroDropdownNav() {
   \********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   equalizeMegaMenuHeights: () => (/* binding */ equalizeMegaMenuHeights),
@@ -914,7 +853,6 @@ function equalizeMegaMenuHeights() {
   \**********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   initMobileMenu: () => (/* binding */ initMobileMenu),
@@ -1111,18 +1049,6 @@ function initMobileSubMenus() {
 /******/ 	}
 /******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/compat get default export */
-/******/ 	(() => {
-/******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = (module) => {
-/******/ 			var getter = module && module.__esModule ?
-/******/ 				() => (module['default']) :
-/******/ 				() => (module);
-/******/ 			__webpack_require__.d(getter, { a: getter });
-/******/ 			return getter;
-/******/ 		};
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
@@ -1153,9 +1079,8 @@ function initMobileSubMenus() {
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry needs to be wrapped in an IIFE because it needs to be in strict mode.
+// This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
 (() => {
-"use strict";
 /*!***************************!*\
   !*** ./assets/js/main.js ***!
   \***************************/
@@ -1166,7 +1091,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _blocks_results_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./blocks/results.js */ "./assets/js/blocks/results.js");
 /* harmony import */ var _blocks_testimonials_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./blocks/testimonials.js */ "./assets/js/blocks/testimonials.js");
 /* harmony import */ var _blocks_attorneys_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./blocks/attorneys.js */ "./assets/js/blocks/attorneys.js");
-/* harmony import */ var _blocks_attorneys_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_blocks_attorneys_js__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _blocks_accordion_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./blocks/accordion.js */ "./assets/js/blocks/accordion.js");
 /* harmony import */ var _hero_dropdown_nav_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./hero-dropdown-nav.js */ "./assets/js/hero-dropdown-nav.js");
 /* harmony import */ var _blocks_animations_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./blocks/animations.js */ "./assets/js/blocks/animations.js");
@@ -1181,7 +1105,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-console.log('MAIN.JS - Imported initHeroDropdownNav:', typeof _hero_dropdown_nav_js__WEBPACK_IMPORTED_MODULE_7__.initHeroDropdownNav);
+
 // Import other modules like initModals if you create them
 
 /**
@@ -1192,7 +1116,39 @@ console.log('MAIN.JS - Imported initHeroDropdownNav:', typeof _hero_dropdown_nav
 (function ($) {
   'use strict';
 
-  console.log('MAIN.JS JQUERY WRAPPER EXECUTING');
+  /**
+   * Initialize skip link functionality
+   */
+  function initSkipLink() {
+    const skipLink = document.querySelector('.skip-link');
+    const mainContent = document.getElementById('main');
+    if (!skipLink || !mainContent) {
+      return;
+    }
+    skipLink.addEventListener('click', function (e) {
+      e.preventDefault();
+
+      // Focus the main content area
+      mainContent.focus();
+
+      // Add a visual indicator that focus has moved (optional)
+      mainContent.classList.add('skip-link-target');
+      setTimeout(() => {
+        mainContent.classList.remove('skip-link-target');
+      }, 2000);
+
+      // Announce to screen readers that we've skipped to main content
+      const announcement = document.createElement('div');
+      announcement.setAttribute('aria-live', 'polite');
+      announcement.setAttribute('aria-atomic', 'true');
+      announcement.className = 'sr-only';
+      announcement.textContent = 'Skipped to main content';
+      document.body.appendChild(announcement);
+      setTimeout(() => {
+        document.body.removeChild(announcement);
+      }, 1000);
+    });
+  }
 
   /**
    * Initialize modal functionality - kept here for now, can be modularized later if desired
@@ -1214,54 +1170,48 @@ console.log('MAIN.JS - Imported initHeroDropdownNav:', typeof _hero_dropdown_nav
 
   // Document ready
   $(document).ready(function () {
-    console.log('MAIN.JS DOCUMENT READY');
+    // Initialize skip link functionality
+    try {
+      initSkipLink();
+    } catch (error) {
+      console.error('MAIN.JS - ERROR in initSkipLink():', error);
+    }
     (0,_mobile_menu_js__WEBPACK_IMPORTED_MODULE_1__.initMobileMenu)();
     (0,_mobile_menu_js__WEBPACK_IMPORTED_MODULE_1__.initMobileSubMenus)(); // Call the new mobile submenu initializer
-    console.log('MAIN.JS - ABOUT TO CALL initMegaMenus()');
     (0,_mega_menu_js__WEBPACK_IMPORTED_MODULE_2__.initMegaMenus)();
-    console.log('MAIN.JS - FINISHED CALLING initMegaMenus()');
-    console.log('MAIN.JS - ABOUT TO CALL moveMegaPanels()');
     (0,_mega_menu_js__WEBPACK_IMPORTED_MODULE_2__.moveMegaPanels)();
-    console.log('MAIN.JS - ABOUT TO CALL equalizeMegaMenuHeights()');
     try {
       (0,_mega_menu_js__WEBPACK_IMPORTED_MODULE_2__.equalizeMegaMenuHeights)();
-      console.log('MAIN.JS - FINISHED CALLING equalizeMegaMenuHeights()');
     } catch (error) {
       console.error('MAIN.JS - ERROR in equalizeMegaMenuHeights():', error);
     }
     try {
       initModals(); // Assuming this is still initialized here
-      console.log('MAIN.JS - FINISHED CALLING initModals()');
     } catch (error) {
       console.error('MAIN.JS - ERROR in initModals():', error);
     }
     try {
       (0,_button_hover_animation_js__WEBPACK_IMPORTED_MODULE_0__["default"])();
-      console.log('MAIN.JS - FINISHED CALLING initializeButtonHoverAnimation()');
     } catch (error) {
       console.error('MAIN.JS - ERROR in initializeButtonHoverAnimation():', error);
     }
     try {
       (0,_blocks_results_js__WEBPACK_IMPORTED_MODULE_3__.initResultsSlider)(); // Initialize the results slider
-      console.log('MAIN.JS - FINISHED CALLING initResultsSlider()');
     } catch (error) {
       console.error('MAIN.JS - ERROR in initResultsSlider():', error);
     }
     try {
       (0,_blocks_testimonials_js__WEBPACK_IMPORTED_MODULE_4__.initTestimonialsSlider)(); // Initialize the testimonials slider
-      console.log('MAIN.JS - FINISHED CALLING initTestimonialsSlider()');
     } catch (error) {
       console.error('MAIN.JS - ERROR in initTestimonialsSlider():', error);
     }
     try {
       (0,_blocks_attorneys_js__WEBPACK_IMPORTED_MODULE_5__.initAttorneysSlider)(); // Initialize the attorneys slider
-      console.log('MAIN.JS - FINISHED CALLING initAttorneysSlider()');
     } catch (error) {
       console.error('MAIN.JS - ERROR in initAttorneysSlider():', error);
     }
     try {
       initLoadMoreAttorneys(); // Initialize the load more attorneys functionality
-      console.log('MAIN.JS - FINISHED CALLING initLoadMoreAttorneys()');
     } catch (error) {
       console.error('MAIN.JS - ERROR in initLoadMoreAttorneys():', error);
     }
@@ -1269,26 +1219,21 @@ console.log('MAIN.JS - Imported initHeroDropdownNav:', typeof _hero_dropdown_nav
     // Initialize Load More Results functionality
     try {
       initLoadMoreResults();
-      console.log('MAIN.JS - FINISHED CALLING initLoadMoreResults()');
     } catch (error) {
       console.error('MAIN.JS - ERROR in initLoadMoreResults():', error);
     }
     try {
       new _blocks_accordion_js__WEBPACK_IMPORTED_MODULE_6__.AccordionBlock();
-      console.log('MAIN.JS - FINISHED CALLING AccordionBlock()');
     } catch (error) {
       console.error('MAIN.JS - ERROR in AccordionBlock():', error);
     }
-    console.log('MAIN.JS - ABOUT TO CALL initHeroDropdownNav()');
     try {
       (0,_hero_dropdown_nav_js__WEBPACK_IMPORTED_MODULE_7__.initHeroDropdownNav)(); // Initialize the hero dropdown navigation
-      console.log('MAIN.JS - FINISHED CALLING initHeroDropdownNav()');
     } catch (error) {
       console.error('MAIN.JS - ERROR in initHeroDropdownNav():', error);
     }
     try {
       (0,_blocks_animations_js__WEBPACK_IMPORTED_MODULE_8__.initBlockAnimations)(); // Initialize block animations
-      console.log('MAIN.JS - FINISHED CALLING initBlockAnimations()');
     } catch (error) {
       console.error('MAIN.JS - ERROR in initBlockAnimations():', error);
     }
@@ -1298,10 +1243,8 @@ console.log('MAIN.JS - Imported initHeroDropdownNav:', typeof _hero_dropdown_nav
       const body = document.body;
       if (body.classList.contains('no-animations')) {
         body.classList.remove('no-animations');
-        console.log('SWMW: Animations enabled');
       } else {
         body.classList.add('no-animations');
-        console.log('SWMW: Animations disabled');
       }
     };
   });

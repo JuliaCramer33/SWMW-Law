@@ -30,3 +30,10 @@
     text-decoration: underline;
   }
 }
+
+// Visual indicator for skip link target
+.skip-link-target {
+  outline: 2px solid $color-primary;
+  outline-offset: 2px;
+  transition: outline 0.2s ease-in-out;
+}
