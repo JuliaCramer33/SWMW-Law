@@ -7,12 +7,14 @@ export function initHeroDropdownNav() {
   // Find all hero dropdown menus
   const heroMenus = document.querySelectorAll('.hero-dropdown-menu');
 
-  heroMenus.forEach(function (heroMenu) {
+  heroMenus.forEach(function (heroMenu, index) {
     const toggle = heroMenu.querySelector('.hamburger-menu-toggle');
     const navList = heroMenu.querySelector('.hero-nav-list');
     const navItems = heroMenu.querySelector('.hero-nav-items');
 
-    if (!toggle || !navList || !navItems) return;
+    if (!toggle || !navList || !navItems) {
+      return;
+    }
 
     // Get configuration from data attributes
     const scrollOffset = parseInt(heroMenu.dataset.scrollOffset) || 100;
@@ -30,8 +32,6 @@ export function initHeroDropdownNav() {
       toggleMenu();
     });
 
-
-
     // Click outside to close
     document.addEventListener('click', function (event) {
       if (heroMenu.classList.contains('is-open') && !heroMenu.contains(event.target)) {
@@ -47,15 +47,6 @@ export function initHeroDropdownNav() {
         const targetId = link.getAttribute('href').substring(1);
         scrollToSection(targetId);
         closeMenu();
-      }
-    });
-
-
-
-    // Handle window resize
-    window.addEventListener('resize', function () {
-      if (heroMenu.classList.contains('is-open')) {
-        positionDropdown();
       }
     });
 
@@ -176,8 +167,8 @@ export function initHeroDropdownNav() {
       const isOpen = heroMenu.classList.contains('is-open');
 
       if (!isOpen) {
-        // Position the dropdown when opening
-        positionDropdown();
+        // Ensure parent containers allow overflow
+        ensureOverflowVisible();
       }
 
       heroMenu.classList.toggle('is-open');
@@ -198,18 +189,57 @@ export function initHeroDropdownNav() {
     }
 
     /**
-     * Position the dropdown correctly when using fixed positioning
+     * Ensure parent containers allow overflow for dropdown visibility
      */
-    function positionDropdown() {
-      const toggleRect = toggle.getBoundingClientRect();
-      const navList = heroMenu.querySelector('.hero-nav-list');
+    function ensureOverflowVisible() {
+      // Find common parent containers that might clip the dropdown
+      const parentSelectors = [
+        '.hero-dropdown-menu',
+        '.hero-dropdown-container',
+        '.wp-block',
+        '.container',
+        '.content-area',
+        'main',
+        'article',
+        '.entry-content',
+        '.post-content',
+        '.page-content',
+        '.wp-block-hero-dropdown-menu-block',
+        '.hero-dropdown-menu-block'
+      ];
 
-      if (navList) {
-        // Position below the toggle button using viewport coordinates
-        navList.style.top = (toggleRect.bottom) + 'px';
-        navList.style.left = toggleRect.left + 'px';
-        navList.style.width = Math.min(400, toggleRect.width) + 'px';
+      parentSelectors.forEach(selector => {
+        const parent = heroMenu.closest(selector);
+        if (parent) {
+          parent.style.overflow = 'visible';
+          // Also ensure any immediate children that might clip
+          const children = parent.children;
+          for (let i = 0; i < children.length; i++) {
+            const child = children[i];
+            if (child !== heroMenu && child !== heroMenu.parentElement) {
+              const computedStyle = window.getComputedStyle(child);
+              if (computedStyle.overflow === 'hidden' || computedStyle.overflow === 'clip') {
+                child.style.overflow = 'visible';
+              }
+            }
+          }
+        }
+      });
+
+      // Also check for any containers that might be clipping the dropdown
+      const allParents = [];
+      let currentParent = heroMenu.parentElement;
+      while (currentParent && currentParent !== document.body) {
+        allParents.push(currentParent);
+        currentParent = currentParent.parentElement;
       }
+
+      allParents.forEach(parent => {
+        const computedStyle = window.getComputedStyle(parent);
+        if (computedStyle.overflow === 'hidden' || computedStyle.overflow === 'clip') {
+          parent.style.overflow = 'visible';
+        }
+      });
     }
 
     /**
@@ -263,7 +293,5 @@ export function initHeroDropdownNav() {
         behavior: 'smooth'
       });
     }
-
-
   });
 } 
