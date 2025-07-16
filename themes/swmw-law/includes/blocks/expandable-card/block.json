@@ -1,0 +1,33 @@
+{
+  "name": "acf/expandable-card",
+  "title": "Expandable Card",
+  "description": "A card that can be expanded to show additional content.",
+  "category": "swmw-custom-blocks",
+  "icon": "expand",
+  "keywords": [
+    "card",
+    "expandable",
+    "toggle",
+    "accordion"
+  ],
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "template.php"
+  },
+  "supports": {
+    "anchor": true,
+    "customClassName": true,
+    "html": false,
+    "spacing": {
+      "margin": true,
+      "padding": true
+    },
+    "align": [
+      "wide",
+      "full"
+    ],
+    "mode": false,
+    "jsx": true
+  },
+  "editorStyle": "file:./editor.css"
+}

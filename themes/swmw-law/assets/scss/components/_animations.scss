@@ -17,8 +17,8 @@ $animation-duration: 0.6s;
 $animation-easing: cubic-bezier(0.4, 0, 0.2, 1);
 $animation-delay: 0.1s;
 
-// Base animation styles
-[data-animate] {
+// Base animation styles - only apply when JS is available
+.js [data-animate] {
   position: relative;
   opacity: 0;
   transition: opacity $animation-duration $animation-easing, transform $animation-duration $animation-easing;
@@ -30,7 +30,7 @@ $animation-delay: 0.1s;
 }
 
 // Fade In Animation
-[data-animate="fade-in"] {
+.js [data-animate="fade-in"] {
   // Inherits base styles
   &.animated {
     // Inherits base animated styles
@@ -38,7 +38,7 @@ $animation-delay: 0.1s;
 }
 
 // Slide Up Animation
-[data-animate="slide-up"] {
+.js [data-animate="slide-up"] {
   transform: translateY(30px);
 
   &.animated {
@@ -47,7 +47,7 @@ $animation-delay: 0.1s;
 }
 
 // Slide In Right Animation
-[data-animate="slide-in-right"] {
+.js [data-animate="slide-in-right"] {
   transform: translateX(40px);
 
   &.animated {
@@ -56,7 +56,7 @@ $animation-delay: 0.1s;
 }
 
 // Slide In Left Animation
-[data-animate="slide-in-left"] {
+.js [data-animate="slide-in-left"] {
   transform: translateX(-40px);
 
   &.animated {
@@ -67,14 +67,14 @@ $animation-delay: 0.1s;
 // Staggered animations for consecutive blocks
 // Uses a loop to generate delays for up to 10 elements
 @for $i from 1 through 10 {
-  [data-animate]:nth-child(#{$i}) {
+  .js [data-animate]:nth-child(#{$i}) {
     transition-delay: ($i - 1) * $animation-delay;
   }
 }
 
 // Disable animations on mobile for better performance
 @media (max-width: 768px) {
-  [data-animate] {
+  .js [data-animate] {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
@@ -87,15 +87,13 @@ $animation-delay: 0.1s;
 }
 
 // Optional: Add a class to disable animations globally
-.no-animations {
-  [data-animate] {
+.no-animations [data-animate] {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+
+  &.animated {
     opacity: 1 !important;
     transform: none !important;
-    transition: none !important;
-
-    &.animated {
-      opacity: 1 !important;
-      transform: none !important;
-    }
   }
 }

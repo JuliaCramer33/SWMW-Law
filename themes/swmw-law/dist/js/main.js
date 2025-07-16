@@ -1111,6 +1111,10 @@ __webpack_require__.r(__webpack_exports__);
 (function ($) {
   'use strict';
 
+  // Add 'js' class to body immediately to prevent layout shift
+  // This ensures animations only apply when JavaScript is available
+  document.documentElement.classList.add('js');
+
   /**
    * Initialize skip link functionality
    */
