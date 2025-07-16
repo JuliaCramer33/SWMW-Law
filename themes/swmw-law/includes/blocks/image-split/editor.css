@@ -16,30 +16,49 @@
 .image-side .image-stack {
   position: relative;
   width: 100%;
-  min-height: 790px;
-  /* supports image-1 baseline height */
+  margin-bottom: 50px;
+  /* Equal to the overlap amount */
 }
 
 .editor-styles-wrapper .image-side .image-1 {
-  clip-path: polygon(0 0, 100% 0, 71% 100%, 0% 100%);
-  min-height: 790px;
   display: block;
   width: 100%;
   height: auto;
   object-fit: cover;
+  position: relative;
+  z-index: 1;
 }
 
 .editor-styles-wrapper .image-side .image-2 {
-  clip-path: polygon(15% 0%, 100% 0%, 85% 100%, 0% 100%);
-  min-height: 560px;
   position: absolute;
   bottom: -50px;
   right: 0;
   width: 65%;
-  border-radius: 8px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  height: auto;
   object-fit: cover;
   z-index: 2;
+}
+
+/* Left overlap positioning */
+.editor-styles-wrapper .image-split-block.overlap-left .image-2 {
+  right: auto;
+  left: 0;
+}
+
+/* Right overlap positioning (default) */
+.editor-styles-wrapper .image-split-block.overlap-right .image-2 {
+  left: auto;
+  right: 0;
+}
+
+/* Manual staggered animation for images within the block */
+.editor-styles-wrapper .image-split-block .image-1[data-animate] {
+  transition-delay: 0s;
+}
+
+.editor-styles-wrapper .image-split-block .image-2[data-animate] {
+  transition-delay: 0.1s;
+  /* 100ms delay for staggered effect */
 }
 
 /* Make images fill the wrapper cleanly */

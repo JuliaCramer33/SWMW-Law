@@ -24,8 +24,8 @@ if ( function_exists( 'acf_add_local_field_group' ) ) {
                 'type' => 'radio',
                 'instructions' => 'Select where the smaller image should overlap.',
                 'choices' => array(
-                    'right' => 'Overlap on Right',
-                    'left' => 'Overlap on Left',
+                    'right' => 'Image Left (overlap on right)',
+                    'left' => 'Image Right (overlap on left)',
                 ),
                 'default_value' => 'right',
                 'layout' => 'vertical',
