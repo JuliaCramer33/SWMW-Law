@@ -23,7 +23,8 @@ add_action( 'init', function () {
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"50%"} -->
-<div class="wp-block-column" style="flex-basis:50%"><!-- wp:heading -->
+<div class="wp-block-column" style="flex-basis:50%"><!-- wp:group {"align":"wide"} -->
+<div class="wp-block-group alignwide"><!-- wp:heading -->
 <h2 class="wp-block-heading">Expert Legal Solutions</h2>
 <!-- /wp:heading -->
 
@@ -36,6 +37,7 @@ add_action( 'init', function () {
 <div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="#">Learn More</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
+<!-- /wp:group --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
 EOT

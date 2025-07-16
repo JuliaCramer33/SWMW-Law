@@ -19,7 +19,8 @@ add_action( 'init', function () {
 			'content'     => <<<EOT
 <!-- wp:columns {"metadata":{"categories":["image-split"],"patternName":"swmw-law/image-split-right","name":"Image Split – Image Right"},"align":"full","style":{"spacing":{"blockGap":{"left":"var:preset|spacing|16"}}}} -->
 <div class="wp-block-columns alignfull"><!-- wp:column {"width":"50%"} -->
-<div class="wp-block-column" style="flex-basis:50%"><!-- wp:heading -->
+<div class="wp-block-column" style="flex-basis:50%"><!-- wp:group {"align":"wide"} -->
+<div class="wp-block-group alignwide"><!-- wp:heading -->
 <h2 class="wp-block-heading">Expert Legal Solutions</h2>
 <!-- /wp:heading -->
 
@@ -32,6 +33,7 @@ add_action( 'init', function () {
 <div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="#">Learn More</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
+<!-- /wp:group --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"50%"} -->
