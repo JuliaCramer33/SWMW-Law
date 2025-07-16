@@ -1,14 +1,14 @@
 {
   "name": "acf/image-split",
   "title": "Image Split",
-  "description": "A block with two images on one side and content with InnerBlocks on the other, with alignment options.",
+  "description": "A block with two overlapping images displayed in a stacked layout.",
   "category": "swmw-custom-blocks",
   "icon": "images-alt2",
   "keywords": [
     "image",
     "split",
-    "content",
-    "columns"
+    "overlapping",
+    "stacked"
   ],
   "acf": {
     "mode": "preview",

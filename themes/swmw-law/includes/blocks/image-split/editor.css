@@ -4,19 +4,12 @@
 
 .image-split-container {
   display: flex;
-  gap: 30px;
-  align-items: flex-start;
-  flex-wrap: wrap;
   width: 100%;
   box-sizing: border-box;
 }
 
-.image-split-block.align-right .image-split-container {
-  flex-direction: row-reverse;
-}
-
 .image-split-column {
-  width: calc(50% - 15px);
+  width: 100%;
   box-sizing: border-box;
 }
 
@@ -48,17 +41,5 @@
   object-fit: cover;
   z-index: 2;
 }
-
-/* Right-aligned version */
-.editor-styles-wrapper .image-split-block.align-right .image-1 {
-  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 29% 100%);
-}
-
-.editor-styles-wrapper .image-split-block.align-right .image-2 {
-  clip-path: polygon(0% 0%, 85% 0%, 100% 100%, 15% 100%);
-  left: 0;
-  right: auto;
-}
-
 
 /* Make images fill the wrapper cleanly */

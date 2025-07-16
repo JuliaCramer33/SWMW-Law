@@ -2,128 +2,90 @@
 @use "../variables/variables" as *;
 
 /**
- * Image Split Block Styles (Pattern)
- * Styles for the image split ACF block
- * This is a reusable pattern for split content with overlapping images
+ * Image Split Block Styles
+ * Styles for the image split ACF block with two overlapping images
  */
 
 .image-split-block {
   .image-split-container {
     display: flex;
-    gap: $spacing-8;
-    align-items: flex-start;
+    width: 100%;
+    box-sizing: border-box;
 
     .image-split-column {
-      width: $flex-col-6-width;
+      width: 100%;
       box-sizing: border-box;
 
       &.image-side {
         .image-stack {
           position: relative;
-          width: $flex-col-12-width;
-          margin-bottom: 16%;
+          width: 100%;
+          margin-bottom: 50px; /* Equal to the overlap amount */
 
-          .clipped-wrapper {
-            overflow: hidden;
-            border-radius: $border-radius;
-            display: inline-block;
+          .image-1 {
+            display: block;
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            position: relative;
+            z-index: 1;
+          }
 
-            &.image-1-wrapper {
-              width: 100%;
-            }
-
-            &.image-2-wrapper {
-              position: absolute;
-              bottom: -50px;
-              z-index: 2;
-              overflow: hidden;
-            }            
-
-            img {
-              min-height: inherit;
-              display: block;
-              width: 100%;
-              height: auto;
-              object-fit: cover;
-              border-radius: 0;
-            }
+          .image-2 {
+            position: absolute;
+            bottom: -50px;
+            right: 0;
+            width: 65%;
+            height: auto;
+            object-fit: cover;
+            z-index: 2;
           }
         }
       }
+    }
+  }
 
-      &.content-side {
-        /* Optional content styles */
-      }
+  /* Left overlap positioning */
+  &.overlap-left {
+    .image-2 {
+      right: auto;
+      left: 0;
+    }
+  }
+
+  /* Right overlap positioning (default) */
+  &.overlap-right {
+    .image-2 {
+      left: auto;
+      right: 0;
     }
   }
 
   @media (max-width: $breakpoint-md) {
     .image-split-container {
-      flex-direction: column;
-      gap: $spacing-5;
-
       .image-split-column {
-        width: $flex-col-12-width;
-      }
-
-      &.align-left,
-      &.align-right {
-        .image-side {
-          order: 1;
-        }
-
-        .content-side {
-          order: 2;
-        }
-      }
-    }
-  }
-
-  &.align-left {
-    .image-split-container {
-      .image-side {
-        order: 1;
-
-        .image-2-wrapper {
-          right: 0;
-          left: auto;
-        }
-      }
-
-      .content-side {
-        order: 2;
-      }
-    }
-  }
-
-  &.align-right {
-    .image-split-container {
-      .image-side {
-        order: 2;
-
-        .image-stack {
-
-          .image-2-wrapper {
-            left: 0;
-            right: auto;
-          }
-        }
-      }
-
-      .content-side {
-        order: 1;
+        width: 100%;
       }
     }
   }
 }
 
+/* Manual staggered animation for images within the block */
+.image-split-block {
+  .image-1[data-animate] {
+    transition-delay: 0s;
+  }
+  
+  .image-2[data-animate] {
+    transition-delay: 0.1s; /* 100ms delay for staggered effect */
+  }
+}
+
 .image-split-column.image-side {
   img {
-    min-height: inherit;
     max-width: 100%;
     height: auto;
     display: block;
-    margin-bottom: $spacing-3;
   }
 
   .image-stack {
@@ -135,25 +97,18 @@
   .wp-block-acf-image-split-block {
     .image-split-container {
       display: flex;
-      flex-wrap: wrap;
-      gap: $spacing-5;
-      align-items: flex-start;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .image-split-column {
       box-sizing: border-box;
-      width: $flex-col-6-width;
+      width: 100%;
     }
 
     .image-stack {
-      display: flex;
-      flex-direction: column;
-      gap: $spacing-3;
       position: relative;
-    }
-
-    &.align-right .image-split-container {
-      flex-direction: row-reverse;
+      margin-bottom: 50px; /* Match the frontend margin */
     }
 
     .image-1,

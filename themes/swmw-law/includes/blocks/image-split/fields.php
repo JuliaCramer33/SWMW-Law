@@ -18,16 +18,16 @@ if ( function_exists( 'acf_add_local_field_group' ) ) {
         'title' => 'Image Split Block Settings',
         'fields' => array(
             array(
-                'key' => 'field_image_split_alignment',
-                'label' => 'Image Alignment',
-                'name' => 'image_alignment',
+                'key' => 'field_image_split_overlap_position',
+                'label' => 'Overlap Position',
+                'name' => 'overlap_position',
                 'type' => 'radio',
-                'instructions' => 'Select the alignment for the images.',
+                'instructions' => 'Select where the smaller image should overlap.',
                 'choices' => array(
-                    'left' => 'Images on Left, Content on Right',
-                    'right' => 'Images on Right, Content on Left',
+                    'right' => 'Overlap on Right',
+                    'left' => 'Overlap on Left',
                 ),
-                'default_value' => 'left',
+                'default_value' => 'right',
                 'layout' => 'vertical',
                 'return_format' => 'value',
             ),
@@ -53,7 +53,6 @@ if ( function_exists( 'acf_add_local_field_group' ) ) {
                 'library' => 'all',
                 'required' => 1,
             ),
-            // InnerBlocks are handled by the template.php, no specific ACF field needed for it here.
         ),
         'location' => array(
             array(
