@@ -1,5 +1,4 @@
 /******/ (() => { // webpackBootstrap
-/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
 /***/ "./assets/js/blocks/accordion.js":
@@ -8,20 +7,19 @@
   \***************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   AccordionBlock: () => (/* binding */ AccordionBlock)
+/* harmony export */   AccordionBlock: () => (/* binding */ AccordionBlock),
+/* harmony export */   JobsitesAccordion: () => (/* binding */ JobsitesAccordion)
 /* harmony export */ });
 /**
  * Accordion Block JS
- *
- * @package
  */
 
 class AccordionBlock {
   constructor() {
     this.init();
-    // Use a more robust listener for editor updates
     if (window.acf) {
       window.acf.addAction('render_block_preview', el => this.init(el[0]));
     }
@@ -36,7 +34,7 @@ class AccordionBlock {
       const header = panel.querySelector('.accordion-panel-header');
       const content = panel.querySelector('.accordion-panel-content');
       if (!header || !content || header.classList.contains('js-accordion-initialized')) {
-        return; // Exit if parts are missing or already initialized
+        return;
       }
       header.classList.add('js-accordion-initialized');
       const isOpen = panel.classList.contains('is-open');
@@ -48,22 +46,22 @@ class AccordionBlock {
       }
       header.addEventListener('click', () => {
         const currentlyOpen = panel.classList.contains('is-open');
-
-        // A simple accordion logic: close others if you want only one open at a time.
-        // This example is a simple toggle.
-        if (currentlyOpen) {
-          panel.classList.remove('is-open');
-          header.setAttribute('aria-expanded', 'false');
-          content.style.maxHeight = null;
-        } else {
+        panels.forEach(p => {
+          const h = p.querySelector('.accordion-panel-header');
+          const c = p.querySelector('.accordion-panel-content');
+          p.classList.remove('is-open');
+          if (h && c) {
+            h.setAttribute('aria-expanded', 'false');
+            c.style.maxHeight = null;
+          }
+        });
+        if (!currentlyOpen) {
           panel.classList.add('is-open');
           header.setAttribute('aria-expanded', 'true');
           content.style.maxHeight = content.scrollHeight + 'px';
         }
       });
     });
-
-    // Recalculate height on window load for open-by-default panels
     window.addEventListener('load', () => {
       const openPanels = accordion.querySelectorAll('.accordion-panel.is-open');
       openPanels.forEach(panel => {
@@ -75,8 +73,79 @@ class AccordionBlock {
     });
   }
 }
+class JobsitesAccordion {
+  constructor() {
+    this.initJobsitesFeatures();
+  }
+  initJobsitesFeatures(context = document) {
+    const jobsitesBlocks = context.querySelectorAll('.jobsites-by-city-block');
+    jobsitesBlocks.forEach(block => {
+      const accordion = block.querySelector('.accordion-block');
+      if (!accordion || accordion.classList.contains('js-jobsites-initialized')) return;
+      accordion.classList.add('js-jobsites-initialized');
+      const letterButtons = block.querySelectorAll('.filter-letter.has-cities');
+      const skipSelect = block.querySelector('.jobsites-skip-to select');
+      letterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const letter = button.dataset.letter;
+          const targetPanel = accordion.querySelector(`.accordion-panel[data-letter="${letter}"]`);
+          if (!targetPanel) return;
+          targetPanel.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+          accordion.querySelectorAll('.accordion-panel.is-open').forEach(p => {
+            if (p !== targetPanel) {
+              p.classList.remove('is-open');
+              const h = p.querySelector('.accordion-panel-header');
+              const c = p.querySelector('.accordion-panel-content');
+              if (h) h.setAttribute('aria-expanded', 'false');
+              if (c) c.style.maxHeight = null;
+            }
+          });
+          const header = targetPanel.querySelector('.accordion-panel-header');
+          const content = targetPanel.querySelector('.accordion-panel-content');
+          if (!targetPanel.classList.contains('is-open')) {
+            targetPanel.classList.add('is-open');
+            if (header) header.setAttribute('aria-expanded', 'true');
+            if (content) content.style.maxHeight = content.scrollHeight + 'px';
+          }
+          letterButtons.forEach(btn => btn.classList.remove('active'));
+          button.classList.add('active');
+        });
+      });
+      if (skipSelect) {
+        skipSelect.addEventListener('change', e => {
+          const letter = e.target.value;
+          const targetPanel = accordion.querySelector(`.accordion-panel[data-letter="${letter}"]`);
+          if (!targetPanel) return;
+          targetPanel.scrollIntoView({
+            behavior: 'smooth'
+          });
+          accordion.querySelectorAll('.accordion-panel.is-open').forEach(p => {
+            if (p !== targetPanel) {
+              p.classList.remove('is-open');
+              const h = p.querySelector('.accordion-panel-header');
+              const c = p.querySelector('.accordion-panel-content');
+              if (h) h.setAttribute('aria-expanded', 'false');
+              if (c) c.style.maxHeight = null;
+            }
+          });
+          const header = targetPanel.querySelector('.accordion-panel-header');
+          const content = targetPanel.querySelector('.accordion-panel-content');
+          if (!targetPanel.classList.contains('is-open')) {
+            targetPanel.classList.add('is-open');
+            if (header) header.setAttribute('aria-expanded', 'true');
+            if (content) content.style.maxHeight = content.scrollHeight + 'px';
+          }
+        });
+      }
+    });
+  }
+}
 document.addEventListener('DOMContentLoaded', () => {
   new AccordionBlock();
+  new JobsitesAccordion();
 });
 
 /***/ }),
@@ -87,6 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
   \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   initBlockAnimations: () => (/* binding */ initBlockAnimations),
@@ -191,6 +261,7 @@ function toggleAnimations() {
   \***************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   initAttorneysSlider: () => (/* binding */ initAttorneysSlider)
@@ -227,12 +298,64 @@ function initAttorneysSlider() {
 
 /***/ }),
 
+/***/ "./assets/js/blocks/jobsites-by-city.js":
+/*!**********************************************!*\
+  !*** ./assets/js/blocks/jobsites-by-city.js ***!
+  \**********************************************/
+/***/ (() => {
+
+// export class JobsitesMasonry {
+//   constructor() {
+//     this.init();
+//   }
+
+//   init(context = document) {
+//     const jobsitesBlocks = context.querySelectorAll('.jobsites-by-city-block');
+
+//     jobsitesBlocks.forEach((block) => {
+//       const masonryContainer = block.querySelector('.accordion-block');
+
+//       if (!masonryContainer || masonryContainer.classList.contains('js-masonry-initialized')) return;
+//       masonryContainer.classList.add('js-masonry-initialized');
+
+//       this.setupMasonry(block, masonryContainer);
+//     });
+//   }
+
+//   setupMasonry(block, container) {
+//     // Force a reflow after a panel is opened/closed to prevent layout jumps
+//     const observer = new MutationObserver(() => {
+//       this.refreshLayout(container);
+//     });
+
+//     observer.observe(container, {
+//       subtree: true,
+//       attributes: true,
+//       attributeFilter: ['class', 'style']
+//     });
+
+//     // Initial layout
+//     this.refreshLayout(container);
+//   }
+
+//   refreshLayout(container) {
+//     // Masonry logic with column-count is handled in CSS
+//     // But we can optionally add a "visual update" class or force reflow
+//     container.style.display = 'none';
+//     container.offsetHeight; // trigger reflow
+//     container.style.display = '';
+//   }
+// }
+
+/***/ }),
+
 /***/ "./assets/js/blocks/results.js":
 /*!*************************************!*\
   !*** ./assets/js/blocks/results.js ***!
   \*************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   initResultsSlider: () => (/* binding */ initResultsSlider)
@@ -287,6 +410,7 @@ function initResultsSlider() {
   \******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   initTestimonialsSlider: () => (/* binding */ initTestimonialsSlider)
@@ -341,6 +465,7 @@ function initTestimonialsSlider() {
   \*********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -400,6 +525,7 @@ if (typeof window !== 'undefined' && typeof document !== 'undefined') {
   \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   initHeroDropdownNav: () => (/* binding */ initHeroDropdownNav)
@@ -670,6 +796,7 @@ function initHeroDropdownNav() {
   \********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   equalizeMegaMenuHeights: () => (/* binding */ equalizeMegaMenuHeights),
@@ -848,6 +975,7 @@ function equalizeMegaMenuHeights() {
   \**********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   initMobileMenu: () => (/* binding */ initMobileMenu),
@@ -1044,6 +1172,18 @@ function initMobileSubMenus() {
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
@@ -1074,8 +1214,9 @@ function initMobileSubMenus() {
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
+// This entry needs to be wrapped in an IIFE because it needs to be in strict mode.
 (() => {
+"use strict";
 /*!***************************!*\
   !*** ./assets/js/main.js ***!
   \***************************/
@@ -1089,6 +1230,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _blocks_accordion_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./blocks/accordion.js */ "./assets/js/blocks/accordion.js");
 /* harmony import */ var _hero_dropdown_nav_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./hero-dropdown-nav.js */ "./assets/js/hero-dropdown-nav.js");
 /* harmony import */ var _blocks_animations_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./blocks/animations.js */ "./assets/js/blocks/animations.js");
+/* harmony import */ var _blocks_jobsites_by_city_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./blocks/jobsites-by-city.js */ "./assets/js/blocks/jobsites-by-city.js");
+/* harmony import */ var _blocks_jobsites_by_city_js__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_blocks_jobsites_by_city_js__WEBPACK_IMPORTED_MODULE_9__);
 //Import any JS here
 
  // Import the module
@@ -1100,6 +1243,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+ // Import the module
 
 // Import other modules like initModals if you create them
 

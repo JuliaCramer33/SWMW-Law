@@ -1,85 +1,160 @@
 /**
  * Accordion Block JS
- *
- * @package
  */
 
 export class AccordionBlock {
-	constructor() {
-		this.init();
-		// Use a more robust listener for editor updates
-		if (window.acf) {
-			window.acf.addAction('render_block_preview', (el) =>
-				this.init(el[0])
-			);
-		}
-	}
+  constructor() {
+    this.init();
+    if (window.acf) {
+      window.acf.addAction('render_block_preview', (el) =>
+        this.init(el[0])
+      );
+    }
+  }
 
-	init(context = document) {
-		const accordions = context.querySelectorAll('.accordion-block');
-		accordions.forEach((accordion) => this.setupAccordion(accordion));
-	}
+  init(context = document) {
+    const accordions = context.querySelectorAll('.accordion-block');
+    accordions.forEach((accordion) => this.setupAccordion(accordion));
+  }
 
-	setupAccordion(accordion) {
-		const panels = accordion.querySelectorAll('.accordion-panel');
+  setupAccordion(accordion) {
+    const panels = accordion.querySelectorAll('.accordion-panel');
 
-		panels.forEach((panel, index) => {
-			const header = panel.querySelector('.accordion-panel-header');
-			const content = panel.querySelector('.accordion-panel-content');
+    panels.forEach((panel, index) => {
+      const header = panel.querySelector('.accordion-panel-header');
+      const content = panel.querySelector('.accordion-panel-content');
 
-			if (
-				!header ||
-				!content ||
-				header.classList.contains('js-accordion-initialized')
-			) {
-				return; // Exit if parts are missing or already initialized
-			}
-			header.classList.add('js-accordion-initialized');
+      if (
+        !header ||
+        !content ||
+        header.classList.contains('js-accordion-initialized')
+      ) {
+        return;
+      }
+      header.classList.add('js-accordion-initialized');
 
-			const isOpen = panel.classList.contains('is-open');
-			header.setAttribute('aria-expanded', isOpen);
-			header.setAttribute(
-				'aria-controls',
-				`panel-${accordion.id}-${index}`
-			);
-			content.setAttribute('id', `panel-${accordion.id}-${index}`);
+      const isOpen = panel.classList.contains('is-open');
+      header.setAttribute('aria-expanded', isOpen);
+      header.setAttribute('aria-controls', `panel-${accordion.id}-${index}`);
+      content.setAttribute('id', `panel-${accordion.id}-${index}`);
 
-			if (isOpen) {
-				content.style.maxHeight = content.scrollHeight + 'px';
-			}
+      if (isOpen) {
+        content.style.maxHeight = content.scrollHeight + 'px';
+      }
 
-			header.addEventListener('click', () => {
-				const currentlyOpen = panel.classList.contains('is-open');
+      header.addEventListener('click', () => {
+        const currentlyOpen = panel.classList.contains('is-open');
 
-				// A simple accordion logic: close others if you want only one open at a time.
-				// This example is a simple toggle.
-				if (currentlyOpen) {
-					panel.classList.remove('is-open');
-					header.setAttribute('aria-expanded', 'false');
-					content.style.maxHeight = null;
-				} else {
-					panel.classList.add('is-open');
-					header.setAttribute('aria-expanded', 'true');
-					content.style.maxHeight = content.scrollHeight + 'px';
-				}
-			});
-		});
+        panels.forEach((p) => {
+          const h = p.querySelector('.accordion-panel-header');
+          const c = p.querySelector('.accordion-panel-content');
+          p.classList.remove('is-open');
+          if (h && c) {
+            h.setAttribute('aria-expanded', 'false');
+            c.style.maxHeight = null;
+          }
+        });
 
-		// Recalculate height on window load for open-by-default panels
-		window.addEventListener('load', () => {
-			const openPanels = accordion.querySelectorAll(
-				'.accordion-panel.is-open'
-			);
-			openPanels.forEach((panel) => {
-				const content = panel.querySelector('.accordion-panel-content');
-				if (content) {
-					content.style.maxHeight = content.scrollHeight + 'px';
-				}
-			});
-		});
-	}
+        if (!currentlyOpen) {
+          panel.classList.add('is-open');
+          header.setAttribute('aria-expanded', 'true');
+          content.style.maxHeight = content.scrollHeight + 'px';
+        }
+      });
+    });
+
+    window.addEventListener('load', () => {
+      const openPanels = accordion.querySelectorAll('.accordion-panel.is-open');
+      openPanels.forEach((panel) => {
+        const content = panel.querySelector('.accordion-panel-content');
+        if (content) {
+          content.style.maxHeight = content.scrollHeight + 'px';
+        }
+      });
+    });
+  }
+}
+
+export class JobsitesAccordion {
+  constructor() {
+    this.initJobsitesFeatures();
+  }
+
+  initJobsitesFeatures(context = document) {
+    const jobsitesBlocks = context.querySelectorAll('.jobsites-by-city-block');
+
+    jobsitesBlocks.forEach((block) => {
+      const accordion = block.querySelector('.accordion-block');
+      if (!accordion || accordion.classList.contains('js-jobsites-initialized')) return;
+
+      accordion.classList.add('js-jobsites-initialized');
+
+      const letterButtons = block.querySelectorAll('.filter-letter.has-cities');
+      const skipSelect = block.querySelector('.jobsites-skip-to select');
+
+      letterButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const letter = button.dataset.letter;
+          const targetPanel = accordion.querySelector(`.accordion-panel[data-letter="${letter}"]`);
+          if (!targetPanel) return;
+
+          targetPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+          accordion.querySelectorAll('.accordion-panel.is-open').forEach((p) => {
+            if (p !== targetPanel) {
+              p.classList.remove('is-open');
+              const h = p.querySelector('.accordion-panel-header');
+              const c = p.querySelector('.accordion-panel-content');
+              if (h) h.setAttribute('aria-expanded', 'false');
+              if (c) c.style.maxHeight = null;
+            }
+          });
+
+          const header = targetPanel.querySelector('.accordion-panel-header');
+          const content = targetPanel.querySelector('.accordion-panel-content');
+          if (!targetPanel.classList.contains('is-open')) {
+            targetPanel.classList.add('is-open');
+            if (header) header.setAttribute('aria-expanded', 'true');
+            if (content) content.style.maxHeight = content.scrollHeight + 'px';
+          }
+
+          letterButtons.forEach((btn) => btn.classList.remove('active'));
+          button.classList.add('active');
+        });
+      });
+
+      if (skipSelect) {
+        skipSelect.addEventListener('change', (e) => {
+          const letter = e.target.value;
+          const targetPanel = accordion.querySelector(`.accordion-panel[data-letter="${letter}"]`);
+          if (!targetPanel) return;
+
+          targetPanel.scrollIntoView({ behavior: 'smooth' });
+
+          accordion.querySelectorAll('.accordion-panel.is-open').forEach((p) => {
+            if (p !== targetPanel) {
+              p.classList.remove('is-open');
+              const h = p.querySelector('.accordion-panel-header');
+              const c = p.querySelector('.accordion-panel-content');
+              if (h) h.setAttribute('aria-expanded', 'false');
+              if (c) c.style.maxHeight = null;
+            }
+          });
+
+          const header = targetPanel.querySelector('.accordion-panel-header');
+          const content = targetPanel.querySelector('.accordion-panel-content');
+          if (!targetPanel.classList.contains('is-open')) {
+            targetPanel.classList.add('is-open');
+            if (header) header.setAttribute('aria-expanded', 'true');
+            if (content) content.style.maxHeight = content.scrollHeight + 'px';
+          }
+        });
+      }
+    });
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-	new AccordionBlock();
+  new AccordionBlock();
+  new JobsitesAccordion();
 });

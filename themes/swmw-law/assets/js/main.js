@@ -13,6 +13,7 @@ import { initAttorneysSlider } from './blocks/attorneys.js';
 import { AccordionBlock } from './blocks/accordion.js';
 import { initHeroDropdownNav } from './hero-dropdown-nav.js';
 import { initBlockAnimations } from './blocks/animations.js';
+import { JobsitesMasonry } from './blocks/jobsites-by-city.js'; // Import the module
 
 // Import other modules like initModals if you create them
 

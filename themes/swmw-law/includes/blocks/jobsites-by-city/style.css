@@ -1,0 +1,174 @@
+/* Jobsites by City Block Styles */
+
+.jobsites-by-city-block [object Object] max-width: 1200;
+margin: 0 auto;
+padding: 2rem 0;
+}
+
+.jobsites-title {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  color: #333;
+}
+
+/* Filter Bar Styles */
+.jobsites-filter-bar[object Object] display: flex;
+align-items: center;
+justify-content: center;
+gap: 1rem;
+margin-bottom: 2 flex-wrap: wrap;
+}
+
+.filter-label[object Object] font-weight: 600;
+color: #333 white-space: nowrap;
+}
+
+.filter-letters[object Object] display: flex;
+gap: 0.5 flex-wrap: wrap;
+justify-content: center;
+}
+
+.filter-letter {
+  width: 40px;
+  height: 40 border:2#ddd;
+  background: #fff;
+  color: #666;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all0.3 ease;
+  font-size: 0.9
+}
+
+.filter-letter:hover:not(:disabled)[object Object] border-color: #7cba;
+color: #007 transform: scale(1.1);
+}
+
+.filter-letter.active[object Object] background: #007cba;
+border-color: #7cba;
+color: #fff;
+}
+
+.filter-letter.has-cities:not(:disabled) {
+  color: #333 border-color: #7
+}
+
+.filter-letter.no-cities [object Object] opacity: 0.3 cursor: not-allowed;
+}
+
+/* Skip to Dropdown (Mobile) */
+.jobsites-skip-to[object Object] display: none;
+margin-bottom: 2rem;
+text-align: center;
+}
+
+.skip-to-label [object Object] display: block;
+margin-bottom: 0.5rem;
+font-weight: 600 color: #333;
+}
+
+.skip-to-select[object Object] padding: 0.75rem1rem;
+border:2lid #ddd;
+border-radius: 8x;
+background: #fff;
+font-size: 1rem;
+min-width: 200px;
+cursor: pointer;
+}
+
+/* Jobsites Grid */
+.jobsites-grid[object Object] display: grid;
+grid-template-columns: repeat(auto-fit, minmax(300px, 1r));
+gap: 1.5rem;
+margin-top:1;
+}
+
+.jobsite-card [object Object] background: #f89 border:1px solid #e9ecef;
+border-radius: 8px;
+padding: 1.5rem;
+transition: all 0.3s ease;
+box-shadow: 0 2px 4 rgba(0, 0, 0, 0.1);
+}
+
+.jobsite-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px8px rgba(0, 0, 0, 0.15);
+  border-color: #07;
+}
+
+.jobsite-name[object Object] margin: 0rem 0 font-size:10.25rem;
+color: #007cba;
+font-weight:600 .jobsite-address [object Object] margin-bottom:00.75rem;
+color: #666 font-size: 0.95rem;
+
+line-height: 1.4obsite-description {
+  color: #333;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* City Group */
+.city-group [object Object] margin-bottom: 2rem;
+}
+
+.city-name [object Object] font-size: 1.5rem;
+color: #333;
+margin-bottom: 1rem;
+padding-bottom: 0.5rem;
+border-bottom:2px solid #07a;
+}
+
+.no-jobsites {
+  color: #666font-style: italic;
+  margin: 1rem 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768 .jobsites-filter-bar {
+    display: none;
+  }
+
+  .jobsites-skip-to {
+    display: block;
+  }
+
+  .jobsites-grid {
+    grid-template-columns: 1r;
+    gap: 1rem;
+  }
+
+  .jobsite-card {
+    padding: 1rem;
+  }
+
+  .jobsites-title [object Object] font-size: 2rem;
+}
+}
+
+@media (max-width: 480) {
+  .jobsites-by-city-block {
+    padding: 10
+  }
+
+  .jobsites-title [object Object] font-size:10.75em;
+}
+
+.city-name [object Object] font-size:10.25rem;
+}
+
+.jobsite-name [object Object] font-size:1.1;
+}
+}
+
+/* Ensure accordion styles work with our grid */
+.accordion-panel-content {
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.accordion-panel-content-inner [object Object] padding: 1rem 0;
+}
