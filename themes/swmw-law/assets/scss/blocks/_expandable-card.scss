@@ -7,15 +7,18 @@
  */
 
 .expandable-card {
-  padding: $spacing-6;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 
-  // Header section containing icon, content, and button
+  // Header section containing icon and content
   .header {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     gap: $spacing-4;
+    flex: 1;
   }
 
   // Icon container
@@ -67,33 +70,60 @@
   // Card description
   .description {
     color: $color-text-light;
-    margin: 0 0 $spacing-5 0;
+    margin: 0;
     line-height: $line-height-normal;
     font-family: $base-font-family;
   }
 
     // Expand/collapse button
-  .button {
-    font-weight: $font-weight-bold;
+  .expand-button {
+    margin-top: $spacing-5;
+    align-self: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: $spacing-3 $spacing-6;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    border: 2px solid $color-primary;
+    border-radius: $border-radius-pill;
     background: $color-white;
     color: $color-primary;
-    transition: none; // Remove transition to prevent delay
-
-    &:before {
-      background: $color-primary;
-    }
+    cursor: pointer;
+    transition: background $transition-duration-fast, color $transition-duration-fast, border-color $transition-duration-fast, box-shadow $transition-duration-fast;
+    box-shadow: none;
+    outline: none;
+    text-decoration: none;
+    gap: $spacing-2;
 
     &:hover {
+      background: $color-primary;
       color: $color-white;
+      border-color: $color-primary;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
     
-    // Active state when card is expanded - use aria-expanded attribute
-    &[aria-expanded="true"] {
+    &:focus:not([aria-expanded="true"]) {
+      background: $color-white;
+      color: $color-primary;
+      border-color: $color-primary;
+    }
+    &:active {
+      background: darken($color-primary, 8%);
       color: $color-white;
+      border-color: darken($color-primary, 8%);
+    }
+    &[aria-expanded="true"] {
       background: $color-primary;
-
-      &:before {
-        background: $color-white;
+      color: $color-white;
+      border-color: $color-primary;
+      
+      &:hover,
+      &:focus {
+        background: darken($color-primary, 8%);
+        color: $color-white;
+        border-color: darken($color-primary, 8%);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
       }
     }
   }
@@ -111,15 +141,22 @@
   }
 
   // Placeholder button for editor
-  .button-placeholder {
+  .expand-button-placeholder {
     opacity: 0.6;
     cursor: default;
-    
-    &:hover {
-      background: $color-white;
-      color: $color-secondary;
-      transform: none;
-    }
+    background: $color-white;
+    color: $color-secondary;
+    border: 2px dashed $color-secondary;
+    padding: $spacing-3 $spacing-6;
+    border-radius: $border-radius-pill;
+    min-width: 120px;
+    min-height: 44px;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
   }
 
   // Expanded content area
@@ -199,9 +236,11 @@
       font-size: $font-size-sm;
     }
 
-    .button {
+    .expand-button {
+      min-width: 100px;
+      min-height: 38px;
       padding: $spacing-2 $spacing-3;
-      font-size: $font-size-xs;
+      font-size: $font-size-sm;
     }
   }
 } 

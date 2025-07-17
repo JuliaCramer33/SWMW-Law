@@ -95,12 +95,12 @@ if ($content) {
             </div>
             
             <?php if ($has_more_content): ?>
-                <button class="button" onclick="toggleExpandableCard(this)" aria-expanded="false">
+                <button class="expand-button" onclick="toggleExpandableCard(this)" aria-expanded="false">
                     <span class="button-icon">+</span>
                     <span class="button-text"><?php echo esc_html($button_text); ?></span>
                 </button>
             <?php elseif ($is_preview): ?>
-                <button class="button button-placeholder" disabled>
+                <button class="expand-button expand-button-placeholder" disabled>
                     <span class="button-icon">+</span>
                     <span class="button-text">More</span>
                 </button>

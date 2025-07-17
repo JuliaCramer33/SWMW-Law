@@ -9747,7 +9747,9 @@ nav .menu-item.button,
  * This is a reusable pattern for expandable content cards
  */
 .expandable-card {
-  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 .expandable-card .header {
   display: flex;
@@ -9755,6 +9757,7 @@ nav .menu-item.button,
   align-items: center;
   text-align: center;
   gap: 1rem;
+  flex: 1;
 }
 .expandable-card .icon {
   min-width: 100px;
@@ -9795,28 +9798,56 @@ nav .menu-item.button,
 }
 .expandable-card .description {
   color: #666;
-  margin: 0 0 1.25rem 0;
+  margin: 0;
   line-height: 1.5;
   font-family: "Montserrat", sans-serif;
 }
-.expandable-card .button {
-  font-weight: 700;
+.expandable-card .expand-button {
+  margin-top: 1.25rem;
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: 2px solid #12477a;
+  border-radius: 50rem;
   background: #fff;
   color: #12477a;
-  transition: none;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s, box-shadow 0.15s;
+  box-shadow: none;
+  outline: none;
+  text-decoration: none;
+  gap: 0.5rem;
 }
-.expandable-card .button:before {
+.expandable-card .expand-button:hover {
   background: #12477a;
-}
-.expandable-card .button:hover {
   color: #fff;
+  border-color: #12477a;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
-.expandable-card .button[aria-expanded=true] {
-  color: #fff;
-  background: #12477a;
-}
-.expandable-card .button[aria-expanded=true]:before {
+.expandable-card .expand-button:focus:not([aria-expanded=true]) {
   background: #fff;
+  color: #12477a;
+  border-color: #12477a;
+}
+.expandable-card .expand-button:active {
+  background: rgb(12.7542857143, 50.3085714286, 86.4457142857);
+  color: #fff;
+  border-color: rgb(12.7542857143, 50.3085714286, 86.4457142857);
+}
+.expandable-card .expand-button[aria-expanded=true] {
+  background: #12477a;
+  color: #fff;
+  border-color: #12477a;
+}
+.expandable-card .expand-button[aria-expanded=true]:hover, .expandable-card .expand-button[aria-expanded=true]:focus {
+  background: rgb(12.7542857143, 50.3085714286, 86.4457142857);
+  color: #fff;
+  border-color: rgb(12.7542857143, 50.3085714286, 86.4457142857);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 .expandable-card .button-icon {
   font-size: 1rem;
@@ -9826,14 +9857,22 @@ nav .menu-item.button,
 .expandable-card .button-text {
   font-weight: 500;
 }
-.expandable-card .button-placeholder {
+.expandable-card .expand-button-placeholder {
   opacity: 0.6;
   cursor: default;
-}
-.expandable-card .button-placeholder:hover {
   background: #fff;
   color: #417e4b;
-  transform: none;
+  border: 2px dashed #417e4b;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50rem;
+  min-width: 120px;
+  min-height: 44px;
+  font-size: 1rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
 }
 .expandable-card .expanded-content {
   margin-top: 1.25rem;
@@ -9897,9 +9936,11 @@ nav .menu-item.button,
   .expandable-card .description {
     font-size: 0.875rem;
   }
-  .expandable-card .button {
+  .expandable-card .expand-button {
+    min-width: 100px;
+    min-height: 38px;
     padding: 0.5rem 0.75rem;
-    font-size: 0.75rem;
+    font-size: 0.875rem;
   }
 }
 /*!
