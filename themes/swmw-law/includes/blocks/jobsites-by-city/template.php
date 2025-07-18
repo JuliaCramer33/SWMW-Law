@@ -79,7 +79,7 @@ $block_unique_id = 'jobsites-' . uniqid();
             <?php foreach (range('A', 'Z') as $letter): ?>
                 <?php $has_cities = in_array($letter, $letters_with_cities); ?>
                 <button 
-                    class="filter-letter <?php echo $has_cities ? 'has-cities' : 'no-cities'; ?><?php echo $letter === 'H' ? 'active' : ''; ?>"
+                    class="filter-letter <?php echo $has_cities ? 'has-cities' : 'no-cities'; ?>"
                     data-letter="<?php echo esc_attr($letter); ?>"
                     <?php echo !$has_cities ? 'disabled' : ''; ?>
                     aria-label="<?php echo esc_attr(sprintf('Show cities starting with %s', $letter)); ?>"
@@ -105,7 +105,7 @@ $block_unique_id = 'jobsites-' . uniqid();
     <div class="jobsites-accordion accordion-block" id="<?php echo esc_attr($block_unique_id); ?>">
         <?php foreach ($letters_with_cities as $letter): ?>
             <?php $cities = $cities_by_letter[$letter]; ?>
-            <div class="accordion-panel <?php echo $letter === 'H' ? 'is-open' : ''; ?>" data-letter="<?php echo esc_attr($letter); ?>">
+            <div class="accordion-panel" data-letter="<?php echo esc_attr($letter); ?>">
                 <div class="accordion-panel-header">
                     <h3 class="accordion-panel-title"><?php echo esc_html($letter); ?></h3>
                     <span class="accordion-panel-icon"></span>
@@ -140,11 +140,4 @@ $block_unique_id = 'jobsites-' . uniqid();
     
 </div>
 
-<!-- Load block-specific JS -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof JobsitesByCityBlock !== 'undefined') {
-        new JobsitesByCityBlock('<?php echo esc_js($block_unique_id); ?>');
-    }
-});
-</script> 
+ 
