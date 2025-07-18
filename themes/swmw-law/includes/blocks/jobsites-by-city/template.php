@@ -12,8 +12,7 @@
 
 // Get block data
 $block_id = $block['id'] ?? 'jobsites-' . uniqid();
-$block_title = get_field('title') ?: 'Jobsites by City';
-$state_filter = get_field('state_filter'); // Optional: filter by specific state
+$state_filter = get_field('state_filter'); // Get selected state for filtering
 
 // Query cities
 $args = array(
@@ -24,13 +23,15 @@ $args = array(
     'order' => 'ASC',
 );
 
+
+
 // Add state filter if specified
 if ($state_filter) {
     $args['tax_query'] = array(
         array(
-         'taxonomy' => 'state',
-          'field' => 'term_id',
-           'terms' => $state_filter,
+            'taxonomy' => 'state',
+            'field' => 'term_id',
+            'terms' => $state_filter->term_id,
         ),
     );
 }
