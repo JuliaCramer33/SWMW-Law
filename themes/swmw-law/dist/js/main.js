@@ -1,4 +1,5 @@
 /******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
 /***/ "./assets/js/blocks/accordion.js":
@@ -7,7 +8,6 @@
   \***************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   AccordionBlock: () => (/* binding */ AccordionBlock),
@@ -156,7 +156,6 @@ document.addEventListener('DOMContentLoaded', () => {
   \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   initBlockAnimations: () => (/* binding */ initBlockAnimations),
@@ -261,7 +260,6 @@ function toggleAnimations() {
   \***************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   initAttorneysSlider: () => (/* binding */ initAttorneysSlider)
@@ -298,64 +296,12 @@ function initAttorneysSlider() {
 
 /***/ }),
 
-/***/ "./assets/js/blocks/jobsites-by-city.js":
-/*!**********************************************!*\
-  !*** ./assets/js/blocks/jobsites-by-city.js ***!
-  \**********************************************/
-/***/ (() => {
-
-// export class JobsitesMasonry {
-//   constructor() {
-//     this.init();
-//   }
-
-//   init(context = document) {
-//     const jobsitesBlocks = context.querySelectorAll('.jobsites-by-city-block');
-
-//     jobsitesBlocks.forEach((block) => {
-//       const masonryContainer = block.querySelector('.accordion-block');
-
-//       if (!masonryContainer || masonryContainer.classList.contains('js-masonry-initialized')) return;
-//       masonryContainer.classList.add('js-masonry-initialized');
-
-//       this.setupMasonry(block, masonryContainer);
-//     });
-//   }
-
-//   setupMasonry(block, container) {
-//     // Force a reflow after a panel is opened/closed to prevent layout jumps
-//     const observer = new MutationObserver(() => {
-//       this.refreshLayout(container);
-//     });
-
-//     observer.observe(container, {
-//       subtree: true,
-//       attributes: true,
-//       attributeFilter: ['class', 'style']
-//     });
-
-//     // Initial layout
-//     this.refreshLayout(container);
-//   }
-
-//   refreshLayout(container) {
-//     // Masonry logic with column-count is handled in CSS
-//     // But we can optionally add a "visual update" class or force reflow
-//     container.style.display = 'none';
-//     container.offsetHeight; // trigger reflow
-//     container.style.display = '';
-//   }
-// }
-
-/***/ }),
-
 /***/ "./assets/js/blocks/results.js":
 /*!*************************************!*\
   !*** ./assets/js/blocks/results.js ***!
   \*************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   initResultsSlider: () => (/* binding */ initResultsSlider)
@@ -410,7 +356,6 @@ function initResultsSlider() {
   \******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   initTestimonialsSlider: () => (/* binding */ initTestimonialsSlider)
@@ -465,7 +410,6 @@ function initTestimonialsSlider() {
   \*********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -525,7 +469,6 @@ if (typeof window !== 'undefined' && typeof document !== 'undefined') {
   \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   initHeroDropdownNav: () => (/* binding */ initHeroDropdownNav)
@@ -796,7 +739,6 @@ function initHeroDropdownNav() {
   \********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   equalizeMegaMenuHeights: () => (/* binding */ equalizeMegaMenuHeights),
@@ -975,7 +917,6 @@ function equalizeMegaMenuHeights() {
   \**********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   initMobileMenu: () => (/* binding */ initMobileMenu),
@@ -1172,18 +1113,6 @@ function initMobileSubMenus() {
 /******/ 	}
 /******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/compat get default export */
-/******/ 	(() => {
-/******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = (module) => {
-/******/ 			var getter = module && module.__esModule ?
-/******/ 				() => (module['default']) :
-/******/ 				() => (module);
-/******/ 			__webpack_require__.d(getter, { a: getter });
-/******/ 			return getter;
-/******/ 		};
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
@@ -1214,9 +1143,8 @@ function initMobileSubMenus() {
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry needs to be wrapped in an IIFE because it needs to be in strict mode.
+// This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
 (() => {
-"use strict";
 /*!***************************!*\
   !*** ./assets/js/main.js ***!
   \***************************/
@@ -1230,8 +1158,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _blocks_accordion_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./blocks/accordion.js */ "./assets/js/blocks/accordion.js");
 /* harmony import */ var _hero_dropdown_nav_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./hero-dropdown-nav.js */ "./assets/js/hero-dropdown-nav.js");
 /* harmony import */ var _blocks_animations_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./blocks/animations.js */ "./assets/js/blocks/animations.js");
-/* harmony import */ var _blocks_jobsites_by_city_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./blocks/jobsites-by-city.js */ "./assets/js/blocks/jobsites-by-city.js");
-/* harmony import */ var _blocks_jobsites_by_city_js__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_blocks_jobsites_by_city_js__WEBPACK_IMPORTED_MODULE_9__);
 //Import any JS here
 
  // Import the module
@@ -1243,7 +1169,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
- // Import the module
 
 // Import other modules like initModals if you create them
 
@@ -1369,6 +1294,11 @@ __webpack_require__.r(__webpack_exports__);
       new _blocks_accordion_js__WEBPACK_IMPORTED_MODULE_6__.AccordionBlock();
     } catch (error) {
       console.error('MAIN.JS - ERROR in AccordionBlock():', error);
+    }
+    try {
+      new _blocks_accordion_js__WEBPACK_IMPORTED_MODULE_6__.JobsitesAccordion();
+    } catch (error) {
+      console.error('MAIN.JS - ERROR in JobsitesAccordion():', error);
     }
     try {
       (0,_hero_dropdown_nav_js__WEBPACK_IMPORTED_MODULE_7__.initHeroDropdownNav)(); // Initialize the hero dropdown navigation

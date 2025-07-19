@@ -220,4 +220,235 @@
       font-size: $font-size-base;
     }
   }
+
+  // Responsive Layouts for A-Z block
+  @media (max-width: $breakpoint-lg) {
+    .jobsites-accordion {
+      column-count: 2;
+    }
+  }
+
+  @media (max-width: $breakpoint-md) {
+    .jobsites-filter-bar {
+      display: none;
+    }
+
+    .jobsites-skip-to {
+      display: block;
+    }
+
+    .jobsites-accordion {
+      column-count: 1;
+    }
+
+    .jobsites-title {
+      font-size: $font-size-xl;
+    }
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    .jobsites-title {
+      font-size: $font-size-lg;
+    }
+  }
+}
+
+/* Jobsites A-Z Block Styles
+--------------------------------------------- */
+
+.jobsites-az-block {
+  // Inherit most styles from jobsites-by-city-block
+  // Note: We can't use @extend here since .jobsites-by-city-block might not be defined yet
+  // Instead, we'll duplicate the necessary styles
+
+  // Block Title
+  .jobsites-title {
+    text-align: center;
+    margin-bottom: $spacing-8;
+    font-size: $h2-font-size;
+    color: $color-text;
+  }
+
+  // Filter Bar (Desktop)
+  .jobsites-filter-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: $spacing-3 $spacing-2;
+    margin-bottom: $spacing-8;
+    text-align: center;
+
+    .filter-label {
+      font-weight: $font-weight-semibold;
+      color: $color-secondary;
+      margin-right: $spacing-4;
+      white-space: nowrap;
+      font-size: $font-size-sm;
+    }
+
+    .filter-letters {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: $spacing-2;
+    }
+
+    .filter-letter {
+      width: 2rem;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid $color-border;
+      border-radius: 50%;
+      background: none;
+      font-size: $font-size-sm;
+      font-weight: $font-weight-bold;
+      color: $color-text;
+      cursor: pointer;
+      transition: all $transition-duration-fast ease;
+      position: relative;
+
+      &:hover:not(:disabled),
+      &.active {
+        background: $color-secondary;
+        color: $color-white;
+        border-color: $color-secondary;
+        transform: scale(1.05);
+      }
+
+      &.has-jobsites:not(:disabled) {
+        border-color: $color-white;
+      }
+
+      &.no-jobsites {
+        opacity: 0.3;
+        pointer-events: none;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  // Skip To Dropdown (Mobile)
+  .jobsites-skip-to {
+    display: none;
+    margin-bottom: $spacing-8;
+    text-align: center;
+
+    .skip-to-label {
+      display: block;
+      margin-bottom: $spacing-2;
+      font-weight: $font-weight-semibold;
+      color: $color-text;
+    }
+
+    select {
+      padding: $spacing-3 $spacing-4;
+      border: 2px solid $color-border;
+      border-radius: $border-radius-lg;
+      background: $color-white;
+      font-size: $font-size-base;
+      min-width: 200px;
+      cursor: pointer;
+    }
+  }
+
+  // Jobsites Accordion
+  .jobsites-accordion {
+    display: inline-block;
+    column-count: 3;
+    column-gap: $spacing-4;
+    margin-top: $spacing-4;
+
+    .accordion-panel {
+      display: inline-block;
+      width: 100%;
+      margin: $spacing-2 0;
+      break-inside: avoid;
+
+      .accordion-panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: $spacing-4 $spacing-5;
+        background-color: $color-gray-lightest;
+        box-shadow: $box-shadow;
+        cursor: pointer;
+
+        .accordion-panel-title {
+          font-size: $font-size-lg;
+          font-weight: $font-weight-semibold;
+          color: $color-text;
+          margin: 0;
+        }
+
+        .accordion-panel-icon {
+          width: 32px;
+          height: 32px;
+          transition: all $transition-duration-fast ease-in-out;
+        }
+      }
+
+      .accordion-panel-content {
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+
+        .accordion-panel-content-inner {
+          padding: $spacing-3;
+          margin-top: $spacing-3;
+        }
+      }
+    }
+  }
+
+  // Additional styles specific to A-Z layout
+  .jobsite-item {
+    padding: $spacing-2 $spacing-3;
+    border-bottom: 1px solid $color-border;
+    transition: background-color $transition-duration-fast ease;
+
+    &:hover {
+      background-color: $color-gray-lightest;
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .jobsite-name {
+      font-weight: $font-weight-semibold;
+      color: $color-text;
+      margin: 0;
+      font-size: $font-size-sm;
+    }
+  }
+
+  .jobsites-list {
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  // State filter styles
+  .jobsites-state-filter {
+    text-align: center;
+    margin-bottom: $spacing-6;
+
+    label {
+      display: block;
+      margin-bottom: $spacing-2;
+      font-weight: $font-weight-semibold;
+      color: $color-text;
+    }
+
+    .state-select {
+      padding: $spacing-3 $spacing-4;
+      border: 2px solid $color-border;
+      border-radius: $border-radius-lg;
+      background: $color-white;
+      font-size: $font-size-base;
+      min-width: 200px;
+      cursor: pointer;
+    }
+  }
 }

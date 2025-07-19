@@ -10122,6 +10122,191 @@ nav .menu-item.button,
     font-size: 1rem;
   }
 }
+@media (max-width: 992px) {
+  .jobsites-by-city-block .jobsites-accordion {
+    column-count: 2;
+  }
+}
+@media (max-width: 768px) {
+  .jobsites-by-city-block .jobsites-filter-bar {
+    display: none;
+  }
+  .jobsites-by-city-block .jobsites-skip-to {
+    display: block;
+  }
+  .jobsites-by-city-block .jobsites-accordion {
+    column-count: 1;
+  }
+  .jobsites-by-city-block .jobsites-title {
+    font-size: 1.25rem;
+  }
+}
+@media (max-width: 576px) {
+  .jobsites-by-city-block .jobsites-title {
+    font-size: 1.125rem;
+  }
+}
+
+/* Jobsites A-Z Block Styles
+--------------------------------------------- */
+.jobsites-az-block .jobsites-title {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  color: #43383e;
+}
+.jobsites-az-block .jobsites-filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem 0.5rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+.jobsites-az-block .jobsites-filter-bar .filter-label {
+  font-weight: 600;
+  color: #417e4b;
+  margin-right: 1rem;
+  white-space: nowrap;
+  font-size: 0.875rem;
+}
+.jobsites-az-block .jobsites-filter-bar .filter-letters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.jobsites-az-block .jobsites-filter-bar .filter-letter {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #dee2e6;
+  border-radius: 50%;
+  background: none;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #43383e;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  position: relative;
+}
+.jobsites-az-block .jobsites-filter-bar .filter-letter:hover:not(:disabled), .jobsites-az-block .jobsites-filter-bar .filter-letter.active {
+  background: #417e4b;
+  color: #fff;
+  border-color: #417e4b;
+  transform: scale(1.05);
+}
+.jobsites-az-block .jobsites-filter-bar .filter-letter.has-jobsites:not(:disabled) {
+  border-color: #fff;
+}
+.jobsites-az-block .jobsites-filter-bar .filter-letter.no-jobsites {
+  opacity: 0.3;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+.jobsites-az-block .jobsites-skip-to {
+  display: none;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+.jobsites-az-block .jobsites-skip-to .skip-to-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #43383e;
+}
+.jobsites-az-block .jobsites-skip-to select {
+  padding: 0.75rem 1rem;
+  border: 2px solid #dee2e6;
+  border-radius: 1rem;
+  background: #fff;
+  font-size: 1rem;
+  min-width: 200px;
+  cursor: pointer;
+}
+.jobsites-az-block .jobsites-accordion {
+  display: inline-block;
+  column-count: 3;
+  column-gap: 1rem;
+  margin-top: 1rem;
+}
+.jobsites-az-block .jobsites-accordion .accordion-panel {
+  display: inline-block;
+  width: 100%;
+  margin: 0.5rem 0;
+  break-inside: avoid;
+}
+.jobsites-az-block .jobsites-accordion .accordion-panel .accordion-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  background-color: #f6f6f6;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+}
+.jobsites-az-block .jobsites-accordion .accordion-panel .accordion-panel-header .accordion-panel-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #43383e;
+  margin: 0;
+}
+.jobsites-az-block .jobsites-accordion .accordion-panel .accordion-panel-header .accordion-panel-icon {
+  width: 32px;
+  height: 32px;
+  transition: all 0.15s ease-in-out;
+}
+.jobsites-az-block .jobsites-accordion .accordion-panel .accordion-panel-content {
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+.jobsites-az-block .jobsites-accordion .accordion-panel .accordion-panel-content .accordion-panel-content-inner {
+  padding: 0.75rem;
+  margin-top: 0.75rem;
+}
+.jobsites-az-block .jobsite-item {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid #dee2e6;
+  transition: background-color 0.15s ease;
+}
+.jobsites-az-block .jobsite-item:hover {
+  background-color: #f6f6f6;
+}
+.jobsites-az-block .jobsite-item:last-child {
+  border-bottom: none;
+}
+.jobsites-az-block .jobsite-item .jobsite-name {
+  font-weight: 600;
+  color: #43383e;
+  margin: 0;
+  font-size: 0.875rem;
+}
+.jobsites-az-block .jobsites-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+.jobsites-az-block .jobsites-state-filter {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.jobsites-az-block .jobsites-state-filter label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #43383e;
+}
+.jobsites-az-block .jobsites-state-filter .state-select {
+  padding: 0.75rem 1rem;
+  border: 2px solid #dee2e6;
+  border-radius: 1rem;
+  background: #fff;
+  font-size: 1rem;
+  min-width: 200px;
+  cursor: pointer;
+}
 
 /* Layout Styles Importer
 --------------------------------------------- */

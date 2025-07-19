@@ -10,10 +10,9 @@ import {
 import { initResultsSlider } from './blocks/results.js';
 import { initTestimonialsSlider } from './blocks/testimonials.js';
 import { initAttorneysSlider } from './blocks/attorneys.js';
-import { AccordionBlock } from './blocks/accordion.js';
+import { AccordionBlock, JobsitesAccordion } from './blocks/accordion.js';
 import { initHeroDropdownNav } from './hero-dropdown-nav.js';
 import { initBlockAnimations } from './blocks/animations.js';
-import { JobsitesMasonry } from './blocks/jobsites-by-city.js'; // Import the module
 
 // Import other modules like initModals if you create them
 
@@ -152,6 +151,12 @@ import { JobsitesMasonry } from './blocks/jobsites-by-city.js'; // Import the mo
       new AccordionBlock();
     } catch (error) {
       console.error('MAIN.JS - ERROR in AccordionBlock():', error);
+    }
+
+    try {
+      new JobsitesAccordion();
+    } catch (error) {
+      console.error('MAIN.JS - ERROR in JobsitesAccordion():', error);
     }
 
     try {
