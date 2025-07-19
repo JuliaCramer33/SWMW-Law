@@ -1,0 +1,30 @@
+{
+  "name": "acf/jobsites-directory",
+  "title": "Jobsites Directory",
+  "description": "Display all jobsites in alphabetical accordion panels grouped by letter ranges.",
+  "category": "formatting",
+  "icon": "list-view",
+  "keywords": [
+    "jobsites",
+    "directory",
+    "accordion",
+    "alphabetical"
+  ],
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "template.php"
+  },
+  "supports": {
+    "align": true,
+    "mode": false,
+    "jsx": true
+  },
+  "example": {
+    "attributes": {
+      "mode": "preview",
+      "data": {
+        "preview_image_help": "This block displays all jobsites in alphabetical accordion panels grouped by letter ranges."
+      }
+    }
+  }
+}
