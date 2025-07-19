@@ -93,13 +93,28 @@ $block_unique_id = 'jobsites-directory-' . uniqid();
                     <div class="accordion-panel-content">
                         <div class="accordion-panel-content-inner">
                             <ul class="jobsites-list">
-                                <?php foreach ($jobsites as $jobsite): ?>
+                                <?php 
+                                // In editor, show only first 5 jobsites per range
+                                $jobsites_to_show = $is_preview ? array_slice($jobsites, 0, 5) : $jobsites;
+                                $total_count = count($jobsites);
+                                
+                                foreach ($jobsites_to_show as $jobsite): ?>
                                     <li class="jobsite-item">
                                         <div class="jobsite-card">
                                             <p class="jobsite-name"><?php echo esc_html($jobsite); ?></p>
                                         </div>
                                     </li>
                                 <?php endforeach; ?>
+                                
+                                <?php if ($is_preview && $total_count > 5): ?>
+                                    <li class="jobsite-item">
+                                        <div class="jobsite-card">
+                                            <p class="jobsite-name" style="color: #666; font-style: italic;">
+                                                ... and <?php echo esc_html($total_count - 5); ?> more jobsites
+                                            </p>
+                                        </div>
+                                    </li>
+                                <?php endif; ?>
                             </ul>
                         </div>
                     </div>
