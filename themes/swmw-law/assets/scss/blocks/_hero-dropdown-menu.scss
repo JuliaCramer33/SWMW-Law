@@ -9,7 +9,7 @@
 .hero-dropdown-menu {
   width: 100%;
   position: relative; // Ensure proper stacking context
-  z-index: 1001; // Above main navigation
+  z-index: 600; // Above main navigation
   // Ensure the dropdown can escape overflow constraints
   overflow: visible;
 

@@ -8287,7 +8287,7 @@ label {
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   padding: 0.5rem;
   min-width: 300px;
-  z-index: 1000;
+  z-index: 2000;
 }
 .main-navigation .menu-item-has-children:not(.menu-item-has-mega-menu):not(.button) ul.sub-menu li {
   margin: 0;
@@ -9564,7 +9564,7 @@ nav .menu-item.button,
 .hero-dropdown-menu {
   width: 100%;
   position: relative;
-  z-index: 1001;
+  z-index: 600;
   overflow: visible;
   overflow: visible !important;
 }

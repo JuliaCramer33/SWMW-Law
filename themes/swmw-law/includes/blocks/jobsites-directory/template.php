@@ -10,6 +10,8 @@
  * @package SWMW_Law
  */
 
+
+
 // Query all cities to get their jobsites
 $args = array(
     'post_type' => 'city',
@@ -78,48 +80,75 @@ foreach ($letter_ranges as $range) {
 
 // Generate unique ID for this block instance
 $block_unique_id = 'jobsites-directory-' . uniqid();
+
+// Debug: Check if we have any jobsites
+$total_jobsites = count($all_jobsites);
+$total_ranges = count(array_filter($jobsites_by_range, function($jobsites) { return !empty($jobsites); }));
+
+// Always show something for debugging
 ?>
 
 <div <?php echo wp_kses_post(get_block_wrapper_attributes(['class' => 'jobsites-directory-block container'])); ?>>
-    <!-- Jobsites Directory Accordion -->
-    <div class="jobsites-directory-accordion accordion-block" id="<?php echo esc_attr($block_unique_id); ?>">
-        <?php foreach ($jobsites_by_range as $range_name => $jobsites): ?>
-            <?php if (!empty($jobsites)): ?>
-                <div class="accordion-panel" data-range="<?php echo esc_attr($range_name); ?>">
-                    <div class="accordion-panel-header">
-                        <h3 class="accordion-panel-title"><?php echo esc_html($range_name); ?></h3>
-                        <span class="accordion-panel-icon"></span>
-                    </div>
-                    <div class="accordion-panel-content">
-                        <div class="accordion-panel-content-inner">
-                            <ul class="jobsites-list">
-                                <?php 
-                                // In editor, show only first 5 jobsites per range
-                                $jobsites_to_show = $is_preview ? array_slice($jobsites, 0, 5) : $jobsites;
-                                $total_count = count($jobsites);
-                                
-                                foreach ($jobsites_to_show as $jobsite): ?>
-                                    <li class="jobsite-item">
-                                        <div class="jobsite-card">
-                                            <p class="jobsite-name"><?php echo esc_html($jobsite); ?></p>
-                                        </div>
-                                    </li>
-                                <?php endforeach; ?>
-                                
-                                <?php if ($is_preview && $total_count > 5): ?>
-                                    <li class="jobsite-item">
-                                        <div class="jobsite-card">
-                                            <p class="jobsite-name" style="color: #666; font-style: italic;">
-                                                ... and <?php echo esc_html($total_count - 5); ?> more jobsites
-                                            </p>
-                                        </div>
-                                    </li>
-                                <?php endif; ?>
-                            </ul>
+    <!-- Debug Info -->
+    <div style="background: #f0f0f0; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc;">
+        <p><strong>Debug Info:</strong></p>
+        <p>Total Jobsites Found: <?php echo esc_html($total_jobsites); ?></p>
+        <p>Ranges with Jobsites: <?php echo esc_html($total_ranges); ?></p>
+        <p>Is Preview: <?php echo $is_preview ? 'Yes' : 'No'; ?></p>
+    </div>
+
+    <?php if ($total_jobsites > 0): ?>
+        <!-- Jobsites Directory Accordion -->
+        <div class="jobsites-directory-accordion accordion-block" id="<?php echo esc_attr($block_unique_id); ?>">
+            <?php foreach ($jobsites_by_range as $range_name => $jobsites): ?>
+                <?php if (!empty($jobsites)): ?>
+                    <div class="accordion-panel" data-range="<?php echo esc_attr($range_name); ?>">
+                        <div class="accordion-panel-header">
+                            <h3 class="accordion-panel-title"><?php echo esc_html($range_name); ?></h3>
+                            <span class="accordion-panel-icon"></span>
+                        </div>
+                        <div class="accordion-panel-content">
+                            <div class="accordion-panel-content-inner">
+                                <ul class="jobsites-list">
+                                    <?php 
+                                    // In editor, show only first 5 jobsites per range
+                                    $jobsites_to_show = $is_preview ? array_slice($jobsites, 0, 5) : $jobsites;
+                                    $total_count = count($jobsites);
+                                    
+                                    foreach ($jobsites_to_show as $jobsite): ?>
+                                        <li class="jobsite-item">
+                                            <div class="jobsite-card">
+                                                <p class="jobsite-name"><?php echo esc_html($jobsite); ?></p>
+                                            </div>
+                                        </li>
+                                    <?php endforeach; ?>
+                                    
+                                    <?php if ($is_preview && $total_count > 5): ?>
+                                        <li class="jobsite-item">
+                                            <div class="jobsite-card">
+                                                <p class="jobsite-name" style="color: #666; font-style: italic;">
+                                                    ... and <?php echo esc_html($total_count - 5); ?> more jobsites
+                                                </p>
+                                            </div>
+                                        </li>
+                                    <?php endif; ?>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
-            <?php endif; ?>
-        <?php endforeach; ?>
-    </div>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </div>
+    <?php else: ?>
+        <!-- No Jobsites Found -->
+        <div style="background: #fff3cd; padding: 20px; border: 1px solid #ffeaa7; border-radius: 4px;">
+            <h3>No Jobsites Found</h3>
+            <p>No jobsites were found in any city post types. Please check:</p>
+            <ul>
+                <li>That city post types exist</li>
+                <li>That cities have jobsites in their repeater fields</li>
+                <li>That the jobsites have names</li>
+            </ul>
+        </div>
+    <?php endif; ?>
 </div> 
