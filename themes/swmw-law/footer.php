@@ -19,6 +19,8 @@
 				$display_bar = get_field( 'show_on_posts_page', 'option' );
 			} elseif ( is_post_type_archive( 'attorney' ) ) { // Attorney archive.
 				$display_bar = get_field( 'show_on_attorney_archive', 'option' );
+			} elseif ( is_post_type_archive( 'swmw_result' ) ) { // Results archive.
+				$display_bar = get_field( 'show_on_results_archive', 'option' );
 			} elseif ( is_singular() || is_front_page() ) { // Any single post/page or static front page.
 				$show_setting = get_field( 'show_accreditations_bar' );
 				// 'allow_null' is on, so null means default behavior. Default is ON.
