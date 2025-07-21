@@ -7612,7 +7612,7 @@ label {
 .site-header .header-phone a {
   color: #417e4b;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 700;
   font-size: 0.875rem;
 }
 .site-header .header-phone a:hover {
@@ -8264,7 +8264,7 @@ label {
   transform: scaleY(1) skewX(-20deg);
 }
 .main-navigation .menu-item-has-children:not(.button) > a:not(.button) {
-  padding-right: 0.75rem;
+  padding-right: 0.5rem;
 }
 .main-navigation .menu-item-has-children:not(.button) > a:not(.button)::after {
   content: "";
@@ -8274,8 +8274,9 @@ label {
   width: 6px;
   height: 6px;
   border: solid currentcolor;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg) translateY(-75%);
+  border-width: 0 1px 1px 0;
+  transform: translateY(-50%) rotate(45deg);
+  transition: transform 0.2s ease-in-out;
 }
 .main-navigation .menu-item-has-children:not(.menu-item-has-mega-menu):not(.button) ul.sub-menu {
   display: none;
@@ -8287,7 +8288,7 @@ label {
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   padding: 0.5rem;
   min-width: 300px;
-  z-index: 2000;
+  z-index: 1000;
 }
 .main-navigation .menu-item-has-children:not(.menu-item-has-mega-menu):not(.button) ul.sub-menu li {
   margin: 0;
@@ -8322,7 +8323,7 @@ label {
   margin: 0;
 }
 .utility-navigation a:not(.button):not([class*=free-consultation-button]) {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   color: #43383e;
   padding: 0.5rem 0.75rem;
 }

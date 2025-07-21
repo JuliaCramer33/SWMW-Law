@@ -76,7 +76,7 @@
 
   .menu-item-has-children {
     &:not(.button) > a:not(.button) {
-      padding-right: $spacing-3;
+      padding-right: $spacing-2;
 
       &::after {
         content: "";
@@ -86,8 +86,9 @@
         width: 6px;
         height: 6px;
         border: solid currentcolor;
-        border-width: 0 2px 2px 0;
-        transform: rotate(45deg) translateY(-75%);
+        border-width: 0 1px 1px 0;
+        transform: translateY(-50%) rotate(45deg);
+        transition: transform $transition-duration-base $transition-easing-ease-in-out;
       }
     }
 
@@ -101,7 +102,7 @@
       box-shadow: $box-shadow-lg;
       padding: $spacing-2;
       min-width: 300px;
-      z-index: 2000;
+      z-index: $z-index-dropdown;
 
       li {
         margin: 0;
@@ -150,7 +151,7 @@
   }
 
   a:not(.button):not([class*="free-consultation-button"]) {
-    font-size: $font-size-sm;
+    font-size: $font-size-xs;
     color: $color-text;
     padding: $spacing-2 $spacing-3;
 
