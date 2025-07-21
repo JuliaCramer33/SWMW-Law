@@ -10697,10 +10697,9 @@ nav .menu-item.button,
   margin-bottom: 2rem;
   text-transform: uppercase;
 }
-.swmw-archive-page .swmw-featured-cases-grid,
-.swmw-archive-page .swmw-results-grid {
+.swmw-archive-page .swmw-featured-cases-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
 }
 .swmw-archive-page .swmw-results-grid .wp-block,
@@ -11184,6 +11183,26 @@ blockquote p:last-child {
 }
 .wp-block-button.is-style-outline .wp-block-button__link:disabled:hover::before, .wp-block-button.is-style-outline .wp-block-button__link:disabled:focus::before, .wp-block-button.is-style-outline .wp-block-button__link.is-disabled:hover::before, .wp-block-button.is-style-outline .wp-block-button__link.is-disabled:focus::before {
   transform: translateX(100%) skewX(-25deg);
+}
+
+/* ================================
+   DEFAULT SHADOW OVERRIDE
+   ================================ */
+.wp-block {
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.1215686275) !important;
+}
+
+.wp-block-group,
+.wp-block-column,
+.wp-block-media-text,
+.wp-block-cover,
+.wp-block-image,
+.wp-block-gallery {
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.1215686275) !important;
+}
+
+.wp-block[style*=box-shadow] {
+  box-shadow: inherit !important;
 }
 
 /*# sourceMappingURL=style.css.map*/
