@@ -362,44 +362,9 @@
     "shadow": {
       "presets": [
         {
-          "name": "None",
-          "slug": "none",
-          "shadow": "none"
-        },
-        {
-          "name": "Small",
-          "slug": "sm",
-          "shadow": "0px 2px 4px 0px #0000001F"
-        },
-        {
-          "name": "Base",
-          "slug": "base",
-          "shadow": "0px 4px 10px 0px #0000001F"
-        },
-        {
-          "name": "Medium",
-          "slug": "md",
-          "shadow": "0px 6px 16px 0px #0000001F"
-        },
-        {
-          "name": "Large",
-          "slug": "lg",
-          "shadow": "0px 8px 24px 0px #0000001F"
-        },
-        {
-          "name": "Extra Large",
-          "slug": "xl",
-          "shadow": "0px 12px 32px 0px #0000001F"
-        },
-        {
           "name": "Card",
           "slug": "card",
           "shadow": "0px 4px 10px 0px #0000001F"
-        },
-        {
-          "name": "Dropdown",
-          "slug": "dropdown",
-          "shadow": "0px 6px 16px 0px #0000001F"
         }
       ]
     },
@@ -429,7 +394,7 @@
       "width": "1px",
       "color": "var(--wp--preset--color--gray-light)"
     },
-    "shadow": "var(--wp--preset--shadow--base)",
+    "shadow": "var(--wp--preset--shadow--default)",
     "typography": {
       "fontFamily": "var(--wp--preset--font-family--montserrat)",
       "fontSize": "var(--wp--preset--font-size--base)",

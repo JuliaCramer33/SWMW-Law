@@ -249,27 +249,3 @@ blockquote {
   @include button-animation;
 }
 
-/* ================================
-   DEFAULT SHADOW OVERRIDE
-   ================================ */
-
-// Override default Gutenberg shadows with our base shadow for frontend
-.wp-block {
-  box-shadow: 0px 4px 10px 0px #0000001F !important;
-}
-
-// Override specific block shadows that might have their own defaults
-.wp-block-group,
-.wp-block-column,
-.wp-block-media-text,
-.wp-block-cover,
-.wp-block-image,
-.wp-block-gallery {
-  box-shadow: 0px 4px 10px 0px #0000001F !important;
-}
-
-// Ensure shadow presets still work when explicitly selected
-.wp-block[style*="box-shadow"] {
-  box-shadow: inherit !important;
-}
-
