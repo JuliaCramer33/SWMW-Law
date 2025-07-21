@@ -6,6 +6,9 @@
 
 // Import variables, mixins, etc.
 @use "variables/variables" as *;
+@use "variables/layout" as *;
+@use "variables/breakpoints" as *;
+@use "sass:map";
 
 // Import Base Editor Styles
 @use "base/editor-base";
@@ -13,4 +16,155 @@
 // Import Block Styles
 // This will bring in all block styles, which is fine since editor-specific
 // styles are scoped within `.editor-styles-wrapper`.
-@use "blocks/blocks"; 
+@use "blocks/blocks";
+
+/* ==========================================================================
+   EDITOR CONTAINER VISUALIZATION
+   ========================================================================== */
+
+.editor-styles-wrapper {
+  // Show container constraints visually in editor
+  .wp-block {
+    position: relative;
+    
+    // Add visual indicators for container widths
+    &.alignwide,
+    &.aligncontainer-md {
+      border-left: 3px solid #007cba;
+      border-right: 3px solid #007cba;
+      background: rgba(0, 124, 186, 0.05);
+      
+      &::before {
+        content: "Wide Container (1140px max)";
+        position: absolute;
+        top: -25px;
+        left: 0;
+        background: #007cba;
+        color: white;
+        padding: 2px 8px;
+        font-size: 11px;
+        font-weight: bold;
+        border-radius: 3px;
+        z-index: 10;
+      }
+    }
+    
+    &.aligncontainer-sm {
+      border-left: 3px solid #00a32a;
+      border-right: 3px solid #00a32a;
+      background: rgba(0, 163, 42, 0.05);
+      
+      &::before {
+        content: "Small Container (960px max)";
+        position: absolute;
+        top: -25px;
+        left: 0;
+        background: #00a32a;
+        color: white;
+        padding: 2px 8px;
+        font-size: 11px;
+        font-weight: bold;
+        border-radius: 3px;
+        z-index: 10;
+      }
+    }
+    
+    &.aligncontainer-lg {
+      border-left: 3px solid #d63638;
+      border-right: 3px solid #d63638;
+      background: rgba(214, 54, 56, 0.05);
+      
+      &::before {
+        content: "Large Container (100% width)";
+        position: absolute;
+        top: -25px;
+        left: 0;
+        background: #d63638;
+        color: white;
+        padding: 2px 8px;
+        font-size: 11px;
+        font-weight: bold;
+        border-radius: 3px;
+        z-index: 10;
+      }
+    }
+    
+    &.alignfull {
+      border-left: 3px solid #8c8f94;
+      border-right: 3px solid #8c8f94;
+      background: rgba(140, 143, 148, 0.05);
+      
+      &::before {
+        content: "Full Width (100vw)";
+        position: absolute;
+        top: -25px;
+        left: 0;
+        background: #8c8f94;
+        color: white;
+        padding: 2px 8px;
+        font-size: 11px;
+        font-weight: bold;
+        border-radius: 3px;
+        z-index: 10;
+      }
+    }
+    
+    // Show padding visually
+    &.alignwide,
+    &.aligncontainer-sm,
+    &.aligncontainer-md,
+    &.aligncontainer-lg {
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent calc(#{$container-padding-x} - 1px),
+          rgba(0, 124, 186, 0.2) calc(#{$container-padding-x} - 1px),
+          rgba(0, 124, 186, 0.2) #{$container-padding-x},
+          transparent #{$container-padding-x},
+          transparent calc(100% - #{$container-padding-x}),
+          rgba(0, 124, 186, 0.2) calc(100% - #{$container-padding-x}),
+          rgba(0, 124, 186, 0.2) calc(100% - #{$container-padding-x} + 1px),
+          transparent calc(100% - #{$container-padding-x} + 1px)
+        );
+        pointer-events: none;
+        z-index: 5;
+      }
+    }
+  }
+  
+  // Add helpful tooltips for container classes
+  .block-editor-block-list__layout {
+    .wp-block {
+      &:hover {
+        .block-editor-block-list__block {
+          outline: 2px solid #007cba;
+        }
+      }
+    }
+  }
+  
+  // Show max-width constraints more clearly
+  .editor-styles-wrapper {
+    .wp-block {
+      &.alignwide,
+      &.aligncontainer-md {
+        max-width: map.get($container-max-widths, "md") !important;
+      }
+      
+      &.aligncontainer-sm {
+        max-width: map.get($container-max-widths, "sm") !important;
+      }
+      
+      &.aligncontainer-lg {
+        max-width: map.get($container-max-widths, "lg") !important;
+      }
+    }
+  }
+} 
