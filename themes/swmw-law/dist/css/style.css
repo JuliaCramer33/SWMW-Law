@@ -10702,6 +10702,11 @@ nav .menu-item.button,
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
 }
+.swmw-archive-page .swmw-results-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
 .swmw-archive-page .swmw-results-grid .wp-block,
 .swmw-archive-page .swmw-results-grid .wp-block-group,
 .swmw-archive-page .swmw-results-grid .wp-block-image,
@@ -10713,6 +10718,16 @@ nav .menu-item.button,
   padding-left: 1.5rem;
   padding-right: 1.5rem;
   box-sizing: border-box;
+}
+@media (min-width: 768px) {
+  .swmw-archive-page .swmw-results-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 992px) {
+  .swmw-archive-page .swmw-results-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 .swmw-archive-page hr {
   display: none;

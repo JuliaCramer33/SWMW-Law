@@ -176,6 +176,7 @@ function swmw_law_non_featured_results_archive_query( $query ) {
 			),
 		);
 		$query->set( 'tax_query', $tax_query );
+		$query->set( 'posts_per_page', 12 ); // Show 12 results per page (divisible by 3)
 	}
 }
 add_action( 'pre_get_posts', __NAMESPACE__ . '\swmw_law_non_featured_results_archive_query' );
@@ -234,7 +235,7 @@ function swmw_law_load_more_results_handler() {
     }
 
     $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
-    $posts_per_page = get_option('posts_per_page');
+    $posts_per_page = 12; // Load 12 results per AJAX request (divisible by 3)
 
     $args = [
         'post_type'      => 'swmw_result',
