@@ -8610,8 +8610,8 @@ nav .menu-item.button,
 }
 
 .mega-menu-column-left {
-  flex: 0 0 30%;
-  padding: 1rem;
+  flex: 0 0 320px;
+  padding: 1.5rem;
 }
 .mega-menu-column-left > .sub-menu.mega-menu-child-list {
   display: block !important;
@@ -8623,15 +8623,21 @@ nav .menu-item.button,
 .mega-menu-column-left > .sub-menu.mega-menu-child-list > li.menu-item {
   display: block !important;
   position: relative;
+  margin-bottom: 0.75rem;
 }
 .mega-menu-column-left > .sub-menu.mega-menu-child-list > li.menu-item > a {
   display: block;
-  padding: 0.25rem 0;
+  padding: 0.5rem 0;
   text-decoration: none;
   color: #fff;
-  transition: padding 0.2s ease;
+  font-family: "Montserrat", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.4;
+  transition: color 0.2s ease;
 }
 .mega-menu-column-left > .sub-menu.mega-menu-child-list > li.menu-item > a:hover, .mega-menu-column-left > .sub-menu.mega-menu-child-list > li.menu-item > a:focus {
+  color: rgba(255, 255, 255, 0.8);
   text-decoration: underline;
 }
 .mega-menu-column-left > .sub-menu.mega-menu-child-list > li.menu-item.menu-item-has-children > a {
@@ -8661,7 +8667,7 @@ nav .menu-item.button,
 .mega-menu-column-right .mega-menu-column-right-content {
   height: 100%;
   background-color: #f6f6f6;
-  padding: 1rem;
+  padding: 1.5rem;
   transition: background-color 0.2s ease, padding 0.2s ease;
 }
 .mega-menu-column-right .mega-menu-column-right-content:empty {
@@ -8691,25 +8697,16 @@ nav .menu-item.button,
 }
 .mega-menu-column-right .mega-menu-column-right-content .sub-menu.third-level-list > li.menu-item > a {
   display: block;
-  padding: 0.25rem 0;
+  padding: 0.5rem 0;
   text-decoration: none;
   color: #43383e;
   font-family: "Montserrat", sans-serif;
-  font-size: 15px;
+  font-size: 0.875rem;
   font-weight: 600;
-  line-height: 29px;
-  letter-spacing: 0;
+  line-height: 1.4;
 }
 .mega-menu-column-right .mega-menu-column-right-content .sub-menu.third-level-list > li.menu-item > a:hover, .mega-menu-column-right .mega-menu-column-right-content .sub-menu.third-level-list > li.menu-item > a:focus {
-  text-decoration: underline;
   color: #417e4b;
-}
-.mega-menu-column-right .mega-menu-column-right-content .sub-menu.third-level-list.multi-column {
-  column-count: 4;
-  column-gap: 1rem;
-}
-.mega-menu-column-right .mega-menu-column-right-content .sub-menu.third-level-list.multi-column > li.menu-item {
-  break-inside: avoid-column;
 }
 
 /*!
