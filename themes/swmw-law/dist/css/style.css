@@ -10883,55 +10883,6 @@ nav .menu-item.button,
 /* ==========================================================================
    #WORDPRESS-CONTENT-WIDTHS
    ========================================================================== */
-.aligncontainer-sm,
-.wp-block.aligncontainer-sm,
-.wp-block-group.aligncontainer-sm,
-.wp-acf-block.aligncontainer-sm {
-  max-width: 960px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  box-sizing: border-box;
-}
-
-.aligncontainer-md,
-.wp-block.aligncontainer-md,
-.wp-block-group.aligncontainer-md,
-.wp-acf-block.aligncontainer-md {
-  max-width: 1140px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  box-sizing: border-box;
-}
-
-.aligncontainer-lg,
-.wp-block.aligncontainer-lg,
-.wp-block-group.aligncontainer-lg,
-.wp-acf-block.aligncontainer-lg {
-  max-width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  box-sizing: border-box;
-}
-
-.alignwide,
-.wp-block.alignwide,
-.wp-block-group.alignwide,
-.wp-acf-block.alignwide {
-  width: 100%;
-  max-width: 1140px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  box-sizing: border-box;
-}
-
 .alignfull,
 .wp-block.alignfull,
 .wp-block-group.alignfull,
@@ -10942,12 +10893,19 @@ nav .menu-item.button,
   margin-right: calc(50% - 50vw);
   box-sizing: border-box;
 }
-.alignfull[style*=padding],
-.wp-block.alignfull[style*=padding],
-.wp-block-group.alignfull[style*=padding],
-.wp-acf-block.alignfull[style*=padding] {
+If padding is manually added via block style .alignfull[style*=padding],
+If padding is manually added via block style .wp-block.alignfull[style*=padding],
+If padding is manually added via block style .wp-block-group.alignfull[style*=padding],
+If padding is manually added via block style .wp-acf-block.alignfull[style*=padding] {
   padding-left: inherit;
   padding-right: inherit;
+}
+
+.alignwide,
+.wp-block.alignwide {
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
 }
 
 /* ================================
@@ -11219,6 +11177,23 @@ blockquote p:last-child {
 }
 .wp-block-button.is-style-outline .wp-block-button__link:disabled:hover::before, .wp-block-button.is-style-outline .wp-block-button__link:disabled:focus::before, .wp-block-button.is-style-outline .wp-block-button__link.is-disabled:hover::before, .wp-block-button.is-style-outline .wp-block-button__link.is-disabled:focus::before {
   transform: translateX(100%) skewX(-25deg);
+}
+
+/* ================================
+   CORE BLOCK OVERRIDES
+   ================================ */
+.wp-block-cover {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+/* ================================
+   LAYOUT HELPER CLASSES
+   ================================ */
+.is-recontained {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  box-sizing: border-box;
 }
 
 /*# sourceMappingURL=style.css.map*/

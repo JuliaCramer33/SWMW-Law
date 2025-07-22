@@ -88,7 +88,7 @@ $total_ranges = count(array_filter($jobsites_by_range, function($jobsites) { ret
 // Always show something for debugging
 ?>
 
-<div <?php echo wp_kses_post(get_block_wrapper_attributes(['class' => 'jobsites-directory-block container'])); ?>>
+<div <?php echo wp_kses_post(get_block_wrapper_attributes(['class' => 'jobsites-directory-block'])); ?>>
     <!-- Debug Info -->
     <div style="background: #f0f0f0; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc;">
         <p><strong>Debug Info:</strong></p>

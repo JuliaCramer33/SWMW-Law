@@ -74,7 +74,7 @@ sort($letters_with_jobsites);
 $block_unique_id = 'jobsites-az-' . uniqid();
 ?>
 
-<div <?php echo wp_kses_post(get_block_wrapper_attributes(['class' => 'jobsites-by-city-block container'])); ?>>
+<div <?php echo wp_kses_post(get_block_wrapper_attributes(['class' => 'jobsites-by-city-block'])); ?>>
     <!-- A-Z Filter Bar (Desktop) -->
     <div class="jobsites-filter-bar">
         <span class="filter-label">Search by Jobsites:</span>

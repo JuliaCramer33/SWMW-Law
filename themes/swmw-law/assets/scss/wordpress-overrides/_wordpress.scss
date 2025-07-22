@@ -16,35 +16,6 @@
      "lg": map.get($container-max-widths, "lg")
    );
    
-   // Loop through alignment widths and apply to block-level and utility classes
-   @each $slug, $max-width in $alignments {
-     .aligncontainer-#{$slug},
-     .wp-block.aligncontainer-#{$slug},
-     .wp-block-group.aligncontainer-#{$slug},
-     .wp-acf-block.aligncontainer-#{$slug} {
-       max-width: $max-width;
-       margin-left: auto;
-       margin-right: auto;
-       padding-left: $container-padding-x;
-       padding-right: $container-padding-x;
-       box-sizing: border-box;
-     }
-   }
-   
-   // Alignwide — use your defined 'md' width as the visual max
-   .alignwide,
-   .wp-block.alignwide,
-   .wp-block-group.alignwide,
-   .wp-acf-block.alignwide {
-     width: 100%;
-     max-width: map.get($container-max-widths, "md");
-     margin-left: auto;
-     margin-right: auto;
-     padding-left: $container-padding-x;
-     padding-right: $container-padding-x;
-     box-sizing: border-box;
-   }
-   
    // Alignfull — stretch full-width and escape outer container
    .alignfull,
    .wp-block.alignfull,
@@ -56,13 +27,19 @@
      margin-right: calc(50% - 50vw);
      box-sizing: border-box;
    
-     // If padding is manually added via block style
+     If padding is manually added via block style
      &[style*="padding"] {
        padding-left: inherit;
        padding-right: inherit;
      }
    }
 
+   .alignwide,
+  .wp-block.alignwide {
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+  }
 
 /* ================================
    IMAGE ALIGNMENT OVERRIDES
@@ -247,5 +224,24 @@ blockquote {
 .wp-block-button.is-style-outline .wp-block-button__link {
 
   @include button-animation;
+}
+
+/* ================================
+   CORE BLOCK OVERRIDES
+   ================================ */
+
+.wp-block-cover {
+	padding-left: $container-padding-x; // Use layout variable for horizontal padding
+	padding-right: $container-padding-x; // Use layout variable for horizontal padding
+}
+
+/* ================================
+   LAYOUT HELPER CLASSES
+   ================================ */
+
+.is-recontained {
+	padding-left: $container-padding-x;
+	padding-right: $container-padding-x;
+	box-sizing: border-box;
 }
 

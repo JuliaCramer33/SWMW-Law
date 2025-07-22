@@ -6,3 +6,4 @@
 
 // Import any admin-specific scripts here
 import './admin/button-icon.js';
+import './blocks/block-layout-helpers.js';
