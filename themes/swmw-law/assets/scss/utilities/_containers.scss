@@ -59,8 +59,27 @@
 }
 
 // Fluid Container
-// Always 100% width, but maintains padding.
+// Becomes full-width (like alignfull)
 .container-fluid {
+	width: 100vw;
+	max-width: 100vw;
+	margin-left: calc(50% - 50vw);
+	margin-right: calc(50% - 50vw);
+	padding-left: 0;
+	padding-right: 0;
+	box-sizing: border-box;
+}
 
-  @extend %container-base;
+// Generate downward-facing responsive fluid containers
+@each $bpKey, $bpValue in $breakpoints {
+	@media (max-width: ($bpValue - 1px)) {
+		// Target elements that have BOTH a standard container class and the fluid override
+		[class*="container-"].container-fluid-down-#{$bpKey} {
+			width: 100vw;
+			max-width: 100vw;
+			margin-left: calc(50% - 50vw);
+			margin-right: calc(50% - 50vw);
+			box-sizing: border-box;
+		}
+	}
 }
