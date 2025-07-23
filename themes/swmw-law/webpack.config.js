@@ -10,7 +10,6 @@ module.exports = {
     main: './assets/js/main.js',
     admin: './assets/js/admin.js',
     style: './assets/scss/style.scss',
-    editor: './assets/scss/editor.scss',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),

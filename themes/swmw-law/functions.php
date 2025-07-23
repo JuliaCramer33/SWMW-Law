@@ -33,10 +33,6 @@ add_action( 'after_setup_theme', function() {
     // Also explicitly add support for individual post types
     add_post_type_support( 'post', 'thumbnail' );
     add_post_type_support( 'page', 'thumbnail' );
-	// Add support for editor styles.
-	add_theme_support( 'editor-styles' );
-	// Enqueue the editor stylesheet.
-	add_editor_style( 'dist/css/editor.css' );
 }, 1 );
 
 
