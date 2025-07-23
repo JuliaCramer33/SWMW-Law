@@ -13505,6 +13505,12 @@ label {
 .main-navigation > ul > li:not(.button) > a:not(.button):hover::before, .main-navigation > ul > li:not(.button) > a:not(.button):focus::before {
   transform: scaleY(1) skewX(-20deg);
 }
+.main-navigation > ul > li.current-menu-item > a:not(.button) {
+  color: #417e4b;
+}
+.main-navigation > ul > li.current-menu-item > a:not(.button)::before {
+  transform: scaleY(1) skewX(-20deg);
+}
 .main-navigation .menu-item-has-children:not(.button) > a:not(.button) {
   padding-right: 0.5rem;
 }
@@ -13543,6 +13549,10 @@ label {
   background-color: #417e4b;
   color: #fff;
 }
+.main-navigation .menu-item-has-children:not(.menu-item-has-mega-menu):not(.button) ul.sub-menu li.current-menu-item > a {
+  background-color: #417e4b;
+  color: #fff;
+}
 .main-navigation .menu-item-has-children:hover > ul.sub-menu, .main-navigation .menu-item-has-children:focus-within > ul.sub-menu {
   display: block !important;
 }
@@ -13557,6 +13567,9 @@ label {
 .main-navigation .menu-item.button a:hover {
   color: #12477a !important;
 }
+.main-navigation .menu-item.button.current-menu-item a {
+  color: #fff !important;
+}
 
 .utility-navigation ul {
   justify-content: flex-end;
@@ -13570,6 +13583,9 @@ label {
   padding: 0.5rem 0.75rem;
 }
 .utility-navigation a:not(.button):not([class*=free-consultation-button]):hover, .utility-navigation a:not(.button):not([class*=free-consultation-button]):focus {
+  color: #417e4b;
+}
+.utility-navigation .current-menu-item > a:not(.button):not([class*=free-consultation-button]) {
   color: #417e4b;
 }
 
@@ -13882,6 +13898,10 @@ nav .menu-item.button,
   color: rgba(255, 255, 255, 0.8);
   text-decoration: underline;
 }
+.mega-menu-column-left > .sub-menu.mega-menu-child-list > li.menu-item.current-menu-item > a {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: underline;
+}
 .mega-menu-column-left > .sub-menu.mega-menu-child-list > li.menu-item.menu-item-has-children > a {
   display: inline-flex;
   align-items: center;
@@ -13910,7 +13930,6 @@ nav .menu-item.button,
   height: 100%;
   background-color: #f6f6f6;
   padding: 1.5rem;
-  transition: background-color 0.2s ease, padding 0.2s ease;
 }
 .mega-menu-column-right .mega-menu-column-right-content:empty {
   background-color: transparent;
@@ -13936,6 +13955,7 @@ nav .menu-item.button,
   list-style: none;
   padding: 0;
   margin: 0;
+  animation: fadeInSlideDown 0.3s ease-out forwards;
 }
 .mega-menu-column-right .mega-menu-column-right-content .sub-menu.third-level-list > li.menu-item > a {
   display: block;
@@ -13950,7 +13970,20 @@ nav .menu-item.button,
 .mega-menu-column-right .mega-menu-column-right-content .sub-menu.third-level-list > li.menu-item > a:hover, .mega-menu-column-right .mega-menu-column-right-content .sub-menu.third-level-list > li.menu-item > a:focus {
   color: #417e4b;
 }
+.mega-menu-column-right .mega-menu-column-right-content .sub-menu.third-level-list.current-menu-item > a {
+  color: #417e4b;
+}
 
+@keyframes fadeInSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 /*!
  * SWMW Law Theme
  * Main SCSS file

@@ -72,6 +72,15 @@
         }
       }
     }
+
+	// Highlight the current page
+	&.current-menu-item > a:not(.button) {
+		color: $color-secondary;
+
+		&::before {
+			transform: scaleY(1) skewX(-20deg);
+		}
+	}
   }
 
   .menu-item-has-children {
@@ -117,6 +126,12 @@
             color: $color-white;
           }
         }
+		
+		// Highlight the current page in a sub-menu
+		&.current-menu-item > a {
+			background-color: $color-secondary;
+			color: $color-white;
+		}
       }
     }
 
@@ -135,6 +150,11 @@
       font-weight: $font-weight-semibold;
 
       &:hover { color: $color-primary !important; }
+    }
+
+    // Ensure the button does not change color when it's the current page
+    &.current-menu-item a {
+      color: $color-white !important;
     }
   }
 }
@@ -159,6 +179,11 @@
     &:focus {
       color: $color-secondary;
     }
+  }
+
+  // Highlight the current page in the utility menu
+  .current-menu-item > a:not(.button):not([class*="free-consultation-button"]) {
+	  color: $color-secondary;
   }
 }
 
