@@ -314,6 +314,15 @@
       ]
     },
     "blocks": {
+      "core/post-terms": {
+        "styles": [
+          {
+            "name": "Pill Style",
+            "slug": "pill-style",
+            "isDefault": false
+          }
+        ]
+      },
       "core/group": {
         "spacing": {
           "padding": true,
