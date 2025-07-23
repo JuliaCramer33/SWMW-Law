@@ -1,6 +1,8 @@
 <?php
 /**
- * Import or Delete Cities and Jobsites (ACF Dropdown Mode)
+ * Unified City Import & Delete Script
+ * - Creates missing state terms
+ * - Adds/updates cities with ACF fields
  */
 
 if (!defined('ABSPATH')) {
@@ -8,12 +10,12 @@ if (!defined('ABSPATH')) {
 }
 
 echo '<h1>City Data Manager</h1>';
-echo '<p><a href="?action=import" style="background:#0073aa;color:white;padding:10px 20px;border-radius:4px;text-decoration:none;margin-right:10px;">✅ Import Cities & Jobsites</a>';
+echo '<p><a href="?action=import" style="background:#0073aa;color:white;padding:10px 20px;border-radius:4px;text-decoration:none;margin-right:10px;">✅ Import Cities & Jobsites (with States)</a>';
 echo '<a href="?action=delete" style="background:#aa0000;color:white;padding:10px 20px;border-radius:4px;text-decoration:none;">🗑 Delete All Cities</a></p>';
 
-// -------------------
+// ----------------------------
 // DELETE CITIES
-// -------------------
+// ----------------------------
 if (isset($_GET['action']) && $_GET['action'] === 'delete') {
     echo '<h2>Deleting all city posts...</h2>';
 
@@ -34,11 +36,11 @@ if (isset($_GET['action']) && $_GET['action'] === 'delete') {
     return;
 }
 
-// -------------------
-// IMPORT CITIES + JOBSITES
-// -------------------
+// ----------------------------
+// IMPORT CITIES + JOBSITES + STATES
+// ----------------------------
 if (isset($_GET['action']) && $_GET['action'] === 'import') {
-    echo '<h2>Importing Cities and Jobsites...</h2>';
+    echo '<h2>Importing Cities and Jobsites (with States)...</h2>';
 
     $csv_file = get_template_directory() . '/data/jobsites.csv';
     if (!file_exists($csv_file)) {
@@ -49,24 +51,39 @@ if (isset($_GET['action']) && $_GET['action'] === 'import') {
     $headers = fgetcsv($handle);
     $created = 0;
     $updated = 0;
+    $skipped = 0;
     $errors = [];
 
     while (($row = fgetcsv($handle)) !== false) {
         $data = array_combine($headers, $row);
 
+        // Normalize and validate state and city
         $state_raw = (string) $data['State'];
         $state = ucwords(strtolower(trim($state_raw)));
         $city = trim((string) $data['City']);
         $jobsite_list = array_map('trim', explode(',', $data['Job Sites']));
 
-        // Lookup state taxonomy term
-        $state_term = get_term_by('name', $state, 'state');
-        if (!$state_term) {
-            $errors[] = "❌ State term not found: '$state'";
+        if (empty($city)) {
+            $skipped++;
+            $errors[] = "⚠️ Skipped row with empty city (State: $state)";
             continue;
         }
 
-        // Find existing city in same state
+        // 1. Create or get state term
+        $taxonomy = 'state';
+        $state_term = get_term_by('name', $state, $taxonomy);
+        if (!$state_term) {
+            $state_term = wp_insert_term($state, $taxonomy);
+            if (is_wp_error($state_term)) {
+                $errors[] = "❌ Failed to create state term: '$state'";
+                continue;
+            } else {
+                $state_term = get_term_by('name', $state, $taxonomy); // refresh as object
+                echo "<p>✅ Created state: $state</p>";
+            }
+        }
+
+        // 2. Check if city already exists with same state
         $existing_posts = get_posts([
             'post_type' => 'city',
             'title' => $city,
@@ -84,7 +101,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'import') {
             }
         }
 
-        // Create city if not found
+        // 3. Create new city if not found
         if (!$city_id) {
             $city_id = wp_insert_post([
                 'post_title' => $city,
@@ -102,10 +119,10 @@ if (isset($_GET['action']) && $_GET['action'] === 'import') {
             echo "<p>↻ Updated city: $city ($state)</p>";
         }
 
-        // Set ACF taxonomy field (ACF dropdown version)
+        // 4. Assign state (ACF taxonomy field)
         update_field('state', $state_term->term_id, $city_id);
 
-        // Repeater for jobsites
+        // 5. Set repeater
         $repeater = [];
         foreach ($jobsite_list as $jobsite) {
             if ($jobsite) {
@@ -120,9 +137,10 @@ if (isset($_GET['action']) && $_GET['action'] === 'import') {
     echo "<h3>✅ Import Complete</h3>";
     echo "<p><strong>Created:</strong> $created</p>";
     echo "<p><strong>Updated:</strong> $updated</p>";
+    echo "<p><strong>Skipped:</strong> $skipped</p>";
 
     if (!empty($errors)) {
-        echo '<h4>Errors:</h4><ul>';
+        echo '<h4>Errors & Warnings:</h4><ul>';
         foreach ($errors as $err) {
             echo '<li>' . esc_html($err) . '</li>';
         }
