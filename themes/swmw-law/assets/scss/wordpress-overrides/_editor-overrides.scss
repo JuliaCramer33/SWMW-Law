@@ -25,4 +25,10 @@
 	.wp-block[data-align="full"] {
 		max-width: none;
 	}
+
+	// Reset z-index for all elements within the editor to prevent
+	// theme styles from overlapping editor UI components (like the link popover).
+	* {
+		z-index: auto !important;
+	}
 } 
