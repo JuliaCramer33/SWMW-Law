@@ -3,15 +3,20 @@
  * Unified City Import & Delete Script
  * - Creates missing state terms
  * - Adds/updates cities with ACF fields
- * - Correctly handles Job Sites by splitting on newlines only
+ * - Handles jobsite splitting on newlines only, with suffix rejoining (e.g., "Inc.")
+ * - Supports batching via ?action=import&page=1
  */
 
 if (!defined('ABSPATH')) {
     require_once dirname(__FILE__) . '/../../../wp-load.php';
 }
 
+$batch_size = 50;
+$page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+$start_index = ($page - 1) * $batch_size;
+
 echo '<h1>City Data Manager</h1>';
-echo '<p><a href="?action=import" style="background:#0073aa;color:white;padding:10px 20px;border-radius:4px;text-decoration:none;margin-right:10px;">✅ Import Cities & Jobsites (with States)</a>';
+echo '<p><a href="?action=import&page=1" style="background:#0073aa;color:white;padding:10px 20px;border-radius:4px;text-decoration:none;margin-right:10px;">✅ Import Cities & Jobsites (with States)</a>';
 echo '<a href="?action=delete" style="background:#aa0000;color:white;padding:10px 20px;border-radius:4px;text-decoration:none;">🗑 Delete All Cities</a></p>';
 
 // ----------------------------
@@ -41,7 +46,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'delete') {
 // IMPORT CITIES + JOBSITES + STATES
 // ----------------------------
 if (isset($_GET['action']) && $_GET['action'] === 'import') {
-    echo '<h2>Importing Cities and Jobsites (with States)...</h2>';
+    echo "<h2>Importing Cities and Jobsites – Page $page</h2>";
 
     $csv_file = get_template_directory() . '/data/jobsites.csv';
     if (!file_exists($csv_file)) {
@@ -50,15 +55,23 @@ if (isset($_GET['action']) && $_GET['action'] === 'import') {
 
     $handle = fopen($csv_file, 'r');
     $headers = fgetcsv($handle);
+
+    // Read all rows
+    $rows = [];
+    while (($row = fgetcsv($handle)) !== false) {
+        $rows[] = array_combine($headers, $row);
+    }
+    fclose($handle);
+
+    $total_rows = count($rows);
+    $batch = array_slice($rows, $start_index, $batch_size);
+
     $created = 0;
     $updated = 0;
     $skipped = 0;
     $errors = [];
 
-    while (($row = fgetcsv($handle)) !== false) {
-        $data = array_combine($headers, $row);
-
-        // Normalize and validate state and city
+    foreach ($batch as $data) {
         $state_raw = (string) $data['State'];
         $state = ucwords(strtolower(trim($state_raw)));
         $city = trim((string) $data['City']);
@@ -79,12 +92,12 @@ if (isset($_GET['action']) && $_GET['action'] === 'import') {
                 $errors[] = "❌ Failed to create state term: '$state'";
                 continue;
             } else {
-                $state_term = get_term_by('name', $state, $taxonomy); // refresh as object
+                $state_term = get_term_by('name', $state, $taxonomy);
                 echo "<p>✅ Created state: $state</p>";
             }
         }
 
-        // 2. Check if city already exists with same state
+        // 2. Check for existing city
         $existing_posts = get_posts([
             'post_type' => 'city',
             'title' => $city,
@@ -102,7 +115,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'import') {
             }
         }
 
-        // 3. Create new city if not found
+        // 3. Create city
         if (!$city_id) {
             $city_id = wp_insert_post([
                 'post_title' => $city,
@@ -120,24 +133,36 @@ if (isset($_GET['action']) && $_GET['action'] === 'import') {
             echo "<p>↻ Updated city: $city ($state)</p>";
         }
 
-        // 4. Assign state (ACF taxonomy field)
+        // 4. Assign taxonomy state
         update_field('state', $state_term->term_id, $city_id);
 
-        // 5. Set repeater using newline-splitting only
-        $jobsite_list = preg_split('/\r\n|\r|\n/', $jobsite_raw);
-        $jobsite_list = array_map('trim', $jobsite_list);
-        $jobsite_list = array_filter($jobsite_list);
+        // 5. Clean jobsite list (split by newline and rejoin suffixes)
+        $jobsite_lines = preg_split('/\r\n|\r|\n/', $jobsite_raw);
+        $jobsite_lines = array_map('trim', $jobsite_lines);
+        $jobsite_lines = array_filter($jobsite_lines);
 
         $repeater = [];
-        foreach ($jobsite_list as $jobsite) {
-            $repeater[] = ['jobsite_name' => $jobsite];
+        $buffer = '';
+
+        foreach ($jobsite_lines as $line) {
+            if (preg_match('/^(inc\.?|corporation|corp\.?|l\.?l\.?c\.?)$/i', $line)) {
+                $buffer .= ' ' . $line;
+            } else {
+                if ($buffer) {
+                    $repeater[] = ['jobsite_name' => trim($buffer)];
+                }
+                $buffer = $line;
+            }
         }
+        if ($buffer) {
+            $repeater[] = ['jobsite_name' => trim($buffer)];
+        }
+
         update_field('jobsites', $repeater, $city_id);
     }
 
-    fclose($handle);
-
-    echo "<h3>✅ Import Complete</h3>";
+    // Completion Summary
+    echo "<h3>✅ Page $page Import Complete</h3>";
     echo "<p><strong>Created:</strong> $created</p>";
     echo "<p><strong>Updated:</strong> $updated</p>";
     echo "<p><strong>Skipped:</strong> $skipped</p>";
@@ -148,6 +173,15 @@ if (isset($_GET['action']) && $_GET['action'] === 'import') {
             echo '<li>' . esc_html($err) . '</li>';
         }
         echo '</ul>';
+    }
+
+    // Pagination logic
+    $next_page = $start_index + $batch_size < $total_rows ? $page + 1 : null;
+    if ($next_page) {
+        $next_url = esc_url(add_query_arg(['action' => 'import', 'page' => $next_page]));
+        echo "<p><a href=\"$next_url\" style=\"background:#46b450;color:white;padding:10px 20px;border-radius:4px;text-decoration:none;\">➡️ Next Page ($next_page)</a></p>";
+    } else {
+        echo "<p><strong>🎉 All rows imported!</strong></p>";
     }
 }
 ?>
