@@ -83,20 +83,9 @@ $block_unique_id = 'jobsites-directory-' . uniqid();
 
 // Debug: Check if we have any jobsites
 $total_jobsites = count($all_jobsites);
-$total_ranges = count(array_filter($jobsites_by_range, function($jobsites) { return !empty($jobsites); }));
-
-// Always show something for debugging
 ?>
 
 <div <?php echo wp_kses_post(get_block_wrapper_attributes(['class' => 'jobsites-directory-block'])); ?>>
-    <!-- Debug Info -->
-    <div style="background: #f0f0f0; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc;">
-        <p><strong>Debug Info:</strong></p>
-        <p>Total Jobsites Found: <?php echo esc_html($total_jobsites); ?></p>
-        <p>Ranges with Jobsites: <?php echo esc_html($total_ranges); ?></p>
-        <p>Is Preview: <?php echo $is_preview ? 'Yes' : 'No'; ?></p>
-    </div>
-
     <?php if ($total_jobsites > 0): ?>
         <!-- Jobsites Directory Accordion -->
         <div class="jobsites-directory-accordion accordion-block" id="<?php echo esc_attr($block_unique_id); ?>">

@@ -3,6 +3,7 @@
  * Unified City Import & Delete Script
  * - Creates missing state terms
  * - Adds/updates cities with ACF fields
+ * - Correctly handles Job Sites by splitting on newlines only
  */
 
 if (!defined('ABSPATH')) {
@@ -61,7 +62,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'import') {
         $state_raw = (string) $data['State'];
         $state = ucwords(strtolower(trim($state_raw)));
         $city = trim((string) $data['City']);
-        $jobsite_list = array_map('trim', explode(',', $data['Job Sites']));
+        $jobsite_raw = isset($data['Job Sites']) ? (string) $data['Job Sites'] : '';
 
         if (empty($city)) {
             $skipped++;
@@ -122,12 +123,14 @@ if (isset($_GET['action']) && $_GET['action'] === 'import') {
         // 4. Assign state (ACF taxonomy field)
         update_field('state', $state_term->term_id, $city_id);
 
-        // 5. Set repeater
+        // 5. Set repeater using newline-splitting only
+        $jobsite_list = preg_split('/\r\n|\r|\n/', $jobsite_raw);
+        $jobsite_list = array_map('trim', $jobsite_list);
+        $jobsite_list = array_filter($jobsite_list);
+
         $repeater = [];
         foreach ($jobsite_list as $jobsite) {
-            if ($jobsite) {
-                $repeater[] = ['jobsite_name' => $jobsite];
-            }
+            $repeater[] = ['jobsite_name' => $jobsite];
         }
         update_field('jobsites', $repeater, $city_id);
     }
