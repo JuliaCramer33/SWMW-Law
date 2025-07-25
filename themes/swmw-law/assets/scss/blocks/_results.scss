@@ -8,6 +8,12 @@
  */
 
 .results-block {
+  // Ensure the block itself is full-width
+  width: 100%;
+  max-width: 100vw; // Go edge-to-edge
+  padding-left: 0;
+  padding-right: 0;
+
   // Splide slider base styles
   .results-slider.splide {
     display: flex;
@@ -103,67 +109,11 @@
       padding-bottom: $spacing-4;
     }
 
-    // Editor styles for static grid layout
-    .results-grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: $spacing-6;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: $spacing-4 0;
-
-      .result-item {
-        flex: 0 0 320px;
-        max-width: 320px;
-      }
-    }
-
-    .result-card {
+    // Use the shared .result-item-inner for styling, but constrain its size for the editor preview.
+    .result-item,
+    .result-card { // target both for safety
       flex: 0 0 320px;
       max-width: 320px;
-      background-color: var(--wp--preset--color--background);
-      border: 1px solid var(--wp--preset--color--primary);
-      padding: $spacing-8;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      position: relative;
-      height: auto;
-      color: var(--wp--preset--color--secondary);
-
-      .result-badge {
-        position: absolute;
-        top: $spacing-6;
-        right: $spacing-6;
-        background-color: var(--wp--preset--color--primary);
-        color: var(--wp--preset--color--background);
-        padding: $spacing-1 $spacing-3;
-        font-size: var(--wp--preset--font-size--small);
-        font-weight: $font-weight-medium;
-        text-transform: uppercase;
-      }
-
-      .result-amount {
-        font-size: var(--wp--preset--font-size--xx-large);
-        font-weight: $font-weight-semibold;
-        color: var(--wp--preset--color--primary);
-        line-height: 1.2;
-        margin-bottom: $spacing-2;
-      }
-
-      .result-subtitle {
-        font-size: var(--wp--preset--font-size--medium);
-        font-weight: $font-weight-semibold;
-        margin-bottom: $spacing-4;
-        line-height: 1.4;
-      }
-
-      .result-excerpt {
-        font-size: var(--wp--preset--font-size--normal);
-        line-height: 1.6;
-        margin: 0;
-      }
     }
 
     .splide__arrows {

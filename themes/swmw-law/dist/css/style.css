@@ -14122,7 +14122,7 @@ nav .menu-item.button,
   background-color: rgba(206.0513089005, 229.7486910995, 209.9361256545, 0.5);
   color: #417e4b;
   font-family: "Montserrat", sans-serif;
-  font-weight: 500;
+  font-weight: 700;
   font-size: 0.875rem;
   padding: 0.25rem 1rem;
   border-radius: 50rem;
@@ -14614,6 +14614,12 @@ nav .menu-item.button,
  * Styles for the results ACF block
  * This block shares card styles with the results archive template
  */
+.results-block {
+  width: 100%;
+  max-width: 100vw;
+  padding-left: 0;
+  padding-right: 0;
+}
 .results-block .results-slider.splide {
   display: flex;
   flex-direction: column;
@@ -14689,60 +14695,10 @@ nav .menu-item.button,
   gap: 1.5rem;
   padding-bottom: 1rem;
 }
-.editor-styles-wrapper .wp-block-acf-results .results-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1.5rem;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem 0;
-}
-.editor-styles-wrapper .wp-block-acf-results .results-grid .result-item {
-  flex: 0 0 320px;
-  max-width: 320px;
-}
+.editor-styles-wrapper .wp-block-acf-results .result-item,
 .editor-styles-wrapper .wp-block-acf-results .result-card {
   flex: 0 0 320px;
   max-width: 320px;
-  background-color: var(--wp--preset--color--background);
-  border: 1px solid var(--wp--preset--color--primary);
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: relative;
-  height: auto;
-  color: var(--wp--preset--color--secondary);
-}
-.editor-styles-wrapper .wp-block-acf-results .result-card .result-badge {
-  position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
-  background-color: var(--wp--preset--color--primary);
-  color: var(--wp--preset--color--background);
-  padding: 0.25rem 0.75rem;
-  font-size: var(--wp--preset--font-size--small);
-  font-weight: 500;
-  text-transform: uppercase;
-}
-.editor-styles-wrapper .wp-block-acf-results .result-card .result-amount {
-  font-size: var(--wp--preset--font-size--xx-large);
-  font-weight: 600;
-  color: var(--wp--preset--color--primary);
-  line-height: 1.2;
-  margin-bottom: 0.5rem;
-}
-.editor-styles-wrapper .wp-block-acf-results .result-card .result-subtitle {
-  font-size: var(--wp--preset--font-size--medium);
-  font-weight: 600;
-  margin-bottom: 1rem;
-  line-height: 1.4;
-}
-.editor-styles-wrapper .wp-block-acf-results .result-card .result-excerpt {
-  font-size: var(--wp--preset--font-size--normal);
-  line-height: 1.6;
-  margin: 0;
 }
 .editor-styles-wrapper .wp-block-acf-results .splide__arrows {
   display: none;
