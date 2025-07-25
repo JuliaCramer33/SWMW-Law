@@ -13,31 +13,38 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Register ACF Blocks
- *
- * Looks for block.json files in subdirectories and registers them.
- * Also includes a PHP file from the block's directory if one exists,
- * checking in a specific order (fields.php, block.php, etc.).
+ * Register ACF blocks.
  */
-function register_acf_blocks() {
-	// Get all subdirectories in the current directory.
-	$block_dirs = glob( __DIR__ . '/*', GLOB_ONLYDIR );
+function swmw_law_register_acf_blocks() {
+	// An array of block folder names to register.
+	$blocks = [
+		'hero',
+		'logo-grid',
+		'expandable-card',
+		'image-split',
+		'results',
+		'tabs',
+		'testimonials',
+		'attorneys',
+		'accordion',
+		'jobsites-by-city',
+	];
 
-	foreach ( $block_dirs as $block_dir ) {
-		$block_slug = basename( $block_dir );
+	foreach ( $blocks as $block_name ) {
+		$block_path = SWMW_LAW_DIR . 'includes/blocks/' . $block_name;
 		// Skip deprecated hero-homepage block; replaced by block patterns.
-		if ( 'hero-homepage' === $block_slug ) {
+		if ( 'hero-homepage' === $block_name ) {
 			continue;
 		}
 		// Only proceed if a block.json file exists.
-		if ( file_exists( $block_dir . '/block.json' ) ) {
-			register_block_type( $block_dir );
+		if ( file_exists( $block_path . '/block.json' ) ) {
+			register_block_type( $block_path );
 
 			// After registering, check for optional PHP files to include.
 			$php_files_to_check = [
-				$block_dir . '/fields.php',
-				$block_dir . '/block.php',
-				$block_dir . '/' . $block_slug . '.php',
+				$block_path . '/fields.php',
+				$block_path . '/block.php',
+				$block_path . '/' . $block_name . '.php',
 			];
 
 			foreach ( $php_files_to_check as $php_file ) {
@@ -50,4 +57,4 @@ function register_acf_blocks() {
 		}
 	}
 }
-add_action( 'acf/init', __NAMESPACE__ . '\register_acf_blocks' );
+add_action( 'acf/init', __NAMESPACE__ . '\swmw_law_register_acf_blocks' );

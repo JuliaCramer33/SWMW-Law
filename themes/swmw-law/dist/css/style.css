@@ -15325,11 +15325,16 @@ nav .menu-item.button,
   cursor: pointer;
 }
 .jobsites-by-city-block .jobsites-accordion {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
   gap: 0.75rem;
   margin-top: 0.5rem;
-  align-items: start;
+}
+.jobsites-by-city-block .jobsites-accordion .accordion-column {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 .jobsites-by-city-block .city-group {
   margin-bottom: 1rem;
@@ -15353,20 +15358,12 @@ nav .menu-item.button,
 .jobsites-by-city-block .jobsite-card .jobsite-name {
   margin: 0 0 0.5rem 0;
 }
-@media (max-width: 992px) {
-  .jobsites-by-city-block .jobsites-accordion {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
 @media (max-width: 768px) {
   .jobsites-by-city-block .jobsites-filter-bar {
     display: none;
   }
   .jobsites-by-city-block .jobsites-skip-to {
     display: block;
-  }
-  .jobsites-by-city-block .jobsites-accordion {
-    grid-template-columns: 1fr;
   }
   .jobsites-by-city-block .jobsite-card {
     padding: 1rem;
@@ -15384,57 +15381,6 @@ nav .menu-item.button,
   }
   .jobsites-by-city-block .jobsite-name {
     font-size: 1rem;
-  }
-}
-
-/* Jobsites Directory Block Styles
---------------------------------------------- */
-.jobsites-directory-block .jobsites-directory-accordion {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.75rem;
-  margin-top: 0.5rem;
-  align-items: start;
-}
-.jobsites-directory-block .jobsites-directory-accordion .accordion-panel .accordion-panel-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem 1rem;
-  background-color: #f6f6f6;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
-  cursor: pointer;
-}
-.jobsites-directory-block .jobsites-directory-accordion .accordion-panel .accordion-panel-header .accordion-panel-title {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: #43383e;
-  margin: 0;
-}
-.jobsites-directory-block .jobsites-directory-accordion .accordion-panel .accordion-panel-header .accordion-panel-icon {
-  width: 32px;
-  height: 32px;
-  transition: all 0.15s ease-in-out;
-}
-.jobsites-directory-block .jobsites-directory-accordion .accordion-panel .accordion-panel-content {
-  overflow: hidden;
-  transition: max-height 0.3s ease;
-}
-.jobsites-directory-block .jobsites-grid {
-  display: grid;
-  gap: 0.5rem;
-}
-.jobsites-directory-block .jobsite-card .jobsite-name {
-  margin: 0 0 0.5rem 0;
-}
-@media (max-width: 992px) {
-  .jobsites-directory-block .jobsites-directory-accordion {
-    grid-template-columns: 1fr;
-  }
-}
-@media (max-width: 768px) {
-  .jobsites-directory-block .jobsites-directory-accordion {
-    grid-template-columns: 1fr;
   }
 }
 

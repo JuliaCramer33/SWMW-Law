@@ -96,13 +96,19 @@
     }
   }
 
-  // 4. Accordion Grid Layout (true independent columns)
+  // 4. Accordion Layout - Now a flex container for JS-generated columns
   .jobsites-accordion {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
     gap: $spacing-3;
     margin-top: $spacing-2;
-    align-items: start; // ✨ prevents vertical stretching
+
+    .accordion-column {
+      flex: 1;
+      min-width: 0; // Prevents flexbox overflow issues
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-3;
+    }
   }
 
   // 5. City Groups
@@ -138,9 +144,7 @@
 
   // 7. Responsive Layouts
   @media (max-width: $breakpoint-lg) {
-    .jobsites-accordion {
-      grid-template-columns: repeat(2, 1fr);
-    }
+    // Responsive column count is now handled by JavaScript
   }
 
   @media (max-width: $breakpoint-md) {
@@ -152,9 +156,7 @@
       display: block;
     }
 
-    .jobsites-accordion {
-      grid-template-columns: 1fr;
-    }
+    // Responsive column count is now handled by JavaScript
 
     .jobsite-card {
       padding: $spacing-4;
@@ -176,79 +178,6 @@
 
     .jobsite-name {
       font-size: $font-size-base;
-    }
-  }
-}
-
-/* Jobsites Directory Block Styles
---------------------------------------------- */
-
-.jobsites-directory-block {
-  // Jobsites Directory Accordion
-  .jobsites-directory-accordion {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: $spacing-3;
-    margin-top: $spacing-2;
-    align-items: start; // ✨ prevents vertical stretching
-
-    .accordion-panel {
-      .accordion-panel-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: $spacing-3 $spacing-4;
-        background-color: $color-gray-lightest;
-        box-shadow: $box-shadow;
-        cursor: pointer;
-
-        .accordion-panel-title {
-          font-size: $font-size-lg;
-          font-weight: $font-weight-semibold;
-          color: $color-text;
-          margin: 0;
-        }
-
-        .accordion-panel-icon {
-          width: 32px;
-          height: 32px;
-          transition: all $transition-duration-fast ease-in-out;
-        }
-      }
-
-      .accordion-panel-content {
-        overflow: hidden;
-        transition: max-height 0.3s ease;
-      }
-    }
-  }
-
-  // Jobsites Grid (same as A-Z block)
-  .jobsites-grid {
-    display: grid;
-    gap: $spacing-2;
-  }
-
-  .jobsite-card {
-    .jobsite-name {
-      margin: 0 0 $spacing-2 0;
-    }
-  }
-
-  .jobsites-list {
-    // Remove max-height and overflow to allow natural page scrolling
-  }
-
-  // Responsive Layouts
-  @media (max-width: $breakpoint-lg) {
-    .jobsites-directory-accordion {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  @media (max-width: $breakpoint-md) {
-    .jobsites-directory-accordion {
-      grid-template-columns: 1fr;
     }
   }
 }

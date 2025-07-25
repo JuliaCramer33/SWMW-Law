@@ -103,7 +103,7 @@ $block_unique_id = 'jobsites-' . uniqid();
     </div>
     
     <!-- Cities Accordion -->
-    <div class="jobsites-accordion accordion-block" id="<?php echo esc_attr($block_unique_id); ?>">
+    <div class="jobsites-accordion js-accordion-columns" id="<?php echo esc_attr($block_unique_id); ?>">
         <?php foreach ($letters_with_cities as $letter): ?>
             <?php $cities = $cities_by_letter[$letter]; ?>
             <div class="accordion-panel" data-letter="<?php echo esc_attr($letter); ?>">

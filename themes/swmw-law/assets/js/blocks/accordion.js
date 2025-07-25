@@ -13,7 +13,7 @@ export class AccordionBlock {
   }
 
   init(context = document) {
-    const accordions = context.querySelectorAll('.accordion-block');
+    const accordions = context.querySelectorAll('.accordion-block:not(.jobsites-accordion)');
     accordions.forEach((accordion) => this.setupAccordion(accordion));
   }
 
@@ -84,13 +84,49 @@ export class JobsitesAccordion {
     const jobsitesBlocks = context.querySelectorAll('.jobsites-by-city-block');
 
     jobsitesBlocks.forEach((block) => {
-      const accordion = block.querySelector('.accordion-block');
+      const accordion = block.querySelector('.jobsites-accordion');
       if (!accordion || accordion.classList.contains('js-jobsites-initialized')) return;
 
       accordion.classList.add('js-jobsites-initialized');
 
       const letterButtons = block.querySelectorAll('.filter-letter.has-cities');
       const skipSelect = block.querySelector('.jobsites-skip-to select');
+      const allPanels = accordion.querySelectorAll('.accordion-panel');
+
+      // --- New: Add click handlers to each accordion header ---
+      allPanels.forEach((panel) => {
+        const header = panel.querySelector('.accordion-panel-header');
+        const content = panel.querySelector('.accordion-panel-content');
+
+        if (!header || !content) return;
+
+        header.addEventListener('click', () => {
+          const isOpen = panel.classList.contains('is-open');
+
+          // Close all other panels
+          allPanels.forEach((p) => {
+            if (p !== panel) {
+              p.classList.remove('is-open');
+              const h = p.querySelector('.accordion-panel-header');
+              const c = p.querySelector('.accordion-panel-content');
+              if (h) h.setAttribute('aria-expanded', 'false');
+              if (c) c.style.maxHeight = null;
+            }
+          });
+
+          // Toggle the clicked panel
+          if (isOpen) {
+            panel.classList.remove('is-open');
+            header.setAttribute('aria-expanded', 'false');
+            content.style.maxHeight = null;
+          } else {
+            panel.classList.add('is-open');
+            header.setAttribute('aria-expanded', 'true');
+            content.style.maxHeight = content.scrollHeight + 'px';
+          }
+        });
+      });
+      // --- End New ---
 
       letterButtons.forEach((button) => {
         button.addEventListener('click', () => {
@@ -100,7 +136,7 @@ export class JobsitesAccordion {
 
           targetPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-          accordion.querySelectorAll('.accordion-panel.is-open').forEach((p) => {
+          allPanels.forEach((p) => {
             if (p !== targetPanel) {
               p.classList.remove('is-open');
               const h = p.querySelector('.accordion-panel-header');
@@ -131,7 +167,7 @@ export class JobsitesAccordion {
 
           targetPanel.scrollIntoView({ behavior: 'smooth' });
 
-          accordion.querySelectorAll('.accordion-panel.is-open').forEach((p) => {
+          allPanels.forEach((p) => {
             if (p !== targetPanel) {
               p.classList.remove('is-open');
               const h = p.querySelector('.accordion-panel-header');

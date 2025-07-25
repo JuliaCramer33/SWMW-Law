@@ -13,6 +13,7 @@ import { initAttorneysSlider } from './blocks/attorneys.js';
 import { AccordionBlock, JobsitesAccordion } from './blocks/accordion.js';
 import { initHeroDropdownNav } from './hero-dropdown-nav.js';
 import { initBlockAnimations } from './blocks/animations.js';
+import { initAccordionColumns } from './accordion-columns.js';
 
 // Import other modules like initModals if you create them
 
@@ -145,6 +146,12 @@ import { initBlockAnimations } from './blocks/animations.js';
       initLoadMoreResults();
     } catch (error) {
       console.error('MAIN.JS - ERROR in initLoadMoreResults():', error);
+    }
+
+    try {
+      initAccordionColumns(); // Initialize the accordion columnizer FIRST
+    } catch (error) {
+      console.error('MAIN.JS - ERROR in initAccordionColumns():', error);
     }
 
     try {

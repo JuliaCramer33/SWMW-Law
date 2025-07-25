@@ -2,6 +2,81 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./assets/js/accordion-columns.js":
+/*!****************************************!*\
+  !*** ./assets/js/accordion-columns.js ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   initAccordionColumns: () => (/* binding */ initAccordionColumns)
+/* harmony export */ });
+/**
+ * Accordion Columnizer
+ *
+ * This script takes a flat list of accordion panels and distributes them
+ * into a specified number of columns, creating a true multi-column layout.
+ */
+
+function initAccordionColumns() {
+  const accordionContainers = document.querySelectorAll('.js-accordion-columns');
+  if (!accordionContainers.length) {
+    return;
+  }
+  const handleResize = () => {
+    accordionContainers.forEach(container => {
+      // Get all the original panels
+      const panels = Array.from(container.querySelectorAll(':scope > .accordion-panel'));
+      if (!panels.length) {
+        return;
+      }
+
+      // Determine the number of columns based on window width
+      let numColumns = 3;
+      if (window.innerWidth <= 1024) {
+        numColumns = 2;
+      }
+      if (window.innerWidth <= 768) {
+        numColumns = 1;
+      }
+
+      // Clear the container
+      container.innerHTML = '';
+
+      // Create and append new column wrappers
+      const columns = [];
+      for (let i = 0; i < numColumns; i++) {
+        const column = document.createElement('div');
+        column.className = 'accordion-column';
+        container.appendChild(column);
+        columns.push(column);
+      }
+
+      // Distribute the original panels into the new columns
+      panels.forEach((panel, index) => {
+        const columnIndex = index % numColumns;
+        columns[columnIndex].appendChild(panel);
+      });
+    });
+  };
+
+  // Run on initial load
+  handleResize();
+
+  // And run on window resize, with a debounce to prevent excessive firing
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(handleResize, 250);
+  });
+}
+
+// Ensure the function is exported for use in main.js
+
+
+/***/ }),
+
 /***/ "./assets/js/blocks/accordion.js":
 /*!***************************************!*\
   !*** ./assets/js/blocks/accordion.js ***!
@@ -25,7 +100,7 @@ class AccordionBlock {
     }
   }
   init(context = document) {
-    const accordions = context.querySelectorAll('.accordion-block');
+    const accordions = context.querySelectorAll('.accordion-block:not(.jobsites-accordion)');
     accordions.forEach(accordion => this.setupAccordion(accordion));
   }
   setupAccordion(accordion) {
@@ -80,11 +155,46 @@ class JobsitesAccordion {
   initJobsitesFeatures(context = document) {
     const jobsitesBlocks = context.querySelectorAll('.jobsites-by-city-block');
     jobsitesBlocks.forEach(block => {
-      const accordion = block.querySelector('.accordion-block');
+      const accordion = block.querySelector('.jobsites-accordion');
       if (!accordion || accordion.classList.contains('js-jobsites-initialized')) return;
       accordion.classList.add('js-jobsites-initialized');
       const letterButtons = block.querySelectorAll('.filter-letter.has-cities');
       const skipSelect = block.querySelector('.jobsites-skip-to select');
+      const allPanels = accordion.querySelectorAll('.accordion-panel');
+
+      // --- New: Add click handlers to each accordion header ---
+      allPanels.forEach(panel => {
+        const header = panel.querySelector('.accordion-panel-header');
+        const content = panel.querySelector('.accordion-panel-content');
+        if (!header || !content) return;
+        header.addEventListener('click', () => {
+          const isOpen = panel.classList.contains('is-open');
+
+          // Close all other panels
+          allPanels.forEach(p => {
+            if (p !== panel) {
+              p.classList.remove('is-open');
+              const h = p.querySelector('.accordion-panel-header');
+              const c = p.querySelector('.accordion-panel-content');
+              if (h) h.setAttribute('aria-expanded', 'false');
+              if (c) c.style.maxHeight = null;
+            }
+          });
+
+          // Toggle the clicked panel
+          if (isOpen) {
+            panel.classList.remove('is-open');
+            header.setAttribute('aria-expanded', 'false');
+            content.style.maxHeight = null;
+          } else {
+            panel.classList.add('is-open');
+            header.setAttribute('aria-expanded', 'true');
+            content.style.maxHeight = content.scrollHeight + 'px';
+          }
+        });
+      });
+      // --- End New ---
+
       letterButtons.forEach(button => {
         button.addEventListener('click', () => {
           const letter = button.dataset.letter;
@@ -94,7 +204,7 @@ class JobsitesAccordion {
             behavior: 'smooth',
             block: 'start'
           });
-          accordion.querySelectorAll('.accordion-panel.is-open').forEach(p => {
+          allPanels.forEach(p => {
             if (p !== targetPanel) {
               p.classList.remove('is-open');
               const h = p.querySelector('.accordion-panel-header');
@@ -122,7 +232,7 @@ class JobsitesAccordion {
           targetPanel.scrollIntoView({
             behavior: 'smooth'
           });
-          accordion.querySelectorAll('.accordion-panel.is-open').forEach(p => {
+          allPanels.forEach(p => {
             if (p !== targetPanel) {
               p.classList.remove('is-open');
               const h = p.querySelector('.accordion-panel-header');
@@ -1158,9 +1268,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _blocks_accordion_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./blocks/accordion.js */ "./assets/js/blocks/accordion.js");
 /* harmony import */ var _hero_dropdown_nav_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./hero-dropdown-nav.js */ "./assets/js/hero-dropdown-nav.js");
 /* harmony import */ var _blocks_animations_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./blocks/animations.js */ "./assets/js/blocks/animations.js");
+/* harmony import */ var _accordion_columns_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./accordion-columns.js */ "./assets/js/accordion-columns.js");
 //Import any JS here
 
  // Import the module
+
 
 
 
@@ -1289,6 +1401,11 @@ __webpack_require__.r(__webpack_exports__);
       initLoadMoreResults();
     } catch (error) {
       console.error('MAIN.JS - ERROR in initLoadMoreResults():', error);
+    }
+    try {
+      (0,_accordion_columns_js__WEBPACK_IMPORTED_MODULE_9__.initAccordionColumns)(); // Initialize the accordion columnizer FIRST
+    } catch (error) {
+      console.error('MAIN.JS - ERROR in initAccordionColumns():', error);
     }
     try {
       new _blocks_accordion_js__WEBPACK_IMPORTED_MODULE_6__.AccordionBlock();
