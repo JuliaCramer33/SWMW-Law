@@ -24,9 +24,11 @@ function swmw_law_register_acf_blocks() {
 		'image-split',
 		'results',
 		'tabs',
+		'tab-panel',
 		'testimonials',
 		'attorneys',
 		'accordion',
+		'accordion-panel',
 		'jobsites-by-city',
 		'hero-dropdown-menu',
 	];
