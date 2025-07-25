@@ -15326,15 +15326,17 @@ nav .menu-item.button,
 }
 .jobsites-by-city-block .jobsites-accordion {
   display: flex;
-  gap: 0.75rem;
-  margin-top: 0.5rem;
+  gap: 1.25rem;
 }
 .jobsites-by-city-block .jobsites-accordion .accordion-column {
   flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1.25rem;
+}
+.jobsites-by-city-block .jobsites-accordion .accordion-panel {
+  margin-top: 0;
 }
 .jobsites-by-city-block .city-group {
   margin-bottom: 1rem;
@@ -15343,7 +15345,6 @@ nav .menu-item.button,
   font-size: 1.25rem;
   font-weight: 600;
   color: #43383e;
-  margin-bottom: 0.5rem;
   padding-bottom: 0.25rem;
 }
 .jobsites-by-city-block .city-group .no-jobsites {
@@ -15355,8 +15356,8 @@ nav .menu-item.button,
   display: grid;
   gap: 0.5rem;
 }
-.jobsites-by-city-block .jobsite-card .jobsite-name {
-  margin: 0 0 0.5rem 0;
+.jobsites-by-city-block .jobsite-card p {
+  margin: 0;
 }
 @media (max-width: 768px) {
   .jobsites-by-city-block .jobsites-filter-bar {

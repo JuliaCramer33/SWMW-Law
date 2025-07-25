@@ -99,15 +99,20 @@
   // 4. Accordion Layout - Now a flex container for JS-generated columns
   .jobsites-accordion {
     display: flex;
-    gap: $spacing-3;
-    margin-top: $spacing-2;
+    gap: $spacing-5; // Set column gap to ~1.25rem
 
     .accordion-column {
       flex: 1;
       min-width: 0; // Prevents flexbox overflow issues
       display: flex;
       flex-direction: column;
-      gap: $spacing-3;
+      gap: $spacing-5; // Set row gap to ~1.25rem
+    }
+
+    // Remove the default top margin from the generic accordion panels
+    // as the column gap now handles the spacing.
+    .accordion-panel {
+      margin-top: 0;
     }
   }
 
@@ -119,7 +124,6 @@
       font-size: $font-size-xl;
       font-weight: $font-weight-semibold;
       color: $color-text;
-      margin-bottom: $spacing-2;
       padding-bottom: $spacing-1;
     }
 
@@ -137,8 +141,8 @@
   }
 
   .jobsite-card {
-    .jobsite-name {
-      margin: 0 0 $spacing-2 0;
+    p {
+      margin: 0;
     }
   }
 

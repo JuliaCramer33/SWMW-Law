@@ -100,6 +100,7 @@ class AccordionBlock {
     }
   }
   init(context = document) {
+    // Update selector to ignore accordions that will be handled by other scripts
     const accordions = context.querySelectorAll('.accordion-block:not(.jobsites-accordion)');
     accordions.forEach(accordion => this.setupAccordion(accordion));
   }
@@ -121,16 +122,25 @@ class AccordionBlock {
       }
       header.addEventListener('click', () => {
         const currentlyOpen = panel.classList.contains('is-open');
+
+        // This logic makes it a "one at a time" accordion.
+        // If you want multiple open, this loop should be removed.
         panels.forEach(p => {
-          const h = p.querySelector('.accordion-panel-header');
-          const c = p.querySelector('.accordion-panel-content');
-          p.classList.remove('is-open');
-          if (h && c) {
-            h.setAttribute('aria-expanded', 'false');
-            c.style.maxHeight = null;
+          if (p !== panel) {
+            const h = p.querySelector('.accordion-panel-header');
+            const c = p.querySelector('.accordion-panel-content');
+            p.classList.remove('is-open');
+            if (h && c) {
+              h.setAttribute('aria-expanded', 'false');
+              c.style.maxHeight = null;
+            }
           }
         });
-        if (!currentlyOpen) {
+        if (currentlyOpen) {
+          panel.classList.remove('is-open');
+          header.setAttribute('aria-expanded', 'false');
+          content.style.maxHeight = null;
+        } else {
           panel.classList.add('is-open');
           header.setAttribute('aria-expanded', 'true');
           content.style.maxHeight = content.scrollHeight + 'px';
@@ -158,43 +168,14 @@ class JobsitesAccordion {
       const accordion = block.querySelector('.jobsites-accordion');
       if (!accordion || accordion.classList.contains('js-jobsites-initialized')) return;
       accordion.classList.add('js-jobsites-initialized');
+
+      // After the columns are built, re-use the generic setup logic to make the panels clickable.
+      // This is more robust than duplicating the click-handling code.
+      const genericAccordionManager = new AccordionBlock();
+      genericAccordionManager.setupAccordion(accordion);
       const letterButtons = block.querySelectorAll('.filter-letter.has-cities');
       const skipSelect = block.querySelector('.jobsites-skip-to select');
       const allPanels = accordion.querySelectorAll('.accordion-panel');
-
-      // --- New: Add click handlers to each accordion header ---
-      allPanels.forEach(panel => {
-        const header = panel.querySelector('.accordion-panel-header');
-        const content = panel.querySelector('.accordion-panel-content');
-        if (!header || !content) return;
-        header.addEventListener('click', () => {
-          const isOpen = panel.classList.contains('is-open');
-
-          // Close all other panels
-          allPanels.forEach(p => {
-            if (p !== panel) {
-              p.classList.remove('is-open');
-              const h = p.querySelector('.accordion-panel-header');
-              const c = p.querySelector('.accordion-panel-content');
-              if (h) h.setAttribute('aria-expanded', 'false');
-              if (c) c.style.maxHeight = null;
-            }
-          });
-
-          // Toggle the clicked panel
-          if (isOpen) {
-            panel.classList.remove('is-open');
-            header.setAttribute('aria-expanded', 'false');
-            content.style.maxHeight = null;
-          } else {
-            panel.classList.add('is-open');
-            header.setAttribute('aria-expanded', 'true');
-            content.style.maxHeight = content.scrollHeight + 'px';
-          }
-        });
-      });
-      // --- End New ---
-
       letterButtons.forEach(button => {
         button.addEventListener('click', () => {
           const letter = button.dataset.letter;
@@ -204,6 +185,8 @@ class JobsitesAccordion {
             behavior: 'smooth',
             block: 'start'
           });
+
+          // This logic now correctly handles closing other panels.
           allPanels.forEach(p => {
             if (p !== targetPanel) {
               p.classList.remove('is-open');
@@ -253,10 +236,6 @@ class JobsitesAccordion {
     });
   }
 }
-document.addEventListener('DOMContentLoaded', () => {
-  new AccordionBlock();
-  new JobsitesAccordion();
-});
 
 /***/ }),
 
