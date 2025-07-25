@@ -28,6 +28,7 @@ function swmw_law_register_acf_blocks() {
 		'attorneys',
 		'accordion',
 		'jobsites-by-city',
+		'hero-dropdown-menu',
 	];
 
 	foreach ( $blocks as $block_name ) {
