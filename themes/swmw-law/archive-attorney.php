@@ -12,15 +12,15 @@ get_header();
 $description = get_the_archive_description();
 ?>
 
-<?php get_template_part( 'template-parts/breadcrumbs' ); ?>
-
 <div id="primary" class="content-area">
 	<main id="main" class="site-main attorney-archive-main">
 
 		<?php
-		// Instead of the old, specific hero, we use the new generic one.
+		get_template_part( 'template-parts/breadcrumbs' );
 		get_template_part( 'template-parts/hero-archive' );
 		?>
+
+		
 
 		<div class="container-lg attorney-archive-container">
 			<?php if ( have_posts() ) : ?>

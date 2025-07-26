@@ -6,14 +6,12 @@
  */
 
 get_header();
-
+get_template_part( 'template-parts/breadcrumbs' );
 get_template_part( 'template-parts/hero-archive' );
 ?>
 
-<?php get_template_part( 'template-parts/breadcrumbs' ); ?>
-
 <main id="main" class="site-main container-lg">
-			<div class="swmw-news-grid--inner">
+	<div class="swmw-news-grid--inner">
 		<?php
 		if ( have_posts() ) :
 			echo '<div class="swmw-news-grid">';

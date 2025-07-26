@@ -12,6 +12,10 @@ if ( is_front_page() ) {
 
 $current_page_title = '';
 
+// Check for the custom 'newsfeed' query var first.
+if ( get_query_var( 'newsfeed' ) ) {
+    $current_page_title = get_the_title( get_option( 'page_for_posts', true ) );
+}
 // Check for different page types to set the title correctly.
 if ( is_home() ) {
     // For the blog page, get the title of the page assigned to posts.
@@ -43,28 +47,51 @@ if ( is_home() ) {
                 </a>
             </li>
             <?php
-            // Add parent archive for single posts (blog/news)
-            if ( is_single() && get_post_type() === 'post' ) : ?>
-                <li class="breadcrumb-item breadcrumb-separator" aria-hidden="true">/</li>
-                <li class="breadcrumb-item">
-                    <a href="<?php echo esc_url( home_url( '/newsfeed/' ) ); ?>">
-                        News
-                    </a>
-                </li>
-            <?php
-            // Add parent archive for custom post types
-            elseif ( is_singular() && ! is_page() && 'post' !== get_post_type() ) :
-                $cpt_breadcrumb_type = get_post_type();
-                $post_type_obj = get_post_type_object( $cpt_breadcrumb_type );
-                if ( $post_type_obj && $post_type_obj->has_archive ) :
-                    $archive_link = get_post_type_archive_link( $cpt_breadcrumb_type );
+            $current_post_id = get_the_ID();
+
+            // Case 1: For Pages, show their ancestors.
+            if ( is_page() ) {
+                $ancestors = get_post_ancestors( $current_post_id );
+                if ( ! empty( $ancestors ) ) {
+                    $ancestors = array_reverse( $ancestors );
+                    foreach ( $ancestors as $ancestor_id ) {
+                        ?>
+                        <li class="breadcrumb-item breadcrumb-separator" aria-hidden="true">/</li>
+                        <li class="breadcrumb-item">
+                            <a href="<?php echo esc_url( get_permalink( $ancestor_id ) ); ?>"><?php echo esc_html( get_the_title( $ancestor_id ) ); ?></a>
+                        </li>
+                        <?php
+                    }
+                }
+            }
+            // Case 2: For single blog posts, show the dynamic "Posts" page link.
+            elseif ( is_single() && 'post' === get_post_type() ) {
+                $posts_page_id = get_option( 'page_for_posts' );
+                if ( $posts_page_id ) {
+                    $posts_page_title = get_the_title( $posts_page_id );
+                    ?>
+                    <li class="breadcrumb-item breadcrumb-separator" aria-hidden="true">/</li>
+                    <li class="breadcrumb-item">
+                        <a href="<?php echo esc_url( home_url( '/newsfeed/' ) ); ?>"><?php echo esc_html( $posts_page_title ); ?></a>
+                    </li>
+                    <?php
+                }
+            }
+            // Case 3: For other CPTs, show their archive link.
+            elseif ( is_singular() && ! is_page() && 'post' !== get_post_type() ) {
+                $post_type_obj = get_post_type_object( get_post_type() );
+                if ( $post_type_obj && $post_type_obj->has_archive ) {
+                    $archive_link = get_post_type_archive_link( get_post_type() );
                     $archive_label = $post_type_obj->labels->name;
+                    ?>
+                    <li class="breadcrumb-item breadcrumb-separator" aria-hidden="true">/</li>
+                    <li class="breadcrumb-item">
+                        <a href="<?php echo esc_url( $archive_link ); ?>"><?php echo esc_html( $archive_label ); ?></a>
+                    </li>
+                    <?php
+                }
+            }
             ?>
-                <li class="breadcrumb-item breadcrumb-separator" aria-hidden="true">/</li>
-                <li class="breadcrumb-item">
-                    <a href="<?php echo esc_url( $archive_link ); ?>"><?php echo esc_html( $archive_label ); ?></a>
-                </li>
-            <?php endif; endif; ?>
             <li class="breadcrumb-item breadcrumb-separator" aria-hidden="true">/</li>
             <li class="breadcrumb-item breadcrumb-item--current" aria-current="page">
                 <?php echo wp_kses_post( $current_page_title ); // Use wp_kses_post if title can contain HTML (e.g. search results span) ?>

@@ -5,6 +5,9 @@
 
 .site-header {
   position: relative; // Ensure this is a positioning context for the mega menu panel
+  z-index: 1000;
+  background: $color-white;
+  box-shadow: var(--sds-size-depth-0) var(--sds-size-depth-100) var(--sds-size-depth-100) var(--sds-size-depth-negative-025) var(--sds-color-black-200);
   padding: $spacing-2 $spacing-0;
   // box-shadow: var(--sds-size-depth-0) var(--sds-size-depth-100) var(--sds-size-depth-100) var(--sds-size-depth-negative-025) var(--sds-color-black-100);
 

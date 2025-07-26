@@ -11,6 +11,7 @@ get_header();
 get_template_part( 'template-parts/breadcrumbs' );
 get_template_part( 'template-parts/hero-archive' );
 
+
 ?>
 
 <main id="primary" class="site-main swmw-archive-page">

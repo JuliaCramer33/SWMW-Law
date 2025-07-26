@@ -12802,6 +12802,9 @@ label {
  */
 .site-header {
   position: relative;
+  z-index: 1000;
+  background: #fff;
+  box-shadow: var(--sds-size-depth-0) var(--sds-size-depth-100) var(--sds-size-depth-100) var(--sds-size-depth-negative-025) var(--sds-color-black-200);
   padding: 0.5rem 0;
 }
 .site-header .inner {
