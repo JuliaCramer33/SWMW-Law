@@ -884,7 +884,7 @@ label {
 
 @media (min-width: 576px) {
   .container {
-    max-width: 960px;
+    max-width: 992px;
   }
 }
 @media (min-width: 768px) {
@@ -899,7 +899,7 @@ label {
 }
 
 .container-sm {
-  max-width: 960px !important;
+  max-width: 992px !important;
 }
 
 .container-md {
@@ -16109,7 +16109,7 @@ a img.alignright {
 
 a img.alignnone {
   margin: 1rem 1rem 1rem 0;
-  max-width: 960px;
+  max-width: 992px;
 }
 
 a img.alignleft {

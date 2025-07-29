@@ -7,7 +7,10 @@
 // Container Max Widths
 // These typically align with breakpoints but can be adjusted.
 
-$container-max-width-sm: 960px;
+$section-spacing-sm: $spacing-6;
+$section-spacing-md: $spacing-8;
+
+$container-max-width-sm: 992px;
 $container-max-width-md: 1140px;
 $container-max-width-lg: 100%;
 
@@ -23,7 +26,7 @@ $container-padding-x: $spacing-6; // Use spacing variable
 
 // Grid System
 $grid-columns: 12; // Standard 12-column grid
-$grid-gutter-width: $spacing-6; // Default space between columns (references spacing var)
+$grid-gutter-width: 1.5rem; // Default space between columns (references spacing var)
 
 // Flexbox Column Widths (Percentages based on grid columns)
 // Useful for setting flex-basis or width in flex layouts.
