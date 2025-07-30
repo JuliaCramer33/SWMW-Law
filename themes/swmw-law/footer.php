@@ -74,7 +74,7 @@
 										$office_address  = get_sub_field( 'office_address' );
 										$office_map_link = get_sub_field( 'office_map_link' );
 										?>
-										<div class="office-location col-6 px-2">
+										<div class="office-location col-6">
 											<?php if ( $office_name ) : ?>
 												<h3><?php echo esc_html( $office_name ); ?></h3>
 											<?php endif; ?>
@@ -126,7 +126,16 @@
 				<div class="container-lg">
 					<div class="footer-bottom-inner">
 						<div class="footer-copyright">
-							<p>
+							<p class="footer-disclaimer">
+								<?php
+								$disclaimer_text = get_theme_mod(
+									'swmw_law_footer_disclaimer_text',
+									__( 'The choice of a lawyer is an important decision and should not be based solely upon advertisements. Results obtained depend upon the facts of each case. Past results afford no guarantee of future results or similar outcomes. Every case is different and must be judged on its own merits. The information on this website is for general information purposes only. Nothing on this site should be taken as legal advice for any individual case or situation. This information is not intended to create, and receipt or viewing does not constitute, an attorney-client relationship.', 'swmw-law' )
+								);
+								echo wp_kses_post( $disclaimer_text );
+								?>
+							</p>
+              <p>
 								<?php
 								$copyright_text = get_theme_mod(
 									'swmw_law_footer_copyright_text',
@@ -138,15 +147,6 @@
 								);
 								$copyright_text = str_replace( '[current_year]', date_i18n( 'Y' ), $copyright_text );
 								echo wp_kses_post( $copyright_text );
-								?>
-							</p>
-							<p class="footer-disclaimer">
-								<?php
-								$disclaimer_text = get_theme_mod(
-									'swmw_law_footer_disclaimer_text',
-									__( 'The choice of a lawyer is an important decision and should not be based solely upon advertisements. Results obtained depend upon the facts of each case. Past results afford no guarantee of future results or similar outcomes. Every case is different and must be judged on its own merits. The information on this website is for general information purposes only. Nothing on this site should be taken as legal advice for any individual case or situation. This information is not intended to create, and receipt or viewing does not constitute, an attorney-client relationship.', 'swmw-law' )
-								);
-								echo wp_kses_post( $disclaimer_text );
 								?>
 							</p>
 						</div>

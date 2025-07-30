@@ -24,6 +24,13 @@
       max-height: 60px; // Pixel value, consider if a variable is needed if this changes often
       width: auto;
       display: block;
+      max-width: 200px; // Default max-width for mobile
+      height: auto;
+      transition: opacity 0.3s ease-in-out;
+
+      &:hover {
+        opacity: 0.8;
+      }
     }
   }
 

@@ -235,7 +235,7 @@ h1 {
 }
 
 h2 {
-  font-size: 2rem;
+  font-size: 2.5rem;
   line-height: 1.59;
   font-weight: 300;
 }
@@ -267,6 +267,7 @@ h6 {
 a {
   color: #12477a;
   text-decoration: none;
+  cursor: pointer;
   transition: all 0.2s ease;
 }
 a:hover, a:focus {
@@ -12819,6 +12820,12 @@ label {
   max-height: 60px;
   width: auto;
   display: block;
+  max-width: 200px;
+  height: auto;
+  transition: opacity 0.3s ease-in-out;
+}
+.site-header .site-branding .site-logo img:hover {
+  opacity: 0.8;
 }
 .site-header .nav-wrapper {
   flex: 0 0 70%;
@@ -12988,16 +12995,15 @@ label {
 }
 .site-footer .footer-main {
   display: flex;
+  justify-content: space-between;
   flex-direction: column;
-  flex-wrap: wrap;
-  padding-bottom: 2rem;
+  border-bottom: 1px solid #dee2e6;
 }
 .site-footer .footer-main .footer-brand {
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding: 0 1rem;
   margin-bottom: 1.5rem;
 }
 .site-footer .footer-main .footer-brand .footer-branded-separator {
@@ -13005,11 +13011,12 @@ label {
   margin-bottom: 0.75rem;
 }
 .site-footer .footer-main .footer-brand .footer-tagline {
-  font: 400 1.25rem/1.4 "Poppins", sans-serif;
+  font-size: 2rem;
+  line-height: 1.2;
   color: #417e4b;
-  margin-top: 0.75rem;
-  padding-left: 0.25rem;
-  position: relative;
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  margin-top: 1rem;
 }
 .site-footer .footer-main .footer-brand .footer-tagline strong,
 .site-footer .footer-main .footer-brand .footer-tagline b {
@@ -13062,10 +13069,13 @@ label {
   margin-bottom: 0.5rem;
   line-height: 1.5;
 }
-.site-footer .footer-main .footer-link-wrapper .footer-offices .office-location {
+.site-footer .footer-main .footer-link-wrapper .footer-offices .office-locations {
+  gap: 1.5rem;
+}
+.site-footer .footer-main .footer-link-wrapper .footer-offices .office-locations .office-location {
   margin-bottom: 1rem;
 }
-.site-footer .footer-main .footer-link-wrapper .footer-offices .office-location:last-child {
+.site-footer .footer-main .footer-link-wrapper .footer-offices .office-locations .office-location:last-child {
   margin-bottom: 0;
 }
 .site-footer .footer-main .footer-link-wrapper .footer-offices .map-directions-link {
@@ -13093,22 +13103,26 @@ label {
 .site-footer .footer-main .footer-link-wrapper .footer-links .footer-nav-list li a:hover {
   color: #417e4b;
 }
+.site-footer .custom-logo-link {
+  display: inline-block;
+  transition: opacity 0.3s ease-in-out;
+}
+.site-footer .custom-logo-link:hover {
+  opacity: 0.8;
+}
 .site-footer .footer-bottom .footer-bottom-inner {
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  border-top: 1px solid #e0e0e0;
-  margin-bottom: 1.5rem;
-  padding-top: 1.5rem;
   align-items: center;
-  gap: 1rem;
   text-align: center;
+  gap: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #dee2e6;
+  margin-bottom: 1.5rem;
 }
 .site-footer .footer-bottom .footer-copyright {
   font-size: 0.75rem;
   color: #43383e;
-  flex-basis: 70%;
 }
 .site-footer .footer-bottom .footer-copyright p {
   margin-bottom: 0.5rem;
@@ -13129,24 +13143,13 @@ label {
   color: #43383e;
   margin-top: 0.75rem;
 }
-.site-footer .footer-bottom .footer-disclaimer a {
-  color: #43383e;
-  text-decoration: underline;
-}
-.site-footer .footer-bottom .footer-disclaimer a:hover {
-  color: #417e4b;
-}
-.site-footer .footer-bottom .footer-social {
-  flex-basis: 25%;
-  text-align: right;
-}
 .site-footer .footer-bottom .footer-social .social-media-list {
   list-style: none;
   padding: 0;
   margin: 0;
   display: flex;
   gap: 0.5rem;
-  justify-content: flex-end;
+  justify-content: center;
 }
 .site-footer .footer-bottom .footer-social .social-media-list li a {
   display: flex;
@@ -13177,64 +13180,25 @@ label {
 .site-footer .footer-bottom .footer-social .social-media-list li a:hover img.social-icon {
   filter: brightness(0) invert(1);
 }
-@media (min-width: 576px) {
-  .site-footer .footer-main .footer-brand,
-  .site-footer .footer-main .footer-link-wrapper {
-    padding: 0.5rem 0;
-  }
-  .site-footer .footer-main .footer-link-wrapper {
-    gap: 0.5rem;
-  }
-  .site-footer .footer-links .footer-nav-list {
-    columns: 1;
-    gap: 0.5rem;
-  }
-  .site-footer .footer-offices .office-location {
-    margin-bottom: 0.5rem;
-  }
-}
-@media (min-width: 768px) {
-  .site-footer .footer-main {
+@media (min-width: 992px) {
+  .site-footer .footer-bottom .footer-bottom-inner {
     flex-direction: row;
-  }
-  .site-footer .footer-main .footer-brand {
-    flex: 1 0 30%;
-    max-width: 30%;
-    margin-bottom: 0;
-  }
-  .site-footer .footer-main .footer-link-wrapper {
-    flex: 0 0 70%;
-    max-width: 70%;
-    flex-direction: row;
-    gap: 1.5rem;
-  }
-  .site-footer .footer-main .footer-link-wrapper .footer-offices,
-  .site-footer .footer-main .footer-link-wrapper .footer-links {
-    flex: 1 1 0;
-    max-width: 50%;
-    padding: 0 1rem;
-  }
-  .site-footer .footer-main .footer-link-wrapper .footer-links .footer-nav-list {
-    columns: 1;
-  }
-  .site-footer .footer-bottom-inner {
-    flex-direction: row;
+    justify-content: space-between;
     text-align: left;
+    gap: 6rem;
   }
-  .site-footer .footer-social {
-    text-align: right;
-  }
-  .site-footer .footer-social .social-media-list {
+  .site-footer .footer-bottom .footer-social .social-media-list {
     justify-content: flex-end;
   }
-}
-@media (min-width: 992px) {
   .site-footer .footer-main {
     flex-direction: row;
   }
   .site-footer .footer-main .footer-brand {
     flex: 1 0 40%;
     max-width: 40%;
+  }
+  .site-footer .footer-main .footer-brand .footer-tagline {
+    font-size: 2.75rem;
   }
   .site-footer .footer-main .footer-link-wrapper {
     flex: 0 0 60%;
@@ -14061,10 +14025,6 @@ nav .menu-item.button,
   opacity: 0.8;
   transition: all 0.3s ease;
 }
-.accreditations-bar__logo-item img:hover {
-  filter: grayscale(0%);
-  opacity: 1;
-}
 .accreditations-bar--overlap {
   margin-top: -60px;
   z-index: 10;
@@ -14138,7 +14098,7 @@ nav .menu-item.button,
   color: #417e4b;
   font-family: "Poppins", sans-serif;
   font-weight: 700;
-  font-size: 2rem;
+  font-size: 2.5rem;
   line-height: 1.2;
   margin: 0 0 0.5rem;
 }
@@ -14266,6 +14226,10 @@ nav .menu-item.button,
   position: relative;
   z-index: 2;
   cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+}
+.accordion-panel .accordion-panel-header:hover {
+  background-color: rgb(233.25, 233.25, 233.25);
 }
 .accordion-panel .accordion-panel-header h3 {
   margin: 0;
@@ -15208,7 +15172,7 @@ nav .menu-item.button,
 .jobsites-by-city-block .jobsites-title {
   text-align: center;
   margin-bottom: 2rem;
-  font-size: 2rem;
+  font-size: 2.5rem;
   color: #43383e;
 }
 .jobsites-by-city-block .jobsites-filter-bar {

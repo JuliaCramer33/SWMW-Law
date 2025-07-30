@@ -183,9 +183,9 @@
           "size": "3rem"
         },
         {
-          "name": "Heading 2 (32px)",
+          "name": "Heading 2 (40px)",
           "slug": "h2",
-          "size": "2rem"
+          "size": "2.5rem"
         },
         {
           "name": "Heading 3 (28px)",
@@ -420,7 +420,7 @@
       "h2": {
         "typography": {
           "fontFamily": "var(--wp--preset--font-family--poppins)",
-          "fontSize": "2rem",
+          "fontSize": "2.5rem",
           "lineHeight": "1.59"
         }
       },
