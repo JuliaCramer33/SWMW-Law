@@ -533,6 +533,20 @@ label {
   font-weight: 500;
 }
 
+.fsform-container {
+  background: #fff;
+  margin: 0;
+}
+.fsform-container form {
+  margin: 0;
+}
+
+.frm_forms .frm_form_fields > div:first-child {
+  padding: 0;
+  border: 1px solid #b8b8b8;
+  border-radius: 5px;
+}
+
 /*!
  * SWMW Law Theme
  * Main SCSS file

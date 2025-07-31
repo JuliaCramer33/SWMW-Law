@@ -451,6 +451,23 @@
           "fontSize": "1rem",
           "lineHeight": "1.57"
         }
+      },
+      "link": {
+        "typography": {
+          "textDecoration": "underline",
+          "fontWeight": "700"
+        },
+        "color": {
+          "text": "var(--wp--preset--color--secondary)"
+        },
+        ":hover": {
+          "color": {
+            "text": "var(--wp--preset--color--primary)"
+          },
+          "typography": {
+            "textDecoration": "none"
+          }
+        }
       }
     }
   }

@@ -89,3 +89,19 @@ label {
   margin-bottom: $spacing-2;
   font-weight: $font-weight-medium;
 }
+
+//Formidable specific styles
+.fsform-container {
+  background: $color-white;
+  margin: 0;
+
+  form {
+    margin: 0;
+  }
+}
+
+.frm_forms .frm_form_fields > div:first-child {
+  padding: 0;
+  border: 1px solid #b8b8b8;
+  border-radius: 5px;
+}
