@@ -267,6 +267,7 @@ h6 {
 a {
   color: #417e4b;
   text-decoration: underline;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
 }
