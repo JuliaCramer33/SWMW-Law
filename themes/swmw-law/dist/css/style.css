@@ -265,14 +265,14 @@ h6 {
 }
 
 a {
-  color: #12477a;
-  text-decoration: none;
+  color: #417e4b;
+  text-decoration: underline;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 a:hover, a:focus {
-  color: rgb(11.4428571429, 45.1357142857, 77.5571428571);
-  text-decoration: underline;
+  color: #12477a;
+  text-decoration: none;
 }
 a:focus {
   outline: 2px solid #12477a;
@@ -14362,8 +14362,15 @@ nav .menu-item.button,
   background: transparent;
   border: none;
   opacity: 0.7;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.2s ease, transform 0.2s ease-in-out;
   z-index: 10;
+}
+.attorneys-block .splide__arrows .splide__arrow:hover {
+  transform: translateY(-50%) scale(1.1);
+  opacity: 1;
+}
+.attorneys-block .splide__arrows .splide__arrow:hover svg {
+  stroke: #417e4b;
 }
 .attorneys-block .splide__arrows .splide__arrow--prev {
   left: -50px;
@@ -14379,12 +14386,18 @@ nav .menu-item.button,
   fill: none !important;
   width: 14px;
   height: 22px;
-}
-.attorneys-block .splide__arrows .splide__arrow:hover {
-  opacity: 1;
+  transition: stroke 0.2s ease-in-out;
 }
 .attorneys-block .splide__arrows .splide__arrow:disabled {
   opacity: 0.3;
+  cursor: not-allowed;
+}
+.attorneys-block .splide__arrows .splide__arrow:disabled:hover {
+  transform: translateY(-50%) scale(1);
+  opacity: 0.3;
+}
+.attorneys-block .splide__arrows .splide__arrow:disabled:hover svg {
+  stroke: #12477a;
 }
 .attorneys-block .attorney-item-inner {
   position: relative;
@@ -14530,11 +14543,14 @@ nav .menu-item.button,
   padding: 0;
   transition: transform 0.2s ease-in-out;
 }
-.testimonials-block .splide__arrow.splide__arrow--prev {
-  transform: rotate(180deg) !important;
+.testimonials-block .splide__arrow.splide__arrow--prev, .testimonials-block .splide__arrow.splide__arrow--next {
+  transform: rotate(180deg);
 }
-.testimonials-block .splide__arrow.splide__arrow--next {
-  transform: rotate(180deg) !important;
+.testimonials-block .splide__arrow:hover.splide__arrow--prev, .testimonials-block .splide__arrow:hover.splide__arrow--next {
+  transform: rotate(180deg) scale(1.1);
+}
+.testimonials-block .splide__arrow:hover svg {
+  stroke: #417e4b !important;
 }
 .testimonials-block .splide__arrow svg {
   stroke: #12477a !important;
@@ -14543,8 +14559,15 @@ nav .menu-item.button,
   fill: none;
   transition: stroke 0.2s ease-in-out;
 }
-.testimonials-block .splide__arrow:hover svg {
-  stroke: #417e4b !important;
+.testimonials-block .splide__arrow[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.testimonials-block .splide__arrow[disabled]:hover.splide__arrow--prev, .testimonials-block .splide__arrow[disabled]:hover.splide__arrow--next {
+  transform: rotate(180deg) scale(1);
+}
+.testimonials-block .splide__arrow[disabled]:hover svg {
+  stroke: #12477a !important;
 }
 .testimonials-block .splide__arrow--next {
   transform: rotate(180deg);
@@ -14620,7 +14643,16 @@ nav .menu-item.button,
   transition: transform 0.2s ease-in-out;
 }
 .results-block .results-slider.splide .splide__arrows .splide__arrow.splide__arrow--next, .results-block .results-slider.splide .splide__arrows .splide__arrow.splide__arrow--prev {
-  transform: rotate(180deg) !important;
+  transform: rotate(180deg);
+}
+.results-block .results-slider.splide .splide__arrows .splide__arrow:hover {
+  transform: scale(1.1);
+}
+.results-block .results-slider.splide .splide__arrows .splide__arrow:hover.splide__arrow--next, .results-block .results-slider.splide .splide__arrows .splide__arrow:hover.splide__arrow--prev {
+  transform: rotate(180deg) scale(1.1);
+}
+.results-block .results-slider.splide .splide__arrows .splide__arrow:hover svg {
+  stroke: #417e4b !important;
 }
 .results-block .results-slider.splide .splide__arrows .splide__arrow svg {
   stroke: #12477a !important;
@@ -14629,15 +14661,15 @@ nav .menu-item.button,
   fill: none;
   transition: stroke 0.2s ease-in-out;
 }
-.results-block .results-slider.splide .splide__arrows .splide__arrow:hover {
-  background: transparent;
-}
-.results-block .results-slider.splide .splide__arrows .splide__arrow:hover svg {
-  stroke: #417e4b !important;
-}
 .results-block .results-slider.splide .splide__arrows .splide__arrow:disabled {
   opacity: 0.4;
   cursor: not-allowed;
+}
+.results-block .results-slider.splide .splide__arrows .splide__arrow:disabled:hover {
+  transform: scale(1);
+}
+.results-block .results-slider.splide .splide__arrows .splide__arrow:disabled:hover svg {
+  stroke: #12477a !important;
 }
 .results-block .results-grid {
   display: flex;

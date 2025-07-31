@@ -57,15 +57,15 @@ h6 {
 }
 
 a {
-  color: $color-link;
-  text-decoration: none;
+  color: $color-secondary;
+  text-decoration: underline;
   cursor: pointer;
   transition: $transition-base;
 
   &:hover,
   &:focus {
-    color: $color-link-hover;
-    text-decoration: underline;
+    color: $color-primary;
+    text-decoration: none;
   }
 
   &:focus {

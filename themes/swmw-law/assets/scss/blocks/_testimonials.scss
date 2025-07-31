@@ -106,12 +106,19 @@
     padding: 0;
     transition: transform 0.2s ease-in-out;
 
-    &.splide__arrow--prev {
-      transform: rotate(180deg) !important;
+    &.splide__arrow--prev,
+    &.splide__arrow--next {
+      transform: rotate(180deg);
     }
 
-    &.splide__arrow--next {
-      transform: rotate(180deg) !important;
+    &:hover {
+      &.splide__arrow--prev,
+      &.splide__arrow--next {
+        transform: rotate(180deg) scale(1.1);
+      }
+      svg {
+        stroke: $color-secondary !important;
+      }
     }
 
     svg {
@@ -122,8 +129,18 @@
       transition: stroke 0.2s ease-in-out;
     }
 
-    &:hover svg {
-      stroke: $color-secondary !important;
+    &[disabled] {
+      opacity: 0.5;
+      cursor: not-allowed;
+      &:hover {
+        &.splide__arrow--prev,
+        &.splide__arrow--next {
+          transform: rotate(180deg) scale(1);
+        }
+        svg {
+          stroke: $color-primary !important;
+        }
+      }
     }
 
     &--next {
