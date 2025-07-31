@@ -117,6 +117,52 @@ function register_attorney_position_taxonomy() {
 add_action( 'init', __NAMESPACE__ . '\register_attorney_position_taxonomy', 0 );
 
 /**
+ * Registers the Attorney License custom taxonomy.
+ */
+function register_attorney_license_taxonomy() {
+
+	$labels = array(
+		'name'                       => _x( 'Licenses', 'Taxonomy General Name', 'swmw-law-theme' ),
+		'singular_name'              => _x( 'License', 'Taxonomy Singular Name', 'swmw-law-theme' ),
+		'menu_name'                  => __( 'Licenses', 'swmw-law-theme' ),
+		'all_items'                  => __( 'All Licenses', 'swmw-law-theme' ),
+		'parent_item'                => __( 'Parent License', 'swmw-law-theme' ),
+		'parent_item_colon'          => __( 'Parent License:', 'swmw-law-theme' ),
+		'new_item_name'              => __( 'New License Name', 'swmw-law-theme' ),
+		'add_new_item'               => __( 'Add New License', 'swmw-law-theme' ),
+		'edit_item'                  => __( 'Edit License', 'swmw-law-theme' ),
+		'update_item'                => __( 'Update License', 'swmw-law-theme' ),
+		'view_item'                  => __( 'View License', 'swmw-law-theme' ),
+		'separate_items_with_commas' => __( 'Separate licenses with commas', 'swmw-law-theme' ),
+		'add_or_remove_items'        => __( 'Add or remove licenses', 'swmw-law-theme' ),
+		'choose_from_most_used'      => __( 'Choose from the most used', 'swmw-law-theme' ),
+		'popular_items'              => __( 'Popular Licenses', 'swmw-law-theme' ),
+		'search_items'               => __( 'Search Licenses', 'swmw-law-theme' ),
+		'not_found'                  => __( 'Not Found', 'swmw-law-theme' ),
+		'no_terms'                   => __( 'No licenses', 'swmw-law-theme' ),
+		'items_list'                 => __( 'Licenses list', 'swmw-law-theme' ),
+		'items_list_navigation'      => __( 'Licenses list navigation', 'swmw-law-theme' ),
+	);
+	$args = array(
+		'labels'            => $labels,
+		'hierarchical'      => true,
+		'public'            => true,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'show_in_nav_menus' => true,
+		'show_tagcloud'     => false,
+		'query_var'         => true,
+		'rewrite'           => array( 'slug' => 'attorney-license', 'with_front' => false ),
+		'show_in_rest'      => true,
+	);
+	register_taxonomy( 'attorney_license', array( 'attorney' ), $args );
+
+}
+add_action( 'init', __NAMESPACE__ . '\register_attorney_license_taxonomy', 0 );
+
+
+
+/**
  * Set default attorney positions on theme activation.
  */
 function set_default_attorney_positions() {
