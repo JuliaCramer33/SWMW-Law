@@ -29,35 +29,30 @@ if( !empty($block['align']) ) {
 $icon = get_field('icon');
 $card_title = get_field('title');
 $content = get_field('content');
-$excerpt_length = get_field('excerpt_length') ?: 150;
+$word_count = get_field('word_count') ?: 25;
 $button_text = get_field('button_text') ?: 'More';
 
-// Generate excerpt and full content
-$excerpt = '';
-$full_content = '';
 $has_more_content = false;
+$collapsed_content_html = '';
 
 if ($content) {
-    // Strip HTML tags for character counting
-    $plain_text = wp_strip_all_tags($content);
-    
-    if (strlen($plain_text) > $excerpt_length) {
-        // Truncate to excerpt length, trying to break at word boundary
-        $excerpt = substr($plain_text, 0, $excerpt_length);
-        $last_space = strrpos($excerpt, ' ');
-        if ($last_space !== false) {
-            $excerpt = substr($excerpt, 0, $last_space);
-        }
-        $excerpt .= '...';
-        $full_content = $content;
+    // Check word count against plain text version of content
+    $word_array = explode(' ', wp_strip_all_tags($content));
+    $total_words = count($word_array);
+
+    if ($total_words > $word_count) {
+        // We need to truncate
         $has_more_content = true;
+        $truncated_words = array_slice($word_array, 0, $word_count);
+        $excerpt_text = implode(' ', $truncated_words) . '...';
+        // Wrap the plain text excerpt in <p> tags for consistent styling
+        $collapsed_content_html = wpautop(esc_html($excerpt_text));
     } else {
-        // Content is short enough, show it all
-        $excerpt = $plain_text;
+        // Content is short enough, no truncation needed
         $has_more_content = false;
+        $collapsed_content_html = wp_kses_post($content); // Use the original content with HTML
     }
 }
-
 ?>
 
 <div id="<?php echo esc_attr($block_id); ?>" <?php echo wp_kses_post( get_block_wrapper_attributes( [ 'class' => $className ] ) ); ?>>
@@ -81,21 +76,19 @@ if ($content) {
                 <?php endif; ?>
                 
                 <div class="description-wrapper">
+                    <div class="description-content collapsed-content">
+                        <?php echo wp_kses_post($collapsed_content_html); ?>
+                    </div>
                     <?php if ($has_more_content): ?>
-                        <p class="description collapsed"><?php echo esc_html($excerpt); ?></p>
-                        <div class="description expanded" style="display: none;">
-                            <?php echo wp_kses_post($full_content); ?>
+                        <div class="description-content expanded-content">
+                            <?php echo wp_kses_post($content); ?>
                         </div>
-                    <?php elseif ($excerpt): ?>
-                        <p class="description"><?php echo esc_html($excerpt); ?></p>
-                    <?php elseif ($is_preview): ?>
-                        <p class="description">This is a preview of the card content. Add your content in the block settings to see it here.</p>
                     <?php endif; ?>
                 </div>
             </div>
             
             <?php if ($has_more_content): ?>
-                <button class="expand-button" onclick="toggleExpandableCard(this)" aria-expanded="false">
+                <button class="expand-button" aria-expanded="false">
                     <span class="button-icon">+</span>
                     <span class="button-text"><?php echo esc_html($button_text); ?></span>
                 </button>
@@ -108,27 +101,3 @@ if ($content) {
         </div>
     </div>
 </div>
-
-<script>
-function toggleExpandableCard(button) {
-    const card = button.closest('.expandable-card');
-    const collapsedContent = card.querySelector('.description.collapsed');
-    const expandedContent = card.querySelector('.description.expanded');
-    const icon = button.querySelector('.button-icon');
-    const isExpanded = button.getAttribute('aria-expanded') === 'true';
-    
-    if (isExpanded) {
-        // Collapse: show excerpt, hide full content
-        collapsedContent.style.display = 'block';
-        expandedContent.style.display = 'none';
-        icon.textContent = '+';
-        button.setAttribute('aria-expanded', 'false');
-    } else {
-        // Expand: hide excerpt, show full content
-        collapsedContent.style.display = 'none';
-        expandedContent.style.display = 'block';
-        icon.textContent = '−';
-        button.setAttribute('aria-expanded', 'true');
-    }
-}
-</script> 

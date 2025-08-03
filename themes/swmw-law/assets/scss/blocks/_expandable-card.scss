@@ -68,11 +68,22 @@
   }
 
   // Card description
-  .description {
-    color: $color-text-light;
-    margin: 0;
-    line-height: $line-height-normal;
-    font-family: $base-font-family;
+  .collapsed-content {
+    display: block;
+  }
+
+  .expanded-content {
+    display: none;
+  }
+
+  &.is-expanded {
+    .collapsed-content {
+      display: none;
+    }
+
+    .expanded-content {
+      display: block;
+    }
   }
 
     // Expand/collapse button
@@ -163,7 +174,6 @@
   .expanded-content {
     margin-top: $spacing-5;
     padding-top: $spacing-5;
-    border-top: $border-width-base solid $color-border;
     animation: slideDown $transition-duration-slow $transition-easing-ease-in-out;
   }
 

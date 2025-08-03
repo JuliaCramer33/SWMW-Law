@@ -15063,11 +15063,17 @@ nav .menu-item.button,
   line-height: 1.3;
   font-family: "Poppins", sans-serif;
 }
-.expandable-card .description {
-  color: #666;
-  margin: 0;
-  line-height: 1.5;
-  font-family: "Montserrat", sans-serif;
+.expandable-card .collapsed-content {
+  display: block;
+}
+.expandable-card .expanded-content {
+  display: none;
+}
+.expandable-card.is-expanded .collapsed-content {
+  display: none;
+}
+.expandable-card.is-expanded .expanded-content {
+  display: block;
 }
 .expandable-card .expand-button {
   margin-top: 1.25rem;
@@ -15144,7 +15150,6 @@ nav .menu-item.button,
 .expandable-card .expanded-content {
   margin-top: 1.25rem;
   padding-top: 1.25rem;
-  border-top: 1px solid #dee2e6;
   animation: slideDown 0.3s ease-in-out;
 }
 .expandable-card .expanded-inner {
