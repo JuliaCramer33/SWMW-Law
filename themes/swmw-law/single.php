@@ -10,7 +10,10 @@
 get_header();
 ?>
 
-<?php get_template_part( 'template-parts/breadcrumbs' ); ?>
+<?php $show_breadcrumbs = get_field( 'show_breadcrumbs' );
+if ( $show_breadcrumbs ) {
+    get_template_part( 'template-parts/breadcrumbs' );
+} ?>
 
 <main id="primary" class="site-main">
 

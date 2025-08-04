@@ -7,6 +7,10 @@
  */
 
 get_header();
+$show_breadcrumbs = get_field( 'show_breadcrumbs' );
+if ( $show_breadcrumbs ) {
+    get_template_part( 'template-parts/breadcrumbs' );
+}
 ?>
 
 <div class="page-content container-lg">

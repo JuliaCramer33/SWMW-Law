@@ -64,6 +64,7 @@ $includes = [
     'template-tags',
     'customizer',
     'ACF/acf',
+    'ACF/breadcrumbs',
     'blocks/blocks',
 ];
 
