@@ -410,6 +410,10 @@ th {
   margin-bottom: 0.5em;
 }
 
+.no-underline {
+  text-decoration: none !important;
+}
+
 /*!
  * SWMW Law Theme
  * Main SCSS file
@@ -12638,6 +12642,14 @@ label {
     text-align: justify !important;
   }
 }
+.text-decoration-none {
+  text-decoration: none !important;
+}
+
+.text-decoration-underline {
+  text-decoration: underline !important;
+}
+
 /* Z-index Utility Classes
 --------------------------------------------- */
 .z-0,
