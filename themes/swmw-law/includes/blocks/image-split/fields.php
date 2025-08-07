@@ -40,7 +40,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) {
                 'return_format' => 'array', // Or 'id' or 'url'
                 'preview_size' => 'medium',
                 'library' => 'all',
-                'required' => 1,
+                'required' => 0,
             ),
             array(
                 'key' => 'field_image_split_image_2',
@@ -51,7 +51,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) {
                 'return_format' => 'array',
                 'preview_size' => 'medium',
                 'library' => 'all',
-                'required' => 1,
+                'required' => 0,
             ),
         ),
         'location' => array(
