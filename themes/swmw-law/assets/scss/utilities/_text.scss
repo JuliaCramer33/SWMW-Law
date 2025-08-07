@@ -73,6 +73,27 @@
 // Simplified text utilities for Gutenberg-based theme.
 // Removed font weight, style, decoration, color, and line height utilities as Gutenberg handles these.
 
-// --- Text Decoration utilities (kept minimal for editor control) ---
-.text-decoration-none { text-decoration: none !important; }
-.text-decoration-underline { text-decoration: underline !important; }
+// --- Text Decoration utilities (include nested anchors + states) ---
+.text-decoration-none,
+.text-decoration-none:hover,
+.text-decoration-none:focus {
+  text-decoration: none !important;
+}
+
+.text-decoration-none a,
+.text-decoration-none a:hover,
+.text-decoration-none a:focus {
+  text-decoration: none !important;
+}
+
+.text-decoration-underline,
+.text-decoration-underline:hover,
+.text-decoration-underline:focus {
+  text-decoration: underline !important;
+}
+
+.text-decoration-underline a,
+.text-decoration-underline a:hover,
+.text-decoration-underline a:focus {
+  text-decoration: underline !important;
+}

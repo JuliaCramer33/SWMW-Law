@@ -410,10 +410,6 @@ th {
   margin-bottom: 0.5em;
 }
 
-.no-underline {
-  text-decoration: none !important;
-}
-
 /*!
  * SWMW Law Theme
  * Main SCSS file
@@ -12642,11 +12638,27 @@ label {
     text-align: justify !important;
   }
 }
-.text-decoration-none {
+.text-decoration-none,
+.text-decoration-none:hover,
+.text-decoration-none:focus {
   text-decoration: none !important;
 }
 
-.text-decoration-underline {
+.text-decoration-none a,
+.text-decoration-none a:hover,
+.text-decoration-none a:focus {
+  text-decoration: none !important;
+}
+
+.text-decoration-underline,
+.text-decoration-underline:hover,
+.text-decoration-underline:focus {
+  text-decoration: underline !important;
+}
+
+.text-decoration-underline a,
+.text-decoration-underline a:hover,
+.text-decoration-underline a:focus {
   text-decoration: underline !important;
 }
 
