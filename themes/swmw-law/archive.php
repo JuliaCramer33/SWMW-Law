@@ -16,6 +16,11 @@ $description = get_the_archive_description();
 
 <main id="primary" class="site-main swmw-archive-page">
 
+    <?php
+    // Show the archive hero (handles News, categories, tags, attorneys, results via template logic)
+    get_template_part( 'template-parts/hero-archive' );
+    ?>
+
     <!-- <section class="hero-section swmw-archive-hero">
         <div class="container">
             <?php

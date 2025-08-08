@@ -24,6 +24,11 @@ $hero_content         = get_field( $prefix . 'content', 'option' );
 $hero_button          = get_field( $prefix . 'button', 'option' );
 $background_image_url = get_field( $prefix . 'background_image', 'option' );
 
+// For news categories, use the category title instead of the generic News title.
+if ( is_category() ) {
+    $hero_title = single_cat_title( '', false );
+}
+
 // Fallback to the default WordPress archive title if the custom one isn't set.
 if ( empty( $hero_title ) ) {
 	$hero_title = get_the_archive_title();
