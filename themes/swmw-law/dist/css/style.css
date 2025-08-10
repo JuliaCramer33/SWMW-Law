@@ -14751,6 +14751,8 @@ nav .menu-item.button,
  * Styles for the image split ACF block with two overlapping images
  */
 .image-split-block {
+  position: relative;
+  z-index: 1;
   /* Left overlap positioning */
   /* Right overlap positioning (default) */
 }
@@ -14783,7 +14785,7 @@ nav .menu-item.button,
   width: 65%;
   height: auto;
   object-fit: cover;
-  z-index: 2;
+  z-index: 10;
 }
 .image-split-block.overlap-left .image-2 {
   right: auto;
@@ -14856,7 +14858,7 @@ nav .menu-item.button,
 .hero-dropdown-menu {
   width: 100%;
   position: relative;
-  z-index: 600;
+  z-index: 990;
   overflow: visible;
   overflow: visible !important;
 }
@@ -14870,7 +14872,7 @@ nav .menu-item.button,
 }
 .hero-dropdown-menu.is-open .hero-nav-list {
   position: absolute;
-  z-index: 1002;
+  z-index: 990;
 }
 .hero-dropdown-menu .hamburger-menu-toggle {
   display: flex;
@@ -14953,7 +14955,7 @@ nav .menu-item.button,
   border-radius: 0 0 8px 8px;
   padding: 1rem 0;
   margin-top: 0;
-  z-index: 1002;
+  z-index: 990;
   text-align: left;
   overflow: visible;
 }

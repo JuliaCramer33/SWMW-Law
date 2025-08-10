@@ -7,6 +7,9 @@
  */
 
 .image-split-block {
+  position: relative;
+  z-index: $z-index-base;
+
   .image-split-container {
     display: flex;
     width: 100%;
@@ -38,7 +41,7 @@
             width: 65%;
             height: auto;
             object-fit: cover;
-            z-index: 2;
+            z-index: $z-index-content-above; // keep above image-1 but below overlays
           }
         }
       }

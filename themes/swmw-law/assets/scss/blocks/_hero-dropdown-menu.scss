@@ -9,7 +9,8 @@
 .hero-dropdown-menu {
   width: 100%;
   position: relative; // Ensure proper stacking context
-  z-index: 600; // Above main navigation
+  // Keep below header/mega menu but above page content
+  z-index: $z-index-overlay;
   // Ensure the dropdown can escape overflow constraints
   overflow: visible;
 
@@ -30,7 +31,8 @@
     // Force the dropdown to be visible above all content
     .hero-nav-list {
       position: absolute;
-      z-index: 1002; // High enough to be above main navigation but not interfere
+      // Below mega menu panel ($z-index-dropdown), above page content
+      z-index: $z-index-overlay;
     }
   }
 
@@ -135,7 +137,8 @@
     border-radius: 0 0 8px 8px;
     padding: $spacing-4 0;
     margin-top: 0;
-    z-index: 1002; // Above main navigation and parent
+    // Below mega menu panel ($z-index-dropdown), above page content
+    z-index: $z-index-overlay;
     text-align: left;
     // Ensure the dropdown can escape any overflow constraints
     overflow: visible;
