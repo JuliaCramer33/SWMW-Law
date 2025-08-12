@@ -72,7 +72,7 @@ if ( is_home() ) {
                     ?>
                     <li class="breadcrumb-item breadcrumb-separator" aria-hidden="true">/</li>
                     <li class="breadcrumb-item">
-                        <a href="<?php echo esc_url( home_url( '/newsfeed/' ) ); ?>"><?php echo esc_html( $posts_page_title ); ?></a>
+                        <a href="<?php echo esc_url( get_permalink( $posts_page_id ) ); ?>"><?php echo esc_html( $posts_page_title ); ?></a>
                     </li>
                     <?php
                 }

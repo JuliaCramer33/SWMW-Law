@@ -358,86 +358,6 @@ function swmw_law_show_svgs_in_media_library( $response, $attachment ) {
 add_filter( 'wp_prepare_attachment_for_js', __NAMESPACE__ . '\swmw_law_show_svgs_in_media_library', 10, 2 );
 
 /**
- * Add custom rewrite rule for blog/newsfeed permalink.
- */
-function swmw_law_add_newsfeed_rewrite_rules() {
-    // Add custom query var
-    add_rewrite_tag( '%newsfeed%', '([^&]+)' );
-    
-    // Add rewrite rule for newsfeed archive
-    add_rewrite_rule( 'newsfeed/?$', 'index.php?newsfeed=1', 'top' );
-    
-    // Add rewrite rule for newsfeed pagination
-    add_rewrite_rule( 'newsfeed/page/([0-9]+)/?$', 'index.php?newsfeed=1&paged=$matches[1]', 'top' );
-    
-    // Add rewrite rule for newsfeed category pages
-    add_rewrite_rule( 'newsfeed/category/([^/]+)/?$', 'index.php?newsfeed=1&category_name=$matches[1]', 'top' );
-    
-    // Add rewrite rule for newsfeed category pagination
-    add_rewrite_rule( 'newsfeed/category/([^/]+)/page/([0-9]+)/?$', 'index.php?newsfeed=1&category_name=$matches[1]&paged=$matches[2]', 'top' );
-}
-add_action( 'init', __NAMESPACE__ . '\swmw_law_add_newsfeed_rewrite_rules' );
-
-/**
- * Handle newsfeed template redirect.
- */
-function swmw_law_handle_newsfeed_template() {
-    if ( get_query_var( 'newsfeed' ) ) {
-        // Set up the main query to show blog posts
-        global $wp_query;
-        
-        // Get the posts page ID if one is set
-        $posts_page_id = get_option( 'page_for_posts' );
-        
-        if ( $posts_page_id ) {
-            // If there's a posts page set, get its template
-            $posts_page = get_post( $posts_page_id );
-            $wp_query->queried_object = $posts_page;
-            $wp_query->queried_object_id = $posts_page_id;
-        }
-        
-        // Set query flags to indicate this is the blog home
-        $wp_query->is_home = true;
-        $wp_query->is_front_page = false;
-        $wp_query->is_singular = false;
-        $wp_query->is_page = false;
-        
-        // Load the home template
-        include( get_home_template() );
-        exit;
-    }
-}
-add_action( 'template_redirect', __NAMESPACE__ . '\swmw_law_handle_newsfeed_template' );
-
-/**
- * Register custom query vars.
- */
-function swmw_law_add_query_vars( $vars ) {
-    $vars[] = 'newsfeed';
-    return $vars;
-}
-add_filter( 'query_vars', __NAMESPACE__ . '\swmw_law_add_query_vars' );
-
-/**
- * Note: After adding these rewrite rules, you need to flush permalinks.
- * Go to Settings > Permalinks in WordPress admin and click "Save Changes" to activate the new rules.
- */
-
-/**
- * Add newsfeed link to WordPress admin bar.
- */
-function swmw_law_add_newsfeed_admin_bar_link( $wp_admin_bar ) {
-    if ( ! is_admin() ) {
-        $wp_admin_bar->add_node( [
-            'id'    => 'view-newsfeed',
-            'title' => 'View Newsfeed',
-            'href'  => home_url( '/newsfeed/' ),
-        ] );
-    }
-}
-add_action( 'admin_bar_menu', __NAMESPACE__ . '\swmw_law_add_newsfeed_admin_bar_link', 81 );
-
-/**
  * Add animation data attributes to Gutenberg blocks if block style is enabled, without modifying classes.
  */
 function swmw_law_add_block_animation_attributes( $block_content, $block ) {
@@ -466,3 +386,15 @@ function swmw_law_add_block_animation_attributes( $block_content, $block ) {
     return $block_content;
 }
 add_filter( 'render_block', __NAMESPACE__ . '\swmw_law_add_block_animation_attributes', 10, 2 );
+
+/**
+ * Register query vars.
+ *
+ * @param array $vars The array of query variables.
+ * @return array
+ */
+function swmw_law_register_query_vars( $vars ) {
+    $vars[] = 'expandable';
+    return $vars;
+}
+add_filter( 'query_vars', __NAMESPACE__ . '\swmw_law_register_query_vars' );

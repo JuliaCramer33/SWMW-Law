@@ -1,4 +1,9 @@
-/* Base Styles */
+/*!
+ * SWMW Law Theme
+ * Base SCSS File
+ */
+
+@use "../variables/variables" as *; // Make all forwarded variables globally accessible
 
 @forward "reset";
 @forward "document";
@@ -7,3 +12,25 @@
 @forward "forms";
 @forward "accessibility";
 @forward "buttons";
+
+/* Base styles
+--------------------------------------------- */
+
+html {
+  box-sizing: border-box;
+  scroll-behavior: smooth; // Smooth scroll for anchor links and `scrollIntoView`
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: $base-font-family;
+  font-size: $base-font-size;
+  line-height: $base-line-height;
+  color: $color-text;
+  background-color: $color-background;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

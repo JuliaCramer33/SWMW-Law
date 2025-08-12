@@ -1257,28 +1257,52 @@ __webpack_require__.r(__webpack_exports__);
    */
   function initSkipLink() {
     const skipLink = document.querySelector('.skip-link');
-    const mainContent = document.getElementById('main');
-    if (!skipLink || !mainContent) {
+    const defaultScrollOffset = 100; // Default offset for smooth scroll
+
+    if (!skipLink) {
       return;
     }
     skipLink.addEventListener('click', function (e) {
       e.preventDefault();
+      const targetId = this.getAttribute('href').substring(1);
+      const targetElement = document.getElementById(targetId);
+      if (targetElement) {
+        const rect = targetElement.getBoundingClientRect();
+        const currentScrollY = window.scrollY;
+        let finalScrollPosition = currentScrollY + rect.top; // Initial position
 
-      // Focus the main content area
-      mainContent.focus();
+        // Check if header is fixed and adjust scroll position
+        const header = document.querySelector('.site-header');
+        if (header && window.getComputedStyle(header).position === 'fixed') {
+          const headerHeight = header.offsetHeight;
+          finalScrollPosition = finalScrollPosition - headerHeight - 20; // 20px extra buffer
+        } else {
+          // Apply default scroll offset if header is not fixed
+          finalScrollPosition = finalScrollPosition - defaultScrollOffset;
+        }
+        window.scrollTo({
+          top: Math.max(0, finalScrollPosition),
+          // Ensure not scrolling to negative position
+          behavior: 'smooth'
+        });
 
-      // Add a visual indicator that focus has moved (optional)
-      mainContent.classList.add('skip-link-target');
-      setTimeout(() => {
-        mainContent.classList.remove('skip-link-target');
-      }, 2000);
+        // After scrolling, focus the target element for accessibility
+        setTimeout(() => {
+          targetElement.focus();
+          // Add a visual indicator that focus has moved (optional)
+          targetElement.classList.add('skip-link-target');
+          setTimeout(() => {
+            targetElement.classList.remove('skip-link-target');
+          }, 2000);
+        }, 600); // Match or exceed CSS scroll-behavior transition time
+      }
 
-      // Announce to screen readers that we've skipped to main content
+      // Announce to screen readers that we've skipped to content
       const announcement = document.createElement('div');
       announcement.setAttribute('aria-live', 'polite');
       announcement.setAttribute('aria-atomic', 'true');
       announcement.className = 'sr-only';
-      announcement.textContent = 'Skipped to main content';
+      announcement.textContent = 'Skipped to content'; // More generic message
       document.body.appendChild(announcement);
       setTimeout(() => {
         document.body.removeChild(announcement);

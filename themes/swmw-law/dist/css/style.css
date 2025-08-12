@@ -36,7 +36,14 @@
  * SWMW Law Theme
  * Main SCSS file
  */
-/* Base Styles */
+/*!
+ * SWMW Law Theme
+ * Main SCSS file
+ */
+/*!
+ * SWMW Law Theme
+ * Base SCSS File
+ */
 /*!
  * SWMW Law Theme
  * Main SCSS file
@@ -831,6 +838,27 @@ label {
 }
 .button.button-secondary-outline:disabled:hover::before, .button.button-secondary-outline:disabled:focus::before, .button.button-secondary-outline.is-disabled:hover::before, .button.button-secondary-outline.is-disabled:focus::before {
   transform: translateX(100%) skewX(-25deg);
+}
+
+/* Base styles
+--------------------------------------------- */
+html {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #43383e;
+  background-color: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /*!
@@ -15926,7 +15954,7 @@ nav .menu-item.button,
 .swmw-archive-page .swmw-featured-cases {
   padding: 6rem 0;
   position: relative;
-  background: #fff url(../e6e8d63310ebee0eff53.png) no-repeat center top;
+  background: #fff url(../c0586d21d343e91c519d.png) no-repeat left bottom;
   background-size: cover;
 }
 .swmw-archive-page .swmw-all-results {
