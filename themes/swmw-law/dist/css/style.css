@@ -16411,6 +16411,9 @@ blockquote p:last-child {
 .wp-block-button.is-style-outline .wp-block-button__link:disabled:hover::before, .wp-block-button.is-style-outline .wp-block-button__link:disabled:focus::before, .wp-block-button.is-style-outline .wp-block-button__link.is-disabled:hover::before, .wp-block-button.is-style-outline .wp-block-button__link.is-disabled:focus::before {
   transform: translateX(100%) skewX(-25deg);
 }
+.wp-block-button.is-style-outline .wp-block-button__link:hover, .wp-block-button.is-style-outline .wp-block-button__link:focus {
+  color: #12477a !important;
+}
 
 /* ================================
    CORE BLOCK OVERRIDES

@@ -517,29 +517,6 @@ function initializeButtonHoverAnimation() {
     } else {
       button.style.borderColor = initialButtonBackgroundColor; // Fill button border matches its background
     }
-    button.addEventListener('mouseenter', function () {
-      // Recapture original inline text color before changing it
-      originalInlineTextColor = button.style.color;
-      let hoverTextTargetColor = initialButtonBackgroundColor; // Default: for fill buttons, hover text matches their initial background
-
-      if (button.closest('.wp-block-button.is-style-outline')) {
-        // For outline buttons, hover text matches their initial text color
-        hoverTextTargetColor = computedInitialTextColor;
-        // Fallback if outline's initial text color was transparent (highly unlikely but safe)
-        if (hoverTextTargetColor === 'rgba(0, 0, 0, 0)' || hoverTextTargetColor === 'transparent') {
-          hoverTextTargetColor = '#000000';
-        }
-      }
-      button.style.setProperty('color', hoverTextTargetColor, 'important');
-    });
-    button.addEventListener('mouseleave', function () {
-      // Restore to original inline text color if one existed, otherwise remove the style to revert to CSS
-      if (originalInlineTextColor) {
-        button.style.color = originalInlineTextColor;
-      } else {
-        button.style.removeProperty('color');
-      }
-    });
   });
 }
 

@@ -236,7 +236,15 @@ blockquote {
 // Outline Button Style
 .wp-block-button.is-style-outline .wp-block-button__link {
 
-  @include button-animation;
+  // For outline buttons, on hover, the background should fill with white,
+  // and the text color should change to primary (blue).
+  @include button-animation($swipe-bg-color: $color-white, $hover-text-color: $color-primary);
+
+  // Explicitly set hover color for higher specificity (diagnostic: !important added temporarily)
+  &:hover,
+  &:focus {
+    color: $color-primary !important; // Ensure text changes to blue on hover
+  }
 }
 
 /* ================================
