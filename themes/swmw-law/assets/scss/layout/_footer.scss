@@ -204,7 +204,7 @@
         padding: 0;
         margin: 0;
         display: flex;
-        gap: $spacing-2;
+        gap: $spacing-4; // Increased gap for more spacing
         justify-content: center;
 
         li a {
@@ -213,21 +213,23 @@
           justify-content: center;
           width: 36px;
           height: 36px;
-          background-color: $color-gray-lightest;
+          background-color: $color-social-bg-gray; // Changed to new background gray
           border-radius: 50%;
-          color: $color-text;
+          color: $color-text; // This will be overridden by icon filter but good for text-based fallback
           font-size: $font-size-base;
           text-decoration: none;
           transition: background-color 0.2s ease, color 0.2s ease, filter 0.2s ease;
 
-          img.social-icon {
-            width: 60%;
-            height: 60%;
-            object-fit: contain;
-            filter: grayscale(100%) brightness(60%);
+          // Styles for SVG icons
+          svg.social-icon {
+            width: 60%; // Apply to SVG directly
+            height: 60%; // Apply to SVG directly
+            object-fit: contain; // Apply to SVG directly
+            fill: $color-social-icon-gray; // Set fill color for SVG
+            transition: fill 0.2s ease; // Smooth transition for fill
           }
 
-          img.bbb-icon {
+          svg.bbb-icon { // Target specific BBB icon SVG
             width: 70%;
             height: 70%;
           }
@@ -235,8 +237,8 @@
           &:hover {
             background-color: $color-secondary;
 
-            img.social-icon {
-              filter: brightness(0) invert(1);
+            svg.social-icon {
+              fill: $color-white; // Icon turns white on hover
             }
           }
         }

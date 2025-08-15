@@ -129,6 +129,59 @@ function customize_register( $wp_customize ) {
         'type'        => 'textarea',
         'description' => __( 'Enter your footer disclaimer text. HTML is allowed.', 'swmw-law' ),
     ) );
+
+    // Social Media URLs
+    $wp_customize->add_setting( 'swmw_law_social_facebook_url', array(
+        'default'           => '',
+        'sanitize_callback' => 'esc_url_raw',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'swmw_law_social_facebook_url_control', array(
+        'label'       => __( 'Facebook URL', 'swmw-law' ),
+        'section'     => 'swmw_law_footer_content_section',
+        'settings'    => 'swmw_law_social_facebook_url',
+        'type'        => 'url',
+    ) );
+
+    $wp_customize->add_setting( 'swmw_law_social_instagram_url', array(
+        'default'           => '',
+        'sanitize_callback' => 'esc_url_raw',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'swmw_law_social_instagram_url_control', array(
+        'label'       => __( 'Instagram URL', 'swmw-law' ),
+        'section'     => 'swmw_law_footer_content_section',
+        'settings'    => 'swmw_law_social_instagram_url',
+        'type'        => 'url',
+    ) );
+
+    $wp_customize->add_setting( 'swmw_law_social_bbb_url', array(
+        'default'           => '',
+        'sanitize_callback' => 'esc_url_raw',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'swmw_law_social_bbb_url_control', array(
+        'label'       => __( 'BBB URL', 'swmw-law' ),
+        'section'     => 'swmw_law_footer_content_section',
+        'settings'    => 'swmw_law_social_bbb_url',
+        'type'        => 'url',
+    ) );
+
+    $wp_customize->add_setting( 'swmw_law_social_linkedin_url', array(
+        'default'           => '',
+        'sanitize_callback' => 'esc_url_raw',
+        'transport'         => 'refresh',
+    ) );
+
+    $wp_customize->add_control( 'swmw_law_social_linkedin_url_control', array(
+        'label'       => __( 'LinkedIn URL', 'swmw-law' ),
+        'section'     => 'swmw_law_footer_content_section',
+        'settings'    => 'swmw_law_social_linkedin_url',
+        'type'        => 'url',
+    ) );
 }
 add_action( 'customize_register', __NAMESPACE__ . '\customize_register' );
 

@@ -13216,7 +13216,7 @@ body {
   padding: 0;
   margin: 0;
   display: flex;
-  gap: 0.5rem;
+  gap: 1rem;
   justify-content: center;
 }
 .site-footer .footer-bottom .footer-social .social-media-list li a {
@@ -13225,28 +13225,29 @@ body {
   justify-content: center;
   width: 36px;
   height: 36px;
-  background-color: #f6f6f6;
+  background-color: #ebedf1;
   border-radius: 50%;
   color: #43383e;
   font-size: 1rem;
   text-decoration: none;
   transition: background-color 0.2s ease, color 0.2s ease, filter 0.2s ease;
 }
-.site-footer .footer-bottom .footer-social .social-media-list li a img.social-icon {
+.site-footer .footer-bottom .footer-social .social-media-list li a svg.social-icon {
   width: 60%;
   height: 60%;
   object-fit: contain;
-  filter: grayscale(100%) brightness(60%);
+  fill: #AEAFB1;
+  transition: fill 0.2s ease;
 }
-.site-footer .footer-bottom .footer-social .social-media-list li a img.bbb-icon {
+.site-footer .footer-bottom .footer-social .social-media-list li a svg.bbb-icon {
   width: 70%;
   height: 70%;
 }
 .site-footer .footer-bottom .footer-social .social-media-list li a:hover {
   background-color: #417e4b;
 }
-.site-footer .footer-bottom .footer-social .social-media-list li a:hover img.social-icon {
-  filter: brightness(0) invert(1);
+.site-footer .footer-bottom .footer-social .social-media-list li a:hover svg.social-icon {
+  fill: #fff;
 }
 @media (min-width: 992px) {
   .site-footer .footer-bottom .footer-bottom-inner {
