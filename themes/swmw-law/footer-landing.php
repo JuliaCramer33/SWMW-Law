@@ -16,7 +16,7 @@ if ( ! empty( $logos ) ) {
     if ( is_singular( 'post' ) ) { // Single blog posts default to ON unless explicitly disabled.
         $show_setting = get_field( 'show_accreditations_bar' );
         $display_bar  = ( false !== $show_setting );
-    } elseif ( is_home() ) { // Blog posts index.
+    } elseif ( is_home() || is_category() ) { // Blog posts index and category archives.
         $display_bar = get_field( 'show_on_posts_page', 'option' );
     } elseif ( is_post_type_archive( 'attorney' ) ) { // Attorney archive.
         $display_bar = get_field( 'show_on_attorney_archive', 'option' );
