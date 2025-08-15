@@ -135,6 +135,16 @@
       }
     }
 
+    .sub-menu.third-level-list.multi-column {
+      columns: 2;
+      column-gap: $spacing-6; // Adjust as needed
+
+      li {
+        break-inside: avoid;
+        padding-bottom: $spacing-2; // Add some padding between items in columns
+      }
+    }
+
     &:hover > ul.sub-menu,
     &:focus-within > ul.sub-menu {
       display: block !important;

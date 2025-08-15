@@ -189,6 +189,16 @@
       margin: 0;
       animation: fadeInSlideDown 0.3s ease-out forwards;
 
+      &.multi-column {
+        columns: 4; // Adjusted to 4 columns to match the provided image
+        column-gap: $spacing-6;
+
+        li {
+          break-inside: avoid;
+          padding-bottom: $spacing-2;
+        }
+      }
+
       > li.menu-item > a {
         display: block;
         padding: $spacing-2 0;
