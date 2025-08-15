@@ -162,6 +162,18 @@ function swmw_law_news_archive_posts_per_page( $query ) {
 add_action( 'pre_get_posts', __NAMESPACE__ . '\swmw_law_news_archive_posts_per_page' );
 
 /**
+ * Modify the main query for category archives to only show standard posts.
+ *
+ * @param WP_Query $query The WP_Query instance (passed by reference).
+ */
+function swmw_law_category_archive_posts( $query ) {
+    if ( ! is_admin() && $query->is_main_query() && is_category() ) {
+        $query->set( 'post_type', 'post' );
+    }
+}
+add_action( 'pre_get_posts', __NAMESPACE__ . '\swmw_law_category_archive_posts' );
+
+/**
  * Modify the main query for the results archive to exclude featured results.
  *
  * @param WP_Query $query The WP_Query instance (passed by reference).
