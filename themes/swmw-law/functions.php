@@ -169,6 +169,7 @@ add_action( 'pre_get_posts', __NAMESPACE__ . '\swmw_law_news_archive_posts_per_p
 function swmw_law_category_archive_posts( $query ) {
     if ( ! is_admin() && $query->is_main_query() && is_category() ) {
         $query->set( 'post_type', 'post' );
+		$query->set( 'posts_per_page', 21 );
     }
 }
 add_action( 'pre_get_posts', __NAMESPACE__ . '\swmw_law_category_archive_posts' );
