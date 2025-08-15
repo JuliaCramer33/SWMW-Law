@@ -1,6 +1,7 @@
 /*!***********************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./assets/scss/style.scss ***!
   \***********************************************************************************************************************************************************/
+@charset "UTF-8";
 /*!
  * SWMW Law Theme
  * Main SCSS file
@@ -16318,6 +16319,66 @@ blockquote p:last-child {
 /* ================================
    WORDPRESS BUTTON ENHANCEMENTS
    ================================ */
+/* =========================================
+   WP Fill Buttons: Palette + Custom Hex Swap
+   ========================================= */
+/* Defaults if no palette class present */
+.wp-block-button .wp-block-button__link {
+  --btn-bg: #12477a;
+  --btn-text: #fff;
+}
+
+/* Background palette slugs */
+.wp-block-button .wp-block-button__link.has-primary-background-color {
+  --btn-bg: var(--wp--preset--color--primary);
+}
+
+.wp-block-button .wp-block-button__link.has-secondary-background-color {
+  --btn-bg: var(--wp--preset--color--secondary);
+}
+
+.wp-block-button .wp-block-button__link.has-tertiary-background-color {
+  --btn-bg: var(--wp--preset--color--tertiary);
+}
+
+.wp-block-button .wp-block-button__link.has-accent-background-color {
+  --btn-bg: var(--wp--preset--color--accent);
+}
+
+.wp-block-button .wp-block-button__link.has-black-background-color {
+  --btn-bg: var(--wp--preset--color--black);
+}
+
+.wp-block-button .wp-block-button__link.has-white-background-color {
+  --btn-bg: var(--wp--preset--color--white);
+}
+
+/* Text (foreground) palette slugs */
+.wp-block-button .wp-block-button__link.has-primary-color {
+  --btn-text: var(--wp--preset--color--primary);
+}
+
+.wp-block-button .wp-block-button__link.has-secondary-color {
+  --btn-text: var(--wp--preset--color--secondary);
+}
+
+.wp-block-button .wp-block-button__link.has-tertiary-color {
+  --btn-text: var(--wp--preset--color--tertiary);
+}
+
+.wp-block-button .wp-block-button__link.has-accent-color {
+  --btn-text: var(--wp--preset--color--accent);
+}
+
+.wp-block-button .wp-block-button__link.has-black-color {
+  --btn-text: var(--wp--preset--color--black);
+}
+
+.wp-block-button .wp-block-button__link.has-white-color {
+  --btn-text: var(--wp--preset--color--white);
+}
+
+/* Default (Fill) style with animation + swap */
 .wp-block-button:not(.is-style-outline) .wp-block-button__link {
   display: inline-block;
   padding: 0.5rem 1rem;
@@ -16337,10 +16398,16 @@ blockquote p:last-child {
   user-select: none;
   position: relative;
   pointer-events: all;
+  /* Pre-hover: editor’s chosen colors */
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
+  border-color: var(--btn-bg);
+  /* Swipe uses original text color; label flips to bg */
   position: relative;
   overflow: hidden;
   z-index: 1;
   transition: color 0.4s cubic-bezier(0.7, 0, 0.3, 1), background-color 0.4s cubic-bezier(0.7, 0, 0.3, 1), box-shadow 0.2s ease-in-out;
+  /* Explicit swap so hover text/bg are always correct */
 }
 .wp-block-button:not(.is-style-outline) .wp-block-button__link::before {
   content: "";
@@ -16349,7 +16416,7 @@ blockquote p:last-child {
   left: 0;
   width: 140%;
   height: 100%;
-  background-color: #fff;
+  background-color: var(--btn-text);
   z-index: -1;
   transform-origin: right center;
   transform: translateX(100%) skewX(-25deg);
@@ -16358,17 +16425,17 @@ blockquote p:last-child {
 }
 .wp-block-button:not(.is-style-outline) .wp-block-button__link:hover, .wp-block-button:not(.is-style-outline) .wp-block-button__link:focus {
   text-decoration: none;
-  color: #12477a;
+  color: var(--btn-bg);
 }
 .wp-block-button:not(.is-style-outline) .wp-block-button__link:hover::before, .wp-block-button:not(.is-style-outline) .wp-block-button__link:focus::before {
   transform: translateX(-2%) skewX(-25deg);
 }
 .wp-block-button:not(.is-style-outline) .wp-block-button__link:active {
-  color: #12477a;
+  color: var(--btn-bg);
 }
 .wp-block-button:not(.is-style-outline) .wp-block-button__link:visited:hover, .wp-block-button:not(.is-style-outline) .wp-block-button__link:visited:focus {
   text-decoration: none;
-  color: #12477a;
+  color: var(--btn-bg);
 }
 .wp-block-button:not(.is-style-outline) .wp-block-button__link:visited:hover::before, .wp-block-button:not(.is-style-outline) .wp-block-button__link:visited:focus::before {
   transform: translateX(-2%) skewX(-25deg);
@@ -16386,6 +16453,11 @@ blockquote p:last-child {
 }
 .wp-block-button:not(.is-style-outline) .wp-block-button__link:disabled:hover::before, .wp-block-button:not(.is-style-outline) .wp-block-button__link:disabled:focus::before, .wp-block-button:not(.is-style-outline) .wp-block-button__link.is-disabled:hover::before, .wp-block-button:not(.is-style-outline) .wp-block-button__link.is-disabled:focus::before {
   transform: translateX(100%) skewX(-25deg);
+}
+.wp-block-button:not(.is-style-outline) .wp-block-button__link:hover, .wp-block-button:not(.is-style-outline) .wp-block-button__link:focus {
+  background-color: var(--btn-text);
+  color: var(--btn-bg) !important;
+  border-color: var(--btn-bg);
 }
 
 .wp-block-button.is-style-outline .wp-block-button__link {

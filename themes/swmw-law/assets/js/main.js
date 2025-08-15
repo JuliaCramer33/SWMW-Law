@@ -344,3 +344,4 @@ import { initAccordionColumns } from './accordion-columns.js';
     });
   }
 })(jQuery);
+

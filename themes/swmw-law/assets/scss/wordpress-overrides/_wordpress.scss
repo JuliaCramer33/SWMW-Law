@@ -226,12 +226,56 @@ blockquote {
    WORDPRESS BUTTON ENHANCEMENTS
    ================================ */
 
-// Default (Fill) Button Style
-.wp-block-button:not(.is-style-outline) .wp-block-button__link {
+/* =========================================
+   WP Fill Buttons: Palette + Custom Hex Swap
+   ========================================= */
 
-  @include button-appearance;
-  @include button-animation;
+/* Defaults if no palette class present */
+.wp-block-button .wp-block-button__link {
+  --btn-bg: #{$color-primary};
+  --btn-text: #{$color-white};
 }
+
+/* Background palette slugs */
+.wp-block-button .wp-block-button__link.has-primary-background-color   { --btn-bg: var(--wp--preset--color--primary); }
+.wp-block-button .wp-block-button__link.has-secondary-background-color { --btn-bg: var(--wp--preset--color--secondary); }
+.wp-block-button .wp-block-button__link.has-tertiary-background-color  { --btn-bg: var(--wp--preset--color--tertiary); }
+.wp-block-button .wp-block-button__link.has-accent-background-color    { --btn-bg: var(--wp--preset--color--accent); }
+.wp-block-button .wp-block-button__link.has-black-background-color     { --btn-bg: var(--wp--preset--color--black); }
+.wp-block-button .wp-block-button__link.has-white-background-color     { --btn-bg: var(--wp--preset--color--white); }
+
+/* Text (foreground) palette slugs */
+.wp-block-button .wp-block-button__link.has-primary-color   { --btn-text: var(--wp--preset--color--primary); }
+.wp-block-button .wp-block-button__link.has-secondary-color { --btn-text: var(--wp--preset--color--secondary); }
+.wp-block-button .wp-block-button__link.has-tertiary-color  { --btn-text: var(--wp--preset--color--tertiary); }
+.wp-block-button .wp-block-button__link.has-accent-color    { --btn-text: var(--wp--preset--color--accent); }
+.wp-block-button .wp-block-button__link.has-black-color     { --btn-text: var(--wp--preset--color--black); }
+.wp-block-button .wp-block-button__link.has-white-color     { --btn-text: var(--wp--preset--color--white); }
+
+/* Default (Fill) style with animation + swap */
+.wp-block-button:not(.is-style-outline) .wp-block-button__link {
+  @include button-appearance;
+
+  /* Pre-hover: editor’s chosen colors */
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
+  border-color: var(--btn-bg);
+
+  /* Swipe uses original text color; label flips to bg */
+  @include button-animation(
+    $swipe-bg-color: var(--btn-text),
+    $hover-text-color: var(--btn-bg)
+  );
+
+  /* Explicit swap so hover text/bg are always correct */
+  &:hover,
+  &:focus {
+    background-color: var(--btn-text);
+    color: var(--btn-bg) !important;
+    border-color: var(--btn-bg);
+  }
+}
+
 
 // Outline Button Style
 .wp-block-button.is-style-outline .wp-block-button__link {
