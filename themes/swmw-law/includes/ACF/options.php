@@ -155,6 +155,78 @@ function swmw_law_register_options_fields() {
     		'description' => 'Fields for managing global theme options, including footer content.',
     	) );
 
+        acf_add_local_field_group(array(
+            'key' => 'group_theme_options_blog_news',
+            'title' => 'Theme Options - Blog & News',
+            'fields' => array(
+                array(
+                    'key' => 'field_blog_news_settings_accordion',
+                    'label' => 'Blog & News Settings',
+                    'name' => '',
+                    'type' => 'accordion',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'open' => 0,
+                    'multi_expand' => 0,
+                    'endpoint' => 0,
+                ),
+                array(
+                    'key' => 'field_blog_card_fallback_image',
+                    'label' => 'Blog Card Fallback Image',
+                    'name' => 'blog_card_fallback_image',
+                    'type' => 'image',
+                    'instructions' => 'Upload an image to be used as a fallback for blog post cards when no featured image is set.',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'return_format' => 'url',
+                    'preview_size' => 'medium',
+                    'library' => 'all',
+                    'min_width' => '',
+                    'min_height' => '',
+                    'min_size' => '',
+                    'max_width' => '',
+                    'max_height' => '',
+                    'max_size' => '',
+                    'mime_types' => '',
+                ),
+                array(
+                    'key' => 'field_blog_news_settings_accordion_endpoint',
+                    'label' => '',
+                    'name' => '',
+                    'type' => 'accordion',
+                    'endpoint' => 1
+                ),
+            ),
+            'location' => array(
+                array(
+                    array(
+                        'param' => 'options_page',
+                        'operator' => '==',
+                        'value' => 'theme-general-settings',
+                    ),
+                ),
+            ),
+            'menu_order' => 1,
+            'position' => 'normal',
+            'style' => 'default',
+            'label_placement' => 'top',
+            'instruction_placement' => 'label',
+            'hide_on_screen' => '',
+            'active' => true,
+            'description' => 'Fields for managing blog and news specific options.',
+        ));
+
     endif; 
 }
 add_action( 'acf/init', 'swmw_law_register_options_fields' );

@@ -9,14 +9,31 @@
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class( 'swmw-post-card' ); ?>>
-    <div class="swmw-post-card__image-wrapper">
+    <div class="swmw-post-card__image-wrapper<?php echo has_post_thumbnail() ? '' : ' swmw-post-card__image-wrapper--fallback'; ?>">
         <?php if ( has_post_thumbnail() ) : ?>
             <a href="<?php the_permalink(); ?>" tabindex="-1" aria-hidden="true">
                 <?php the_post_thumbnail( 'medium_large', [ 'class' => 'swmw-post-card__image' ] ); ?>
             </a>
         <?php else : ?>
             <a href="<?php the_permalink(); ?>" tabindex="-1" aria-hidden="true" class="swmw-post-card__image-placeholder">
-                <span class="screen-reader-text"><?php esc_html_e( 'Placeholder image', 'swmw-law' ); ?></span>
+                <?php
+                $fallback_image_url = get_field( 'blog_card_fallback_image', 'option' ); // Get from ACF options page
+                if ( $fallback_image_url ) {
+                    ?>
+                    <img src="<?php echo esc_url( $fallback_image_url ); ?>" alt="<?php esc_attr_e( 'Blog post fallback image', 'swmw-law' ); ?>" class="swmw-post-card__fallback-logo" />
+                    <?php
+                } else {
+                    // Fallback to the site custom logo if no specific blog card fallback is set
+                    $custom_logo_html = get_custom_logo();
+                    if ( $custom_logo_html ) {
+                        echo str_replace( 'class="custom-logo"', 'class="custom-logo swmw-post-card__fallback-logo"', $custom_logo_html );
+                    } else {
+                        // Final fallback to a simple text placeholder
+                        ?>
+                        <span class="screen-reader-text"><?php esc_html_e( 'Placeholder image', 'swmw-law' ); ?></span>
+                    <?php }
+                }
+                ?>
             </a>
         <?php endif; ?>
     </div>
