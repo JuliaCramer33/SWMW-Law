@@ -15495,7 +15495,8 @@ nav .menu-item.button,
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  background-color: #f6f6f6;
 }
 .swmw-post-card__content {
   padding: 1.5rem;

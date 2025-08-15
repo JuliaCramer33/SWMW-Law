@@ -93,7 +93,8 @@
       left: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain; // Changed from cover to contain
+      background-color: $color-gray-lightest; // Added background color for empty space
     }
   }
 
