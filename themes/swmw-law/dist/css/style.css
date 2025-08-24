@@ -13163,6 +13163,9 @@ body {
 .site-footer .footer-main .footer-link-wrapper .footer-offices .map-directions-link:hover {
   text-decoration: none;
 }
+.site-footer .footer-main .footer-link-wrapper .footer-links .footer-nav-list {
+  columns: 2;
+}
 .site-footer .footer-main .footer-link-wrapper .footer-links .footer-nav-list a {
   color: #43383e;
   font-weight: 700;
@@ -13273,9 +13276,6 @@ body {
   .site-footer .footer-main .footer-link-wrapper {
     flex-direction: row;
     flex: 0 0 70%;
-  }
-  .site-footer .footer-main .footer-link-wrapper .footer-links .footer-nav-list {
-    columns: 2;
   }
 }
 

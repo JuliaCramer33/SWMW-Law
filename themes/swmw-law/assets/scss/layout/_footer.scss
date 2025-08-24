@@ -140,9 +140,11 @@
           }
         }
       }
-
+      
       .footer-links {
         .footer-nav-list {
+          columns: 2;
+
           a {
             color: $color-text;
             font-weight: $font-weight-bold;
@@ -280,12 +282,6 @@
       .footer-link-wrapper {
         flex-direction: row;
         flex: 0 0 70%;
-
-        .footer-links {
-          .footer-nav-list {
-            columns: 2;
-          }
-        }
       }
     }
   }
