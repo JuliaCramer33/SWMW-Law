@@ -61,6 +61,10 @@
 
       .custom-logo-link {
         display: inline-block;
+
+        img {
+          max-width: 275px;
+        }
       }
     }
 
@@ -108,16 +112,22 @@
           line-height: $base-line-height;
         }
 
-        .office-locations {
-          gap: $spacing-6;
+        // Unified layout for footer columns
+        .office-locations,
+        .footer-nav-list {
+          display: flex;
+          flex-wrap: wrap;
+          list-style: none;
+          padding: 0;
+          margin: 0 (-$spacing-4); // Negative margin for gutter compensation
+        }
 
-          .office-location {
-            margin-bottom: $spacing-4;
-  
-            &:last-child {
-              margin-bottom: $spacing-0;
-            }
-          }
+        .office-locations .office-location,
+        .footer-nav-list li {
+          flex: 0 0 50%;
+          max-width: 50%;
+          padding: 0 $spacing-4; // Creates the gutter
+          margin-bottom: $spacing-4; // Vertical spacing between items
         }
 
         .map-directions-link {
@@ -133,22 +143,12 @@
 
       .footer-links {
         .footer-nav-list {
-          list-style: none;
-          padding: $spacing-0;
-          margin: $spacing-0;
-          columns: 2;
-          gap: $spacing-4;
+          a {
+            color: $color-text;
+            font-weight: $font-weight-bold;
 
-          li {
-            margin-bottom: $spacing-2;
-
-            a {
-              color: $color-text;
-              font-weight: $font-weight-bold;
-
-              &:hover {
-                color: $color-secondary;
-              }
+            &:hover {
+              color: $color-secondary;
             }
           }
         }
@@ -162,6 +162,10 @@
 
     &:hover {
       opacity: 0.8;
+    }
+
+    a {
+      max-width: 275px;
     }
   }
 
@@ -266,8 +270,7 @@
       flex-direction: row;
 
       .footer-brand {
-        flex: 1 0 40%;
-        max-width: 40%;
+        flex: 1 0 30%;
 
         .footer-tagline {
           font-size: 2.75rem; // Desktop font size
@@ -275,8 +278,8 @@
       }
 
       .footer-link-wrapper {
-        flex: 0 0 60%;
-        max-width: 60%;
+        flex-direction: row;
+        flex: 0 0 70%;
 
         .footer-links {
           .footer-nav-list {

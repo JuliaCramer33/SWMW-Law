@@ -35,10 +35,6 @@ function swmw_law_register_acf_blocks() {
 
 	foreach ( $blocks as $block_name ) {
 		$block_path = SWMW_LAW_DIR . 'includes/blocks/' . $block_name;
-		// Skip deprecated hero-homepage block; replaced by block patterns.
-		if ( 'hero-homepage' === $block_name ) {
-			continue;
-		}
 		// Only proceed if a block.json file exists.
 		if ( file_exists( $block_path . '/block.json' ) ) {
 			register_block_type( $block_path );

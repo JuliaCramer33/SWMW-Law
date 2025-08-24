@@ -69,7 +69,7 @@
 								<span class="widget-title-text"><?php esc_html_e( 'Our Offices', 'swmw-law' ); ?></span>
 								<span class="widget-title-line"></span>
 							</h2>
-							<div class="office-locations d-flex flex-wrap row-gutter-2">
+							<div class="office-locations d-flex flex-wrap">
 								<?php
 								if ( have_rows( 'footer_offices', 'option' ) ) :
 									while ( have_rows( 'footer_offices', 'option' ) ) : the_row();
