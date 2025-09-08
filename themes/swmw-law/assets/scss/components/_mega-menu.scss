@@ -50,7 +50,7 @@
 // =============================================================================
 
 .mega-menu-panel {
-  display: none;
+  display: block;
   position: absolute;
   top: 100%;
   left: 50%;
@@ -62,14 +62,18 @@
   padding: 0;
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
   transform: translateX(-50%) translateY(10px);
-  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+  overflow: hidden;
+  max-height: 0;
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, max-height 0.3s ease;
 
   &.is-open {
-    display: block;
     opacity: 1;
     visibility: visible;
+    pointer-events: auto;
     transform: translateX(-50%) translateY(0);
+    max-height: max(var(--mega-panel-min-height, 0px), var(--mega-panels-shared-height, 0px), var(--mega-panel-target-height, 0px));
   }
 
   .mega-menu-panel-inner {
@@ -157,12 +161,14 @@
 
   .mega-menu-column-right-content {
     height: 100%;
+    box-sizing: border-box;
     background-color: $color-gray-lightest;
     padding: $spacing-6;
+    box-shadow: $box-shadow-md;
+    
 
     &:empty {
       background-color: transparent;
-      padding: 0;
     }
 
     .mega-menu-right-column-title {

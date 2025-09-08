@@ -13886,7 +13886,7 @@ nav .menu-item.button,
 }
 
 .mega-menu-panel {
-  display: none;
+  display: block;
   position: absolute;
   top: 100%;
   left: 50%;
@@ -13898,14 +13898,18 @@ nav .menu-item.button,
   padding: 0;
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
   transform: translateX(-50%) translateY(10px);
-  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+  overflow: hidden;
+  max-height: 0;
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, max-height 0.3s ease;
 }
 .mega-menu-panel.is-open {
-  display: block;
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
   transform: translateX(-50%) translateY(0);
+  max-height: max(var(--mega-panel-min-height, 0px), var(--mega-panels-shared-height, 0px), var(--mega-panel-target-height, 0px));
 }
 .mega-menu-panel .mega-menu-panel-inner {
   display: flex;
@@ -13973,12 +13977,13 @@ nav .menu-item.button,
 }
 .mega-menu-column-right .mega-menu-column-right-content {
   height: 100%;
+  box-sizing: border-box;
   background-color: #f6f6f6;
   padding: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 .mega-menu-column-right .mega-menu-column-right-content:empty {
   background-color: transparent;
-  padding: 0;
 }
 .mega-menu-column-right .mega-menu-column-right-content .mega-menu-right-column-title {
   color: #417e4b;

@@ -2,11 +2,7 @@
 
 import initializeButtonHoverAnimation from './button-hover-animation.js'; // Import the module
 import { initMobileMenu, initMobileSubMenus } from './mobile-menu.js';
-import {
-  initMegaMenus,
-  moveMegaPanels,
-  equalizeMegaMenuHeights,
-} from './mega-menu.js';
+import { initMegaMenus, moveMegaPanels, equalizeMegaMenuHeights } from './mega-menu.js';
 import { initResultsSlider } from './blocks/results.js';
 import { initTestimonialsSlider } from './blocks/testimonials.js';
 import { initAttorneysSlider } from './blocks/attorneys.js';
@@ -124,11 +120,21 @@ import { initAccordionColumns } from './accordion-columns.js';
     initMobileSubMenus(); // Call the new mobile submenu initializer
     initMegaMenus();
     moveMegaPanels();
+    // Equalize a baseline min-height so adjacent panels align, while open height still animates
     try {
       equalizeMegaMenuHeights();
     } catch (error) {
       console.error('MAIN.JS - ERROR in equalizeMegaMenuHeights():', error);
     }
+
+    // Recompute on resize for layout changes
+    window.addEventListener('resize', () => {
+      try {
+        equalizeMegaMenuHeights();
+      } catch (error) {
+        // no-op
+      }
+    });
 
     try {
       initModals(); // Assuming this is still initialized here
