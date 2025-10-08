@@ -42,12 +42,14 @@ $font-size-lg: 1.125rem;   // 18px
 $font-size-xl: 1.25rem;    // 20px
 
 // Heading Font Sizes
-$h1-font-size: clamp(2rem, 4vw + 1.5rem, 4.3rem);  // responsive h1 (min ~32px, max ~69px)
-$h2-font-size: clamp(1.5rem, 2.2vw + 1rem, 2.5rem); // responsive h2 (min ~24px, max ~40px)
+$h1-font-size: 3rem;  // 49px
+$h2-font-size: 2.5rem;       // 40px
 $h3-font-size: 1.75rem;    // 28px
 $h4-font-size: 1.5rem;     // 24px
 $h5-font-size: 1.25rem;    // 20px
 $h6-font-size: 1rem;       // 16px
+
+$h1-font-size: 3rem;  // 49px (homepage gets its own clamp)
 
 // Font Weights
 $font-weight-light: 300;
