@@ -52,6 +52,7 @@
         &:hover {
           transform: translateY(-50%) scale(1.1);
           opacity: 1;
+
           svg {
             stroke: $color-secondary;
           }
@@ -80,9 +81,11 @@
         &:disabled {
           opacity: 0.3;
           cursor: not-allowed;
+
           &:hover {
             transform: translateY(-50%) scale(1);
             opacity: 0.3;
+
             svg {
               stroke: $color-primary;
             }

@@ -65,6 +65,7 @@ $includes = [
     'customizer',
     'ACF/acf',
     'ACF/breadcrumbs',
+    'button-icons',
     'blocks/blocks',
 ];
 
@@ -316,26 +317,7 @@ add_action( 'wp_ajax_nopriv_load_more_results', __NAMESPACE__ . '\swmw_law_load_
  *
  * @return string Modified block content.
  */
-function swmw_law_render_button_icon( $block_content, $block ) {
-    if ( isset( $block['attrs']['iconUrl'] ) && ! empty( $block['attrs']['iconUrl'] ) ) {
-        $icon_url = esc_url( $block['attrs']['iconUrl'] );
-        $icon_alt = isset( $block['attrs']['iconAlt'] ) ? esc_attr( $block['attrs']['iconAlt'] ) : '';
-
-        // Safely find the closing </a> tag and insert the icon before it.
-        $closing_tag_pos = strrpos( $block_content, '</a>' );
-        if ( false !== $closing_tag_pos ) {
-            $icon_html = sprintf(
-                '<img src="%s" alt="%s" class="wp-block-button__icon" style="margin-left: 8px; height: 1em; width: auto;" />',
-                $icon_url,
-                $icon_alt
-            );
-            $block_content = substr_replace( $block_content, $icon_html, $closing_tag_pos, 0 );
-        }
-    }
-
-    return $block_content;
-}
-add_filter( 'render_block_core/button', __NAMESPACE__ . '\swmw_law_render_button_icon', 10, 2 );
+// Moved to includes/button-icons.php
 
 /**
  * Add SVG support to the media library.

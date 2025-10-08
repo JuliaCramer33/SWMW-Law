@@ -237,13 +237,13 @@ h6 {
 }
 
 h1 {
-  font-size: 3rem;
+  font-size: clamp(2rem, 4vw + 1.5rem, 4.3rem);
   line-height: 1.245;
   font-weight: 300;
 }
 
 h2 {
-  font-size: 2.5rem;
+  font-size: clamp(1.5rem, 2.2vw + 1rem, 2.5rem);
   line-height: 1.59;
   font-weight: 300;
 }
@@ -848,7 +848,9 @@ html {
   scroll-behavior: smooth;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: inherit;
 }
 
@@ -13241,7 +13243,7 @@ body {
   width: 60%;
   height: 60%;
   object-fit: contain;
-  fill: #AEAFB1;
+  fill: #aeafb1;
   transition: fill 0.2s ease;
 }
 .site-footer .footer-bottom .footer-social .social-media-list li a svg.bbb-icon {
@@ -13568,10 +13570,9 @@ body {
   position: absolute;
   left: 0;
   top: 100%;
-  padding-top: 1.25rem;
   background-color: #fff;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  padding: 0.5rem;
+  padding: 1.25rem 0.5rem 0.5rem;
   min-width: 300px;
   z-index: 1000;
 }
@@ -13783,8 +13784,8 @@ body {
 .mobile-navigation-panel .mobile-utility-nav-list li.menu-item-has-children > a .submenu-arrow {
   width: 8px;
   height: 8px;
-  border-right: 2px solid currentColor;
-  border-bottom: 2px solid currentColor;
+  border-right: 2px solid currentcolor;
+  border-bottom: 2px solid currentcolor;
   transform: rotate(45deg);
   transition: transform 0.3s ease-in-out;
 }
@@ -13825,7 +13826,7 @@ body {
   gap: 0.5rem;
   color: #fff;
 }
-.mobile-navigation-panel .mobile-bottom-links .button:before {
+.mobile-navigation-panel .mobile-bottom-links .button::before {
   background-color: #fff;
 }
 .mobile-navigation-panel .mobile-bottom-links .button:hover a {
@@ -13839,7 +13840,7 @@ body {
 .mobile-navigation-panel .mobile-bottom-links .button.mobile-phone-button a {
   color: #417e4b;
 }
-.mobile-navigation-panel .mobile-bottom-links .button.mobile-phone-button:before {
+.mobile-navigation-panel .mobile-bottom-links .button.mobile-phone-button::before {
   background-color: #417e4b;
 }
 .mobile-navigation-panel .mobile-bottom-links .button.mobile-phone-button:hover a {
@@ -14189,7 +14190,7 @@ nav .menu-item.button,
   color: #417e4b;
   font-family: "Poppins", sans-serif;
   font-weight: 700;
-  font-size: 2.5rem;
+  font-size: clamp(1.5rem, 2.2vw + 1rem, 2.5rem);
   line-height: 1.2;
   margin: 0 0 0.5rem;
 }
@@ -14208,6 +14209,44 @@ nav .menu-item.button,
   line-height: 1.625;
   color: #666;
   margin-top: auto;
+}
+
+.is-style-slanted-badge {
+  position: relative;
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  color: #fff;
+  font-weight: 700;
+  align-items: center;
+  justify-content: center;
+}
+.is-style-slanted-badge .wp-block-group__inner-container {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+}
+.is-style-slanted-badge h1,
+.is-style-slanted-badge h2,
+.is-style-slanted-badge h3,
+.is-style-slanted-badge h4,
+.is-style-slanted-badge h5,
+.is-style-slanted-badge h6,
+.is-style-slanted-badge p {
+  margin: 0;
+  position: relative;
+  z-index: 10;
+}
+.is-style-slanted-badge::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(18, 71, 122, 0.8);
+  mix-blend-mode: multiply;
+  clip-path: polygon(6% 0, 100% 0, 94% 100%, 0 100%);
+  border-radius: 4px;
+  z-index: 0;
 }
 
 /*!
@@ -14911,7 +14950,6 @@ nav .menu-item.button,
   width: 100%;
   position: relative;
   z-index: 990;
-  overflow: visible;
   overflow: visible !important;
 }
 .hero-dropdown-menu .hero-dropdown-container {
@@ -15146,6 +15184,9 @@ nav .menu-item.button,
 }
 .expandable-card .expanded-content {
   display: none;
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  animation: slideDown 0.3s ease-in-out;
 }
 .expandable-card.is-expanded .collapsed-content {
   display: none;
@@ -15241,13 +15282,19 @@ nav .menu-item.button,
 .expandable-card .expanded-inner p:last-child {
   margin-bottom: 0;
 }
-.expandable-card .expanded-inner h1, .expandable-card .expanded-inner h2, .expandable-card .expanded-inner h3, .expandable-card .expanded-inner h4, .expandable-card .expanded-inner h5, .expandable-card .expanded-inner h6 {
+.expandable-card .expanded-inner h1,
+.expandable-card .expanded-inner h2,
+.expandable-card .expanded-inner h3,
+.expandable-card .expanded-inner h4,
+.expandable-card .expanded-inner h5,
+.expandable-card .expanded-inner h6 {
   color: #12477a;
   margin-top: 1.5rem;
   margin-bottom: 0.75rem;
   font-family: "Poppins", sans-serif;
 }
-.expandable-card .expanded-inner ul, .expandable-card .expanded-inner ol {
+.expandable-card .expanded-inner ul,
+.expandable-card .expanded-inner ol {
   margin-bottom: 1rem;
   padding-left: 1.5rem;
 }
@@ -15302,7 +15349,7 @@ nav .menu-item.button,
 .jobsites-by-city-block .jobsites-title {
   text-align: center;
   margin-bottom: 2rem;
-  font-size: 2.5rem;
+  font-size: clamp(1.5rem, 2.2vw + 1rem, 2.5rem);
   color: #43383e;
 }
 .jobsites-by-city-block .jobsites-filter-bar {
@@ -15465,7 +15512,7 @@ nav .menu-item.button,
 }
 .swmw-hero-homepage h1 {
   color: #fff;
-  font-size: 3rem;
+  font-size: clamp(2rem, 4vw + 1.5rem, 4.3rem);
   font-weight: 300;
   line-height: 1.25;
   margin-bottom: 1.5rem;
@@ -16293,8 +16340,8 @@ nav .menu-item.button,
  * Main SCSS file
  */
 /* ==========================================================================
-   #WORDPRESS-CONTENT-WIDTHS
-   ========================================================================== */
+#WORDPRESS-CONTENT-WIDTHS
+========================================================================== */
 .alignfull,
 .wp-block.alignfull,
 .wp-block-group.alignfull,
@@ -16305,10 +16352,10 @@ nav .menu-item.button,
   margin-right: calc(50% - 50vw);
   box-sizing: border-box;
 }
-If padding is manually added via block style .alignfull[style*=padding],
-If padding is manually added via block style .wp-block.alignfull[style*=padding],
-If padding is manually added via block style .wp-block-group.alignfull[style*=padding],
-If padding is manually added via block style .wp-acf-block.alignfull[style*=padding] {
+.alignfull[style*=padding],
+.wp-block.alignfull[style*=padding],
+.wp-block-group.alignfull[style*=padding],
+.wp-acf-block.alignfull[style*=padding] {
   padding-left: inherit;
   padding-right: inherit;
 }
@@ -16321,8 +16368,8 @@ If padding is manually added via block style .wp-acf-block.alignfull[style*=padd
 }
 
 /* ================================
- RESPONSIVE BLOCK OVERRIDES
- ================================ */
+  RESPONSIVE BLOCK OVERRIDES
+  ================================ */
 @media (max-width: 768px) {
   .wp-block-group.is-layout-flex,
   .wp-block-columns.is-layout-flex {

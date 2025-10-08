@@ -12,7 +12,7 @@
   // Keep below header/mega menu but above page content
   z-index: $z-index-overlay;
   // Ensure the dropdown can escape overflow constraints
-  overflow: visible;
+  overflow: visible !important;
 
   .hero-dropdown-container {
     position: relative;
@@ -20,14 +20,11 @@
     overflow: visible;
   }
 
-  // Ensure the dropdown container itself allows overflow
-  overflow: visible !important;
-
   // Additional overflow handling for the dropdown itself
   &.is-open {
     // Ensure the dropdown container can extend beyond its boundaries
     overflow: visible !important;
-    
+
     // Force the dropdown to be visible above all content
     .hero-nav-list {
       position: absolute;

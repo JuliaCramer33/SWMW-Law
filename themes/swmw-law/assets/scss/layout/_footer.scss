@@ -99,7 +99,6 @@
       }
 
       .footer-offices {
-
         h3 {
           font-size: $font-size-base;
           font-weight: $font-weight-bold;
@@ -140,7 +139,7 @@
           }
         }
       }
-      
+
       .footer-links {
         .footer-nav-list {
           columns: 2;
@@ -186,14 +185,22 @@
     .footer-copyright {
       font-size: $font-size-xs;
       color: $color-text;
+
       p {
         margin-bottom: $spacing-2;
-        &:last-child { margin-bottom: 0; }
+
+        &:last-child {
+          margin-bottom: 0;
+        }
       }
+
       a {
         color: $color-text;
         text-decoration: underline;
-        &:hover { color: $color-secondary; }
+
+        &:hover {
+          color: $color-secondary;
+        }
       }
     }
 
@@ -255,7 +262,6 @@
   // Media query for desktop layout
   @media (min-width: $breakpoint-lg) {
     .footer-bottom {
-
       .footer-bottom-inner {
         flex-direction: row; // Switch to row layout
         justify-content: space-between;

@@ -16,9 +16,9 @@ $container-max-width-lg: 100%;
 
 // A map for container max widths, similar to breakpoints:
 $container-max-widths: (
-	"sm": $container-max-width-sm,
-	"md": $container-max-width-md,
-	"lg": $container-max-width-lg,
+  "sm": $container-max-width-sm,
+  "md": $container-max-width-md,
+  "lg": $container-max-width-lg,
 );
 
 // Default container padding (can be adjusted)
@@ -35,7 +35,7 @@ $flex-col-base-width: 100%;
 
 @function flex-col-width($cols, $total-cols: $grid-columns) {
 
-	@return math.percentage(math.div($cols, $total-cols));
+  @return math.percentage(math.div($cols, $total-cols));
 }
 
 $flex-col-1-width: flex-col-width(1);

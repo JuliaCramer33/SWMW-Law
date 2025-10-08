@@ -121,39 +121,42 @@ $spacers: (
 
 // Generate downward-facing responsive utilities
 @each $bpKey, $bpValue in $breakpoints {
-	@media (max-width: ($bpValue - 1px)) {
-		@each $propAbbr, $propName in $properties {
-			// All sides (e.g., .m-down-md-1, .p-down-lg-2)
-			@each $sizeKey, $sizeValue in $spacers {
-				.#{$propAbbr}-down-#{$bpKey}-#{$sizeKey} {
-					#{$propName}: $sizeValue !important;
-				}
-			}
 
-			// X-axis (e.g., .mx-down-md-1, .px-down-lg-2)
-			@each $sizeKey, $sizeValue in $spacers {
-				.#{$propAbbr}x-down-#{$bpKey}-#{$sizeKey} {
-					#{$propName}-left: $sizeValue !important;
-					#{$propName}-right: $sizeValue !important;
-				}
-			}
+  @media (max-width: ($bpValue - 1px)) {
 
-			// Y-axis (e.g., .my-down-md-1, .py-down-lg-2)
-			@each $sizeKey, $sizeValue in $spacers {
-				.#{$propAbbr}y-down-#{$bpKey}-#{$sizeKey} {
-					#{$propName}-top: $sizeValue !important;
-					#{$propName}-bottom: $sizeValue !important;
-				}
-			}
+    @each $propAbbr, $propName in $properties {
+      // All sides (e.g., .m-down-md-1, .p-down-lg-2)
+      @each $sizeKey, $sizeValue in $spacers {
+        .#{$propAbbr}-down-#{$bpKey}-#{$sizeKey} {
+          #{$propName}: $sizeValue !important;
+        }
+      }
 
-			// Individual sides (e.g., .mt-down-md-1, .pr-down-lg-2)
-			@each $dirAbbr, $dirName in $directions {
-				@each $sizeKey, $sizeValue in $spacers {
-					.#{$propAbbr}#{$dirAbbr}-down-#{$bpKey}-#{$sizeKey} {
-						#{$propName}-#{$dirName}: $sizeValue !important;
-					}
-				}
-			}
-		}
-	}
+      // X-axis (e.g., .mx-down-md-1, .px-down-lg-2)
+      @each $sizeKey, $sizeValue in $spacers {
+        .#{$propAbbr}x-down-#{$bpKey}-#{$sizeKey} {
+          #{$propName}-left: $sizeValue !important;
+          #{$propName}-right: $sizeValue !important;
+        }
+      }
+
+      // Y-axis (e.g., .my-down-md-1, .py-down-lg-2)
+      @each $sizeKey, $sizeValue in $spacers {
+        .#{$propAbbr}y-down-#{$bpKey}-#{$sizeKey} {
+          #{$propName}-top: $sizeValue !important;
+          #{$propName}-bottom: $sizeValue !important;
+        }
+      }
+
+      // Individual sides (e.g., .mt-down-md-1, .pr-down-lg-2)
+      @each $dirAbbr, $dirName in $directions {
+
+        @each $sizeKey, $sizeValue in $spacers {
+          .#{$propAbbr}#{$dirAbbr}-down-#{$bpKey}-#{$sizeKey} {
+            #{$propName}-#{$dirName}: $sizeValue !important;
+          }
+        }
+      }
+    }
+  }
 }

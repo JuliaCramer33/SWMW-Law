@@ -5,11 +5,11 @@
 
 // CSS Custom Properties for SDS Shadows (can be defined in a global CSS file or here in :root)
 :root {
-	--sds-size-depth-0: 0;
-	--sds-size-depth-100: 2px; // Example for y-offset and blur
-	--sds-size-depth-negative-025: -1px; // Example for spread (negative makes shadow tighter)
-	--sds-color-black-100: rgba(0, 0, 0, 0.08);
-	--sds-color-black-200: rgba(0, 0, 0, 0.12);
+  --sds-size-depth-0: 0;
+  --sds-size-depth-100: 2px; // Example for y-offset and blur
+  --sds-size-depth-negative-025: -1px; // Example for spread (negative makes shadow tighter)
+  --sds-color-black-100: rgba(0, 0, 0, 0.08);
+  --sds-color-black-200: rgba(0, 0, 0, 0.12);
 }
 
 // Box Shadows

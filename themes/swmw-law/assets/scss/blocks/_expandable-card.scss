@@ -1,4 +1,5 @@
 @use "../variables/variables" as *;
+@use "sass:color";
 
 /**
  * Expandable Card Block Styles
@@ -74,6 +75,9 @@
 
   .expanded-content {
     display: none;
+    margin-top: $spacing-5;
+    padding-top: $spacing-5;
+    animation: slideDown $transition-duration-slow $transition-easing-ease-in-out;
   }
 
   &.is-expanded {
@@ -86,7 +90,7 @@
     }
   }
 
-    // Expand/collapse button
+  // Expand/collapse button
   .expand-button {
     margin-top: $spacing-5;
     align-self: center;
@@ -111,30 +115,32 @@
       background: $color-primary;
       color: $color-white;
       border-color: $color-primary;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     }
-    
+
     &:focus:not([aria-expanded="true"]) {
       background: $color-white;
       color: $color-primary;
       border-color: $color-primary;
     }
+
     &:active {
-      background: darken($color-primary, 8%);
+      background: color.adjust($color-primary, $lightness: -8%);
       color: $color-white;
-      border-color: darken($color-primary, 8%);
+      border-color: color.adjust($color-primary, $lightness: -8%);
     }
+
     &[aria-expanded="true"] {
       background: $color-primary;
       color: $color-white;
       border-color: $color-primary;
-      
+
       &:hover,
       &:focus {
-        background: darken($color-primary, 8%);
+        background: color.adjust($color-primary, $lightness: -8%);
         color: $color-white;
-        border-color: darken($color-primary, 8%);
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-color: color.adjust($color-primary, $lightness: -8%);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
       }
     }
   }
@@ -186,20 +192,26 @@
     // Style WYSIWYG content
     p {
       margin-bottom: $spacing-4;
-      
+
       &:last-child {
         margin-bottom: 0;
       }
     }
 
-    h1, h2, h3, h4, h5, h6 {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
       color: $color-primary;
       margin-top: $spacing-6;
       margin-bottom: $spacing-3;
       font-family: $heading-font-family;
     }
 
-    ul, ol {
+    ul,
+    ol {
       margin-bottom: $spacing-4;
       padding-left: $spacing-6;
     }
@@ -211,7 +223,7 @@
     a {
       color: $color-secondary;
       text-decoration: underline;
-      
+
       &:hover {
         color: $color-primary;
       }
@@ -226,6 +238,7 @@
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -253,4 +266,4 @@
       font-size: $font-size-sm;
     }
   }
-} 
+}

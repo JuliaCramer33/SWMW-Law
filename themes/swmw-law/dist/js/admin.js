@@ -46,6 +46,10 @@ const addIconAttributes = (settings, name) => {
   }
   settings.attributes = {
     ...settings.attributes,
+    withArrow: {
+      type: 'boolean',
+      default: false
+    },
     iconId: {
       type: 'number'
     },
@@ -72,7 +76,8 @@ const withIconControls = (0,_wordpress_compose__WEBPACK_IMPORTED_MODULE_4__.crea
     const {
       iconId,
       iconUrl,
-      iconAlt
+      iconAlt,
+      withArrow
     } = attributes;
     if (!allowedBlocks.includes(name)) {
       return /*#__PURE__*/React.createElement(BlockEdit, props);
@@ -94,7 +99,23 @@ const withIconControls = (0,_wordpress_compose__WEBPACK_IMPORTED_MODULE_4__.crea
     return /*#__PURE__*/React.createElement(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.Fragment, null, /*#__PURE__*/React.createElement(BlockEdit, props), /*#__PURE__*/React.createElement(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.InspectorControls, null, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.PanelBody, {
       title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Icon Settings', 'swmw-law'),
       initialOpen: true
-    }, /*#__PURE__*/React.createElement(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.MediaUploadCheck, null, /*#__PURE__*/React.createElement(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.MediaUpload, {
+    }, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.ToggleControl, {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Add arrow icon', 'swmw-law'),
+      checked: !!withArrow,
+      onChange: value => {
+        setAttributes({
+          withArrow: !!value
+        });
+        if (value) {
+          // Clear custom icon selection when using the built-in arrow
+          setAttributes({
+            iconId: undefined,
+            iconUrl: undefined,
+            iconAlt: undefined
+          });
+        }
+      }
+    }), !withArrow && /*#__PURE__*/React.createElement(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.MediaUploadCheck, null, /*#__PURE__*/React.createElement(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.MediaUpload, {
       onSelect: onSelectIcon,
       allowedTypes: ['image'],
       value: iconId,
@@ -110,7 +131,7 @@ const withIconControls = (0,_wordpress_compose__WEBPACK_IMPORTED_MODULE_4__.crea
         src: iconUrl,
         alt: iconAlt
       })))
-    })), iconId && /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Button, {
+    })), iconId && !withArrow && /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Button, {
       onClick: onRemoveIcon,
       isLink: true,
       isDestructive: true

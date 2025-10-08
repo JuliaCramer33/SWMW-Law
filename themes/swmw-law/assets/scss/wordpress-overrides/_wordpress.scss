@@ -6,52 +6,52 @@
 @use "../base/buttons" as *; // Ensure button mixins are available
 
 /* ==========================================================================
-   #WORDPRESS-CONTENT-WIDTHS
-   ========================================================================== */
-   
-   // Custom Alignment Width Map
-   $alignments: (
-     "sm": map.get($container-max-widths, "sm"),
-     "md": map.get($container-max-widths, "md"),
-     "lg": map.get($container-max-widths, "lg")
-   );
-   
-   // Alignfull — stretch full-width and escape outer container
-   .alignfull,
-   .wp-block.alignfull,
-   .wp-block-group.alignfull,
-   .wp-acf-block.alignfull {
-     width: 100vw;
-     max-width: 100vw;
-     margin-left: calc(50% - 50vw);
-     margin-right: calc(50% - 50vw);
-     box-sizing: border-box;
-   
-     If padding is manually added via block style
-     &[style*="padding"] {
-       padding-left: inherit;
-       padding-right: inherit;
-     }
-   }
+#WORDPRESS-CONTENT-WIDTHS
+========================================================================== */
 
-   .alignwide,
-  .wp-block.alignwide {
-    margin-left: auto;
-    margin-right: auto;
-    box-sizing: border-box;
+// Custom Alignment Width Map
+$alignments: (
+  "sm": map.get($container-max-widths, "sm"),
+  "md": map.get($container-max-widths, "md"),
+  "lg": map.get($container-max-widths, "lg")
+);
+
+// Alignfull — stretch full-width and escape outer container
+.alignfull,
+.wp-block.alignfull,
+.wp-block-group.alignfull,
+.wp-acf-block.alignfull {
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  box-sizing: border-box;
+
+  // If padding is manually added via block style
+  &[style*="padding"] {
+    padding-left: inherit;
+    padding-right: inherit;
   }
+}
 
-  /* ================================
-   RESPONSIVE BLOCK OVERRIDES
-   ================================ */
+.alignwide,
+.wp-block.alignwide {
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+/* ================================
+  RESPONSIVE BLOCK OVERRIDES
+  ================================ */
 
 // Stack horizontal Group and Columns blocks on mobile.
 @media (max-width: $breakpoint-md) {
-	.wp-block-group.is-layout-flex,
-	.wp-block-columns.is-layout-flex {
-		flex-direction: column;
-		align-items: center; // Reset alignment for vertical stacking
-	}
+  .wp-block-group.is-layout-flex,
+  .wp-block-columns.is-layout-flex {
+    flex-direction: column;
+    align-items: center; // Reset alignment for vertical stacking
+  }
 }
 
 /* ================================
@@ -237,23 +237,58 @@ blockquote {
 }
 
 /* Background palette slugs */
-.wp-block-button .wp-block-button__link.has-primary-background-color   { --btn-bg: var(--wp--preset--color--primary); }
-.wp-block-button .wp-block-button__link.has-secondary-background-color { --btn-bg: var(--wp--preset--color--secondary); }
-.wp-block-button .wp-block-button__link.has-tertiary-background-color  { --btn-bg: var(--wp--preset--color--tertiary); }
-.wp-block-button .wp-block-button__link.has-accent-background-color    { --btn-bg: var(--wp--preset--color--accent); }
-.wp-block-button .wp-block-button__link.has-black-background-color     { --btn-bg: var(--wp--preset--color--black); }
-.wp-block-button .wp-block-button__link.has-white-background-color     { --btn-bg: var(--wp--preset--color--white); }
+.wp-block-button .wp-block-button__link.has-primary-background-color {
+  --btn-bg: var(--wp--preset--color--primary);
+}
+
+.wp-block-button .wp-block-button__link.has-secondary-background-color {
+  --btn-bg: var(--wp--preset--color--secondary);
+}
+
+.wp-block-button .wp-block-button__link.has-tertiary-background-color {
+  --btn-bg: var(--wp--preset--color--tertiary);
+}
+
+.wp-block-button .wp-block-button__link.has-accent-background-color {
+  --btn-bg: var(--wp--preset--color--accent);
+}
+
+.wp-block-button .wp-block-button__link.has-black-background-color {
+  --btn-bg: var(--wp--preset--color--black);
+}
+
+.wp-block-button .wp-block-button__link.has-white-background-color {
+  --btn-bg: var(--wp--preset--color--white);
+}
 
 /* Text (foreground) palette slugs */
-.wp-block-button .wp-block-button__link.has-primary-color   { --btn-text: var(--wp--preset--color--primary); }
-.wp-block-button .wp-block-button__link.has-secondary-color { --btn-text: var(--wp--preset--color--secondary); }
-.wp-block-button .wp-block-button__link.has-tertiary-color  { --btn-text: var(--wp--preset--color--tertiary); }
-.wp-block-button .wp-block-button__link.has-accent-color    { --btn-text: var(--wp--preset--color--accent); }
-.wp-block-button .wp-block-button__link.has-black-color     { --btn-text: var(--wp--preset--color--black); }
-.wp-block-button .wp-block-button__link.has-white-color     { --btn-text: var(--wp--preset--color--white); }
+.wp-block-button .wp-block-button__link.has-primary-color {
+  --btn-text: var(--wp--preset--color--primary);
+}
+
+.wp-block-button .wp-block-button__link.has-secondary-color {
+  --btn-text: var(--wp--preset--color--secondary);
+}
+
+.wp-block-button .wp-block-button__link.has-tertiary-color {
+  --btn-text: var(--wp--preset--color--tertiary);
+}
+
+.wp-block-button .wp-block-button__link.has-accent-color {
+  --btn-text: var(--wp--preset--color--accent);
+}
+
+.wp-block-button .wp-block-button__link.has-black-color {
+  --btn-text: var(--wp--preset--color--black);
+}
+
+.wp-block-button .wp-block-button__link.has-white-color {
+  --btn-text: var(--wp--preset--color--white);
+}
 
 /* Default (Fill) style with animation + swap */
 .wp-block-button:not(.is-style-outline) .wp-block-button__link {
+
   @include button-appearance;
 
   /* Pre-hover: editor’s chosen colors */
@@ -296,8 +331,8 @@ blockquote {
    ================================ */
 
 .wp-block-cover {
-	padding-left: $container-padding-x; // Use layout variable for horizontal padding
-	padding-right: $container-padding-x; // Use layout variable for horizontal padding
+  padding-left: $container-padding-x; // Use layout variable for horizontal padding
+  padding-right: $container-padding-x; // Use layout variable for horizontal padding
 }
 
 /* ================================
@@ -305,8 +340,8 @@ blockquote {
    ================================ */
 
 .is-recontained {
-	padding-left: $container-padding-x;
-	padding-right: $container-padding-x;
-	box-sizing: border-box;
+  padding-left: $container-padding-x;
+  padding-right: $container-padding-x;
+  box-sizing: border-box;
 }
 

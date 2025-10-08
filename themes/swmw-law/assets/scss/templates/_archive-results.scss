@@ -3,7 +3,7 @@
 
 .swmw-archive-page {
   margin-bottom: 150px; //this helps with the accred banner - padding.
-  
+
   .swmw-featured-cases {
     padding: 6rem 0;
     position: relative;
@@ -52,6 +52,7 @@
     @media (min-width: $breakpoint-md) {
       grid-template-columns: repeat(2, 1fr);
     }
+
     @media (min-width: $breakpoint-lg) {
       grid-template-columns: repeat(3, 1fr);
     }

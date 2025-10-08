@@ -31,10 +31,21 @@
 }
 
 // --- Text Alignment ---
-.text-left { text-align: left !important; }
-.text-center { text-align: center !important; }
-.text-right { text-align: right !important; }
-.text-justify { text-align: justify !important; }
+.text-left {
+  text-align: left !important;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.text-right {
+  text-align: right !important;
+}
+
+.text-justify {
+  text-align: justify !important;
+}
 
 
 // --- Responsive Text Utilities (Essential for responsive design) ---
@@ -54,19 +65,35 @@
       word-break: break-word !important;
     }
 
-	// Alignment
-	.text-#{$bpKey}-left { text-align: left !important; }
-	.text-#{$bpKey}-center { text-align: center !important; }
-	.text-#{$bpKey}-right { text-align: right !important; }
-	.text-#{$bpKey}-justify { text-align: justify !important; }
+    // Alignment
+    .text-#{$bpKey}-left {
+      text-align: left !important;
+    }
+    .text-#{$bpKey}-center {
+      text-align: center !important;
+    }
+    .text-#{$bpKey}-right {
+      text-align: right !important;
+    }
+    .text-#{$bpKey}-justify {
+      text-align: justify !important;
+    }
   }
 
   // "Down" utilities for max-width breakpoints
   @media (max-width: ($bpValue - 1px)) {
-	.text-down-#{$bpKey}-left { text-align: left !important; }
-	.text-down-#{$bpKey}-center { text-align: center !important; }
-	.text-down-#{$bpKey}-right { text-align: right !important; }
-	.text-down-#{$bpKey}-justify { text-align: justify !important; }
+    .text-down-#{$bpKey}-left {
+      text-align: left !important;
+    }
+    .text-down-#{$bpKey}-center {
+      text-align: center !important;
+    }
+    .text-down-#{$bpKey}-right {
+      text-align: right !important;
+    }
+    .text-down-#{$bpKey}-justify {
+      text-align: justify !important;
+    }
   }
 }
 

@@ -153,3 +153,11 @@ add_action( 'init', function() {
         }
     }
 } ); 
+
+// Register a custom block style for a slanted badge background
+add_action( 'init', function() {
+    register_block_style( 'core/group', [
+        'name'  => 'slanted-badge',
+        'label' => __( 'Slanted Badge', 'swmw-law' ),
+    ] );
+} );

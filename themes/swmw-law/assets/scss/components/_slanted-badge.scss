@@ -1,0 +1,42 @@
+.is-style-slanted-badge {
+  position: relative;
+  display: block; // shrink to content and allow vertical centering
+  width: fit-content;
+  max-width: 100%;
+  color: #fff;
+  font-weight: 700;
+  align-items: center;
+  justify-content: center;
+
+  .wp-block-group__inner-container {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  // Remove default margins so badge hugs its text
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p {
+    margin: 0;
+    position: relative;
+    z-index: 10;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(18, 71, 122, 0.8); // provided color with alpha
+    mix-blend-mode: multiply; // blend over background imagery/content
+    clip-path: polygon(6% 0, 100% 0, 94% 100%, 0 100%);
+    border-radius: 4px;
+    z-index: 0;
+  }
+}
+

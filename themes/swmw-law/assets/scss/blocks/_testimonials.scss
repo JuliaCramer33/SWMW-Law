@@ -116,6 +116,7 @@
       &.splide__arrow--next {
         transform: rotate(180deg) scale(1.1);
       }
+
       svg {
         stroke: $color-secondary !important;
       }
@@ -132,11 +133,13 @@
     &[disabled] {
       opacity: 0.5;
       cursor: not-allowed;
+
       &:hover {
         &.splide__arrow--prev,
         &.splide__arrow--next {
           transform: rotate(180deg) scale(1);
         }
+
         svg {
           stroke: $color-primary !important;
         }

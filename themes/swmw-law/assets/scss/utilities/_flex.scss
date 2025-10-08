@@ -5,164 +5,240 @@
 
 // --- Display Utilities (Essential) ---
 .d-flex {
-	display: flex !important;
+  display: flex !important;
 }
 
 .d-inline-flex {
-	display: inline-flex !important;
+  display: inline-flex !important;
 }
 
 .d-none {
-	display: none !important;
+  display: none !important;
 }
 
 .d-block {
-	display: block !important;
+  display: block !important;
 }
 
 .d-inline-block {
-	display: inline-block !important;
+  display: inline-block !important;
 }
 
 .d-inline {
-	display: inline !important;
+  display: inline !important;
 }
 
 // --- Basic Flex Direction (Still useful for custom layouts) ---
 .flex-row {
-	flex-direction: row !important;
+  flex-direction: row !important;
 }
 
 .flex-column {
-	flex-direction: column !important;
+  flex-direction: column !important;
 }
 
 .flex-row-reverse {
-	flex-direction: row-reverse !important;
+  flex-direction: row-reverse !important;
 }
 
 .flex-column-reverse {
-	flex-direction: column-reverse !important;
+  flex-direction: column-reverse !important;
 }
 
 // --- Essential Flex Properties (For custom layouts outside blocks) ---
 .justify-start {
-	justify-content: flex-start !important;
+  justify-content: flex-start !important;
 }
 
 .justify-end {
-	justify-content: flex-end !important;
+  justify-content: flex-end !important;
 }
 
 .justify-center {
-	justify-content: center !important;
+  justify-content: center !important;
 }
 
 .justify-between {
-	justify-content: space-between !important;
+  justify-content: space-between !important;
 }
 
 .justify-around {
-	justify-content: space-around !important;
+  justify-content: space-around !important;
 }
 
 .align-start {
-	align-items: flex-start !important;
+  align-items: flex-start !important;
 }
 
 .align-end {
-	align-items: flex-end !important;
+  align-items: flex-end !important;
 }
 
 .align-center {
-	align-items: center !important;
+  align-items: center !important;
 }
 
 .align-stretch {
-	align-items: stretch !important;
+  align-items: stretch !important;
 }
 
 // --- Flex Wrap (Still useful) ---
 .flex-wrap {
-	flex-wrap: wrap !important;
+  flex-wrap: wrap !important;
 }
 
 .flex-nowrap {
-	flex-wrap: nowrap !important;
+  flex-wrap: nowrap !important;
 }
 
 .flex-wrap-reverse {
-	flex-wrap: wrap-reverse !important;
+  flex-wrap: wrap-reverse !important;
 }
 
 // --- Flex Grow/Shrink (Still useful for custom layouts) ---
 .flex-grow-0 {
-	flex-grow: 0 !important;
+  flex-grow: 0 !important;
 }
 
 .flex-grow-1 {
-	flex-grow: 1 !important;
+  flex-grow: 1 !important;
 }
 
 .flex-shrink-0 {
-	flex-shrink: 0 !important;
+  flex-shrink: 0 !important;
 }
 
 .flex-shrink-1 {
-	flex-shrink: 1 !important;
+  flex-shrink: 1 !important;
 }
 
 // --- Responsive Utilities ---
 @each $bpKey, $bpValue in $breakpoints {
-	// "Up" utilities (e.g., d-md-flex) - apply from this breakpoint and up
-	@media (min-width: $bpValue) {
-		.d-#{$bpKey}-none { display: none !important; }
-		.d-#{$bpKey}-block { display: block !important; }
-		.d-#{$bpKey}-inline-block { display: inline-block !important; }
-		.d-#{$bpKey}-inline { display: inline !important; }
-		.d-#{$bpKey}-flex { display: flex !important; }
-		.d-#{$bpKey}-inline-flex { display: inline-flex !important; }
+  // "Up" utilities (e.g., d-md-flex) - apply from this breakpoint and up
+  @media (min-width: $bpValue) {
+    .d-#{$bpKey}-none {
+      display: none !important;
+    }
+    .d-#{$bpKey}-block {
+      display: block !important;
+    }
+    .d-#{$bpKey}-inline-block {
+      display: inline-block !important;
+    }
+    .d-#{$bpKey}-inline {
+      display: inline !important;
+    }
+    .d-#{$bpKey}-flex {
+      display: flex !important;
+    }
+    .d-#{$bpKey}-inline-flex {
+      display: inline-flex !important;
+    }
 
-		.flex-#{$bpKey}-row { flex-direction: row !important; }
-		.flex-#{$bpKey}-column { flex-direction: column !important; }
-		.flex-#{$bpKey}-row-reverse { flex-direction: row-reverse !important; }
-		.flex-#{$bpKey}-column-reverse { flex-direction: column-reverse !important; }
+    .flex-#{$bpKey}-row {
+      flex-direction: row !important;
+    }
+    .flex-#{$bpKey}-column {
+      flex-direction: column !important;
+    }
+    .flex-#{$bpKey}-row-reverse {
+      flex-direction: row-reverse !important;
+    }
+    .flex-#{$bpKey}-column-reverse {
+      flex-direction: column-reverse !important;
+    }
 
-		.justify-#{$bpKey}-start { justify-content: flex-start !important; }
-		.justify-#{$bpKey}-end { justify-content: flex-end !important; }
-		.justify-#{$bpKey}-center { justify-content: center !important; }
-		.justify-#{$bpKey}-between { justify-content: space-between !important; }
-		.justify-#{$bpKey}-around { justify-content: space-around !important; }
+    .justify-#{$bpKey}-start {
+      justify-content: flex-start !important;
+    }
+    .justify-#{$bpKey}-end {
+      justify-content: flex-end !important;
+    }
+    .justify-#{$bpKey}-center {
+      justify-content: center !important;
+    }
+    .justify-#{$bpKey}-between {
+      justify-content: space-between !important;
+    }
+    .justify-#{$bpKey}-around {
+      justify-content: space-around !important;
+    }
 
-		.align-#{$bpKey}-start { align-items: flex-start !important; }
-		.align-#{$bpKey}-end { align-items: flex-end !important; }
-		.align-#{$bpKey}-center { align-items: center !important; }
-		.align-#{$bpKey}-stretch { align-items: stretch !important; }
-	}
+    .align-#{$bpKey}-start {
+      align-items: flex-start !important;
+    }
+    .align-#{$bpKey}-end {
+      align-items: flex-end !important;
+    }
+    .align-#{$bpKey}-center {
+      align-items: center !important;
+    }
+    .align-#{$bpKey}-stretch {
+      align-items: stretch !important;
+    }
+  }
 
-	// "Down" utilities (e.g., d-down-md-flex) - apply up to this breakpoint
-	@media (max-width: ($bpValue - 1px)) {
-		.d-down-#{$bpKey}-none { display: none !important; }
-		.d-down-#{$bpKey}-block { display: block !important; }
-		.d-down-#{$bpKey}-inline-block { display: inline-block !important; }
-		.d-down-#{$bpKey}-inline { display: inline !important; }
-		.d-down-#{$bpKey}-flex { display: flex !important; }
-		.d-down-#{$bpKey}-inline-flex { display: inline-flex !important; }
+  // "Down" utilities (e.g., d-down-md-flex) - apply up to this breakpoint
+  @media (max-width: ($bpValue - 1px)) {
+    .d-down-#{$bpKey}-none {
+      display: none !important;
+    }
+    .d-down-#{$bpKey}-block {
+      display: block !important;
+    }
+    .d-down-#{$bpKey}-inline-block {
+      display: inline-block !important;
+    }
+    .d-down-#{$bpKey}-inline {
+      display: inline !important;
+    }
+    .d-down-#{$bpKey}-flex {
+      display: flex !important;
+    }
+    .d-down-#{$bpKey}-inline-flex {
+      display: inline-flex !important;
+    }
 
-		.flex-down-#{$bpKey}-row { flex-direction: row !important; }
-		.flex-down-#{$bpKey}-column { flex-direction: column !important; }
-		.flex-down-#{$bpKey}-row-reverse { flex-direction: row-reverse !important; }
-		.flex-down-#{$bpKey}-column-reverse { flex-direction: column-reverse !important; }
+    .flex-down-#{$bpKey}-row {
+      flex-direction: row !important;
+    }
+    .flex-down-#{$bpKey}-column {
+      flex-direction: column !important;
+    }
+    .flex-down-#{$bpKey}-row-reverse {
+      flex-direction: row-reverse !important;
+    }
+    .flex-down-#{$bpKey}-column-reverse {
+      flex-direction: column-reverse !important;
+    }
 
-		.justify-down-#{$bpKey}-start { justify-content: flex-start !important; }
-		.justify-down-#{$bpKey}-end { justify-content: flex-end !important; }
-		.justify-down-#{$bpKey}-center { justify-content: center !important; }
-		.justify-down-#{$bpKey}-between { justify-content: space-between !important; }
-		.justify-down-#{$bpKey}-around { justify-content: space-around !important; }
+    .justify-down-#{$bpKey}-start {
+      justify-content: flex-start !important;
+    }
+    .justify-down-#{$bpKey}-end {
+      justify-content: flex-end !important;
+    }
+    .justify-down-#{$bpKey}-center {
+      justify-content: center !important;
+    }
+    .justify-down-#{$bpKey}-between {
+      justify-content: space-between !important;
+    }
+    .justify-down-#{$bpKey}-around {
+      justify-content: space-around !important;
+    }
 
-		.align-down-#{$bpKey}-start { align-items: flex-start !important; }
-		.align-down-#{$bpKey}-end { align-items: flex-end !important; }
-		.align-down-#{$bpKey}-center { align-items: center !important; }
-		.align-down-#{$bpKey}-stretch { align-items: stretch !important; }
-	}
+    .align-down-#{$bpKey}-start {
+      align-items: flex-start !important;
+    }
+    .align-down-#{$bpKey}-end {
+      align-items: flex-end !important;
+    }
+    .align-down-#{$bpKey}-center {
+      align-items: center !important;
+    }
+    .align-down-#{$bpKey}-stretch {
+      align-items: stretch !important;
+    }
+  }
 }

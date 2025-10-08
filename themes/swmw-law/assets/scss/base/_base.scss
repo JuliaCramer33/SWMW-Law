@@ -4,7 +4,6 @@
  */
 
 @use "../variables/variables" as *; // Make all forwarded variables globally accessible
-
 @forward "reset";
 @forward "document";
 @forward "elements";
@@ -21,7 +20,9 @@ html {
   scroll-behavior: smooth; // Smooth scroll for anchor links and `scrollIntoView`
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: inherit;
 }
 

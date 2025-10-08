@@ -10,7 +10,7 @@ import {
 	MediaUploadCheck,
 } from '@wordpress/block-editor';
 import { createHigherOrderComponent } from '@wordpress/compose';
-import { PanelBody, Button, ResponsiveWrapper } from '@wordpress/components';
+import { PanelBody, Button, ResponsiveWrapper, ToggleControl } from '@wordpress/components';
 
 const allowedBlocks = ['core/button'];
 
@@ -29,6 +29,10 @@ const addIconAttributes = (settings, name) => {
 
 	settings.attributes = {
 		...settings.attributes,
+        withArrow: {
+            type: 'boolean',
+            default: false,
+        },
 		iconId: {
 			type: 'number',
 		},
@@ -48,8 +52,8 @@ const addIconAttributes = (settings, name) => {
  */
 const withIconControls = createHigherOrderComponent((BlockEdit) => {
 	return (props) => {
-		const { name, attributes, setAttributes } = props;
-		const { iconId, iconUrl, iconAlt } = attributes;
+    const { name, attributes, setAttributes } = props;
+    const { iconId, iconUrl, iconAlt, withArrow } = attributes;
 
 		if (!allowedBlocks.includes(name)) {
 			return <BlockEdit {...props} />;
@@ -79,6 +83,18 @@ const withIconControls = createHigherOrderComponent((BlockEdit) => {
 						title={__('Icon Settings', 'swmw-law')}
 						initialOpen={true}
 					>
+                        <ToggleControl
+                            label={__('Add arrow icon', 'swmw-law')}
+                            checked={!!withArrow}
+                            onChange={(value) => {
+                                setAttributes({ withArrow: !!value });
+                                if (value) {
+                                    // Clear custom icon selection when using the built-in arrow
+                                    setAttributes({ iconId: undefined, iconUrl: undefined, iconAlt: undefined });
+                                }
+                            }}
+                        />
+                        {!withArrow && (
 						<MediaUploadCheck>
 							<MediaUpload
 								onSelect={onSelectIcon}
@@ -110,7 +126,8 @@ const withIconControls = createHigherOrderComponent((BlockEdit) => {
 								)}
 							/>
 						</MediaUploadCheck>
-						{iconId && (
+                        )}
+                        {iconId && !withArrow && (
 							<Button onClick={onRemoveIcon} isLink isDestructive>
 								{__('Remove icon', 'swmw-law')}
 							</Button>

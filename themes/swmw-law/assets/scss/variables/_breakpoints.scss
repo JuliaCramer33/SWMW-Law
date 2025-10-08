@@ -20,9 +20,9 @@ $breakpoint-xxl: 1400px !default;
 
 // You can also define a map for easier iteration if needed later:
 $breakpoints: (
-	"sm": $breakpoint-sm,
-	"md": $breakpoint-md,
-	"lg": $breakpoint-lg,
-	"xl": $breakpoint-xl,
-	"xxl": $breakpoint-xxl
+  "sm": $breakpoint-sm,
+  "md": $breakpoint-md,
+  "lg": $breakpoint-lg,
+  "xl": $breakpoint-xl,
+  "xxl": $breakpoint-xxl
 ) !default;
