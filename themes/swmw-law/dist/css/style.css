@@ -14503,19 +14503,21 @@ nav .menu-item.button,
   stroke: #417e4b;
 }
 .attorneys-block .splide__arrows .splide__arrow--prev {
-  left: -50px;
+  left: -1.5rem;
 }
 .attorneys-block .splide__arrows .splide__arrow--prev svg {
   transform: rotate(360deg);
 }
 .attorneys-block .splide__arrows .splide__arrow--next {
-  right: -50px;
+  right: -1.5rem;
+}
+.attorneys-block .splide__arrows .splide__arrow--next svg {
+  transform: rotate(180deg);
 }
 .attorneys-block .splide__arrows .splide__arrow svg {
-  stroke: #12477a;
-  fill: none !important;
-  width: 14px;
-  height: 22px;
+  stroke: #12477a !important;
+  width: 31px !important;
+  height: 31px !important;
   transition: stroke 0.2s ease-in-out;
 }
 .attorneys-block .splide__arrows .splide__arrow:disabled {
@@ -14541,10 +14543,17 @@ nav .menu-item.button,
 }
 .attorneys-block .attorney-image {
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 364px;
 }
 .attorneys-block .attorney-image img {
   transition: transform 0.5s ease;
-  width: 100%;
+  width: auto;
+  height: 100%;
+  max-width: 100%;
+  object-fit: contain;
 }
 .attorneys-block .attorney-image a {
   color: #417e4b;

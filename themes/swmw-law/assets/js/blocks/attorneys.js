@@ -17,7 +17,7 @@ export function initAttorneysSlider() {
       padding: '1rem',
       arrows: true,
       pagination: false,
-      autoHeight: true,
+      autoHeight: false,
       breakpoints: {
         991: { perPage: 2 },
         767: { perPage: 1 },
