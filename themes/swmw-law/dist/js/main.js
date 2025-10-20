@@ -1534,7 +1534,18 @@ __webpack_require__.r(__webpack_exports__);
         success(response) {
           if (response.success) {
             if (response.data.html) {
-              $('.attorney-grid').append(response.data.html);
+              const $grid = $('.attorney-grid');
+              $grid.append(response.data.html);
+              // Front-end de-dupe by card ID (keep first occurrence)
+              const seen = new Set();
+              $grid.find('.attorney-card-item').each(function () {
+                const id = this.id || '';
+                if (id && seen.has(id)) {
+                  $(this).remove();
+                } else if (id) {
+                  seen.add(id);
+                }
+              });
               document.dispatchEvent(new CustomEvent('swmw:contentLoaded'));
               button.text('Load More Attorneys').prop('disabled', false);
             } else {
