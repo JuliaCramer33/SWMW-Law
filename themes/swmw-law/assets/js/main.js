@@ -251,30 +251,9 @@ import { initAccordionColumns } from './accordion-columns.js';
         success(response) {
           if (response.success) {
             if (response.data.html) {
-              // Append only posts that are not already present (defensive against server/page repeats)
-              const $grid = $('.attorney-grid');
-              const temp = document.createElement('div');
-              temp.innerHTML = response.data.html;
-              const newItems = Array.from(temp.querySelectorAll('.attorney-card-item'));
-              let appended = 0;
-              newItems.forEach((el) => {
-                const idMatch = el.id && el.id.match(/^post-(\d+)$/);
-                const postId = idMatch ? idMatch[1] : null;
-                if (postId) {
-                  if (document.getElementById(`post-${postId}`)) {
-                    return; // already on page, skip
-                  }
-                }
-                $grid.append(el);
-                appended += 1;
-              });
-              if (appended > 0) {
-                document.dispatchEvent(new CustomEvent('swmw:contentLoaded'));
-                button.text('Load More Attorneys').prop('disabled', false);
-              } else {
-                // Nothing new appended; likely end of results
-                button.text('No More Attorneys').prop('disabled', true);
-              }
+              $('.attorney-grid').append(response.data.html);
+              document.dispatchEvent(new CustomEvent('swmw:contentLoaded'));
+              button.text('Load More Attorneys').prop('disabled', false);
             } else {
               button.text('No More Attorneys').prop('disabled', true);
             }

@@ -341,7 +341,7 @@ function attorney_ordering_clauses( $clauses, $query ) {
     $clauses['groupby'] = "{$wpdb->posts}.ID";
 
     // Build ORDER BY using deterministic subqueries
-    $member_exists_sql = "EXISTS (SELECT 1 FROM {$wpdb->term_relationships} tr2 JOIN {$wpdb->term_taxonomy} tt2 ON tt2.term_taxonomy_id = tr2.term_taxonomy_id AND tt2.taxonomy = 'attorney_position' JOIN {$wpdb->terms} t2 ON t2.term_id = tt2.term_id AND t2.slug = 'member' WHERE tr2.object_id = {$wpdb->posts}.ID)";
+    $member_exists_sql = "EXISTS (SELECT 1 FROM {$wpdb->term_relationships} tr2 JOIN {$wpdb->term_taxonomy} tt2 ON tt2.term_taxonomy_id = tr2.term_taxonomy_id AND tt2.taxonomy = 'attorney_position' JOIN {$wpdb->terms} t2 ON t2.term_id = tt2.term_id AND t2.slug IN ('member','members') WHERE tr2.object_id = {$wpdb->posts}.ID)";
     $start_value_sql = "(SELECT REPLACE(pm.meta_value, '-', '') FROM {$wpdb->postmeta} pm WHERE pm.post_id = {$wpdb->posts}.ID AND pm.meta_key = 'attorney_start_date' ORDER BY pm.meta_id DESC LIMIT 1)";
     // Members first (EXISTS true), then others; dated first within each group, oldest first
     $orderby = "CASE WHEN {$member_exists_sql} THEN 0 ELSE 1 END ASC, ";
