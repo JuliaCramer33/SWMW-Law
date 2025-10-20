@@ -2,6 +2,7 @@
 
 import initializeButtonHoverAnimation from './button-hover-animation.js'; // Import the module
 import { initMobileMenu, initMobileSubMenus } from './mobile-menu.js';
+import { initLoadMoreAttorneys as initLoadMoreAttorneysStandalone } from './load-more-attorneys.js';
 import { initMegaMenus, moveMegaPanels, equalizeMegaMenuHeights } from './mega-menu.js';
 import { initResultsSlider } from './blocks/results.js';
 import { initTestimonialsSlider } from './blocks/testimonials.js';
@@ -20,6 +21,25 @@ import { initAccordionColumns } from './accordion-columns.js';
 
 (function ($) {
   'use strict';
+
+  // Detect WP admin/editor early and bail to avoid interfering with saving/publishing
+  function isWpEditorOrAdmin() {
+    const b = document.body;
+    if (!b) return false;
+    const classes = b.classList;
+    return (
+      classes.contains('wp-admin') ||
+      classes.contains('block-editor-page') ||
+      classes.contains('site-editor-php') ||
+      classes.contains('nav-menus-php') ||
+      document.getElementById('editor') !== null ||
+      document.querySelector('.interface-interface-skeleton') !== null
+    );
+  }
+
+  if (isWpEditorOrAdmin()) {
+    return;
+  }
 
   // Add 'js' class to body immediately to prevent layout shift
   // This ensures animations only apply when JavaScript is available
@@ -116,10 +136,26 @@ import { initAccordionColumns } from './accordion-columns.js';
       console.error('MAIN.JS - ERROR in initSkipLink():', error);
     }
 
-    initMobileMenu();
-    initMobileSubMenus(); // Call the new mobile submenu initializer
-    initMegaMenus();
-    moveMegaPanels();
+    try {
+      initMobileMenu();
+    } catch (error) {
+      console.error('MAIN.JS - ERROR in initMobileMenu():', error);
+    }
+    try {
+      initMobileSubMenus(); // Call the new mobile submenu initializer
+    } catch (error) {
+      console.error('MAIN.JS - ERROR in initMobileSubMenus():', error);
+    }
+    try {
+      initMegaMenus();
+    } catch (error) {
+      console.error('MAIN.JS - ERROR in initMegaMenus():', error);
+    }
+    try {
+      moveMegaPanels();
+    } catch (error) {
+      console.error('MAIN.JS - ERROR in moveMegaPanels():', error);
+    }
     // Equalize a baseline min-height so adjacent panels align, while open height still animates
     try {
       equalizeMegaMenuHeights();
@@ -167,9 +203,9 @@ import { initAccordionColumns } from './accordion-columns.js';
     }
 
     try {
-      initLoadMoreAttorneys(); // Initialize the load more attorneys functionality
+      initLoadMoreAttorneysStandalone(); // Initialize the load more attorneys functionality (standalone)
     } catch (error) {
-      console.error('MAIN.JS - ERROR in initLoadMoreAttorneys():', error);
+      console.error('MAIN.JS - ERROR in initLoadMoreAttorneysStandalone():', error);
     }
 
     // Initialize Load More Results functionality
@@ -229,62 +265,7 @@ import { initAccordionColumns } from './accordion-columns.js';
   /**
    * Initialize Load More Attorneys functionality.
    */
-  function initLoadMoreAttorneys() {
-    const loadMoreButton = $('#load-more-attorneys');
-    if (!loadMoreButton.length) return;
-
-    let currentPage = 1; // current page already rendered
-
-    loadMoreButton.on('click', function () {
-      const nextPage = currentPage + 1;
-      const button = $(this);
-      button.text('Loading...').prop('disabled', true);
-
-      $.ajax({
-        url: swmwLawData.ajaxUrl,
-        type: 'POST',
-        data: {
-          action: 'load_more_attorneys',
-          page: nextPage,
-          nonce: swmwLawData.load_more_attorneys_nonce,
-        },
-        success(response) {
-          if (response.success) {
-            if (response.data.html) {
-              const $grid = $('.attorney-grid');
-              $grid.append(response.data.html);
-              // Front-end de-dupe by card ID (keep first occurrence)
-              const seen = new Set();
-              $grid.find('.attorney-card-item').each(function () {
-                const id = this.id || '';
-                if (id && seen.has(id)) {
-                  $(this).remove();
-                } else if (id) {
-                  seen.add(id);
-                }
-              });
-              document.dispatchEvent(new CustomEvent('swmw:contentLoaded'));
-              // Only advance the page if we actually appended something
-              if ($grid.find('.attorney-card-item').length > 0) {
-                currentPage = nextPage;
-              }
-              button.text('Load More Attorneys').prop('disabled', false);
-            } else {
-              button.text('No More Attorneys').prop('disabled', true);
-            }
-            if (nextPage >= response.data.max_pages) {
-              button.text('No More Attorneys').prop('disabled', true);
-            }
-          } else {
-            button.text('Error - Try Again').prop('disabled', false);
-          }
-        },
-        error() {
-          button.text('AJAX Error - Try Again').prop('disabled', false);
-        },
-      });
-    });
-  }
+  // (load more attorneys moved to standalone module)
 
   /**
    * Initialize Load More Results functionality.

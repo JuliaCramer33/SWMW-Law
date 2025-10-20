@@ -206,19 +206,28 @@ function swmw_law_load_more_attorneys_handler() {
         wp_die();
     }
 
-    $page = isset($_POST['page']) ? max(1, intval($_POST['page'])) : 1;
     $posts_per_page = 16; // Load 16 attorneys per AJAX request
-    $offset = ($page - 1) * $posts_per_page;
+    // Support either offset-based or exclude-based pagination (prefer exclude for stability)
+    $exclude_ids = [];
+    if ( isset( $_POST['exclude'] ) ) {
+        $raw = sanitize_text_field( wp_unslash( $_POST['exclude'] ) );
+        if ( $raw !== '' ) {
+            $exclude_ids = array_filter( array_map( 'intval', explode( ',', $raw ) ) );
+        }
+    }
+    // Fallback offset (still supported for debugging/logs)
+    $offset = isset( $_POST['offset'] ) ? max( 0, intval( $_POST['offset'] ) ) : 0;
 
     $args = [
-        'post_type'      => 'attorney',
-        'posts_per_page' => $posts_per_page,
-        'offset'         => $offset,
-        'post_status'    => 'publish',
-        // Flag to use the same custom SQL ordering as archive
+        'post_type'             => 'attorney',
+        'posts_per_page'        => $posts_per_page,
+        'offset'                => 0,
+        'post_status'           => 'publish',
+        // Use shared ordering: Members first, then Start Date ASC, then title/ID
         'attorney_custom_order' => true,
-        'suppress_filters' => false,
-        'no_found_rows' => true, // we'll compute max_pages separately for reliability
+        'suppress_filters'      => false,
+        'no_found_rows'         => true,
+        'post__not_in'          => $exclude_ids,
     ];
 
     $attorneys_query = new \WP_Query( $args );
@@ -230,16 +239,29 @@ function swmw_law_load_more_attorneys_handler() {
             get_template_part( 'template-parts/content', 'attorney-card' );
         endwhile;
         $html = ob_get_clean();
-        // Compute total pages deterministically
-        $counts = wp_count_posts('attorney');
-        $total_published = isset($counts->publish) ? (int) $counts->publish : 0;
-        $max_pages = $posts_per_page > 0 ? (int) ceil($total_published / $posts_per_page) : 1;
-        wp_send_json_success( ['html' => $html, 'max_pages' => $max_pages, 'current_page' => $page] );
+        // Compute totals and has_more deterministically
+        // Determine if more remain: if we returned a full batch, assume more may exist
+        $counts          = wp_count_posts( 'attorney' );
+        $total_published = isset( $counts->publish ) ? (int) $counts->publish : 0;
+        $max_pages       = $posts_per_page > 0 ? (int) ceil( $total_published / $posts_per_page ) : 1;
+        $has_more        = ( $attorneys_query->post_count === $posts_per_page );
+        wp_send_json_success( [
+            'html'         => $html,
+            'max_pages'    => $max_pages,
+            'current_page' => $page,
+            'has_more'     => $has_more,
+        ] );
     else :
-        $counts = wp_count_posts('attorney');
-        $total_published = isset($counts->publish) ? (int) $counts->publish : 0;
-        $max_pages = $posts_per_page > 0 ? (int) ceil($total_published / $posts_per_page) : 1;
-        wp_send_json_success( ['html' => '', 'max_pages' => $max_pages, 'current_page' => $page] ); 
+        $counts          = wp_count_posts( 'attorney' );
+        $total_published = isset( $counts->publish ) ? (int) $counts->publish : 0;
+        $max_pages       = $posts_per_page > 0 ? (int) ceil( $total_published / $posts_per_page ) : 1;
+        $has_more        = $offset < $total_published;
+        wp_send_json_success( [
+            'html'         => '',
+            'max_pages'    => $max_pages,
+            'current_page' => $page,
+            'has_more'     => $has_more,
+        ] ); 
     endif;
 
     wp_reset_postdata();

@@ -35,6 +35,7 @@ $description = get_the_archive_description();
 
 				<?php
 				// Load More Button functionality
+				global $wp_query;
 				if ( $wp_query->max_num_pages > 1 ) : // Only show if more than one page of results
 					echo '<div class="load-more-attorneys-wrapper text-center"><button id="load-more-attorneys" class="button">Load More Attorneys</button></div>';
 				endif;
