@@ -169,6 +169,7 @@ export function initHeroDropdownNav() {
       if (!isOpen) {
         // Ensure parent containers allow overflow
         ensureOverflowVisible();
+        // (portal behavior removed)
       }
 
       heroMenu.classList.toggle('is-open');
@@ -186,6 +187,8 @@ export function initHeroDropdownNav() {
       // Update ARIA attributes
       const isExpanded = heroMenu.classList.contains('is-open');
       toggle.setAttribute('aria-expanded', isExpanded);
+
+      // (portal cleanup removed)
     }
 
     /**

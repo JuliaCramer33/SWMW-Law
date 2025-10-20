@@ -120,17 +120,15 @@
   // Attorney image styles
   .attorney-image {
     overflow: hidden; // Contain the zoomed image
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 364px; // Normalize all images to the same frame height
+    height: 420px; // Consistent portrait height per request
+    width: 100%;
 
     img {
       transition: transform 0.5s ease;
-      width: auto;
-      height: 100%; // Fill the fixed-height frame without exceeding width
-      max-width: 100%;
-      object-fit: contain; // Avoid cropping while normalizing height
+      width: 100%;
+      height: 100%;
+      object-fit: cover; // Fill the ratio frame consistently
+      object-position: bottom center; // Keep heads in frame
     }
 
     a {

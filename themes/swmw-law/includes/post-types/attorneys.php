@@ -303,11 +303,97 @@ add_action( 'save_post', __NAMESPACE__ . '\update_attorney_position_priority' );
 function modify_attorney_archive_query( $query ) {
 	// Only modify the main query on attorney archive pages
 	if ( ! is_admin() && $query->is_main_query() && is_post_type_archive( 'attorney' ) ) {
-		$query->set( 'meta_key', '_attorney_position_priority' );
-		$query->set( 'orderby', 'meta_value_num title' );
-		$query->set( 'order', 'ASC' );
+        // Ensure priorities are populated so ordering works for all posts
+        maybe_backfill_attorney_priorities();
+        // Flag this query to use custom SQL ordering via posts_clauses filter
+        $query->set( 'attorney_custom_order', true );
 	}
 }
+
+/**
+ * Apply custom ordering for attorney archive (and any query with attorney_custom_order).
+ * Orders by position priority (ASC), then start date oldest first, then title (ASC).
+ * Ensures posts without start date are included but ordered after those with a date within each position.
+ *
+ * @param array    $clauses Query SQL clauses.
+ * @param \WP_Query $query   The current query.
+ * @return array
+ */
+function attorney_ordering_clauses( $clauses, $query ) {
+    global $wpdb;
+
+    if ( is_admin() ) {
+        return $clauses;
+    }
+
+    $apply = false;
+    if ( ( $query->is_main_query() && is_post_type_archive( 'attorney' ) ) || $query->get( 'attorney_custom_order' ) ) {
+        $apply = true;
+    }
+
+    if ( ! $apply ) {
+        return $clauses;
+    }
+
+    // Left join priority meta and start date meta
+    $clauses['join'] .= $wpdb->prepare(
+        " LEFT JOIN {$wpdb->postmeta} apm ON (apm.post_id = {$wpdb->posts}.ID AND apm.meta_key = %s)",
+        '_attorney_position_priority'
+    );
+    $clauses['join'] .= $wpdb->prepare(
+        " LEFT JOIN {$wpdb->postmeta} adm ON (adm.post_id = {$wpdb->posts}.ID AND adm.meta_key = %s)",
+        'attorney_start_date'
+    );
+
+    // Ensure unique posts when joining multiple postmeta rows
+    $clauses['groupby'] = "{$wpdb->posts}.ID";
+
+    // Build ORDER BY with safe casting
+    $orderby = "CAST(apm.meta_value AS UNSIGNED) ASC, ";
+    $orderby .= "CASE WHEN adm.meta_value IS NULL OR adm.meta_value = '' THEN 1 ELSE 0 END ASC, ";
+    $orderby .= "CAST(adm.meta_value AS UNSIGNED) ASC, ";
+    $orderby .= "{$wpdb->posts}.post_title ASC, ";
+    $orderby .= "{$wpdb->posts}.ID ASC";
+
+    $clauses['orderby'] = $orderby;
+
+    return $clauses;
+}
+add_filter( 'posts_clauses', __NAMESPACE__ . '\\attorney_ordering_clauses', 10, 2 );
 add_action( 'pre_get_posts', __NAMESPACE__ . '\modify_attorney_archive_query' );
 
+
+
+/**
+ * Ensure all attorneys have a position priority meta set so ordering works universally.
+ * Runs at most once per hour to avoid heavy processing.
+ */
+function maybe_backfill_attorney_priorities() {
+    // Only run on frontend init, throttle with a transient
+    if ( is_admin() || get_transient( 'swmw_attorney_priorities_backfill' ) ) {
+        return;
+    }
+
+    $missing = new \WP_Query( array(
+        'post_type'      => 'attorney',
+        'posts_per_page' => 1,
+        'post_status'    => 'any',
+        'meta_query'     => array(
+            array(
+                'key'     => '_attorney_position_priority',
+                'compare' => 'NOT EXISTS',
+            ),
+        ),
+        'fields'         => 'ids',
+        'no_found_rows'  => true,
+    ) );
+
+    if ( $missing->have_posts() ) {
+        // This will compute and set priorities for all attorneys
+        add_attorney_position_priority();
+    }
+
+    set_transient( 'swmw_attorney_priorities_backfill', 1, HOUR_IN_SECONDS );
+}
+add_action( 'init', __NAMESPACE__ . '\maybe_backfill_attorney_priorities', 20 );
 

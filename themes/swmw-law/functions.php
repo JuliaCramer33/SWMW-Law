@@ -214,9 +214,8 @@ function swmw_law_load_more_attorneys_handler() {
         'posts_per_page' => $posts_per_page,
         'paged'          => $page,
         'post_status'    => 'publish',
-        'meta_key'       => '_attorney_position_priority',
-        'orderby'        => 'meta_value_num title',
-        'order'          => 'ASC',
+        // Flag to use the same custom SQL ordering as archive
+        'attorney_custom_order' => true,
     ];
 
     $attorneys_query = new \WP_Query( $args );

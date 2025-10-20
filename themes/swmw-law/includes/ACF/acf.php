@@ -17,6 +17,7 @@ require_once SWMW_LAW_DIR . 'includes/ACF/testimonials.php';
 require_once SWMW_LAW_DIR . 'includes/ACF/results.php';
 require_once SWMW_LAW_DIR . 'includes/ACF/page-settings.php';
 require_once SWMW_LAW_DIR . 'includes/ACF/cities.php';
+require_once SWMW_LAW_DIR . 'includes/ACF/attorneys.php';
 // require_once SWMW_LAW_DIR . 'includes/acf/blocks/angled-image-pair-content-fields.php';
 
 // Add any other ACF related hooks or functions below, if needed. 

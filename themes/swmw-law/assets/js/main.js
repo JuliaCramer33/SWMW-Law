@@ -231,14 +231,12 @@ import { initAccordionColumns } from './accordion-columns.js';
    */
   function initLoadMoreAttorneys() {
     const loadMoreButton = $('#load-more-attorneys');
-    if (!loadMoreButton.length) {
-      return; // Button not found on this page
-    }
+    if (!loadMoreButton.length) return;
 
-    let currentPage = 1; // The initial page is already loaded, so next page to load is 2
+    let currentPage = 1; // next page to load will be 2 on first click
 
     loadMoreButton.on('click', function () {
-      currentPage++; // Increment to load the next page
+      currentPage++;
       const button = $(this);
       button.text('Loading...').prop('disabled', true);
 
@@ -248,41 +246,26 @@ import { initAccordionColumns } from './accordion-columns.js';
         data: {
           action: 'load_more_attorneys',
           page: currentPage,
-          nonce: swmwLawData.load_more_attorneys_nonce, // Get nonce from localized data
+          nonce: swmwLawData.load_more_attorneys_nonce,
         },
         success(response) {
           if (response.success) {
             if (response.data.html) {
               $('.attorney-grid').append(response.data.html);
-              button
-                .text('Load More Attorneys')
-                .prop('disabled', false);
+              document.dispatchEvent(new CustomEvent('swmw:contentLoaded'));
+              button.text('Load More Attorneys').prop('disabled', false);
             } else {
-              button
-                .text('No More Attorneys')
-                .prop('disabled', true);
+              button.text('No More Attorneys').prop('disabled', true);
             }
-            // Check if we've reached the max number of pages
             if (currentPage >= response.data.max_pages) {
-              button
-                .text('No More Attorneys')
-                .prop('disabled', true);
+              button.text('No More Attorneys').prop('disabled', true);
             }
           } else {
-            console.error(
-              'Error loading attorneys:',
-              response.data.message
-            );
-            button
-              .text('Error - Try Again')
-              .prop('disabled', false);
+            button.text('Error - Try Again').prop('disabled', false);
           }
         },
-        error(jqXHR, textStatus, errorThrown) {
-          console.error('AJAX error:', textStatus, errorThrown);
-          button
-            .text('AJAX Error - Try Again')
-            .prop('disabled', false);
+        error() {
+          button.text('AJAX Error - Try Again').prop('disabled', false);
         },
       });
     });

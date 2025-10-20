@@ -14543,17 +14543,15 @@ nav .menu-item.button,
 }
 .attorneys-block .attorney-image {
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 364px;
+  height: 420px;
+  width: 100%;
 }
 .attorneys-block .attorney-image img {
   transition: transform 0.5s ease;
-  width: auto;
+  width: 100%;
   height: 100%;
-  max-width: 100%;
-  object-fit: contain;
+  object-fit: cover;
+  object-position: bottom center;
 }
 .attorneys-block .attorney-image a {
   color: #417e4b;
@@ -14885,7 +14883,7 @@ nav .menu-item.button,
   width: 65%;
   height: auto;
   object-fit: cover;
-  z-index: 10;
+  z-index: 1;
 }
 .image-split-block.overlap-left .image-2 {
   right: auto;
@@ -15895,8 +15893,8 @@ nav .menu-item.button,
   content: "";
   display: inline-block;
   margin-left: 0.5em;
-  width: 1em;
-  height: 1em;
+  width: 16px;
+  height: 16px;
   background-image: url(../de93088a6747d30f3781.svg);
   background-size: contain;
   background-repeat: no-repeat;
