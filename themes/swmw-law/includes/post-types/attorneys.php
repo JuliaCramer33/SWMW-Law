@@ -335,25 +335,24 @@ function attorney_ordering_clauses( $clauses, $query ) {
         return $clauses;
     }
 
-    // Left join priority meta and start date meta
-    $clauses['join'] .= $wpdb->prepare(
-        " LEFT JOIN {$wpdb->postmeta} apm ON (apm.post_id = {$wpdb->posts}.ID AND apm.meta_key = %s)",
-        '_attorney_position_priority'
-    );
+    // Left join start date meta
     $clauses['join'] .= $wpdb->prepare(
         " LEFT JOIN {$wpdb->postmeta} adm ON (adm.post_id = {$wpdb->posts}.ID AND adm.meta_key = %s)",
         'attorney_start_date'
     );
+    // Join term tables to detect 'member' position
+    $clauses['join'] .= " LEFT JOIN {$wpdb->term_relationships} tr ON (tr.object_id = {$wpdb->posts}.ID)";
+    $clauses['join'] .= " LEFT JOIN {$wpdb->term_taxonomy} tt ON (tt.term_taxonomy_id = tr.term_taxonomy_id AND tt.taxonomy = 'attorney_position')";
+    $clauses['join'] .= " LEFT JOIN {$wpdb->terms} t ON (t.term_id = tt.term_id AND t.slug = 'member')";
 
     // Ensure unique posts when joining multiple postmeta rows
     $clauses['groupby'] = "{$wpdb->posts}.ID";
 
-    // Build ORDER BY with safe casting
-    $orderby = "CAST(apm.meta_value AS UNSIGNED) ASC, ";
+    // Build ORDER BY: members first, then others; within each, date then title then ID
+    $orderby = "CASE WHEN t.term_id IS NULL THEN 1 ELSE 0 END ASC, ";
     $orderby .= "CASE WHEN adm.meta_value IS NULL OR adm.meta_value = '' THEN 1 ELSE 0 END ASC, ";
     $orderby .= "CAST(adm.meta_value AS UNSIGNED) ASC, ";
-    $orderby .= "{$wpdb->posts}.post_title ASC, ";
-    $orderby .= "{$wpdb->posts}.ID ASC";
+    $orderby .= "{$wpdb->posts}.post_title ASC, {$wpdb->posts}.ID ASC";
 
     $clauses['orderby'] = $orderby;
 
