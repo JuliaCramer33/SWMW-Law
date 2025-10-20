@@ -233,10 +233,10 @@ import { initAccordionColumns } from './accordion-columns.js';
     const loadMoreButton = $('#load-more-attorneys');
     if (!loadMoreButton.length) return;
 
-    let currentPage = 1; // next page to load will be 2 on first click
+    let currentPage = 1; // current page already rendered
 
     loadMoreButton.on('click', function () {
-      currentPage++;
+      const nextPage = currentPage + 1;
       const button = $(this);
       button.text('Loading...').prop('disabled', true);
 
@@ -245,7 +245,7 @@ import { initAccordionColumns } from './accordion-columns.js';
         type: 'POST',
         data: {
           action: 'load_more_attorneys',
-          page: currentPage,
+          page: nextPage,
           nonce: swmwLawData.load_more_attorneys_nonce,
         },
         success(response) {
@@ -264,11 +264,15 @@ import { initAccordionColumns } from './accordion-columns.js';
                 }
               });
               document.dispatchEvent(new CustomEvent('swmw:contentLoaded'));
+              // Only advance the page if we actually appended something
+              if ($grid.find('.attorney-card-item').length > 0) {
+                currentPage = nextPage;
+              }
               button.text('Load More Attorneys').prop('disabled', false);
             } else {
               button.text('No More Attorneys').prop('disabled', true);
             }
-            if (currentPage >= response.data.max_pages) {
+            if (nextPage >= response.data.max_pages) {
               button.text('No More Attorneys').prop('disabled', true);
             }
           } else {
