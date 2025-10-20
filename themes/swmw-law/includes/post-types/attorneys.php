@@ -340,16 +340,14 @@ function attorney_ordering_clauses( $clauses, $query ) {
         " LEFT JOIN {$wpdb->postmeta} adm ON (adm.post_id = {$wpdb->posts}.ID AND adm.meta_key = %s)",
         'attorney_start_date'
     );
-    // Join term tables to detect 'member' position
-    $clauses['join'] .= " LEFT JOIN {$wpdb->term_relationships} tr ON (tr.object_id = {$wpdb->posts}.ID)";
-    $clauses['join'] .= " LEFT JOIN {$wpdb->term_taxonomy} tt ON (tt.term_taxonomy_id = tr.term_taxonomy_id AND tt.taxonomy = 'attorney_position')";
-    $clauses['join'] .= " LEFT JOIN {$wpdb->terms} t ON (t.term_id = tt.term_id AND t.slug = 'member')";
 
     // Ensure unique posts when joining multiple postmeta rows
     $clauses['groupby'] = "{$wpdb->posts}.ID";
 
-    // Build ORDER BY: members first, then others; within each, date then title then ID
-    $orderby = "CASE WHEN t.term_id IS NULL THEN 1 ELSE 0 END ASC, ";
+    // Build ORDER BY using deterministic EXISTS subquery for 'member' term
+    $member_exists_sql = "EXISTS (SELECT 1 FROM {$wpdb->term_relationships} tr2 JOIN {$wpdb->term_taxonomy} tt2 ON tt2.term_taxonomy_id = tr2.term_taxonomy_id AND tt2.taxonomy = 'attorney_position' JOIN {$wpdb->terms} t2 ON t2.term_id = tt2.term_id AND t2.slug = 'member' WHERE tr2.object_id = {$wpdb->posts}.ID)";
+    // Members first (EXISTS true), then others
+    $orderby = "CASE WHEN {$member_exists_sql} THEN 0 ELSE 1 END ASC, ";
     $orderby .= "CASE WHEN adm.meta_value IS NULL OR adm.meta_value = '' THEN 1 ELSE 0 END ASC, ";
     $orderby .= "CAST(adm.meta_value AS UNSIGNED) ASC, ";
     $orderby .= "{$wpdb->posts}.post_title ASC, {$wpdb->posts}.ID ASC";
