@@ -65,9 +65,7 @@
         width: 100%;
         height: auto;
         display: block;
-        aspect-ratio: 1 / 1.2; // consistent portrait ratio
-        object-fit: cover;
-        object-position: top center; // anchor crop to top
+        // No aspect-ratio needed - using custom image size with hard crop
         transition: transform 0.5s ease;
       }
     }

@@ -33,6 +33,10 @@ add_action( 'after_setup_theme', function() {
     // Also explicitly add support for individual post types
     add_post_type_support( 'post', 'thumbnail' );
     add_post_type_support( 'page', 'thumbnail' );
+    
+    // Add custom image size for attorney cards
+    // This will create a 400x480 image (5:6 aspect ratio) with hard crop from center-top
+    add_image_size( 'attorney-card', 400, 480, array( 'center', 'top' ) );
 }, 1 );
 
 

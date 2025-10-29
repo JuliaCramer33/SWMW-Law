@@ -15,7 +15,7 @@ $start_sort = $start_date ? preg_replace( '/[^0-9]/', '', (string) $start_date )
 	<div class="attorney-card-image">
 		<a href="<?php the_permalink(); ?>" rel="bookmark">
 			<?php if ( has_post_thumbnail() ) : ?>
-				<?php the_post_thumbnail('medium_large'); ?>
+				<?php the_post_thumbnail('attorney-card'); ?>
 			<?php else : ?>
 				<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/avatar-placeholder.svg' ); ?>" alt="<?php the_title_attribute(); ?> placeholder" />
 			<?php endif; ?>

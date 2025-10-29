@@ -35,7 +35,7 @@ if (!empty($selected_attorneys)) {
                                     <?php if (has_post_thumbnail()) : ?>
                                         <div class="attorney-image">
                                             <a href="<?php the_permalink(); ?>" tabindex="-1">
-                                                <?php the_post_thumbnail('large'); ?>
+                                                <?php the_post_thumbnail('attorney-card'); ?>
                                             </a>
                                         </div>
                                     <?php endif; ?>
