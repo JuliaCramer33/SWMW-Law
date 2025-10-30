@@ -55,7 +55,7 @@
   top: 100%;
   left: 50%;
   width: 100vw;
-  background-color: $color-secondary;
+  background-color: $color-gray-lightest;
   border-top: 1px solid $color-divider;
   box-shadow: $box-shadow-lg;
   z-index: $z-index-dropdown;
@@ -103,25 +103,26 @@
       margin-bottom: $spacing-3;
 
       > a {
+        color: $color-charcoal;
         display: block;
-        padding: $spacing-2 0;
-        text-decoration: none;
-        color: $color-white;
+        font-weight: $font-weight-bold;
         font-family: $font-montserrat;
-        font-size: $font-size-base;
-        font-weight: $font-weight-normal;
+        font-size: $font-size-sm;
         line-height: 1.4;
+        padding: $spacing-2;
+        text-decoration: none;
         transition: color 0.2s ease;
 
         &:hover,
         &:focus {
-          color: rgba($color-white, 0.8);
-          text-decoration: underline;
+          background-color: $color-secondary;
+          color: $color-white;
         }
       }
 
       // Highlight the current page in the left column
       &.current-menu-item > a {
+        background-color: $color-secondary;
         color: rgba($color-white, 0.8);
         text-decoration: underline;
       }
@@ -162,7 +163,7 @@
   .mega-menu-column-right-content {
     height: 100%;
     box-sizing: border-box;
-    background-color: $color-gray-lightest;
+    background-color: $color-secondary;
     padding: $spacing-6;
     box-shadow: $box-shadow-md;
 
@@ -171,7 +172,7 @@
     }
 
     .mega-menu-right-column-title {
-      color: $color-secondary;
+      color: $color-white;
       font-weight: $font-weight-bold;
       font-size: $font-size-lg;
       margin: 0 0 $spacing-3;
@@ -181,7 +182,7 @@
       .mega-menu-title-line {
         flex-grow: 1;
         height: 1px;
-        background-color: $color-secondary;
+        background-color: $color-white;
         margin-left: $spacing-3;
       }
     }
@@ -206,17 +207,16 @@
 
       > li.menu-item > a {
         display: block;
-        padding: $spacing-2 0;
+        padding: $spacing-1 0;
         text-decoration: none;
-        color: $color-charcoal;
+        color: $color-white;
         font-family: $font-montserrat;
         font-size: $font-size-sm;
         font-weight: $font-weight-semibold;
-        line-height: 1.4;
 
         &:hover,
         &:focus {
-          color: $color-secondary;
+          text-decoration: underline;
         }
       }
 
