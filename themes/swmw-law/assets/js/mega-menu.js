@@ -20,6 +20,60 @@ export function initMegaMenus() {
 
     if (!leftColumn || !rightColumn) return;
 
+    const allSecondLevelItems = leftColumn.querySelectorAll(
+      '.mega-menu-child-list > li.menu-item'
+    );
+
+    const renderThirdLevelFor = (secondItem) => {
+      const secondLevelLink = secondItem.querySelector(':scope > a');
+      const thirdLevelSourceSubMenu = secondItem.querySelector(
+        ':scope > .sub-menu.sub-menu-level-2'
+      );
+
+      rightColumn.innerHTML = '';
+
+      if (thirdLevelSourceSubMenu) {
+        const thirdLevelListItems =
+          thirdLevelSourceSubMenu.querySelectorAll(':scope > li');
+        if (thirdLevelListItems.length > 0) {
+          if (secondLevelLink) {
+            const titleElement = document.createElement('h3');
+            titleElement.className = 'mega-menu-right-column-title';
+
+            const textElement = document.createElement('span');
+            textElement.className = 'mega-menu-title-text';
+            textElement.textContent = secondLevelLink.textContent;
+            titleElement.appendChild(textElement);
+
+            const lineElement = document.createElement('span');
+            lineElement.className = 'mega-menu-title-line';
+            titleElement.appendChild(lineElement);
+
+            rightColumn.appendChild(titleElement);
+          }
+
+          const newUl = document.createElement('ul');
+          newUl.className = 'sub-menu third-level-list';
+          if (thirdLevelListItems.length > 9) {
+            newUl.classList.add('multi-column');
+          }
+          thirdLevelListItems.forEach((li) =>
+            newUl.appendChild(li.cloneNode(true))
+          );
+          rightColumn.appendChild(newUl);
+        }
+      }
+
+      allSecondLevelItems.forEach((item) =>
+        item.classList.remove('is-active-child')
+      );
+      secondItem.classList.add('is-active-child');
+
+      requestAnimationFrame(() => {
+        computeAndSetTargetHeight();
+      });
+    };
+
     const measurePanelNaturalHeight = () => {
       const panelInner = megaPanel.querySelector('.mega-menu-panel-inner');
       if (!panelInner) return 0;
@@ -129,6 +183,15 @@ export function initMegaMenus() {
       computeAndSetTargetHeight();
       openPanel();
       rightColumn.innerHTML = '';
+
+      // Default-open the first second-level item that has children (third-level items).
+      const defaultSecondItem =
+        Array.from(allSecondLevelItems).find((item) =>
+          item.querySelector(':scope > .sub-menu.sub-menu-level-2 > li')
+        ) || allSecondLevelItems[0];
+      if (defaultSecondItem) {
+        renderThirdLevelFor(defaultSecondItem);
+      }
     });
 
     topItem.addEventListener('mouseleave', () => {
@@ -146,55 +209,10 @@ export function initMegaMenus() {
       panelCloseTimer = setTimeout(closePanel, hoverDelay);
     });
 
-    const allSecondLevelItems = leftColumn.querySelectorAll(
-      '.mega-menu-child-list > li.menu-item'
-    );
     allSecondLevelItems.forEach((secondItem) => {
-      const secondLevelLink = secondItem.querySelector(':scope > a');
-      const thirdLevelSourceSubMenu = secondItem.querySelector(
-        ':scope > .sub-menu.sub-menu-level-2'
+      secondItem.addEventListener('mouseenter', () =>
+        renderThirdLevelFor(secondItem)
       );
-      secondItem.addEventListener('mouseenter', () => {
-        rightColumn.innerHTML = '';
-        if (thirdLevelSourceSubMenu) {
-          const thirdLevelListItems =
-            thirdLevelSourceSubMenu.querySelectorAll(':scope > li');
-          if (thirdLevelListItems.length > 0) {
-            if (secondLevelLink) {
-              const titleElement = document.createElement('h3');
-              titleElement.className = 'mega-menu-right-column-title';
-
-              const textElement = document.createElement('span');
-              textElement.className = 'mega-menu-title-text';
-              textElement.textContent = secondLevelLink.textContent;
-              titleElement.appendChild(textElement);
-
-              const lineElement = document.createElement('span');
-              lineElement.className = 'mega-menu-title-line';
-              titleElement.appendChild(lineElement);
-
-              rightColumn.appendChild(titleElement);
-            }
-
-            const newUl = document.createElement('ul');
-            newUl.className = 'sub-menu third-level-list';
-            if (thirdLevelListItems.length > 9) {
-              newUl.classList.add('multi-column');
-            }
-            thirdLevelListItems.forEach((li) =>
-              newUl.appendChild(li.cloneNode(true))
-            );
-            rightColumn.appendChild(newUl);
-          }
-        }
-        allSecondLevelItems.forEach((item) =>
-          item.classList.remove('is-active-child')
-        );
-        secondItem.classList.add('is-active-child');
-        requestAnimationFrame(() => {
-          computeAndSetTargetHeight();
-        });
-      });
     });
   });
 }
