@@ -20,6 +20,22 @@ get_template_part( 'template-parts/hero-archive' );
 	$featured_args = array(
 		'post_type'      => 'swmw_result',
 		'posts_per_page' => -1, // Show all featured
+		'meta_query'     => array(
+			'relation'      => 'OR',
+			'amount_clause' => array(
+				'key'     => 'result_amount_num',
+				'compare' => 'EXISTS',
+				'type'    => 'NUMERIC',
+			),
+			array(
+				'key'     => 'result_amount_num',
+				'compare' => 'NOT EXISTS',
+			),
+		),
+		'orderby'        => array(
+			'amount_clause' => 'DESC',
+			'date'          => 'DESC',
+		),
 		'tax_query'      => array(
 			array(
 				'taxonomy' => 'swmw_result_status',

@@ -201,6 +201,151 @@ function swmw_law_non_featured_results_archive_query( $query ) {
 add_action( 'pre_get_posts', __NAMESPACE__ . '\swmw_law_non_featured_results_archive_query' );
 
 /**
+ * Parse a human-entered money string into a numeric dollar amount.
+ *
+ * Examples:
+ * - "$500,000" -> 500000
+ * - "$7 Million" / "7m" / "7.5 million" -> 7000000 / 7500000
+ * - "$3 Billion" / "3b" -> 3000000000
+ * - "$120k" / "120 thousand" -> 120000
+ *
+ * @param string $raw Raw amount string.
+ * @return float Parsed numeric amount in dollars. Returns 0 if unparseable.
+ */
+function swmw_law_parse_amount_to_number( $raw ) {
+	if ( ! is_string( $raw ) || $raw === '' ) {
+		return 0.0;
+	}
+	$s = strtolower( trim( $raw ) );
+	$s = str_replace( [ '$', ',', 'usd' ], '', $s );
+	$s = trim( $s );
+
+	$multiplier = 1.0;
+	// Billion indicators: billion, bn, bill, bln, or trailing 'b'
+	if (
+		preg_match( '/\b(billion|bn|bill|bln)\b/', $s ) ||
+		preg_match( '/\d+(?:\.\d+)?\s*b(?![a-z])/', $s ) ||
+		preg_match( '/\d+(?:\.\d+)?b(?![a-z])/', $s )
+	) {
+		$multiplier = 1000000000.0;
+	// Million indicators: million, mm, mil, mn, mln, or trailing 'm'
+	} elseif (
+		preg_match( '/\b(million|mm|mil|mn|mln)\b/', $s ) ||
+		preg_match( '/\d+(?:\.\d+)?\s*m(?![a-z])/', $s ) ||
+		preg_match( '/\d+(?:\.\d+)?m(?![a-z])/', $s )
+	) {
+		$multiplier = 1000000.0;
+	// Thousand indicators: thousand, k, or trailing 'k'
+	} elseif (
+		preg_match( '/\b(thousand|k)\b/', $s ) ||
+		preg_match( '/\d+(?:\.\d+)?\s*k(?![a-z])/', $s ) ||
+		preg_match( '/\d+(?:\.\d+)?k(?![a-z])/', $s )
+	) {
+		$multiplier = 1000.0;
+	}
+
+	if ( preg_match( '/(\d+(?:\.\d+)?)/', $s, $m ) ) {
+		$base = (float) $m[1];
+		return $base * $multiplier;
+	}
+	return 0.0;
+}
+
+/**
+ * On save of a Result, compute and store numeric amount for ordering.
+ *
+ * @param int $post_id
+ */
+function swmw_law_save_result_amount_numeric( $post_id ) {
+	// Only for our CPT.
+	if ( get_post_type( $post_id ) !== 'swmw_result' ) {
+		return;
+	}
+	// Avoid autosave/revisions.
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return;
+	}
+	if ( wp_is_post_revision( $post_id ) ) {
+		return;
+	}
+	// Capability check.
+	if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		return;
+	}
+
+	$raw     = function_exists( 'get_field' ) ? get_field( 'result_amount', $post_id ) : get_post_meta( $post_id, 'result_amount', true );
+	$numeric = swmw_law_parse_amount_to_number( (string) $raw );
+	update_post_meta( $post_id, 'result_amount_num', $numeric );
+}
+add_action( 'save_post', __NAMESPACE__ . '\swmw_law_save_result_amount_numeric' );
+
+/**
+ * Order the Results archive by numeric amount, descending (largest first),
+ * while including posts without the numeric meta (fallback order by date).
+ *
+ * @param \WP_Query $query
+ */
+function swmw_law_order_results_by_amount( $query ) {
+	if ( is_admin() || ! $query->is_main_query() ) {
+		return;
+	}
+	if ( is_post_type_archive( 'swmw_result' ) ) {
+		$meta_query = array(
+			'relation'      => 'OR',
+			'amount_clause' => array(
+				'key'     => 'result_amount_num',
+				'compare' => 'EXISTS',
+				'type'    => 'NUMERIC',
+			),
+			array(
+				'key'     => 'result_amount_num',
+				'compare' => 'NOT EXISTS',
+			),
+		);
+		$query->set( 'meta_query', $meta_query );
+		$query->set( 'orderby', array( 'amount_clause' => 'DESC', 'date' => 'DESC' ) );
+	}
+}
+add_action( 'pre_get_posts', __NAMESPACE__ . '\swmw_law_order_results_by_amount' );
+
+/**
+ * One-time backfill: compute and store numeric amounts for existing Results.
+ * Runs once for an admin user on next admin page load.
+ */
+function swmw_law_maybe_backfill_result_amounts() {
+	if ( ! is_admin() ) {
+		return;
+	}
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+	// Allow an on-demand backfill by visiting any admin page with ?swmw_backfill_results=1
+	$force_backfill = isset( $_GET['swmw_backfill_results'] ) && $_GET['swmw_backfill_results'] === '1'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	$already_done   = get_option( 'swmw_law_results_backfilled_amounts', '' );
+	if ( ! $force_backfill && $already_done === 'done' ) {
+		return;
+	}
+	$results = get_posts( [
+		'post_type'      => 'swmw_result',
+		'post_status'    => 'any',
+		'posts_per_page' => -1,
+		'fields'         => 'ids',
+		'no_found_rows'  => true,
+	] );
+	foreach ( $results as $post_id ) {
+		$raw = function_exists( 'get_field' ) ? get_field( 'result_amount', $post_id ) : get_post_meta( $post_id, 'result_amount', true );
+		$numeric_existing = get_post_meta( $post_id, 'result_amount_num', true );
+		// Only backfill when missing or zero, but we do have a display value.
+		if ( ( $numeric_existing === '' || floatval( $numeric_existing ) <= 0 ) && ( is_string( $raw ) && $raw !== '' ) ) {
+			$numeric = swmw_law_parse_amount_to_number( (string) $raw );
+			update_post_meta( $post_id, 'result_amount_num', $numeric );
+		}
+	}
+	update_option( 'swmw_law_results_backfilled_amounts', 'done', false );
+}
+add_action( 'admin_init', __NAMESPACE__ . '\swmw_law_maybe_backfill_result_amounts' );
+
+/**
  * AJAX handler for loading more attorneys.
  */
 function swmw_law_load_more_attorneys_handler() {
@@ -292,6 +437,22 @@ function swmw_law_load_more_results_handler() {
         'posts_per_page' => $posts_per_page,
         'paged'          => $page,
         'post_status'    => 'publish',
+		'meta_query'     => [
+			'relation'      => 'OR',
+			'amount_clause' => [
+				'key'     => 'result_amount_num',
+				'compare' => 'EXISTS',
+				'type'    => 'NUMERIC',
+			],
+			[
+				'key'     => 'result_amount_num',
+				'compare' => 'NOT EXISTS',
+			],
+		],
+		'orderby'        => [
+			'amount_clause' => 'DESC',
+			'date'          => 'DESC',
+		],
         'tax_query'      => [
             [
                 'taxonomy' => 'swmw_result_status',
