@@ -11,16 +11,30 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set up Node 18 LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+          cache-dependency-path: |
+            plugins/core-block-custom-breakpoints/package-lock.json
+            themes/swmw-law/package-lock.json
+
+      - name: Install libvips (sharp dependency)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libvips-dev
+
       - name: Build plugin assets
         working-directory: ./plugins/core-block-custom-breakpoints
         run: |
-          npm install
+          npm ci
           npm run build
 
       - name: Build theme assets
         working-directory: ./themes/swmw-law
         run: |
-          npm install
+          npm ci
           npm run build
 
       - name: Deploy to WP Engine Staging
