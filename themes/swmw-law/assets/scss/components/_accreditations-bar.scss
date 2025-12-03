@@ -111,7 +111,8 @@
     }
 
     &__logos {
-      grid-template-columns: repeat(4, minmax(140px, 1fr)); // 4 columns on desktop (up to 8 logos shows as 2 rows)
+      // Desktop: explicit 8 columns; template caps items to 8 so all fit in one row
+      grid-template-columns: repeat(8, minmax(0, 1fr));
     }
 
     &--overlap {

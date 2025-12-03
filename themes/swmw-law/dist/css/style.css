@@ -14134,7 +14134,7 @@ nav .menu-item.button,
     display: none;
   }
   .accreditations-bar__logos {
-    grid-template-columns: repeat(4, minmax(140px, 1fr));
+    grid-template-columns: repeat(8, minmax(0, 1fr));
   }
   .accreditations-bar--overlap {
     margin-top: -40px;
