@@ -33,11 +33,25 @@ if ( $overlap !== '0' && $overlap !== 0 && $overlap !== false ) {
 		<section class="<?php echo esc_attr( implode( ' ', $bar_classes ) ); ?>">
 			<div class="accreditations-bar__content">
 				<div class="accreditations-bar__title-area">
-					<h2 class="accreditations-bar__title"><?php echo wp_kses_post( $accreditations_title ); ?></h2>
+					<?php
+					// Limit title to inline-safe tags so we don't end up with <p> inside <h2>.
+					$allowed_inline_tags = array(
+						'strong' => array(),
+						'em'     => array(),
+						'span'   => array( 'class' => array() ),
+						'br'     => array(),
+					);
+					$inline_title = wp_kses( (string) $accreditations_title, $allowed_inline_tags );
+					?>
+					<h2 class="accreditations-bar__title"><?php echo $inline_title; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></h2>
 				</div>
 				<div class="accreditations-bar__logos-area">
 					<ul class="accreditations-bar__logos">
-						<?php foreach ( $accreditations_logos as $logo ) : ?>
+						<?php
+                        // Limit to max 8 logos
+                        $logos_to_show = array_slice( (array) $accreditations_logos, 0, 8 );
+                        foreach ( $logos_to_show as $logo ) :
+                        ?>
 							<li class="accreditations-bar__logo-item">
 								<img src="<?php echo esc_url( $logo['url'] ); ?>" alt="<?php echo esc_attr( $logo['alt'] ); ?>" />
 							</li>

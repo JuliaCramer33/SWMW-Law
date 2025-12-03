@@ -7,6 +7,9 @@
  */
 
 .accreditations-bar {
+  // Component-scoped variables
+  $accreditations-logo-max-width: 15.625rem; // 250px
+
   background-color: $color-gray-lightest;
   padding: $spacing-8 $spacing-6; // Mobile padding first
   position: relative;
@@ -17,7 +20,7 @@
     display: flex;
     flex-direction: column; // Stacked on mobile
     align-items: center; // Center content on mobile
-    gap: $spacing-6;
+    gap: $spacing-12; // Space between title and logos (~2rem)
     position: relative;
     z-index: 1;
   }
@@ -31,20 +34,7 @@
     padding-right: 0; // No padding on mobile
     text-align: center; // Center title on mobile
 
-    // Diagonal separator background
-    &::after {
-      display: block;
-      content: "";
-      position: absolute;
-      top: -$spacing-12;
-      right: 0;
-      width: 200vw;
-      height: 300px;
-      background-color: $color-gray-lighter;
-      transform: skewX(-20deg);
-      transform-origin: top right;
-      z-index: 0;
-    }
+  
   }
 
   // Title text
@@ -65,22 +55,23 @@
 
   // Logos container
   &__logos {
-    display: flex;
-    justify-content: center; // Center logos on mobile
     align-items: center;
-    gap: $spacing-8;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(120px, 1fr)); // Mobile: 2 columns (2/2)
+    gap: $spacing-6;
+    justify-items: center;
     list-style: none;
     margin: 0;
     padding: 0;
-    flex-wrap: wrap; // Allow logos to wrap
   }
 
   // Individual logo items
   &__logo-item {
     img {
-      max-height: 50px;
-      width: auto;
-      object-fit: contain;
+      width: 100%;              // Fill available grid column
+      max-width: $accreditations-logo-max-width; // Cap via variable
+      height: auto;             // Preserve aspect ratio
+      object-fit: contain;      // Contain within the box without cropping
       filter: grayscale(100%);
       opacity: 0.8;
       transition: all 0.3s ease;
@@ -98,29 +89,31 @@
     }
   }
 
+  // Tablet and up: 4 columns (4/4)
+  @media (min-width: $breakpoint-md) {
+    &__logos {
+      grid-template-columns: repeat(4, minmax(120px, 1fr));
+    }
+  }
+
   // Desktop styles
   @media (min-width: $breakpoint-lg) {
     padding: $spacing-12 $spacing-16; // Desktop padding
 
     &__content {
-      flex-direction: row; // Side-by-side on desktop
-      align-items: stretch; // Make columns equal height
+      flex-direction: column; // Keep stacked layout on desktop
+      align-items: center;
     }
 
     &__title-area {
-      padding-right: $spacing-16; // Restore desktop padding
-      text-align: left; // Align text to the left
+      padding-right: 0;
+      text-align: center;
 
-      // Re-enable and style the diagonal separator for desktop
-      &::after {
-        width: 200vw;
-        height: 200px;
-      }
+      &::after { display: none; } // Ensure slanted background stays removed
     }
 
     &__logos {
-      justify-content: space-evenly; // Right-align logos on desktop
-      flex-wrap: nowrap; // Prevent wrapping on desktop
+      grid-template-columns: repeat(4, minmax(140px, 1fr)); // 4 columns on desktop (up to 8 logos shows as 2 rows)
     }
 
     &--overlap {

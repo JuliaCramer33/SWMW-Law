@@ -14062,7 +14062,7 @@ nav .menu-item.button,
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
+  gap: 3rem;
   position: relative;
   z-index: 1;
 }
@@ -14073,19 +14073,6 @@ nav .menu-item.button,
   align-items: center;
   padding-right: 0;
   text-align: center;
-}
-.accreditations-bar__title-area::after {
-  display: block;
-  content: "";
-  position: absolute;
-  top: -3rem;
-  right: 0;
-  width: 200vw;
-  height: 300px;
-  background-color: #e0e1e5;
-  transform: skewX(-20deg);
-  transform-origin: top right;
-  z-index: 0;
 }
 .accreditations-bar__title {
   font-size: 1.75rem;
@@ -14100,18 +14087,19 @@ nav .menu-item.button,
   z-index: 1;
 }
 .accreditations-bar__logos {
-  display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 2rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(120px, 1fr));
+  gap: 1.5rem;
+  justify-items: center;
   list-style: none;
   margin: 0;
   padding: 0;
-  flex-wrap: wrap;
 }
 .accreditations-bar__logo-item img {
-  max-height: 50px;
-  width: auto;
+  width: 100%;
+  max-width: 15.625rem;
+  height: auto;
   object-fit: contain;
   filter: grayscale(100%);
   opacity: 0.8;
@@ -14125,25 +14113,28 @@ nav .menu-item.button,
   padding-top: 0;
   padding-bottom: 0;
 }
+@media (min-width: 768px) {
+  .accreditations-bar__logos {
+    grid-template-columns: repeat(4, minmax(120px, 1fr));
+  }
+}
 @media (min-width: 992px) {
   .accreditations-bar {
     padding: 3rem 4rem;
   }
   .accreditations-bar__content {
-    flex-direction: row;
-    align-items: stretch;
+    flex-direction: column;
+    align-items: center;
   }
   .accreditations-bar__title-area {
-    padding-right: 4rem;
-    text-align: left;
+    padding-right: 0;
+    text-align: center;
   }
   .accreditations-bar__title-area::after {
-    width: 200vw;
-    height: 200px;
+    display: none;
   }
   .accreditations-bar__logos {
-    justify-content: space-evenly;
-    flex-wrap: nowrap;
+    grid-template-columns: repeat(4, minmax(140px, 1fr));
   }
   .accreditations-bar--overlap {
     margin-top: -40px;

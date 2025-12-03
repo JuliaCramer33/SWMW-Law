@@ -217,7 +217,8 @@ function swmw_law_parse_amount_to_number( $raw ) {
 		return 0.0;
 	}
 	$s = strtolower( trim( $raw ) );
-	$s = str_replace( [ '$', ',', 'usd' ], '', $s );
+	// Strip common symbols/words that interfere with parsing but keep units
+	$s = str_replace( [ '$', ',', 'usd', '+' ], '', $s );
 	$s = trim( $s );
 
 	$multiplier = 1.0;
@@ -290,20 +291,8 @@ function swmw_law_order_results_by_amount( $query ) {
 		return;
 	}
 	if ( is_post_type_archive( 'swmw_result' ) ) {
-		$meta_query = array(
-			'relation'      => 'OR',
-			'amount_clause' => array(
-				'key'     => 'result_amount_num',
-				'compare' => 'EXISTS',
-				'type'    => 'NUMERIC',
-			),
-			array(
-				'key'     => 'result_amount_num',
-				'compare' => 'NOT EXISTS',
-			),
-		);
-		$query->set( 'meta_query', $meta_query );
-		$query->set( 'orderby', array( 'amount_clause' => 'DESC', 'date' => 'DESC' ) );
+		// Leave archive ordering as default (date DESC) and featured exclusion only (set elsewhere).
+		return;
 	}
 }
 add_action( 'pre_get_posts', __NAMESPACE__ . '\swmw_law_order_results_by_amount' );
@@ -437,22 +426,7 @@ function swmw_law_load_more_results_handler() {
         'posts_per_page' => $posts_per_page,
         'paged'          => $page,
         'post_status'    => 'publish',
-		'meta_query'     => [
-			'relation'      => 'OR',
-			'amount_clause' => [
-				'key'     => 'result_amount_num',
-				'compare' => 'EXISTS',
-				'type'    => 'NUMERIC',
-			],
-			[
-				'key'     => 'result_amount_num',
-				'compare' => 'NOT EXISTS',
-			],
-		],
-		'orderby'        => [
-			'amount_clause' => 'DESC',
-			'date'          => 'DESC',
-		],
+		// Preserve archive AJAX ordering as original (date DESC)
         'tax_query'      => [
             [
                 'taxonomy' => 'swmw_result_status',
