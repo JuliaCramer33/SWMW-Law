@@ -11,7 +11,6 @@ namespace SWMW_Law;
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
 // Get the content from the theme options page.
 $accreditations_title = get_field( 'accreditations_title', 'option' );
 $accreditations_logos = get_field( 'accreditations_logos', 'option' );
