@@ -71,17 +71,24 @@ if ( ! empty( $block['className'] ) ) {
                                     $result_amount = get_field( 'result_amount', get_the_ID() );
                                     ?>
 
-                                    <?php if ( $result_amount ) : ?>
-                                        <h3 class="result-amount"><?php echo esc_html( $result_amount ); ?></h3>
+                                    <?php $fmt_amount = \SWMW_Law\swmw_law_get_formatted_amount(); ?>
+                                    <?php if ( $fmt_amount ) : ?>
+                                        <h3 class="result-amount"><?php echo esc_html( $fmt_amount ); ?></h3>
+                                    <?php endif; ?>
+                                    <?php $heading_occ = \SWMW_Law\swmw_law_format_result_heading_occupation(); ?>
+                                    <?php if ( $heading_occ ) : ?>
+                                        <h4 class="result-title"><?php echo esc_html( $heading_occ ); ?></h4>
+                                    <?php endif; ?>
+                                    <?php $subtext = \SWMW_Law\swmw_law_format_result_subtext(); ?>
+                                    <?php if ( $subtext ) : ?>
+                                        <p class="result-subtext"><?php echo esc_html( $subtext ); ?></p>
+                                    <?php endif; ?>
+                                    <?php $secondary = get_field( 'result_secondary_description' ); ?>
+                                    <?php if ( $secondary ) : ?>
+                                        <p class="result-description"><?php echo esc_html( $secondary ); ?></p>
                                     <?php endif; ?>
 
-                                    <h4 class="result-title"><?php the_title(); ?></h4>
-
-                                    <?php if ( has_excerpt() ) : ?>
-                                        <div class="result-description">
-                                            <?php the_excerpt(); ?>
-                                        </div>
-                                    <?php endif; ?>
+                                    
                                 </div>
                             </div>
                         </li>
@@ -109,17 +116,24 @@ if ( ! empty( $block['className'] ) ) {
                                 $result_amount = get_field( 'result_amount', get_the_ID() );
                                 ?>
 
-                                <?php if ( $result_amount ) : ?>
-                                    <h3 class="result-amount"><?php echo esc_html( $result_amount ); ?></h3>
+                                <?php $fmt_amount = \SWMW_Law\swmw_law_get_formatted_amount(); ?>
+                                <?php if ( $fmt_amount ) : ?>
+                                    <h3 class="result-amount"><?php echo esc_html( $fmt_amount ); ?></h3>
+                                <?php endif; ?>
+                                <?php $heading_occ = \SWMW_Law\swmw_law_format_result_heading_occupation(); ?>
+                                <?php if ( $heading_occ ) : ?>
+                                    <h4 class="result-title"><?php echo esc_html( $heading_occ ); ?></h4>
+                                <?php endif; ?>
+                                <?php $subtext = \SWMW_Law\swmw_law_format_result_subtext(); ?>
+                                <?php if ( $subtext ) : ?>
+                                    <p class="result-subtext"><?php echo esc_html( $subtext ); ?></p>
+                                <?php endif; ?>
+                                <?php $secondary = get_field( 'result_secondary_description' ); ?>
+                                <?php if ( $secondary ) : ?>
+                                    <p class="result-description"><?php echo esc_html( $secondary ); ?></p>
                                 <?php endif; ?>
 
-                                <h4 class="result-title"><?php the_title(); ?></h4>
-
-                                <?php if ( has_excerpt() ) : ?>
-                                    <div class="result-description">
-                                        <?php the_excerpt(); ?>
-                                    </div>
-                                <?php endif; ?>
+                                
                             </div>
                         </div>
                     </div>

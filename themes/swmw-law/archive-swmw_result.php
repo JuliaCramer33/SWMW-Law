@@ -61,11 +61,19 @@ get_template_part( 'template-parts/hero-archive' );
 							<?php if ( $case_type_name ) : ?>
 								<span class="result-category"><?php echo esc_html( $case_type_name ); ?></span>
 							<?php endif; ?>
-							<h3 class="result-amount"><?php echo esc_html( get_field( 'result_amount' ) ); ?></h3>
-							<h4 class="result-title"><?php the_title(); ?></h4>
-							<div class="result-description">
-								<?php the_excerpt(); ?>
-							</div>
+							<h3 class="result-amount"><?php echo esc_html( \SWMW_Law\swmw_law_get_formatted_amount() ); ?></h3>
+							<?php $heading_occ = \SWMW_Law\swmw_law_format_result_heading_occupation(); ?>
+							<?php if ( $heading_occ ) : ?>
+								<h4 class="result-title"><?php echo esc_html( $heading_occ ); ?></h4>
+							<?php endif; ?>
+							<?php $subtext = \SWMW_Law\swmw_law_format_result_subtext(); ?>
+							<?php if ( $subtext ) : ?>
+								<p class="result-subtext"><?php echo esc_html( $subtext ); ?></p>
+							<?php endif; ?>
+							<?php $secondary = get_field( 'result_secondary_description' ); ?>
+							<?php if ( $secondary ) : ?>
+								<p class="result-description"><?php echo esc_html( $secondary ); ?></p>
+							<?php endif; ?>
 						</div>
 						<?php
 					endwhile;
@@ -92,11 +100,19 @@ get_template_part( 'template-parts/hero-archive' );
 							<?php if ( $case_type_name ) : ?>
 								<span class="result-category"><?php echo esc_html( $case_type_name ); ?></span>
 							<?php endif; ?>
-							<h3 class="result-amount"><?php echo esc_html( get_field( 'result_amount' ) ); ?></h3>
-							<h4 class="result-title"><?php the_title(); ?></h4>
-							<div class="result-description">
-								<?php the_excerpt(); ?>
-							</div>
+							<h3 class="result-amount"><?php echo esc_html( \SWMW_Law\swmw_law_get_formatted_amount() ); ?></h3>
+							<?php $heading_occ = \SWMW_Law\swmw_law_format_result_heading_occupation(); ?>
+							<?php if ( $heading_occ ) : ?>
+								<h4 class="result-title"><?php echo esc_html( $heading_occ ); ?></h4>
+							<?php endif; ?>
+							<?php $subtext = \SWMW_Law\swmw_law_format_result_subtext(); ?>
+							<?php if ( $subtext ) : ?>
+								<p class="result-subtext"><?php echo esc_html( $subtext ); ?></p>
+							<?php endif; ?>
+							<?php $secondary = get_field( 'result_secondary_description' ); ?>
+							<?php if ( $secondary ) : ?>
+								<p class="result-description"><?php echo esc_html( $secondary ); ?></p>
+							<?php endif; ?>
 						</div>
 						<?php
 					endwhile;

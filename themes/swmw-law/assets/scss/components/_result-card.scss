@@ -74,7 +74,17 @@
   font-size: $font-size-base;
   line-height: 1.4;
   color: $color-text;
-  margin: 0 0 $spacing-4;
+  margin: 0 0 $spacing-2; // tighter to amount
+  font-style: italic; // visually distinct from description
+}
+
+// State subtext line (appears under the first sentence)
+.result-subtext {
+  font-size: $font-size-base;
+  line-height: 1.4;
+  color: $color-text-light;
+  font-style: italic;
+  margin: $spacing-1 0 $spacing-2; // a bit closer to the first sentence
 }
 
 // Case description

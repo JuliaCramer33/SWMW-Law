@@ -196,6 +196,10 @@ function swmw_law_non_featured_results_archive_query( $query ) {
 		);
 		$query->set( 'tax_query', $tax_query );
 		$query->set( 'posts_per_page', 12 ); // Show 12 results per page (divisible by 3)
+		// Order non-featured by numeric amount desc, then date
+		$query->set( 'meta_key', 'result_amount_num' );
+		$query->set( 'orderby', array( 'meta_value_num' => 'DESC', 'date' => 'DESC' ) );
+		$query->set( 'order', 'DESC' );
 	}
 }
 add_action( 'pre_get_posts', __NAMESPACE__ . '\swmw_law_non_featured_results_archive_query' );
@@ -426,6 +430,11 @@ function swmw_law_load_more_results_handler() {
         'posts_per_page' => $posts_per_page,
         'paged'          => $page,
         'post_status'    => 'publish',
+        'meta_key'       => 'result_amount_num',
+        'orderby'        => [
+            'meta_value_num' => 'DESC',
+            'date'           => 'DESC',
+        ],
 		// Preserve archive AJAX ordering as original (date DESC)
         'tax_query'      => [
             [
@@ -451,11 +460,15 @@ function swmw_law_load_more_results_handler() {
                 <?php if ( $case_type_name ) : ?>
                     <span class="result-category"><?php echo esc_html( $case_type_name ); ?></span>
                 <?php endif; ?>
-                <h3 class="result-amount"><?php echo esc_html( get_field( 'result_amount' ) ); ?></h3>
-                <h4 class="result-title"><?php the_title(); ?></h4>
-                <div class="result-description">
-                    <?php the_excerpt(); ?>
-                </div>
+                <h3 class="result-amount"><?php echo esc_html( \SWMW_Law\swmw_law_get_formatted_amount() ); ?></h3>
+                <?php $heading_occ = \SWMW_Law\swmw_law_format_result_heading_occupation(); ?>
+                <?php if ( $heading_occ ) : ?>
+                    <h4 class="result-title"><?php echo esc_html( $heading_occ ); ?></h4>
+                <?php endif; ?>
+                <?php $subtext = \SWMW_Law\swmw_law_format_result_subtext(); ?>
+                <?php if ( $subtext ) : ?>
+                    <p class="result-subtext"><?php echo esc_html( $subtext ); ?></p>
+                <?php endif; ?>
             </div>
             <?php
         endwhile;
@@ -563,3 +576,881 @@ function swmw_law_register_query_vars( $vars ) {
     return $vars;
 }
 add_filter( 'query_vars', __NAMESPACE__ . '\swmw_law_register_query_vars' );
+
+/**
+ * Format Result amount for display: $X,XXX,XXX (rounded, no decimals).
+ */
+function swmw_law_get_formatted_amount( $post_id = null ) {
+	$post_id = $post_id ? $post_id : get_the_ID();
+	if ( ! $post_id ) {
+		return '';
+	}
+	// Prefer explicit display override if present
+	$display_override = function_exists( 'get_field' ) ? (string) get_field( 'result_amount_display', $post_id ) : (string) get_post_meta( $post_id, 'result_amount_display', true );
+	if ( $display_override !== '' ) {
+		$txt = ltrim( trim( $display_override ), '$' );
+		return '$' . $txt;
+	}
+	$raw_text = function_exists( 'get_field' ) ? (string) get_field( 'result_amount', $post_id ) : (string) get_post_meta( $post_id, 'result_amount', true );
+	$num_meta = get_post_meta( $post_id, 'result_amount_num', true );
+	$val      = 0.0;
+	if ( $num_meta !== '' && is_numeric( $num_meta ) ) {
+		$val = (float) $num_meta;
+	} elseif ( $raw_text !== '' && function_exists( __NAMESPACE__ . '\swmw_law_parse_amount_to_number' ) ) {
+		$val = swmw_law_parse_amount_to_number( $raw_text );
+	}
+	if ( $val > 0 ) {
+		return '$' . number_format( (float) round( $val ), 0, '.', ',' );
+	}
+	// Fallback: ensure a $ prefix and strip decimals if present.
+	if ( $raw_text !== '' ) {
+		$txt = trim( $raw_text );
+		// Remove any existing $ to avoid $$, then re-prefix.
+		$txt = ltrim( $txt, '$' );
+		// If it's a plain number with decimals, round.
+		if ( is_numeric( str_replace( ',', '', $txt ) ) ) {
+			$n = (float) str_replace( ',', '', $txt );
+			return '$' . number_format( (float) round( $n ), 0, '.', ',' );
+		}
+		return '$' . $txt;
+	}
+	return '';
+}
+
+/**
+ * Build headline sentence: "Occupation Diagnosed With Liability in State"
+ * Uses structured fields when available; state rendered as full name.
+ */
+function swmw_law_format_result_sentence( $post_id = null ) {
+	$post_id = $post_id ? $post_id : get_the_ID();
+	if ( ! $post_id ) {
+		return '';
+	}
+	$occupation = function_exists( 'get_field' ) ? (string) get_field( 'result_occupation', $post_id ) : (string) get_post_meta( $post_id, 'result_occupation', true );
+	$liability  = '';
+	// Prefer explicit liability text if present
+	if ( function_exists( 'get_field' ) ) {
+		$liability = (string) get_field( 'result_liability_text', $post_id );
+		if ( $liability === '' ) {
+			$liability = (string) get_field( 'result_liability', $post_id ); // legacy taxonomy field, if exists
+		}
+	}
+	if ( $liability === '' ) {
+		$terms = get_the_terms( $post_id, 'swmw_result_category' );
+		if ( $terms && ! is_wp_error( $terms ) ) {
+			$liability = $terms[0]->name;
+		}
+	}
+	$state = function_exists( 'get_field' ) ? (string) get_field( 'result_state', $post_id ) : (string) get_post_meta( $post_id, 'result_state', true );
+	$state_full = '';
+	if ( $state !== '' ) {
+		$code = strtoupper( trim( $state ) );
+		$states = array(
+			'AL' => 'Alabama','AK' => 'Alaska','AZ' => 'Arizona','AR' => 'Arkansas','CA' => 'California','CO' => 'Colorado','CT' => 'Connecticut','DE' => 'Delaware','FL' => 'Florida','GA' => 'Georgia',
+			'HI' => 'Hawaii','ID' => 'Idaho','IL' => 'Illinois','IN' => 'Indiana','IA' => 'Iowa','KS' => 'Kansas','KY' => 'Kentucky','LA' => 'Louisiana','ME' => 'Maine','MD' => 'Maryland',
+			'MA' => 'Massachusetts','MI' => 'Michigan','MN' => 'Minnesota','MS' => 'Mississippi','MO' => 'Missouri','MT' => 'Montana','NE' => 'Nebraska','NV' => 'Nevada','NH' => 'New Hampshire','NJ' => 'New Jersey',
+			'NM' => 'New Mexico','NY' => 'New York','NC' => 'North Carolina','ND' => 'North Dakota','OH' => 'Ohio','OK' => 'Oklahoma','OR' => 'Oregon','PA' => 'Pennsylvania','RI' => 'Rhode Island','SC' => 'South Carolina',
+			'SD' => 'South Dakota','TN' => 'Tennessee','TX' => 'Texas','UT' => 'Utah','VT' => 'Vermont','VA' => 'Virginia','WA' => 'Washington','WV' => 'West Virginia','WI' => 'Wisconsin','WY' => 'Wyoming',
+			'DC' => 'District of Columbia',
+		);
+		$state_full = isset( $states[ $code ] ) ? $states[ $code ] : $state;
+	}
+
+	$parts = array();
+	if ( $occupation !== '' ) {
+		$parts[] = $occupation;
+	}
+	if ( $liability !== '' ) {
+		$parts[] = 'Diagnosed With ' . $liability;
+	}
+	$out = '';
+	if ( ! empty( $parts ) ) {
+		$out = implode( ' ', $parts );
+		if ( $state_full !== '' ) {
+			$out .= ' in ' . $state_full;
+		}
+	}
+	return $out;
+}
+
+/**
+ * Build heading HTML: "<strong>Occupation</strong> in Full State — Type"
+ * - Occupation comes from result_occupation
+ * - State uses full state name (from result_state)
+ * - Type comes from the first result category term that is not a generic status
+ */
+function swmw_law_format_result_heading_html( $post_id = null ) {
+	$post_id = $post_id ? $post_id : get_the_ID();
+	if ( ! $post_id ) {
+		return '';
+	}
+	$occupation = function_exists( 'get_field' ) ? (string) get_field( 'result_occupation', $post_id ) : (string) get_post_meta( $post_id, 'result_occupation', true );
+	$state      = function_exists( 'get_field' ) ? (string) get_field( 'result_state', $post_id ) : (string) get_post_meta( $post_id, 'result_state', true );
+	// Full state
+	$state_full = '';
+	if ( $state !== '' ) {
+		$code = strtoupper( trim( $state ) );
+		$states = array(
+			'AL' => 'Alabama','AK' => 'Alaska','AZ' => 'Arizona','AR' => 'Arkansas','CA' => 'California','CO' => 'Colorado','CT' => 'Connecticut','DE' => 'Delaware','FL' => 'Florida','GA' => 'Georgia',
+			'HI' => 'Hawaii','ID' => 'Idaho','IL' => 'Illinois','IN' => 'Indiana','IA' => 'Iowa','KS' => 'Kansas','KY' => 'Kentucky','LA' => 'Louisiana','ME' => 'Maine','MD' => 'Maryland',
+			'MA' => 'Massachusetts','MI' => 'Michigan','MN' => 'Minnesota','MS' => 'Mississippi','MO' => 'Missouri','MT' => 'Montana','NE' => 'Nebraska','NV' => 'Nevada','NH' => 'New Hampshire','NJ' => 'New Jersey',
+			'NM' => 'New Mexico','NY' => 'New York','NC' => 'North Carolina','ND' => 'North Dakota','OH' => 'Ohio','OK' => 'Oklahoma','OR' => 'Oregon','PA' => 'Pennsylvania','RI' => 'Rhode Island','SC' => 'South Carolina',
+			'SD' => 'South Dakota','TN' => 'Tennessee','TX' => 'Texas','UT' => 'Utah','VT' => 'Vermont','VA' => 'Virginia','WA' => 'Washington','WV' => 'West Virginia','WI' => 'Wisconsin','WY' => 'Wyoming',
+			'DC' => 'District of Columbia',
+		);
+		$state_full = isset( $states[ $code ] ) ? $states[ $code ] : $state;
+	}
+	// Type from category terms, excluding generic ones
+	$type = '';
+	$terms = get_the_terms( $post_id, 'swmw_result_category' );
+	if ( $terms && ! is_wp_error( $terms ) ) {
+		foreach ( $terms as $t ) {
+			$name = isset( $t->name ) ? (string) $t->name : '';
+			$slug = isset( $t->slug ) ? (string) $t->slug : '';
+			if ( $name === '' ) {
+				continue;
+			}
+			$lower = strtolower( $name );
+			// Skip common generic/status terms; keep the first non-generic as "type"
+			if ( in_array( $lower, array( 'verdict', 'settlement', 'featured' ), true ) ) {
+				continue;
+			}
+			$type = $name;
+			break;
+		}
+	}
+	$html = '';
+	if ( $occupation !== '' ) {
+		$html .= '<strong>' . esc_html( $occupation ) . '</strong>';
+	}
+	if ( $state_full !== '' ) {
+		$html .= ( $html !== '' ? ' ' : '' ) . 'in ' . esc_html( $state_full );
+	}
+	if ( $type !== '' ) {
+		$html .= ' — ' . esc_html( $type );
+	}
+	return $html;
+}
+
+/**
+ * Heading: Occupation only (no state/type)
+ */
+function swmw_law_format_result_heading_occupation( $post_id = null ) {
+	$post_id = $post_id ? $post_id : get_the_ID();
+	if ( ! $post_id ) {
+		return '';
+	}
+	$occupation = function_exists( 'get_field' ) ? (string) get_field( 'result_occupation', $post_id ) : (string) get_post_meta( $post_id, 'result_occupation', true );
+	$diagnosis  = function_exists( 'get_field' ) ? (string) get_field( 'result_liability_text', $post_id ) : (string) get_post_meta( $post_id, 'result_liability_text', true );
+	// Heading: Occupation with Diagnosis (no state here)
+	if ( $occupation !== '' && $diagnosis !== '' ) {
+		return $occupation . ' with ' . $diagnosis;
+	}
+	if ( $occupation !== '' ) {
+		return $occupation;
+	}
+	return $diagnosis;
+}
+
+/**
+ * Subtext: Full state name only (SEO); author description prints separately by template.
+ */
+function swmw_law_format_result_subtext( $post_id = null ) {
+	$post_id = $post_id ? $post_id : get_the_ID();
+	if ( ! $post_id ) {
+		return '';
+	}
+	$state = function_exists( 'get_field' ) ? (string) get_field( 'result_state', $post_id ) : (string) get_post_meta( $post_id, 'result_state', true );
+	if ( $state === '' ) {
+		return '';
+	}
+	$code = strtoupper( trim( $state ) );
+	$states = array(
+		'AL' => 'Alabama','AK' => 'Alaska','AZ' => 'Arizona','AR' => 'Arkansas','CA' => 'California','CO' => 'Colorado','CT' => 'Connecticut','DE' => 'Delaware','FL' => 'Florida','GA' => 'Georgia',
+		'HI' => 'Hawaii','ID' => 'Idaho','IL' => 'Illinois','IN' => 'Indiana','IA' => 'Iowa','KS' => 'Kansas','KY' => 'Kentucky','LA' => 'Louisiana','ME' => 'Maine','MD' => 'Maryland',
+		'MA' => 'Massachusetts','MI' => 'Michigan','MN' => 'Minnesota','MS' => 'Mississippi','MO' => 'Missouri','MT' => 'Montana','NE' => 'Nebraska','NV' => 'Nevada','NH' => 'New Hampshire','NJ' => 'New Jersey',
+		'NM' => 'New Mexico','NY' => 'New York','NC' => 'North Carolina','ND' => 'North Dakota','OH' => 'Ohio','OK' => 'Oklahoma','OR' => 'Oregon','PA' => 'Pennsylvania','RI' => 'Rhode Island','SC' => 'South Carolina',
+		'SD' => 'South Dakota','TN' => 'Tennessee','TX' => 'Texas','UT' => 'Utah','VT' => 'Vermont','VA' => 'Virginia','WA' => 'Washington','WV' => 'West Virginia','WI' => 'Wisconsin','WY' => 'Wyoming',
+		'DC' => 'District of Columbia',
+	);
+	return isset( $states[ $code ] ) ? $states[ $code ] : $state;
+}
+
+/**
+ * Format a Result's context line from fields:
+ * Occupation – Liability in STATE
+ * Falls back to legacy 'result_secondary_description' if needed.
+ */
+function swmw_law_format_result_context( $post_id = null ) {
+	$post_id = $post_id ? $post_id : get_the_ID();
+	if ( ! $post_id ) {
+		return '';
+	}
+	$occupation = function_exists( 'get_field' ) ? (string) get_field( 'result_occupation', $post_id ) : (string) get_post_meta( $post_id, 'result_occupation', true );
+	$liability  = '';
+	if ( function_exists( 'get_field' ) ) {
+		$liability = (string) get_field( 'result_liability_text', $post_id );
+		if ( $liability === '' ) {
+			$liability = (string) get_field( 'result_liability', $post_id ); // legacy taxonomy field name
+		}
+	}
+	if ( $liability === '' ) {
+		// Try primary term name if not set in field.
+		$terms = get_the_terms( $post_id, 'swmw_result_category' );
+		if ( $terms && ! is_wp_error( $terms ) ) {
+			$liability = $terms[0]->name;
+		}
+	}
+	$state = function_exists( 'get_field' ) ? (string) get_field( 'result_state', $post_id ) : (string) get_post_meta( $post_id, 'result_state', true );
+	$state_full = '';
+	if ( $state !== '' ) {
+		$code = strtoupper( trim( $state ) );
+		$states = array(
+			'AL' => 'Alabama','AK' => 'Alaska','AZ' => 'Arizona','AR' => 'Arkansas','CA' => 'California','CO' => 'Colorado','CT' => 'Connecticut','DE' => 'Delaware','FL' => 'Florida','GA' => 'Georgia',
+			'HI' => 'Hawaii','ID' => 'Idaho','IL' => 'Illinois','IN' => 'Indiana','IA' => 'Iowa','KS' => 'Kansas','KY' => 'Kentucky','LA' => 'Louisiana','ME' => 'Maine','MD' => 'Maryland',
+			'MA' => 'Massachusetts','MI' => 'Michigan','MN' => 'Minnesota','MS' => 'Mississippi','MO' => 'Missouri','MT' => 'Montana','NE' => 'Nebraska','NV' => 'Nevada','NH' => 'New Hampshire','NJ' => 'New Jersey',
+			'NM' => 'New Mexico','NY' => 'New York','NC' => 'North Carolina','ND' => 'North Dakota','OH' => 'Ohio','OK' => 'Oklahoma','OR' => 'Oregon','PA' => 'Pennsylvania','RI' => 'Rhode Island','SC' => 'South Carolina',
+			'SD' => 'South Dakota','TN' => 'Tennessee','TX' => 'Texas','UT' => 'Utah','VT' => 'Vermont','VA' => 'Virginia','WA' => 'Washington','WV' => 'West Virginia','WI' => 'Wisconsin','WY' => 'Wyoming',
+			'DC' => 'District of Columbia',
+		);
+		$state_full = isset( $states[ $code ] ) ? $states[ $code ] : $state;
+	}
+
+	$parts = array();
+	if ( $occupation !== '' ) {
+		$parts[] = $occupation;
+	}
+	if ( $liability !== '' ) {
+		$parts[] = $liability;
+	}
+	$out = '';
+	if ( ! empty( $parts ) ) {
+		$out = implode( ' – ', $parts );
+		if ( $state_full !== '' ) {
+			$out .= ' in ' . $state_full;
+		}
+	}
+	if ( $out === '' ) {
+		$out = function_exists( 'get_field' ) ? (string) get_field( 'result_secondary_description', $post_id ) : (string) get_post_meta( $post_id, 'result_secondary_description', true );
+	}
+	return $out;
+}
+
+/**
+ * TEMPORARY: Results CSV Importer (remove after use)
+ *
+ * Adds a simple admin page under Tools to upload a CSV and map/update existing Results.
+ * Expected header columns (case-insensitive, any order). Supports two modes:
+ * A) Direct fields:
+ *    - title (used to find an existing Result post)
+ *    - result_amount
+ *    - result_secondary_description
+ *    - category (taxonomy: swmw_result_category - single value)
+ *    - status (taxonomy: swmw_result_status - e.g., "featured")
+ * B) CSV like provided (we'll generate a title if missing):
+ *    - liability   (mapped to category swmw_result_category)
+ *    - total recovered (mapped to result_amount)
+ *    - state       (used in secondary description)
+ *    - occupation  (used in secondary description)
+ *
+ * Notes:
+ * - Only updates existing Results matched by title.
+ * - Does NOT create new posts.
+ * - Also updates numeric meta 'result_amount_num' using the parser.
+ */
+function swmw_law_add_results_csv_importer_menu() {
+	add_management_page(
+		'Results CSV Importer (Temp)',
+		'Results CSV Importer (Temp)',
+		'manage_options',
+		'swmw-results-csv-importer',
+		__NAMESPACE__ . '\swmw_law_render_results_csv_importer_page'
+	);
+}
+add_action( 'admin_menu', __NAMESPACE__ . '\swmw_law_add_results_csv_importer_menu' );
+
+function swmw_law_render_results_csv_importer_page() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'swmw-law' ) );
+	}
+
+	$did_process = false;
+	$summary     = array(
+		'rows_total'     => 0,
+		'rows_updated'   => 0,
+		'rows_skipped'   => 0,
+		'not_found'      => 0,
+		'errors'         => array(),
+	);
+
+	if ( isset( $_POST['swmw_results_csv_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['swmw_results_csv_nonce'] ) ), 'swmw_results_csv' ) ) {
+		$allow_create = isset( $_POST['swmw_results_allow_create'] ) && $_POST['swmw_results_allow_create'] === '1';
+		$remote_url   = isset( $_POST['swmw_results_csv_url'] ) ? esc_url_raw( wp_unslash( $_POST['swmw_results_csv_url'] ) ) : '';
+
+		// Option A: URL provided (e.g., Google Sheets "Publish to web" CSV link)
+		if ( $remote_url ) {
+			if ( ! wp_http_validate_url( $remote_url ) ) {
+				$summary['errors'][] = 'Invalid CSV URL.';
+			} else {
+				$response = wp_remote_get(
+					$remote_url,
+					array(
+						'timeout' => 30,
+					)
+				);
+				if ( is_wp_error( $response ) ) {
+					$summary['errors'][] = 'Failed fetching CSV URL: ' . $response->get_error_message();
+				} else {
+					$code = wp_remote_retrieve_response_code( $response );
+					$body = wp_remote_retrieve_body( $response );
+					if ( (int) $code !== 200 || $body === '' ) {
+						$summary['errors'][] = 'CSV URL returned no data (HTTP ' . (int) $code . ').';
+					} else {
+						// Stream body into a temp handle for fgetcsv
+						$fh = fopen( 'php://temp', 'r+' );
+						if ( $fh ) {
+							fwrite( $fh, $body );
+							rewind( $fh );
+							// Try to strip BOM.
+							$first_bytes = fread( $fh, 3 );
+							if ( $first_bytes !== "\xEF\xBB\xBF" ) {
+                                rewind( $fh );
+                            }
+							$header = fgetcsv( $fh );
+							if ( is_array( $header ) ) {
+								$map = array();
+								foreach ( $header as $idx => $col ) {
+									$key_raw     = strtolower( trim( (string) $col ) );
+									$key_raw     = str_replace( array( ' ', '-', '__' ), array( '_', '_', '_' ), $key_raw );
+									$key_raw     = preg_replace( '/[()]/', '', $key_raw ); // remove parentheses
+									$key         = $key_raw;
+									if ( $key === 'total_recovered' || $key === 'totalrecovered' ) {
+										$key = 'result_amount';
+									} elseif ( $key === 'total_recovered_listed_on_website' || $key === 'totalrecovered_listed_on_website' ) {
+										$key = 'result_amount_display';
+									} elseif ( $key === 'liability' ) {
+										$key = 'result_liability_text';
+									} elseif ( $key === 'type' ) {
+										$key = 'result_category_type'; // future category hookup
+									} elseif ( in_array( $key, array( 'disposition', 'verdict_settlement', 'verdict_or_settlement' ), true ) ) {
+										$key = 'result_category_disposition'; // map to taxonomy category
+									}
+									$map[ $key ] = $idx;
+								}
+								while ( ( $row = fgetcsv( $fh ) ) !== false ) {
+									$summary['rows_total']++;
+									// Determine or generate title
+									$title_raw = '';
+									$explicit_title = isset( $map['title'] );
+									if ( $explicit_title ) {
+										$title_raw = isset( $row[ $map['title'] ] ) ? trim( (string) $row[ $map['title'] ] ) : '';
+									}
+									$category_from_liability = '';
+									if ( isset( $map['category'] ) && isset( $row[ $map['category'] ] ) ) {
+										$category_from_liability = trim( (string) $row[ $map['category'] ] );
+									}
+									$state_val = ( isset( $map['state'] ) && isset( $row[ $map['state'] ] ) ) ? trim( (string) $row[ $map['state'] ] ) : '';
+									$occupation_val = ( isset( $map['occupation'] ) && isset( $row[ $map['occupation'] ] ) ) ? trim( (string) $row[ $map['occupation'] ] ) : '';
+									if ( $title_raw === '' ) {
+										// Prefer: STATE – Amount – Occupation
+										$amount_val = ( isset( $map['result_amount'] ) && isset( $row[ $map['result_amount'] ] ) ) ? trim( (string) $row[ $map['result_amount'] ] ) : '';
+										$primary_parts = array();
+										if ( $state_val !== '' ) {
+											$primary_parts[] = strtoupper( $state_val );
+										}
+										if ( $amount_val !== '' ) {
+											$primary_parts[] = $amount_val;
+										}
+										if ( $occupation_val !== '' ) {
+											$primary_parts[] = $occupation_val;
+										}
+										if ( ! empty( $primary_parts ) ) {
+											$title_raw = implode( ' – ', $primary_parts );
+										}
+										// Fallback: Liability – Occupation (STATE)
+										if ( $title_raw === '' ) {
+											$parts = array();
+											if ( $category_from_liability !== '' ) {
+												$parts[] = $category_from_liability;
+											}
+											if ( $occupation_val !== '' ) {
+												$parts[] = $occupation_val;
+											}
+											if ( ! empty( $parts ) ) {
+												$title_raw = implode( ' – ', $parts );
+												if ( $state_val !== '' ) {
+													$title_raw .= ' (' . strtoupper( $state_val ) . ')';
+												}
+											}
+										}
+									}
+									if ( $title_raw === '' ) {
+										$summary['rows_skipped']++;
+										continue;
+									}
+									$found = null;
+									// Only attempt to match an existing post when an explicit title column is provided.
+									if ( $explicit_title && $title_raw !== '' ) {
+										$found = get_page_by_title( $title_raw, OBJECT, 'swmw_result' );
+									}
+									if ( ! $found && $allow_create ) {
+										// Ensure uniqueness: if title exists, append liability or a numeric suffix
+										$unique_title = $title_raw;
+										$attempts = 0;
+										while ( get_page_by_title( $unique_title, OBJECT, 'swmw_result' ) && $attempts < 5 ) {
+											$suffix = '';
+											if ( $category_from_liability !== '' && strpos( $unique_title, $category_from_liability ) === false ) {
+												$suffix = ' – ' . $category_from_liability;
+											} else {
+												$suffix = ' – ' . ( $attempts + 2 );
+											}
+											$unique_title = $title_raw . $suffix;
+											$attempts++;
+										}
+										$new_id = wp_insert_post(
+											array(
+												'post_type'   => 'swmw_result',
+												'post_title'  => $unique_title,
+												'post_status' => 'publish',
+											),
+											true
+										);
+										if ( is_wp_error( $new_id ) ) {
+											$summary['errors'][] = 'Failed to create: ' . $title_raw . ' - ' . $new_id->get_error_message();
+											$summary['rows_skipped']++;
+											continue;
+										}
+										$found = get_post( $new_id );
+									}
+									if ( ! $found ) {
+										$summary['not_found']++;
+										continue;
+									}
+									$did_update = false;
+									// Amount
+									if ( isset( $map['result_amount'] ) && isset( $row[ $map['result_amount'] ] ) ) {
+										$val = trim( (string) $row[ $map['result_amount'] ] );
+										if ( $val !== '' ) {
+											if ( function_exists( 'update_field' ) ) {
+												update_field( 'result_amount', $val, $found->ID );
+											} else {
+												update_post_meta( $found->ID, 'result_amount', $val );
+											}
+											if ( function_exists( __NAMESPACE__ . '\swmw_law_parse_amount_to_number' ) ) {
+												$num = swmw_law_parse_amount_to_number( $val );
+												update_post_meta( $found->ID, 'result_amount_num', $num );
+											}
+											$did_update = true;
+										}
+									}
+									// Liability text (diagnosis)
+									if ( isset( $map['result_liability_text'] ) && isset( $row[ $map['result_liability_text'] ] ) ) {
+										$val = trim( (string) $row[ $map['result_liability_text'] ] );
+										if ( $val !== '' ) {
+											if ( function_exists( 'update_field' ) ) {
+												update_field( 'result_liability_text', $val, $found->ID );
+											} else {
+												update_post_meta( $found->ID, 'result_liability_text', $val );
+											}
+											$did_update = true;
+										}
+									}
+									// Category hookups via 'type' and 'disposition'
+									$categories_to_set = array();
+									if ( isset( $map['result_category_type'] ) && isset( $row[ $map['result_category_type'] ] ) ) {
+										$val = trim( (string) $row[ $map['result_category_type'] ] );
+										if ( $val !== '' ) {
+											$categories_to_set[] = $val;
+										}
+									}
+									if ( isset( $map['result_category_disposition'] ) && isset( $row[ $map['result_category_disposition'] ] ) ) {
+										$val = trim( (string) $row[ $map['result_category_disposition'] ] );
+										if ( $val !== '' ) {
+											$categories_to_set[] = $val;
+										}
+									}
+									if ( ! empty( $categories_to_set ) ) {
+										// Ensure terms exist; create if missing.
+										$final_terms = array();
+										foreach ( $categories_to_set as $cat_name ) {
+											$term = term_exists( $cat_name, 'swmw_result_category' );
+											if ( 0 === $term || null === $term ) {
+												$created = wp_insert_term( $cat_name, 'swmw_result_category' );
+												if ( ! is_wp_error( $created ) && isset( $created['term_id'] ) ) {
+													$final_terms[] = (int) $created['term_id'];
+												}
+											} elseif ( is_array( $term ) && isset( $term['term_id'] ) ) {
+												$final_terms[] = (int) $term['term_id'];
+											}
+										}
+										if ( ! empty( $final_terms ) ) {
+											wp_set_object_terms( $found->ID, $final_terms, 'swmw_result_category', false );
+											$did_update = true;
+										}
+									}
+									// State/Occupation structured fields
+									if ( $state_val !== '' ) {
+										if ( function_exists( 'update_field' ) ) {
+											update_field( 'result_state', $state_val, $found->ID );
+										} else {
+											update_post_meta( $found->ID, 'result_state', $state_val );
+										}
+										$did_update = true;
+									}
+									if ( $occupation_val !== '' ) {
+										if ( function_exists( 'update_field' ) ) {
+											update_field( 'result_occupation', $occupation_val, $found->ID );
+										} else {
+											update_post_meta( $found->ID, 'result_occupation', $occupation_val );
+										}
+										$did_update = true;
+									}
+									// No auto-generation for secondary description; optional author-provided only.
+									if ( $did_update ) {
+										$summary['rows_updated']++;
+									} else {
+										$summary['rows_skipped']++;
+									}
+								}
+								$did_process = true;
+							} else {
+								$summary['errors'][] = 'Could not read header row from URL.';
+							}
+							fclose( $fh );
+						} else {
+							$summary['errors'][] = 'Unable to open temp stream.';
+						}
+					}
+				}
+			}
+		// Option B: Local file upload
+		} elseif ( ! empty( $_FILES['swmw_results_csv_file']['tmp_name'] ) && is_uploaded_file( $_FILES['swmw_results_csv_file']['tmp_name'] ) ) {
+			$tmp = $_FILES['swmw_results_csv_file']['tmp_name'];
+			$fh  = fopen( $tmp, 'r' );
+			if ( $fh !== false ) {
+				// Try to strip BOM.
+				$first_bytes = fread( $fh, 3 );
+				if ( $first_bytes !== "\xEF\xBB\xBF" ) {
+					rewind( $fh );
+				}
+				$header = fgetcsv( $fh );
+				if ( is_array( $header ) ) {
+					$map = array();
+					foreach ( $header as $idx => $col ) {
+						$key_raw     = strtolower( trim( (string) $col ) );
+						$key_raw     = str_replace( array( ' ', '-', '__' ), array( '_', '_', '_' ), $key_raw );
+						$key_raw     = preg_replace( '/[()]/', '', $key_raw ); // remove parentheses
+						// Normalize common header names
+						$key         = $key_raw;
+						if ( $key === 'total_recovered' || $key === 'totalrecovered' ) {
+							$key = 'result_amount';
+						} elseif ( $key === 'total_recovered_listed_on_website' || $key === 'totalrecovered_listed_on_website' ) {
+							$key = 'result_amount_display';
+						} elseif ( $key === 'liability' ) {
+							$key = 'result_liability_text';
+						} elseif ( $key === 'type' ) {
+							$key = 'result_category_type'; // future category hookup
+						} elseif ( in_array( $key, array( 'disposition', 'verdict_settlement', 'verdict_or_settlement' ), true ) ) {
+							$key = 'result_category_disposition'; // map to taxonomy category
+						}
+						$map[ $key ] = $idx;
+					}
+					while ( ( $row = fgetcsv( $fh ) ) !== false ) {
+						$summary['rows_total']++;
+						// Determine or generate title
+						$title_raw = '';
+						if ( isset( $map['title'] ) ) {
+							$title_raw = isset( $row[ $map['title'] ] ) ? trim( (string) $row[ $map['title'] ] ) : '';
+						}
+						$category_from_liability = '';
+						if ( isset( $map['category'] ) && isset( $row[ $map['category'] ] ) ) {
+							$category_from_liability = trim( (string) $row[ $map['category'] ] );
+						}
+						$state_val = ( isset( $map['state'] ) && isset( $row[ $map['state'] ] ) ) ? trim( (string) $row[ $map['state'] ] ) : '';
+						$occupation_val = ( isset( $map['occupation'] ) && isset( $row[ $map['occupation'] ] ) ) ? trim( (string) $row[ $map['occupation'] ] ) : '';
+						if ( $title_raw === '' ) {
+							// Prefer: Amount – State – Occupation
+							$amount_val = ( isset( $map['result_amount'] ) && isset( $row[ $map['result_amount'] ] ) ) ? trim( (string) $row[ $map['result_amount'] ] ) : '';
+							// Map state code to full name if possible
+							$state_full = '';
+							if ( $state_val !== '' ) {
+								$code = strtoupper( $state_val );
+								$states = array(
+									'AL' => 'Alabama','AK' => 'Alaska','AZ' => 'Arizona','AR' => 'Arkansas','CA' => 'California','CO' => 'Colorado','CT' => 'Connecticut','DE' => 'Delaware','FL' => 'Florida','GA' => 'Georgia',
+									'HI' => 'Hawaii','ID' => 'Idaho','IL' => 'Illinois','IN' => 'Indiana','IA' => 'Iowa','KS' => 'Kansas','KY' => 'Kentucky','LA' => 'Louisiana','ME' => 'Maine','MD' => 'Maryland',
+									'MA' => 'Massachusetts','MI' => 'Michigan','MN' => 'Minnesota','MS' => 'Mississippi','MO' => 'Missouri','MT' => 'Montana','NE' => 'Nebraska','NV' => 'Nevada','NH' => 'New Hampshire','NJ' => 'New Jersey',
+									'NM' => 'New Mexico','NY' => 'New York','NC' => 'North Carolina','ND' => 'North Dakota','OH' => 'Ohio','OK' => 'Oklahoma','OR' => 'Oregon','PA' => 'Pennsylvania','RI' => 'Rhode Island','SC' => 'South Carolina',
+									'SD' => 'South Dakota','TN' => 'Tennessee','TX' => 'Texas','UT' => 'Utah','VT' => 'Vermont','VA' => 'Virginia','WA' => 'Washington','WV' => 'West Virginia','WI' => 'Wisconsin','WY' => 'Wyoming',
+									'DC' => 'District of Columbia',
+								);
+								$state_full = isset( $states[ $code ] ) ? $states[ $code ] : $state_val;
+							}
+							$primary_parts = array();
+							if ( $amount_val !== '' ) {
+								$primary_parts[] = $amount_val;
+							}
+							if ( $state_full !== '' ) {
+								$primary_parts[] = $state_full;
+							}
+							if ( $occupation_val !== '' ) {
+								$primary_parts[] = $occupation_val;
+							}
+							if ( ! empty( $primary_parts ) ) {
+								$title_raw = implode( ' – ', $primary_parts );
+							}
+							// Fallback: Liability – Occupation (STATE)
+							if ( $title_raw === '' ) {
+								$parts = array();
+								if ( $category_from_liability !== '' ) {
+									$parts[] = $category_from_liability;
+								}
+								if ( $occupation_val !== '' ) {
+									$parts[] = $occupation_val;
+								}
+								if ( ! empty( $parts ) ) {
+									$title_raw = implode( ' – ', $parts );
+									if ( $state_val !== '' ) {
+										$title_raw .= ' (' . strtoupper( $state_val ) . ')';
+									}
+								}
+							}
+						}
+						// If still no title, skip
+						if ( $title_raw === '' ) {
+							$summary['rows_skipped']++;
+							continue;
+						}
+
+						// Find existing Result by exact title only when an explicit title column was provided.
+						$found = null;
+						$explicit_title = isset( $map['title'] );
+						if ( $explicit_title && $title_raw !== '' ) {
+							$found = get_page_by_title( $title_raw, OBJECT, 'swmw_result' );
+						}
+						// Create if missing and allowed
+						if ( ! $found && $allow_create ) {
+							// Ensure uniqueness: if title exists, append liability or a numeric suffix
+							$unique_title = $title_raw;
+							$attempts = 0;
+							while ( get_page_by_title( $unique_title, OBJECT, 'swmw_result' ) && $attempts < 5 ) {
+								$suffix = '';
+								if ( $category_from_liability !== '' && strpos( $unique_title, $category_from_liability ) === false ) {
+									$suffix = ' – ' . $category_from_liability;
+								} else {
+									$suffix = ' – ' . ( $attempts + 2 );
+								}
+								$unique_title = $title_raw . $suffix;
+								$attempts++;
+							}
+							$new_id = wp_insert_post(
+								array(
+									'post_type'   => 'swmw_result',
+									'post_title'  => $unique_title,
+									'post_status' => 'publish',
+								),
+								true
+							);
+							if ( is_wp_error( $new_id ) ) {
+								$summary['errors'][] = 'Failed to create: ' . $title_raw . ' - ' . $new_id->get_error_message();
+								$summary['rows_skipped']++;
+								continue;
+							}
+							$found = get_post( $new_id );
+						}
+						if ( ! $found ) {
+							$summary['not_found']++;
+							continue;
+						}
+
+						$did_update = false;
+
+						// Amount
+						if ( isset( $map['result_amount'] ) && isset( $row[ $map['result_amount'] ] ) ) {
+							$val = trim( (string) $row[ $map['result_amount'] ] );
+							if ( $val !== '' ) {
+								if ( function_exists( 'update_field' ) ) {
+									update_field( 'result_amount', $val, $found->ID );
+								} else {
+									update_post_meta( $found->ID, 'result_amount', $val );
+								}
+								// Update numeric meta for ordering
+								if ( function_exists( __NAMESPACE__ . '\swmw_law_parse_amount_to_number' ) ) {
+									$num = swmw_law_parse_amount_to_number( $val );
+									update_post_meta( $found->ID, 'result_amount_num', $num );
+								}
+								$did_update = true;
+							}
+						}
+
+						// Display override amount
+						if ( isset( $map['result_amount_display'] ) && isset( $row[ $map['result_amount_display'] ] ) ) {
+							$val = trim( (string) $row[ $map['result_amount_display'] ] );
+							if ( $val !== '' ) {
+								if ( function_exists( 'update_field' ) ) {
+									update_field( 'result_amount_display', $val, $found->ID );
+								} else {
+									update_post_meta( $found->ID, 'result_amount_display', $val );
+								}
+								$did_update = true;
+							}
+						}
+
+						// Secondary Description
+						if ( isset( $map['result_secondary_description'] ) && isset( $row[ $map['result_secondary_description'] ] ) ) {
+							$val = trim( (string) $row[ $map['result_secondary_description'] ] );
+							if ( $val !== '' ) {
+								if ( function_exists( 'update_field' ) ) {
+									update_field( 'result_secondary_description', $val, $found->ID );
+								} else {
+									update_post_meta( $found->ID, 'result_secondary_description', $val );
+								}
+								$did_update = true;
+							}
+						}
+
+						// Liability text (diagnosis) from 'liability' column
+						if ( isset( $map['result_liability_text'] ) && isset( $row[ $map['result_liability_text'] ] ) ) {
+							$val = trim( (string) $row[ $map['result_liability_text'] ] );
+							if ( $val !== '' ) {
+								if ( function_exists( 'update_field' ) ) {
+									update_field( 'result_liability_text', $val, $found->ID );
+								} else {
+									update_post_meta( $found->ID, 'result_liability_text', $val );
+								}
+								$did_update = true;
+							}
+						}
+
+						// Category hookups via 'type' and 'disposition'
+						$categories_to_set = array();
+						if ( isset( $map['result_category_type'] ) && isset( $row[ $map['result_category_type'] ] ) ) {
+							$val = trim( (string) $row[ $map['result_category_type'] ] );
+							if ( $val !== '' ) {
+								$categories_to_set[] = $val;
+							}
+						}
+						if ( isset( $map['result_category_disposition'] ) && isset( $row[ $map['result_category_disposition'] ] ) ) {
+							$val = trim( (string) $row[ $map['result_category_disposition'] ] );
+							if ( $val !== '' ) {
+								$categories_to_set[] = $val;
+							}
+						}
+						if ( ! empty( $categories_to_set ) ) {
+							// Ensure terms exist; create if missing.
+							$final_terms = array();
+							foreach ( $categories_to_set as $cat_name ) {
+								$term = term_exists( $cat_name, 'swmw_result_category' );
+								if ( 0 === $term || null === $term ) {
+									$created = wp_insert_term( $cat_name, 'swmw_result_category' );
+									if ( ! is_wp_error( $created ) && isset( $created['term_id'] ) ) {
+										$final_terms[] = (int) $created['term_id'];
+									}
+								} elseif ( is_array( $term ) && isset( $term['term_id'] ) ) {
+									$final_terms[] = (int) $term['term_id'];
+								}
+							}
+							if ( ! empty( $final_terms ) ) {
+								wp_set_object_terms( $found->ID, $final_terms, 'swmw_result_category', false );
+								$did_update = true;
+							}
+						}
+
+						// Persist state/occupation fields (new structured fields)
+						if ( $state_val !== '' ) {
+							if ( function_exists( 'update_field' ) ) {
+								update_field( 'result_state', $state_val, $found->ID );
+							} else {
+								update_post_meta( $found->ID, 'result_state', $state_val );
+							}
+							$did_update = true;
+						}
+						if ( $occupation_val !== '' ) {
+							if ( function_exists( 'update_field' ) ) {
+								update_field( 'result_occupation', $occupation_val, $found->ID );
+							} else {
+								update_post_meta( $found->ID, 'result_occupation', $occupation_val );
+							}
+							$did_update = true;
+						}
+
+						// No auto-generation for secondary description; optional author-provided only.
+
+						// Status taxonomy (e.g., featured)
+						if ( isset( $map['status'] ) && isset( $row[ $map['status'] ] ) ) {
+							$val = sanitize_title( trim( (string) $row[ $map['status'] ] ) );
+							if ( $val !== '' ) {
+								wp_set_object_terms( $found->ID, array( $val ), 'swmw_result_status', false );
+								$did_update = true;
+							}
+						}
+
+						if ( $did_update ) {
+							$summary['rows_updated']++;
+						} else {
+							$summary['rows_skipped']++;
+						}
+					}
+					$did_process = true;
+				} else {
+					$summary['errors'][] = 'Could not read header row.';
+				}
+				fclose( $fh );
+			} else {
+				$summary['errors'][] = 'Unable to open uploaded file.';
+			}
+		} else {
+			$summary['errors'][] = 'No file uploaded or invalid upload.';
+		}
+	}
+
+	?>
+	<div class="wrap">
+		<h1><?php esc_html_e( 'Results CSV Importer (Temporary)', 'swmw-law' ); ?></h1>
+		<p><?php esc_html_e( 'Upload a CSV to update/create Results. Recognized columns (any order):', 'swmw-law' ); ?></p>
+		<ul style="list-style: disc; padding-left: 1.25rem;">
+			<li><?php esc_html_e( 'Direct: title, result_amount, result_secondary_description, category, status', 'swmw-law' ); ?></li>
+			<li><?php esc_html_e( 'Or CSV-style: liability (category), total recovered (result_amount), state, occupation', 'swmw-law' ); ?></li>
+		</ul>
+		<form method="post" enctype="multipart/form-data">
+			<?php wp_nonce_field( 'swmw_results_csv', 'swmw_results_csv_nonce' ); ?>
+			<table class="form-table" role="presentation">
+				<tr>
+					<th scope="row"><label for="swmw_results_csv_file"><?php esc_html_e( 'CSV File', 'swmw-law' ); ?></label></th>
+					<td><input type="file" id="swmw_results_csv_file" name="swmw_results_csv_file" accept=".csv,text/csv" required /></td>
+				</tr>
+				<tr>
+					<th scope="row"><label for="swmw_results_allow_create"><?php esc_html_e( 'Create posts if not found', 'swmw-law' ); ?></label></th>
+					<td>
+						<label>
+							<input type="checkbox" id="swmw_results_allow_create" name="swmw_results_allow_create" value="1" checked />
+							<?php esc_html_e( 'If a Result with the generated/matched title does not exist, create it.', 'swmw-law' ); ?>
+						</label>
+					</td>
+				</tr>
+			</table>
+			<?php submit_button( __( 'Upload and Import', 'swmw-law' ) ); ?>
+		</form>
+
+		<?php if ( $did_process ) : ?>
+			<hr />
+			<h2><?php esc_html_e( 'Import Summary', 'swmw-law' ); ?></h2>
+			<ul>
+				<li><?php echo esc_html( 'Rows total: ' . (int) $summary['rows_total'] ); ?></li>
+				<li><?php echo esc_html( 'Rows updated: ' . (int) $summary['rows_updated'] ); ?></li>
+				<li><?php echo esc_html( 'Rows skipped: ' . (int) $summary['rows_skipped'] ); ?></li>
+				<li><?php echo esc_html( 'Not found (by title): ' . (int) $summary['not_found'] ); ?></li>
+			</ul>
+			<?php if ( ! empty( $summary['errors'] ) ) : ?>
+				<div class="notice notice-error">
+					<p><strong><?php esc_html_e( 'Errors:', 'swmw-law' ); ?></strong></p>
+					<ul>
+						<?php foreach ( $summary['errors'] as $err ) : ?>
+							<li><?php echo esc_html( $err ); ?></li>
+						<?php endforeach; ?>
+					</ul>
+				</div>
+			<?php endif; ?>
+		<?php endif; ?>
+	</div>
+	<?php
+}
