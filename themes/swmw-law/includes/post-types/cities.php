@@ -40,14 +40,14 @@ function register_cities_post_type() {
 
     $args = array(
         'labels'                => $labels,
-        'public'                => true,
-        'publicly_queryable'   => true,
+        'public'                => true,   // Keep usable in queries/UI
+        'publicly_queryable'   => false,  // Disable front-end routing for singles/archives
         'show_ui'               => true,
         'show_in_menu'          => true,
         'query_var'             => true,
-        'rewrite'               => array( 'slug' => 'city' ),
+        'rewrite'               => false,  // No pretty permalinks for City CPT
         'capability_type'       => 'post',
-        'has_archive'           => true,
+        'has_archive'           => false,  // Disable /city/ archive
         'hierarchical'          => false,
         'menu_position'         => 20,
         'menu_icon'             => 'dashicons-location',
@@ -80,10 +80,11 @@ function register_state_taxonomy() {
     $args = array(
         'hierarchical'      => true,
         'labels'            => $labels,
-        'show_ui'           => true,
+        'public'            => false,     // Hide from front-end queries/archives
+        'show_ui'           => true,      // Keep editable in admin
         'show_admin_column' => true,
-        'query_var'         => true,
-        'rewrite'           => array( 'slug' => 'state' ),
+        'query_var'         => false,     // Disable ?state= routing
+        'rewrite'           => false,     // No term archive URLs
         'show_in_rest'      => true,
     );
 

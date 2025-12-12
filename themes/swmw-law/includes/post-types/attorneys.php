@@ -102,13 +102,13 @@ function register_attorney_position_taxonomy() {
 	$args = array(
 		'labels'            => $labels,
 		'hierarchical'      => true,
-		'public'            => true,
+		'public'            => false,
 		'show_ui'           => true,
 		'show_admin_column' => true,
-		'show_in_nav_menus' => true,
+		'show_in_nav_menus' => false,
 		'show_tagcloud'     => false,
-		'query_var'         => true,
-		'rewrite'           => array( 'slug' => 'attorney-position', 'with_front' => false ),
+		'query_var'         => false,
+		'rewrite'           => false,
 		'show_in_rest'      => true,
 	);
 	register_taxonomy( 'attorney_position', array( 'attorney' ), $args );
@@ -146,13 +146,13 @@ function register_attorney_license_taxonomy() {
 	$args = array(
 		'labels'            => $labels,
 		'hierarchical'      => true,
-		'public'            => true,
+		'public'            => false,
 		'show_ui'           => true,
 		'show_admin_column' => true,
-		'show_in_nav_menus' => true,
+		'show_in_nav_menus' => false,
 		'show_tagcloud'     => false,
-		'query_var'         => true,
-		'rewrite'           => array( 'slug' => 'attorney-license', 'with_front' => false ),
+		'query_var'         => false,
+		'rewrite'           => false,
 		'show_in_rest'      => true,
 	);
 	register_taxonomy( 'attorney_license', array( 'attorney' ), $args );

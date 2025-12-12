@@ -102,13 +102,13 @@ function register_result_category_taxonomy() { // Renamed function
 	$args = array(
 		'labels'            => $labels,
 		'hierarchical'      => true,
-		'public'            => true,
+		'public'            => false, // no public archives
 		'show_ui'           => true,
 		'show_admin_column' => true,
-		'show_in_nav_menus' => true,
+		'show_in_nav_menus' => false,
 		'show_tagcloud'     => false,
-		'query_var'         => true,
-		'rewrite'           => array( 'slug' => 'result-category', 'with_front' => false ), // Renamed slug
+		'query_var'         => false,
+		'rewrite'           => false, // disable term URLs
 		'show_in_rest'      => true,
 	);
 	register_taxonomy( 'swmw_result_category', array( 'swmw_result' ), $args ); // Renamed taxonomy slug
@@ -146,14 +146,14 @@ function register_result_status_taxonomy() {
 	$args = array(
 		'labels'                => $labels,
 		'hierarchical'          => true, // Like categories
-		'public'                => true,
-		'publicly_queryable'    => true,
+		'public'                => false,
+		'publicly_queryable'    => false,
 		'show_ui'               => true,
 		'show_admin_column'     => true, // Useful for seeing "Featured" status in list
 		'show_in_nav_menus'     => false,
 		'show_tagcloud'         => false,
-		'query_var'             => true,
-		'rewrite'               => array( 'slug' => 'result-status', 'with_front' => false ),
+		'query_var'             => false,
+		'rewrite'               => false,
 		'show_in_rest'          => true,
 	);
 	register_taxonomy( 'swmw_result_status', array( 'swmw_result' ), $args );

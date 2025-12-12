@@ -8,7 +8,7 @@
 
 .image-split-block {
   position: relative;
-  z-index: $z-index-base; // stay below navigational overlays
+  z-index: -1; // stay below navigational overlays
 
   .image-split-container {
     display: flex;
