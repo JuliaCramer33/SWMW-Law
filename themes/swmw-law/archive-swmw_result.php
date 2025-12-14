@@ -19,7 +19,7 @@ get_template_part( 'template-parts/hero-archive' );
 	// Secondary query for featured results.
 	$featured_args = array(
 		'post_type'      => 'swmw_result',
-		'posts_per_page' => -1, // Show all featured
+		'posts_per_page' => 6, // Show up to 6 featured
 		'meta_query'     => array(
 			'relation'      => 'OR',
 			'amount_clause' => array(
@@ -55,10 +55,14 @@ get_template_part( 'template-parts/hero-archive' );
 					while ( $featured_query->have_posts() ) :
 						$featured_query->the_post();
 						$case_types     = get_the_terms( get_the_ID(), 'swmw_result_category' );
-						$case_type_name = ! empty( $case_types ) && ! is_wp_error( $case_types ) ? $case_types[0]->name : '';
+						$case_type      = ( ! empty( $case_types ) && ! is_wp_error( $case_types ) ) ? $case_types[0] : null;
+						$case_type_name = $case_type ? $case_type->name : '';
+						$case_type_link = $case_type ? get_term_link( $case_type ) : '';
 						?>
 						<div class="result-item-inner">
-							<?php if ( $case_type_name ) : ?>
+							<?php if ( $case_type_name && ! is_wp_error( $case_type_link ) && $case_type_link ) : ?>
+								<a class="result-category" href="<?php echo esc_url( $case_type_link ); ?>"><?php echo esc_html( $case_type_name ); ?></a>
+							<?php elseif ( $case_type_name ) : ?>
 								<span class="result-category"><?php echo esc_html( $case_type_name ); ?></span>
 							<?php endif; ?>
 							<h3 class="result-amount"><?php echo esc_html( \SWMW_Law\swmw_law_get_formatted_amount() ); ?></h3>
@@ -94,10 +98,14 @@ get_template_part( 'template-parts/hero-archive' );
 					while ( have_posts() ) :
 						the_post();
 						$case_types     = get_the_terms( get_the_ID(), 'swmw_result_category' );
-						$case_type_name = ! empty( $case_types ) && ! is_wp_error( $case_types ) ? $case_types[0]->name : '';
+						$case_type      = ( ! empty( $case_types ) && ! is_wp_error( $case_types ) ) ? $case_types[0] : null;
+						$case_type_name = $case_type ? $case_type->name : '';
+						$case_type_link = $case_type ? get_term_link( $case_type ) : '';
 						?>
 						<div class="result-item-inner">
-							<?php if ( $case_type_name ) : ?>
+							<?php if ( $case_type_name && ! is_wp_error( $case_type_link ) && $case_type_link ) : ?>
+								<a class="result-category" href="<?php echo esc_url( $case_type_link ); ?>"><?php echo esc_html( $case_type_name ); ?></a>
+							<?php elseif ( $case_type_name ) : ?>
 								<span class="result-category"><?php echo esc_html( $case_type_name ); ?></span>
 							<?php endif; ?>
 							<h3 class="result-amount"><?php echo esc_html( \SWMW_Law\swmw_law_get_formatted_amount() ); ?></h3>
@@ -131,12 +139,7 @@ get_template_part( 'template-parts/hero-archive' );
 				//     ]
 				// );
 				?>
-				<?php
-				global $wp_query;
-				if ( $wp_query->max_num_pages > 1 ) :
-					echo '<div class="load-more-results-wrapper text-center"><button id="load-more-results" class="button">Load More Results</button></div>';
-				endif;
-				?>
+				
 			<?php else : ?>
 				<p><?php esc_html_e( 'No other results found.', 'swmw-law' ); ?></p>
 			<?php endif; ?>

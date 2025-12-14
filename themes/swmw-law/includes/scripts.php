@@ -75,7 +75,6 @@ function scripts() {
             'ajaxUrl' => admin_url( 'admin-ajax.php' ),
             'nonce'   => wp_create_nonce( 'swmw-law-nonce' ),
             'load_more_attorneys_nonce' => wp_create_nonce( 'swmw_law_load_more_attorneys_nonce' ),
-            'load_more_results_nonce' => wp_create_nonce( 'swmw_law_load_more_results_nonce' ),
         ]
     );
 

@@ -14167,6 +14167,7 @@ nav .menu-item.button,
   align-self: center;
   background-color: rgba(206.0513089005, 229.7486910995, 209.9361256545, 0.5);
   color: #417e4b;
+  text-decoration: none;
   font-family: "Montserrat", sans-serif;
   font-weight: 700;
   font-size: 0.875rem;
@@ -14175,6 +14176,9 @@ nav .menu-item.button,
   text-transform: uppercase;
   margin-bottom: 1.5rem;
   letter-spacing: 0.5px;
+}
+.result-category:hover, .result-category:focus {
+  text-decoration: none;
 }
 
 .result-amount {

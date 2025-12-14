@@ -410,6 +410,11 @@ function initResultsSlider() {
       gap: '1rem',
       pagination: false,
       arrows: true,
+      autoplay: true,
+      interval: 4000,
+      // 4s between slides
+      pauseOnHover: true,
+      pauseOnFocus: true,
       drag: true,
       snap: true,
       focus: 'center',
@@ -1631,12 +1636,8 @@ __webpack_require__.r(__webpack_exports__);
       console.error('MAIN.JS - ERROR in initLoadMoreAttorneysStandalone():', error);
     }
 
-    // Initialize Load More Results functionality
-    try {
-      initLoadMoreResults();
-    } catch (error) {
-      console.error('MAIN.JS - ERROR in initLoadMoreResults():', error);
-    }
+    // Load More Results removed: archive now shows all results
+
     try {
       (0,_accordion_columns_js__WEBPACK_IMPORTED_MODULE_10__.initAccordionColumns)(); // Initialize the accordion columnizer FIRST
     } catch (error) {
@@ -1685,52 +1686,7 @@ __webpack_require__.r(__webpack_exports__);
    */
   // (load more attorneys moved to standalone module)
 
-  /**
-   * Initialize Load More Results functionality.
-   */
-  function initLoadMoreResults() {
-    const loadMoreButton = $('#load-more-results');
-    if (!loadMoreButton.length) {
-      return; // Button not found on this page
-    }
-    let currentPage = 1; // The initial page is already loaded, so next page to load is 2
-
-    loadMoreButton.on('click', function () {
-      currentPage++; // Increment to load the next page
-      const button = $(this);
-      button.text('Loading...').prop('disabled', true);
-      $.ajax({
-        url: swmwLawData.ajaxUrl,
-        type: 'POST',
-        data: {
-          action: 'load_more_results',
-          page: currentPage,
-          nonce: swmwLawData.load_more_results_nonce // Get nonce from localized data
-        },
-        success(response) {
-          if (response.success) {
-            if (response.data.html) {
-              $('.swmw-results-grid').append(response.data.html);
-              button.text('Load More Results').prop('disabled', false);
-            } else {
-              button.text('No More Results').prop('disabled', true);
-            }
-            // Check if we've reached the max number of pages
-            if (currentPage >= response.data.max_pages) {
-              button.text('No More Results').prop('disabled', true);
-            }
-          } else {
-            console.error('Error loading results:', response.data.message);
-            button.text('Error - Try Again').prop('disabled', false);
-          }
-        },
-        error(jqXHR, textStatus, errorThrown) {
-          console.error('AJAX error:', textStatus, errorThrown);
-          button.text('AJAX Error - Try Again').prop('disabled', false);
-        }
-      });
-    });
-  }
+  // Load More Results functionality removed
 })(jQuery);
 })();
 

@@ -47,6 +47,7 @@
   align-self: center;
   background-color: color.adjust($color-secondary, $lightness: 48%, $alpha: -0.5);
   color: $color-secondary;
+  text-decoration: none;
   font-family: $font-montserrat;
   font-weight: $font-weight-bold;
   font-size: $font-size-sm;
@@ -55,6 +56,11 @@
   text-transform: uppercase;
   margin-bottom: $spacing-6;
   letter-spacing: 0.5px;
+
+  &:hover,
+  &:focus {
+    text-decoration: none;
+  }
 }
 
 // Monetary amount

@@ -16,6 +16,9 @@ if ( is_post_type_archive( 'attorney' ) ) {
 	$prefix = 'news_archive_';
 } elseif ( is_post_type_archive( 'swmw_result' ) ) {
 	$prefix = 'results_archive_';
+} elseif ( is_tax( 'swmw_result_category' ) ) {
+	// Use Results archive settings for "Type of Case" taxonomy pages
+	$prefix = 'results_archive_';
 }
 
 // Fetch fields from the options page using the determined prefix.
@@ -27,6 +30,14 @@ $background_image_url = get_field( $prefix . 'background_image', 'option' );
 // For news categories, use the category title instead of the generic News title.
 if ( is_category() ) {
     $hero_title = single_cat_title( '', false );
+}
+
+// For Result Category taxonomy, format as "Results: {Term Name}"
+if ( is_tax( 'swmw_result_category' ) ) {
+	$term = get_queried_object();
+	if ( $term && ! is_wp_error( $term ) ) {
+		$hero_title = 'Results: ' . $term->name;
+	}
 }
 
 // Fallback to the default WordPress archive title if the custom one isn't set.

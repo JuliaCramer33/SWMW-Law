@@ -15,6 +15,10 @@ export function initResultsSlider() {
       gap: '1rem',
       pagination: false,
       arrows: true,
+      autoplay: true,
+      interval: 4000, // 4s between slides
+      pauseOnHover: true,
+      pauseOnFocus: true,
       drag: true,
       snap: true,
       focus: 'center',

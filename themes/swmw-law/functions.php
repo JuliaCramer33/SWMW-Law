@@ -14,6 +14,33 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Find an existing Result post by its title using the post_name (slug).
+ * Uses WP_Query (preferred over deprecated get_page_by_title).
+ *
+ * @param string $title
+ * @return \WP_Post|null
+ */
+function swmw_law_find_result_by_title( $title ) {
+	$slug = sanitize_title( (string) $title );
+	if ( $slug === '' ) {
+		return null;
+	}
+	$q = new \WP_Query( array(
+		'post_type'      => 'swmw_result',
+		'name'           => $slug,
+		'post_status'    => 'any',
+		'fields'         => 'ids',
+		'posts_per_page' => 1,
+		'no_found_rows'  => true,
+	) );
+	if ( $q->have_posts() ) {
+		$id = isset( $q->posts[0] ) ? (int) $q->posts[0] : 0;
+		return $id > 0 ? get_post( $id ) : null;
+	}
+	return null;
+}
+
 // Define theme constants.
 if ( ! defined( 'SWMW_LAW_VERSION' ) ) {
 	define( 'SWMW_LAW_VERSION', '1.0.0' );
@@ -195,14 +222,74 @@ function swmw_law_non_featured_results_archive_query( $query ) {
 			),
 		);
 		$query->set( 'tax_query', $tax_query );
-		$query->set( 'posts_per_page', 12 ); // Show 12 results per page (divisible by 3)
-		// Order non-featured by numeric amount desc, then date
-		$query->set( 'meta_key', 'result_amount_num' );
-		$query->set( 'orderby', array( 'meta_value_num' => 'DESC', 'date' => 'DESC' ) );
-		$query->set( 'order', 'DESC' );
+		$query->set( 'posts_per_page', -1 ); // Show all results
+		// Custom ordering: Occupation A->Z then amount desc
+		$query->set( 'results_custom_order', true );
 	}
 }
 add_action( 'pre_get_posts', __NAMESPACE__ . '\swmw_law_non_featured_results_archive_query' );
+
+/**
+ * Custom ORDER BY for Results:
+ * 1) Featured excluded by main query (handled elsewhere)
+ * 2) Order by occupation (A-Z) using ACF text 'result_occupation'
+ * 3) Within occupation, order by highest amount first using 'result_amount_num'
+ */
+function swmw_law_results_ordering_clauses( $clauses, $query ) {
+	global $wpdb;
+	if ( is_admin() ) {
+		return $clauses;
+	}
+	$apply = false;
+	if ( $query->get( 'results_custom_order' ) ) {
+		$apply = true;
+	}
+	// Apply on taxonomy archives for result categories as well
+	if ( ! $apply && $query->is_tax( 'swmw_result_category' ) && $query->is_main_query() ) {
+		$apply = true;
+		// Also show all on taxonomy archive to mirror main archive behavior
+		$query->set( 'posts_per_page', -1 );
+	}
+	if ( ! $apply ) {
+		return $clauses;
+	}
+	// Left join postmeta twice for occupation and amount without filtering
+	$occ_join = " LEFT JOIN {$wpdb->postmeta} pm_occ ON (pm_occ.post_id = {$wpdb->posts}.ID AND pm_occ.meta_key = 'result_occupation') ";
+	$amt_join = " LEFT JOIN {$wpdb->postmeta} pm_amt ON (pm_amt.post_id = {$wpdb->posts}.ID AND pm_amt.meta_key = 'result_amount_num') ";
+	if ( strpos( $clauses['join'], 'pm_occ.meta_key = \'result_occupation\'' ) === false ) {
+		$clauses['join'] .= $occ_join;
+	}
+	if ( strpos( $clauses['join'], 'pm_amt.meta_key = \'result_amount_num\'' ) === false ) {
+		$clauses['join'] .= $amt_join;
+	}
+	// Ensure unique rows if other joins exist
+	$clauses['groupby'] = "{$wpdb->posts}.ID";
+	// Order: non-empty occupation first (ASC), then occupation A->Z, then amount desc
+	$orderby  = "CASE WHEN pm_occ.meta_value IS NULL OR pm_occ.meta_value = '' THEN 1 ELSE 0 END ASC, ";
+	$orderby .= "pm_occ.meta_value ASC, ";
+	$orderby .= "CAST(pm_amt.meta_value AS UNSIGNED) DESC, {$wpdb->posts}.ID DESC";
+	$clauses['orderby'] = $orderby;
+	return $clauses;
+}
+add_filter( 'posts_clauses', __NAMESPACE__ . '\swmw_law_results_ordering_clauses', 10, 2 );
+
+/**
+ * Ensure taxonomy archives for Result Categories behave like the Results archive:
+ * - Use swmw_result post type explicitly
+ * - Show all posts
+ * - Apply custom ordering flag
+ */
+function swmw_law_result_category_archive_query( $query ) {
+	if ( is_admin() || ! $query->is_main_query() ) {
+		return;
+	}
+	if ( $query->is_tax( 'swmw_result_category' ) ) {
+		$query->set( 'post_type', 'swmw_result' );
+		$query->set( 'posts_per_page', -1 );
+		$query->set( 'results_custom_order', true );
+	}
+}
+add_action( 'pre_get_posts', __NAMESPACE__ . '\swmw_law_result_category_archive_query' );
 
 /**
  * Parse a human-entered money string into a numeric dollar amount.
@@ -430,11 +517,7 @@ function swmw_law_load_more_results_handler() {
         'posts_per_page' => $posts_per_page,
         'paged'          => $page,
         'post_status'    => 'publish',
-        'meta_key'       => 'result_amount_num',
-        'orderby'        => [
-            'meta_value_num' => 'DESC',
-            'date'           => 'DESC',
-        ],
+        'results_custom_order' => true,
 		// Preserve archive AJAX ordering as original (date DESC)
         'tax_query'      => [
             [
@@ -489,8 +572,7 @@ function swmw_law_load_more_results_handler() {
     wp_reset_postdata();
     wp_die();
 }
-add_action( 'wp_ajax_load_more_results', __NAMESPACE__ . '\swmw_law_load_more_results_handler' );
-add_action( 'wp_ajax_nopriv_load_more_results', __NAMESPACE__ . '\swmw_law_load_more_results_handler' );
+// Load More Results AJAX removed; showing all results without AJAX
 
 /**
  * Render the icon on the front-end for the core/button block.
@@ -930,7 +1012,7 @@ function swmw_law_render_results_csv_importer_page() {
 										$key = 'result_amount_display';
 									} elseif ( $key === 'liability' ) {
 										$key = 'result_liability_text';
-									} elseif ( $key === 'type' ) {
+									} elseif ( $key === 'type' || $key === 'type_of_case' || $key === 'case_type' ) {
 										$key = 'result_category_type'; // future category hookup
 									} elseif ( in_array( $key, array( 'disposition', 'verdict_settlement', 'verdict_or_settlement' ), true ) ) {
 										$key = 'result_category_disposition'; // map to taxonomy category
@@ -989,15 +1071,15 @@ function swmw_law_render_results_csv_importer_page() {
 										continue;
 									}
 									$found = null;
-									// Only attempt to match an existing post when an explicit title column is provided.
-									if ( $explicit_title && $title_raw !== '' ) {
-										$found = get_page_by_title( $title_raw, OBJECT, 'swmw_result' );
+									// Try to match an existing post by generated or explicit title (via slug).
+									if ( $title_raw !== '' ) {
+										$found = swmw_law_find_result_by_title( $title_raw );
 									}
 									if ( ! $found && $allow_create ) {
 										// Ensure uniqueness: if title exists, append liability or a numeric suffix
 										$unique_title = $title_raw;
 										$attempts = 0;
-										while ( get_page_by_title( $unique_title, OBJECT, 'swmw_result' ) && $attempts < 5 ) {
+										while ( swmw_law_find_result_by_title( $unique_title ) && $attempts < 5 ) {
 											$suffix = '';
 											if ( $category_from_liability !== '' && strpos( $unique_title, $category_from_liability ) === false ) {
 												$suffix = ' – ' . $category_from_liability;
@@ -1148,7 +1230,7 @@ function swmw_law_render_results_csv_importer_page() {
 							$key = 'result_amount_display';
 						} elseif ( $key === 'liability' ) {
 							$key = 'result_liability_text';
-						} elseif ( $key === 'type' ) {
+						} elseif ( $key === 'type' || $key === 'type_of_case' || $key === 'case_type' ) {
 							$key = 'result_category_type'; // future category hookup
 						} elseif ( in_array( $key, array( 'disposition', 'verdict_settlement', 'verdict_or_settlement' ), true ) ) {
 							$key = 'result_category_disposition'; // map to taxonomy category
@@ -1224,15 +1306,15 @@ function swmw_law_render_results_csv_importer_page() {
 						// Find existing Result by exact title only when an explicit title column was provided.
 						$found = null;
 						$explicit_title = isset( $map['title'] );
-						if ( $explicit_title && $title_raw !== '' ) {
-							$found = get_page_by_title( $title_raw, OBJECT, 'swmw_result' );
+						if ( $title_raw !== '' ) {
+							$found = swmw_law_find_result_by_title( $title_raw );
 						}
 						// Create if missing and allowed
 						if ( ! $found && $allow_create ) {
 							// Ensure uniqueness: if title exists, append liability or a numeric suffix
 							$unique_title = $title_raw;
 							$attempts = 0;
-							while ( get_page_by_title( $unique_title, OBJECT, 'swmw_result' ) && $attempts < 5 ) {
+							while ( swmw_law_find_result_by_title( $unique_title ) && $attempts < 5 ) {
 								$suffix = '';
 								if ( $category_from_liability !== '' && strpos( $unique_title, $category_from_liability ) === false ) {
 									$suffix = ' – ' . $category_from_liability;

@@ -102,13 +102,14 @@ function register_result_category_taxonomy() { // Renamed function
 	$args = array(
 		'labels'            => $labels,
 		'hierarchical'      => true,
-		'public'            => false, // no public archives
+		'public'            => true,
 		'show_ui'           => true,
 		'show_admin_column' => true,
-		'show_in_nav_menus' => false,
+		'show_in_nav_menus' => true,
 		'show_tagcloud'     => false,
-		'query_var'         => false,
-		'rewrite'           => false, // disable term URLs
+		'query_var'         => true,
+		// Use a unique base to avoid conflicting with the CPT archive at /results
+		'rewrite'           => array( 'slug' => 'result-type', 'with_front' => false ),
 		'show_in_rest'      => true,
 	);
 	register_taxonomy( 'swmw_result_category', array( 'swmw_result' ), $args ); // Renamed taxonomy slug
