@@ -32,12 +32,23 @@ if ( ! empty( $block['className'] ) ) {
             'orderby'        => 'post__in', // Order by the sequence they were selected
         );
     } else {
-        // Fallback to original query if no results are specifically selected
+        // Fallback: show featured results by default
         $args = array(
             'post_type'      => 'swmw_result',
             'posts_per_page' => $num_posts,
-            'orderby'        => 'date',
-            'order'          => 'DESC',
+            'tax_query'      => array(
+                array(
+                    'taxonomy' => 'swmw_result_status',
+                    'field'    => 'slug',
+                    'terms'    => 'featured',
+                ),
+            ),
+            // Order featured by numeric amount desc, then date
+            'meta_key'       => 'result_amount_num',
+            'orderby'        => array(
+                'meta_value_num' => 'DESC',
+                'date'           => 'DESC',
+            ),
         );
     }
 

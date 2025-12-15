@@ -660,6 +660,121 @@ function swmw_law_register_query_vars( $vars ) {
 add_filter( 'query_vars', __NAMESPACE__ . '\swmw_law_register_query_vars' );
 
 /**
+ * Output structured data (JSON-LD) for Results archives and Result Category taxonomy pages.
+ * - CollectionPage with ItemList of Results
+ * - BreadcrumbList
+ */
+function swmw_law_output_results_schema() {
+	if ( is_admin() ) {
+		return;
+	}
+	if ( ! ( is_post_type_archive( 'swmw_result' ) || is_tax( 'swmw_result_category' ) ) ) {
+		return;
+	}
+
+	global $wp_query;
+	if ( ! $wp_query || empty( $wp_query->posts ) ) {
+		return;
+	}
+
+	// Build page context
+	$current_url = home_url( add_query_arg( array(), $_SERVER['REQUEST_URI'] ?? '' ) );
+	$page_name   = 'Results';
+	if ( is_tax( 'swmw_result_category' ) ) {
+		$term = get_queried_object();
+		if ( $term && ! is_wp_error( $term ) && isset( $term->name ) ) {
+			$page_name = 'Results: ' . $term->name;
+		}
+	}
+
+	// Build ItemList from current posts
+	$item_list_elements = array();
+	$position = 1;
+	foreach ( $wp_query->posts as $post_obj ) {
+		$post_id = isset( $post_obj->ID ) ? (int) $post_obj->ID : 0;
+		if ( $post_id <= 0 ) {
+			continue;
+		}
+		$item = array(
+			'@type' => 'ListItem',
+			'position' => $position++,
+			'url' => get_permalink( $post_id ),
+			'item' => array(
+				'@type' => 'Thing',
+				'name' => get_the_title( $post_id ),
+			),
+		);
+		$desc = \SWMW_Law\swmw_law_format_result_sentence( $post_id );
+		if ( $desc ) {
+			$item['item']['description'] = $desc;
+		}
+		$amount = \SWMW_Law\swmw_law_get_formatted_amount( $post_id );
+		if ( $amount ) {
+			$item['item']['additionalProperty'] = array(
+				array(
+					'@type' => 'PropertyValue',
+					'name'  => 'Result Amount',
+					'value' => $amount,
+				),
+			);
+		}
+		$thumb = get_the_post_thumbnail_url( $post_id, 'large' );
+		if ( $thumb ) {
+			$item['item']['image'] = esc_url( $thumb );
+		}
+		$item_list_elements[] = $item;
+	}
+
+	$collection_ld = array(
+		'@context' => 'https://schema.org',
+		'@type'    => 'CollectionPage',
+		'name'     => $page_name,
+		'url'      => esc_url( $current_url ),
+		'mainEntity' => array(
+			'@type' => 'ItemList',
+			'itemListElement' => $item_list_elements,
+		),
+	);
+
+	// Build breadcrumbs
+	$breadcrumb_items = array(
+		array(
+			'@type' => 'ListItem',
+			'position' => 1,
+			'name' => 'Home',
+			'item' => home_url( '/' ),
+		),
+		array(
+			'@type' => 'ListItem',
+			'position' => 2,
+			'name' => 'Results',
+			'item' => get_post_type_archive_link( 'swmw_result' ),
+		),
+	);
+	if ( is_tax( 'swmw_result_category' ) ) {
+		$term = get_queried_object();
+		if ( $term && ! is_wp_error( $term ) ) {
+			$breadcrumb_items[] = array(
+				'@type' => 'ListItem',
+				'position' => 3,
+				'name' => $term->name,
+				'item' => get_term_link( $term ),
+			);
+		}
+	}
+	$breadcrumbs_ld = array(
+		'@context' => 'https://schema.org',
+		'@type'    => 'BreadcrumbList',
+		'itemListElement' => $breadcrumb_items,
+	);
+
+	// Output JSON-LD
+	echo "\n" . '<script type="application/ld+json">' . wp_json_encode( $collection_ld ) . '</script>' . "\n";
+	echo "\n" . '<script type="application/ld+json">' . wp_json_encode( $breadcrumbs_ld ) . '</script>' . "\n";
+}
+add_action( 'wp_head', __NAMESPACE__ . '\swmw_law_output_results_schema', 20 );
+
+/**
  * Format Result amount for display: $X,XXX,XXX (rounded, no decimals).
  */
 function swmw_law_get_formatted_amount( $post_id = null ) {
