@@ -46,13 +46,17 @@ if ( empty( $hero_title ) ) {
 }
 
 $hero_styles = '';
+$hero_classes = 'hero-archive';
+if ( is_post_type_archive( 'swmw_result' ) ) {
+	$hero_classes .= ' hero-archive--results';
+}
 if ( $background_image_url ) {
 	$hero_styles = 'style="background-image: url(' . esc_url( $background_image_url ) . ');"';
 }
 ?>
 
 <?php if ( $hero_title ) : // Only render the hero section if there's a title to display. ?>
-<div class="hero-archive" <?php echo $hero_styles; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Style attribute is intentionally not escaped. ?>>
+<div class="<?php echo esc_attr( $hero_classes ); ?>" <?php echo $hero_styles; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Style attribute is intentionally not escaped. ?>>
 	<div class="container-lg">
 		<div class="hero-archive__grid">
 			<div class="hero-archive__left">

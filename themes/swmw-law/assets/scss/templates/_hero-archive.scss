@@ -33,6 +33,15 @@
     }
   }
 
+  // Results archive: give the title column a bit more room
+  &.hero-archive--results {
+    @media (min-width: $breakpoint-md) {
+      .hero-archive__grid {
+        grid-template-columns: 50% 1fr;
+      }
+    }
+  }
+
   // ---------------------------------------------------------------------------
   // Left Side (Title, Button, etc.)
   // ---------------------------------------------------------------------------

@@ -57,12 +57,9 @@ get_template_part( 'template-parts/hero-archive' );
 						$case_types     = get_the_terms( get_the_ID(), 'swmw_result_category' );
 						$case_type      = ( ! empty( $case_types ) && ! is_wp_error( $case_types ) ) ? $case_types[0] : null;
 						$case_type_name = $case_type ? $case_type->name : '';
-						$case_type_link = $case_type ? get_term_link( $case_type ) : '';
 						?>
 						<div class="result-item-inner">
-							<?php if ( $case_type_name && ! is_wp_error( $case_type_link ) && $case_type_link ) : ?>
-								<a class="result-category" href="<?php echo esc_url( $case_type_link ); ?>"><?php echo esc_html( $case_type_name ); ?></a>
-							<?php elseif ( $case_type_name ) : ?>
+							<?php if ( $case_type_name ) : ?>
 								<span class="result-category"><?php echo esc_html( $case_type_name ); ?></span>
 							<?php endif; ?>
 							<h3 class="result-amount"><?php echo esc_html( \SWMW_Law\swmw_law_get_formatted_amount() ); ?></h3>
@@ -100,12 +97,9 @@ get_template_part( 'template-parts/hero-archive' );
 						$case_types     = get_the_terms( get_the_ID(), 'swmw_result_category' );
 						$case_type      = ( ! empty( $case_types ) && ! is_wp_error( $case_types ) ) ? $case_types[0] : null;
 						$case_type_name = $case_type ? $case_type->name : '';
-						$case_type_link = $case_type ? get_term_link( $case_type ) : '';
 						?>
 						<div class="result-item-inner">
-							<?php if ( $case_type_name && ! is_wp_error( $case_type_link ) && $case_type_link ) : ?>
-								<a class="result-category" href="<?php echo esc_url( $case_type_link ); ?>"><?php echo esc_html( $case_type_name ); ?></a>
-							<?php elseif ( $case_type_name ) : ?>
+							<?php if ( $case_type_name ) : ?>
 								<span class="result-category"><?php echo esc_html( $case_type_name ); ?></span>
 							<?php endif; ?>
 							<h3 class="result-amount"><?php echo esc_html( \SWMW_Law\swmw_law_get_formatted_amount() ); ?></h3>

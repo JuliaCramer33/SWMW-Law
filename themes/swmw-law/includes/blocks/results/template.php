@@ -76,12 +76,7 @@ if ( ! empty( $block['className'] ) ) {
                                     $terms = get_the_terms(get_the_ID(), 'swmw_result_category');
                                     if (!empty($terms) && !is_wp_error($terms)) {
                                         $category = $terms[0];
-                                        $term_link = get_term_link($category);
-                                        if (!is_wp_error($term_link)) {
-                                            echo '<a class="result-category" href="' . esc_url($term_link) . '">' . esc_html($category->name) . '</a>';
-                                        } else {
-                                            echo '<span class="result-category">' . esc_html($category->name) . '</span>';
-                                        }
+                                        echo '<span class="result-category">' . esc_html($category->name) . '</span>';
                                     }
 
                                     $result_amount = get_field( 'result_amount', get_the_ID() );
@@ -126,12 +121,7 @@ if ( ! empty( $block['className'] ) ) {
                                 $terms = get_the_terms(get_the_ID(), 'swmw_result_category');
                                 if (!empty($terms) && !is_wp_error($terms)) {
                                     $category = $terms[0];
-                                    $term_link = get_term_link($category);
-                                    if (!is_wp_error($term_link)) {
-                                        echo '<a class="result-category" href="' . esc_url($term_link) . '">' . esc_html($category->name) . '</a>';
-                                    } else {
-                                        echo '<span class="result-category">' . esc_html($category->name) . '</span>';
-                                    }
+                                    echo '<span class="result-category">' . esc_html($category->name) . '</span>';
                                 }
 
                                 $result_amount = get_field( 'result_amount', get_the_ID() );
