@@ -410,6 +410,8 @@ function initResultsSlider() {
       gap: '1rem',
       pagination: false,
       arrows: true,
+      start: 0,
+      // ensure first selected result is the initial slide
       autoplay: true,
       interval: 4000,
       // 4s between slides
@@ -417,7 +419,8 @@ function initResultsSlider() {
       pauseOnFocus: true,
       drag: true,
       snap: true,
-      focus: 'center',
+      // Start at the first slide aligned to the left edge
+      focus: 0,
       trimSpace: true,
       breakpoints: {
         991: {
