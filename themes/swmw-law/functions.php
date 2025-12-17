@@ -213,27 +213,31 @@ add_action( 'pre_get_posts', __NAMESPACE__ . '\swmw_law_category_archive_posts' 
  */
 function swmw_law_non_featured_results_archive_query( $query ) {
 	if ( ! is_admin() && $query->is_main_query() && is_post_type_archive( 'swmw_result' ) ) {
-		$tax_query = array(
-			array(
-				'taxonomy' => 'swmw_result_status',
-				'field'    => 'slug',
-				'terms'    => 'featured',
-				'operator' => 'NOT IN',
-			),
+		// Exclude featured from the main archive list (below the featured section)
+		$tax_query = $query->get( 'tax_query' );
+		if ( ! is_array( $tax_query ) ) {
+			$tax_query = array();
+		}
+		$tax_query[] = array(
+			'taxonomy' => 'swmw_result_status',
+			'field'    => 'slug',
+			'terms'    => array( 'featured' ),
+			'operator' => 'NOT IN',
 		);
+		$tax_query['relation'] = isset( $tax_query['relation'] ) ? $tax_query['relation'] : 'AND';
 		$query->set( 'tax_query', $tax_query );
 		$query->set( 'posts_per_page', -1 ); // Show all results
-		// Custom ordering: Occupation A->Z then amount desc
+		// Custom ordering: amount desc (handled in posts_clauses)
 		$query->set( 'results_custom_order', true );
 	}
 }
 add_action( 'pre_get_posts', __NAMESPACE__ . '\swmw_law_non_featured_results_archive_query' );
 
 /**
- * Custom ORDER BY for Results:
- * 1) Featured excluded by main query (handled elsewhere)
- * 2) Order by occupation (A-Z) using ACF text 'result_occupation'
- * 3) Within occupation, order by highest amount first using 'result_amount_num'
+ * Custom ORDER BY for Results (archive and case-type taxonomy):
+ * - Featured are excluded by main query (handled elsewhere)
+ * - Order strictly by highest numeric amount first using 'result_amount_num'
+ * - Posts without an amount appear after, falling back to most recent first
  */
 function swmw_law_results_ordering_clauses( $clauses, $query ) {
 	global $wpdb;
@@ -253,21 +257,16 @@ function swmw_law_results_ordering_clauses( $clauses, $query ) {
 	if ( ! $apply ) {
 		return $clauses;
 	}
-	// Left join postmeta twice for occupation and amount without filtering
-	$occ_join = " LEFT JOIN {$wpdb->postmeta} pm_occ ON (pm_occ.post_id = {$wpdb->posts}.ID AND pm_occ.meta_key = 'result_occupation') ";
+	// Left join postmeta for amount without filtering
 	$amt_join = " LEFT JOIN {$wpdb->postmeta} pm_amt ON (pm_amt.post_id = {$wpdb->posts}.ID AND pm_amt.meta_key = 'result_amount_num') ";
-	if ( strpos( $clauses['join'], 'pm_occ.meta_key = \'result_occupation\'' ) === false ) {
-		$clauses['join'] .= $occ_join;
-	}
 	if ( strpos( $clauses['join'], 'pm_amt.meta_key = \'result_amount_num\'' ) === false ) {
 		$clauses['join'] .= $amt_join;
 	}
 	// Ensure unique rows if other joins exist
 	$clauses['groupby'] = "{$wpdb->posts}.ID";
-	// Order: non-empty occupation first (ASC), then occupation A->Z, then amount desc
-	$orderby  = "CASE WHEN pm_occ.meta_value IS NULL OR pm_occ.meta_value = '' THEN 1 ELSE 0 END ASC, ";
-	$orderby .= "pm_occ.meta_value ASC, ";
-	$orderby .= "CAST(pm_amt.meta_value AS UNSIGNED) DESC, {$wpdb->posts}.ID DESC";
+	// Order: posts with numeric amount first, highest to lowest, then recent posts
+	$orderby  = "CASE WHEN pm_amt.meta_value IS NULL OR pm_amt.meta_value = '' THEN 1 ELSE 0 END ASC, ";
+	$orderby .= "CAST(pm_amt.meta_value AS UNSIGNED) DESC, {$wpdb->posts}.post_date DESC, {$wpdb->posts}.ID DESC";
 	$clauses['orderby'] = $orderby;
 	return $clauses;
 }
@@ -287,6 +286,19 @@ function swmw_law_result_category_archive_query( $query ) {
 		$query->set( 'post_type', 'swmw_result' );
 		$query->set( 'posts_per_page', -1 );
 		$query->set( 'results_custom_order', true );
+		// Exclude featured from taxonomy archives as well
+		$tax_query = $query->get( 'tax_query' );
+		if ( ! is_array( $tax_query ) ) {
+			$tax_query = array();
+		}
+		$tax_query[] = array(
+			'taxonomy' => 'swmw_result_status',
+			'field'    => 'slug',
+			'terms'    => array( 'featured' ),
+			'operator' => 'NOT IN',
+		);
+		$tax_query['relation'] = isset( $tax_query['relation'] ) ? $tax_query['relation'] : 'AND';
+		$query->set( 'tax_query', $tax_query );
 	}
 }
 add_action( 'pre_get_posts', __NAMESPACE__ . '\swmw_law_result_category_archive_query' );
