@@ -15939,8 +15939,8 @@ nav .menu-item.button,
 .single-post .single-post-hero img {
   width: 100%;
   height: auto;
-  max-height: 780px;
-  object-fit: cover;
+  max-height: clamp(220px, 34vw, 420px);
+  display: block;
 }
 .single-post .entry-meta {
   display: flex;

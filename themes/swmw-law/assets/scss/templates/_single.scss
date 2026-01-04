@@ -21,8 +21,8 @@
     img {
       width: 100%;
       height: auto;
-      max-height: 780px;
-      object-fit: cover;
+      max-height: clamp(220px, 34vw, 420px); // keep width, but cap tall images
+      display: block;
     }
   }
 

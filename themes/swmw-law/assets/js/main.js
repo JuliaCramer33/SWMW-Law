@@ -2,7 +2,6 @@
 
 import initializeButtonHoverAnimation from './button-hover-animation.js'; // Import the module
 import { initMobileMenu, initMobileSubMenus } from './mobile-menu.js';
-import { initLoadMoreAttorneys as initLoadMoreAttorneysStandalone } from './load-more-attorneys.js';
 import { initMegaMenus, moveMegaPanels, equalizeMegaMenuHeights } from './mega-menu.js';
 import { initResultsSlider } from './blocks/results.js';
 import { initTestimonialsSlider } from './blocks/testimonials.js';
@@ -202,11 +201,7 @@ import { initAccordionColumns } from './accordion-columns.js';
       console.error('MAIN.JS - ERROR in initAttorneysSlider():', error);
     }
 
-    try {
-      initLoadMoreAttorneysStandalone(); // Initialize the load more attorneys functionality (standalone)
-    } catch (error) {
-      console.error('MAIN.JS - ERROR in initLoadMoreAttorneysStandalone():', error);
-    }
+    // Load More Attorneys removed: archive now shows all attorneys
 
     // Load More Results removed: archive now shows all results
 
@@ -256,11 +251,6 @@ import { initAccordionColumns } from './accordion-columns.js';
     // console.log('MAIN.JS WINDOW LOADED');
     // Initialize components that need window load
   });
-
-  /**
-   * Initialize Load More Attorneys functionality.
-   */
-  // (load more attorneys moved to standalone module)
 
   // Load More Results functionality removed
 })(jQuery);

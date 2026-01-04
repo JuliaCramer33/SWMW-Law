@@ -810,139 +810,6 @@ function initHeroDropdownNav() {
 
 /***/ }),
 
-/***/ "./assets/js/load-more-attorneys.js":
-/*!******************************************!*\
-  !*** ./assets/js/load-more-attorneys.js ***!
-  \******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   initLoadMoreAttorneys: () => (/* binding */ initLoadMoreAttorneys)
-/* harmony export */ });
-/**
- * Load More Attorneys (standalone module)
- * Uses page-based pagination to match server handler.
- */
-
-function initLoadMoreAttorneys() {
-  const loadMoreButton = document.getElementById('load-more-attorneys');
-  if (!loadMoreButton) return;
-  let currentPage = 1; // initial page already rendered
-
-  loadMoreButton.addEventListener('click', function () {
-    currentPage += 1;
-    const button = this;
-    button.textContent = 'Loading...';
-    button.disabled = true;
-    const grid = document.querySelector('.attorney-grid');
-    const offset = grid ? grid.querySelectorAll('.attorney-card-item').length : 0;
-    // Debug: request details
-    try {
-      console.log('[LM] requesting', {
-        page: currentPage,
-        offset
-      });
-    } catch (e) {}
-    const form = new FormData();
-    form.append('action', 'load_more_attorneys');
-    form.append('page', String(currentPage));
-    form.append('offset', String(offset));
-    // Also send an exclude list of current IDs for stability
-    const ids = Array.from(document.querySelectorAll('.attorney-card-item')).map(n => n.id.replace('post-', '')).filter(Boolean);
-    form.append('exclude', ids.join(','));
-    form.append('nonce', window.swmwLawData && window.swmwLawData.load_more_attorneys_nonce || '');
-    fetch(window.swmwLawData && window.swmwLawData.ajaxUrl ? window.swmwLawData.ajaxUrl : '/wp-admin/admin-ajax.php', {
-      method: 'POST',
-      credentials: 'same-origin',
-      body: form
-    }).then(r => r.json()).then(response => {
-      if (response && response.success) {
-        const grid = document.querySelector('.attorney-grid');
-        if (grid && response.data && response.data.html) {
-          // Append only new items, preserve server order
-          const temp = document.createElement('div');
-          temp.innerHTML = response.data.html;
-          const incoming = Array.from(temp.querySelectorAll('.attorney-card-item'));
-          // Debug incoming IDs
-          try {
-            console.log('[LM] incoming ids', incoming.map(n => n.id));
-          } catch (e) {}
-          let appended = 0;
-          incoming.forEach(el => {
-            const id = el.id || '';
-            if (id && document.getElementById(id)) {
-              return; // skip duplicates that are already in DOM
-            }
-            grid.appendChild(el);
-            appended += 1;
-          });
-          // After append, normalize order across the whole grid: members first, then oldest start date
-          const all = Array.from(grid.querySelectorAll('.attorney-card-item'));
-          all.sort((a, b) => {
-            const am = parseInt(a.getAttribute('data-is-member') || '1', 10);
-            const bm = parseInt(b.getAttribute('data-is-member') || '1', 10);
-            if (am !== bm) return am - bm;
-            const ad = parseInt((a.getAttribute('data-start-date') || '99999999').replace(/[^0-9]/g, ''), 10);
-            const bd = parseInt((b.getAttribute('data-start-date') || '99999999').replace(/[^0-9]/g, ''), 10);
-            if (ad !== bd) return ad - bd;
-            const at = (a.querySelector('.attorney-card-title a')?.textContent || '').trim();
-            const bt = (b.querySelector('.attorney-card-title a')?.textContent || '').trim();
-            if (at !== bt) return at.localeCompare(bt);
-            const aid = a.id || '';
-            const bid = b.id || '';
-            return aid.localeCompare(bid);
-          });
-          // Re-render in sorted order
-          const frag = document.createDocumentFragment();
-          all.forEach(el => frag.appendChild(el));
-          grid.innerHTML = '';
-          grid.appendChild(frag);
-          // Debug: response meta and counts
-          try {
-            const count = grid.querySelectorAll('.attorney-card-item').length;
-            console.log('[LM] success', {
-              current_page: response.data.current_page,
-              max_pages: response.data.max_pages,
-              has_more: response.data.has_more,
-              total_rendered: count
-            });
-          } catch (e) {}
-          // Disable immediately if server says no more, otherwise keep enabled
-          const noMore = response.data && response.data.has_more === false || response.data && response.data.max_pages && response.data.current_page >= response.data.max_pages;
-          if (noMore) {
-            button.textContent = 'No More Attorneys';
-            button.disabled = true;
-          } else {
-            button.textContent = 'Load More Attorneys';
-            button.disabled = false;
-          }
-        } else {
-          try {
-            console.log('[LM] empty html');
-          } catch (e) {}
-          button.textContent = 'No More Attorneys';
-          button.disabled = true;
-        }
-      } else {
-        try {
-          console.warn('[LM] error response', response);
-        } catch (e) {}
-        button.textContent = 'Error - Try Again';
-        button.disabled = false;
-      }
-    }).catch(() => {
-      try {
-        console.error('[LM] fetch error');
-      } catch (e) {}
-      button.textContent = 'AJAX Error - Try Again';
-      button.disabled = false;
-    });
-  });
-}
-
-/***/ }),
-
 /***/ "./assets/js/mega-menu.js":
 /*!********************************!*\
   !*** ./assets/js/mega-menu.js ***!
@@ -1441,19 +1308,17 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _button_hover_animation_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./button-hover-animation.js */ "./assets/js/button-hover-animation.js");
 /* harmony import */ var _mobile_menu_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mobile-menu.js */ "./assets/js/mobile-menu.js");
-/* harmony import */ var _load_more_attorneys_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./load-more-attorneys.js */ "./assets/js/load-more-attorneys.js");
-/* harmony import */ var _mega_menu_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./mega-menu.js */ "./assets/js/mega-menu.js");
-/* harmony import */ var _blocks_results_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./blocks/results.js */ "./assets/js/blocks/results.js");
-/* harmony import */ var _blocks_testimonials_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./blocks/testimonials.js */ "./assets/js/blocks/testimonials.js");
-/* harmony import */ var _blocks_attorneys_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./blocks/attorneys.js */ "./assets/js/blocks/attorneys.js");
-/* harmony import */ var _blocks_accordion_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./blocks/accordion.js */ "./assets/js/blocks/accordion.js");
-/* harmony import */ var _hero_dropdown_nav_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./hero-dropdown-nav.js */ "./assets/js/hero-dropdown-nav.js");
-/* harmony import */ var _blocks_animations_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./blocks/animations.js */ "./assets/js/blocks/animations.js");
-/* harmony import */ var _accordion_columns_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./accordion-columns.js */ "./assets/js/accordion-columns.js");
+/* harmony import */ var _mega_menu_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./mega-menu.js */ "./assets/js/mega-menu.js");
+/* harmony import */ var _blocks_results_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./blocks/results.js */ "./assets/js/blocks/results.js");
+/* harmony import */ var _blocks_testimonials_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./blocks/testimonials.js */ "./assets/js/blocks/testimonials.js");
+/* harmony import */ var _blocks_attorneys_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./blocks/attorneys.js */ "./assets/js/blocks/attorneys.js");
+/* harmony import */ var _blocks_accordion_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./blocks/accordion.js */ "./assets/js/blocks/accordion.js");
+/* harmony import */ var _hero_dropdown_nav_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./hero-dropdown-nav.js */ "./assets/js/hero-dropdown-nav.js");
+/* harmony import */ var _blocks_animations_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./blocks/animations.js */ "./assets/js/blocks/animations.js");
+/* harmony import */ var _accordion_columns_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./accordion-columns.js */ "./assets/js/accordion-columns.js");
 //Import any JS here
 
  // Import the module
-
 
 
 
@@ -1584,18 +1449,18 @@ __webpack_require__.r(__webpack_exports__);
       console.error('MAIN.JS - ERROR in initMobileSubMenus():', error);
     }
     try {
-      (0,_mega_menu_js__WEBPACK_IMPORTED_MODULE_3__.initMegaMenus)();
+      (0,_mega_menu_js__WEBPACK_IMPORTED_MODULE_2__.initMegaMenus)();
     } catch (error) {
       console.error('MAIN.JS - ERROR in initMegaMenus():', error);
     }
     try {
-      (0,_mega_menu_js__WEBPACK_IMPORTED_MODULE_3__.moveMegaPanels)();
+      (0,_mega_menu_js__WEBPACK_IMPORTED_MODULE_2__.moveMegaPanels)();
     } catch (error) {
       console.error('MAIN.JS - ERROR in moveMegaPanels():', error);
     }
     // Equalize a baseline min-height so adjacent panels align, while open height still animates
     try {
-      (0,_mega_menu_js__WEBPACK_IMPORTED_MODULE_3__.equalizeMegaMenuHeights)();
+      (0,_mega_menu_js__WEBPACK_IMPORTED_MODULE_2__.equalizeMegaMenuHeights)();
     } catch (error) {
       console.error('MAIN.JS - ERROR in equalizeMegaMenuHeights():', error);
     }
@@ -1603,7 +1468,7 @@ __webpack_require__.r(__webpack_exports__);
     // Recompute on resize for layout changes
     window.addEventListener('resize', () => {
       try {
-        (0,_mega_menu_js__WEBPACK_IMPORTED_MODULE_3__.equalizeMegaMenuHeights)();
+        (0,_mega_menu_js__WEBPACK_IMPORTED_MODULE_2__.equalizeMegaMenuHeights)();
       } catch (error) {
         // no-op
       }
@@ -1619,50 +1484,47 @@ __webpack_require__.r(__webpack_exports__);
       console.error('MAIN.JS - ERROR in initializeButtonHoverAnimation():', error);
     }
     try {
-      (0,_blocks_results_js__WEBPACK_IMPORTED_MODULE_4__.initResultsSlider)(); // Initialize the results slider
+      (0,_blocks_results_js__WEBPACK_IMPORTED_MODULE_3__.initResultsSlider)(); // Initialize the results slider
     } catch (error) {
       console.error('MAIN.JS - ERROR in initResultsSlider():', error);
     }
     try {
-      (0,_blocks_testimonials_js__WEBPACK_IMPORTED_MODULE_5__.initTestimonialsSlider)(); // Initialize the testimonials slider
+      (0,_blocks_testimonials_js__WEBPACK_IMPORTED_MODULE_4__.initTestimonialsSlider)(); // Initialize the testimonials slider
     } catch (error) {
       console.error('MAIN.JS - ERROR in initTestimonialsSlider():', error);
     }
     try {
-      (0,_blocks_attorneys_js__WEBPACK_IMPORTED_MODULE_6__.initAttorneysSlider)(); // Initialize the attorneys slider
+      (0,_blocks_attorneys_js__WEBPACK_IMPORTED_MODULE_5__.initAttorneysSlider)(); // Initialize the attorneys slider
     } catch (error) {
       console.error('MAIN.JS - ERROR in initAttorneysSlider():', error);
     }
-    try {
-      (0,_load_more_attorneys_js__WEBPACK_IMPORTED_MODULE_2__.initLoadMoreAttorneys)(); // Initialize the load more attorneys functionality (standalone)
-    } catch (error) {
-      console.error('MAIN.JS - ERROR in initLoadMoreAttorneysStandalone():', error);
-    }
+
+    // Load More Attorneys removed: archive now shows all attorneys
 
     // Load More Results removed: archive now shows all results
 
     try {
-      (0,_accordion_columns_js__WEBPACK_IMPORTED_MODULE_10__.initAccordionColumns)(); // Initialize the accordion columnizer FIRST
+      (0,_accordion_columns_js__WEBPACK_IMPORTED_MODULE_9__.initAccordionColumns)(); // Initialize the accordion columnizer FIRST
     } catch (error) {
       console.error('MAIN.JS - ERROR in initAccordionColumns():', error);
     }
     try {
-      new _blocks_accordion_js__WEBPACK_IMPORTED_MODULE_7__.AccordionBlock();
+      new _blocks_accordion_js__WEBPACK_IMPORTED_MODULE_6__.AccordionBlock();
     } catch (error) {
       console.error('MAIN.JS - ERROR in AccordionBlock():', error);
     }
     try {
-      new _blocks_accordion_js__WEBPACK_IMPORTED_MODULE_7__.JobsitesAccordion();
+      new _blocks_accordion_js__WEBPACK_IMPORTED_MODULE_6__.JobsitesAccordion();
     } catch (error) {
       console.error('MAIN.JS - ERROR in JobsitesAccordion():', error);
     }
     try {
-      (0,_hero_dropdown_nav_js__WEBPACK_IMPORTED_MODULE_8__.initHeroDropdownNav)(); // Initialize the hero dropdown navigation
+      (0,_hero_dropdown_nav_js__WEBPACK_IMPORTED_MODULE_7__.initHeroDropdownNav)(); // Initialize the hero dropdown navigation
     } catch (error) {
       console.error('MAIN.JS - ERROR in initHeroDropdownNav():', error);
     }
     try {
-      (0,_blocks_animations_js__WEBPACK_IMPORTED_MODULE_9__.initBlockAnimations)(); // Initialize block animations
+      (0,_blocks_animations_js__WEBPACK_IMPORTED_MODULE_8__.initBlockAnimations)(); // Initialize block animations
     } catch (error) {
       console.error('MAIN.JS - ERROR in initBlockAnimations():', error);
     }
@@ -1683,11 +1545,6 @@ __webpack_require__.r(__webpack_exports__);
     // console.log('MAIN.JS WINDOW LOADED');
     // Initialize components that need window load
   });
-
-  /**
-   * Initialize Load More Attorneys functionality.
-   */
-  // (load more attorneys moved to standalone module)
 
   // Load More Results functionality removed
 })(jQuery);

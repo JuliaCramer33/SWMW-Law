@@ -307,6 +307,11 @@ function modify_attorney_archive_query( $query ) {
         maybe_backfill_attorney_priorities();
         // Flag this query to use custom SQL ordering via posts_clauses filter
         $query->set( 'attorney_custom_order', true );
+        // Show all attorneys on one page (no load-more/pagination)
+        $query->set( 'posts_per_page', -1 );
+        $query->set( 'nopaging', true );
+        // Guard against any external pagination vars
+        $query->set( 'paged', 0 );
 	}
 }
 
@@ -335,19 +340,41 @@ function attorney_ordering_clauses( $clauses, $query ) {
         return $clauses;
     }
 
-    // No joins needed for date ordering; use scalar subqueries for stable ordering across pages
-
-    // Ensure uniqueness if other plugins add joins
+	// Ensure uniqueness if other plugins add joins
     $clauses['groupby'] = "{$wpdb->posts}.ID";
 
-    // Build ORDER BY using deterministic subqueries
-    $member_exists_sql = "EXISTS (SELECT 1 FROM {$wpdb->term_relationships} tr2 JOIN {$wpdb->term_taxonomy} tt2 ON tt2.term_taxonomy_id = tr2.term_taxonomy_id AND tt2.taxonomy = 'attorney_position' JOIN {$wpdb->terms} t2 ON t2.term_id = tt2.term_id AND t2.slug IN ('member','members') WHERE tr2.object_id = {$wpdb->posts}.ID)";
-    $start_value_sql = "(SELECT REPLACE(pm.meta_value, '-', '') FROM {$wpdb->postmeta} pm WHERE pm.post_id = {$wpdb->posts}.ID AND pm.meta_key = 'attorney_start_date' ORDER BY pm.meta_id DESC LIMIT 1)";
-    // Members first (EXISTS true), then others; dated first within each group, oldest first
-    $orderby = "CASE WHEN {$member_exists_sql} THEN 0 ELSE 1 END ASC, ";
-    $orderby .= "CASE WHEN {$start_value_sql} IS NULL OR {$start_value_sql} = '' THEN 1 ELSE 0 END ASC, ";
-    $orderby .= "CAST(COALESCE({$start_value_sql}, '99999999') AS UNSIGNED) ASC, ";
-    $orderby .= "{$wpdb->posts}.post_title ASC, {$wpdb->posts}.ID ASC";
+	/*
+	 * Desired ordering:
+	 * 1) Position priority: Member (0), Partner (1), Associate (2), Of Counsel (3), Others (4)
+	 * 2) Within each position group: Start date ascending (oldest first). Missing dates after dated.
+	 * 3) Tie-breakers: Title A–Z, then ID ASC.
+	 */
+	$exists_for = function( $slugs_csv ) use ( $wpdb ) {
+		return "EXISTS (
+			SELECT 1
+			FROM {$wpdb->term_relationships} tr2
+			JOIN {$wpdb->term_taxonomy} tt2 ON tt2.term_taxonomy_id = tr2.term_taxonomy_id AND tt2.taxonomy = 'attorney_position'
+			JOIN {$wpdb->terms} t2 ON t2.term_id = tt2.term_id AND t2.slug IN ({$slugs_csv})
+			WHERE tr2.object_id = {$wpdb->posts}.ID
+		)";
+	};
+	$member_exists_sql    = $exists_for( "'member','members'" );
+	$partner_exists_sql   = $exists_for( "'partner','partners'" );
+	$associate_exists_sql = $exists_for( "'associate','associates'" );
+	$ofcounsel_exists_sql = $exists_for( "'of-counsel','of_counsel','ofcounsel','of-councel','of_councel'" );
+	$start_value_sql      = "(SELECT REPLACE(pm.meta_value, '-', '') FROM {$wpdb->postmeta} pm WHERE pm.post_id = {$wpdb->posts}.ID AND pm.meta_key = 'attorney_start_date' ORDER BY pm.meta_id DESC LIMIT 1)";
+
+	// Build ORDER BY
+	$orderby  = "CASE
+		WHEN {$member_exists_sql} THEN 0
+		WHEN {$partner_exists_sql} THEN 1
+		WHEN {$associate_exists_sql} THEN 2
+		WHEN {$ofcounsel_exists_sql} THEN 3
+		ELSE 4
+	END ASC, ";
+	$orderby .= "CASE WHEN {$start_value_sql} IS NULL OR {$start_value_sql} = '' THEN 1 ELSE 0 END ASC, ";
+	$orderby .= "CAST(COALESCE({$start_value_sql}, '99999999') AS UNSIGNED) ASC, ";
+	$orderby .= "{$wpdb->posts}.post_title ASC, {$wpdb->posts}.ID ASC";
 
     $clauses['orderby'] = $orderby;
 
