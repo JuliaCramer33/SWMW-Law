@@ -1,0 +1,265 @@
+// =============================================================================
+// MEGA MENU
+// =============================================================================
+// Mega menu dropdown component for main navigation.
+// Provides two-column layout with left navigation and right content area.
+// Supports multi-level navigation with visual hierarchy.
+// Structure:
+//   .main-navigation
+//     .menu-item-has-mega-menu
+//       .mega-menu-panel
+//         .mega-menu-panel-inner
+//           .mega-menu-column-left (30% width)
+//           .mega-menu-column-right (70% width)
+// Usage:
+//   <nav class="main-navigation">
+//     <ul class="menu">
+//       <li class="menu-item menu-item-has-mega-menu">
+//         <a href="#">Practice Areas</a>
+//         <div class="mega-menu-panel">
+//           <div class="mega-menu-panel-inner">
+//             <div class="mega-menu-column-left">
+//               <!-- Left navigation -->
+//             </div>
+//             <div class="mega-menu-column-right">
+//               <!-- Right content -->
+//             </div>
+//           </div>
+//         </div>
+//       </li>
+//     </ul>
+//   </nav>
+// =============================================================================
+
+@use "../variables/variables" as *;
+
+// =============================================================================
+// MEGA MENU CONTAINER
+// =============================================================================
+
+.main-navigation {
+  position: relative;
+}
+
+.menu-item-has-mega-menu {
+  position: static;
+}
+
+// =============================================================================
+// MEGA MENU PANEL
+// =============================================================================
+
+.mega-menu-panel {
+  display: block;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 100vw;
+  background-color: $color-gray-lightest;
+  border-top: 1px solid $color-divider;
+  box-shadow: $box-shadow-lg;
+  z-index: $z-index-dropdown;
+  padding: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(10px);
+  overflow: hidden;
+  max-height: 0;
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, max-height 0.3s ease;
+
+  &.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+    max-height: max(var(--mega-panel-min-height, 0px), var(--mega-panels-shared-height, 0px), var(--mega-panel-target-height, 0px));
+  }
+
+  .mega-menu-panel-inner {
+    display: flex;
+    align-items: stretch;
+  }
+}
+
+// =============================================================================
+// LEFT COLUMN - NAVIGATION
+// =============================================================================
+
+.mega-menu-column-left {
+  flex: 0 0 320px;
+  padding: $spacing-6;
+
+  > .sub-menu.mega-menu-child-list {
+    display: block !important;
+    position: static !important;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    > li.menu-item {
+      display: block !important;
+      position: relative;
+      margin-bottom: $spacing-3;
+
+      > a {
+        color: $color-charcoal;
+        display: block;
+        font-weight: $font-weight-bold;
+        font-family: $font-montserrat;
+        font-size: $font-size-sm;
+        line-height: 1.4;
+        padding: $spacing-2;
+        text-decoration: none;
+        transition: color 0.2s ease;
+
+        &:hover,
+        &:focus {
+          background-color: $color-secondary;
+          color: $color-white;
+        }
+      }
+
+      // Highlight the current page in the left column
+      &.current-menu-item > a {
+        background-color: $color-secondary;
+        color: rgba($color-white, 0.8);
+        text-decoration: underline;
+      }
+
+      &.menu-item-has-children > a {
+        display: inline-flex;
+        align-items: center;
+
+        &::after {
+          content: "";
+          width: 12px;
+          height: 12px;
+          background-image: url(../images/mega-menu-arrow.svg);
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: contain;
+          margin-left: $spacing-2;
+          filter: brightness(0) invert(1);
+        }
+      }
+
+      > .sub-menu.sub-menu-level-2 {
+        display: none !important;
+      }
+    }
+  }
+}
+
+// =============================================================================
+// RIGHT COLUMN - CONTENT
+// =============================================================================
+
+.mega-menu-column-right {
+  flex: 1;
+  background-color: transparent;
+  padding: 0;
+
+  .mega-menu-column-right-content {
+    height: 100%;
+    box-sizing: border-box;
+    background-color: $color-secondary;
+    padding: $spacing-6;
+    box-shadow: $box-shadow-md;
+
+    &:empty {
+      background-color: transparent;
+    }
+
+    .mega-menu-right-column-title {
+      color: $color-white;
+      font-weight: $font-weight-bold;
+      font-size: $font-size-lg;
+      margin: 0 0 $spacing-3;
+      display: flex;
+      align-items: center;
+
+      .mega-menu-title-line {
+        flex-grow: 1;
+        height: 1px;
+        background-color: $color-white;
+        margin-left: $spacing-3;
+      }
+    }
+
+    .sub-menu.third-level-list {
+      display: block;
+      position: relative;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      animation: fadeInSlideDown 0.3s ease-out forwards;
+
+      &.multi-column {
+        columns: 4; // Adjusted to 4 columns to match the provided image
+        column-gap: $spacing-6;
+
+        li {
+          break-inside: avoid;
+          padding-bottom: $spacing-2;
+        }
+      }
+
+      > li.menu-item > a {
+        display: block;
+        padding: $spacing-1 0;
+        text-decoration: none;
+        color: $color-white;
+        font-family: $font-montserrat;
+        font-size: $font-size-sm;
+        font-weight: $font-weight-semibold;
+
+        &:hover,
+        &:focus {
+          text-decoration: underline;
+        }
+      }
+
+      // Highlight the current page in the right column (applies to 2nd and 3rd levels)
+      &.current-menu-item > a {
+        color: $color-secondary;
+      }
+    }
+  }
+}
+
+// Keyframe animation for the third-level menu
+@keyframes fadeInSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// =============================================================================
+// RESPONSIVE ADJUSTMENTS
+// =============================================================================
+// Note: Responsive styles are commented out as they were in the original
+// Uncomment and modify as needed for mobile mega menu behavior
+
+// @media (max-width: $breakpoint-lg) {
+//   .mega-menu-panel {
+//     // On smaller screens, perhaps it becomes a stacked mobile-like menu instead of full-width panel
+//     // Or simply allow horizontal scrolling if content is too wide
+//   }
+//   .mega-menu-panel-inner {
+//     flex-direction: column;
+//   }
+//   .mega-menu-column-left,
+//   .mega-menu-column-right {
+//     flex-basis: 100%;
+//     border-right: none;
+//     padding-right: 0;
+//     margin-bottom: $spacing-4;
+//   }
+// }

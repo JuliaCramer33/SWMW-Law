@@ -1,0 +1,99 @@
+// =============================================================================
+// ANIMATIONS
+// =============================================================================
+// Animation system for scroll-triggered animations using data attributes.
+// Supports fade-in, slide-up, slide-in-left, and slide-in-right animations
+// with staggered delays for consecutive elements.
+// Usage:
+//   <div data-animate="fade-in">Content</div>
+//   <div data-animate="slide-up">Content</div>
+//   <div data-animate="slide-in-left">Content</div>
+//   <div data-animate="slide-in-right">Content</div>
+// JavaScript adds the 'animated' class when element enters viewport.
+// =============================================================================
+
+// Animation Variables
+$animation-duration: 0.6s;
+$animation-easing: cubic-bezier(0.4, 0, 0.2, 1);
+$animation-delay: 0.1s;
+
+// Base animation styles - only apply when JS is available
+.js [data-animate] {
+  position: relative;
+  opacity: 0;
+  transition: opacity $animation-duration $animation-easing, transform $animation-duration $animation-easing;
+
+  &.animated {
+    opacity: 1;
+    position: relative;
+  }
+}
+
+// Fade In Animation
+.js [data-animate="fade-in"] {
+  // Inherits base styles
+  &.animated {
+    // Inherits base animated styles
+  }
+}
+
+// Slide Up Animation
+.js [data-animate="slide-up"] {
+  transform: translateY(30px);
+
+  &.animated {
+    transform: translateY(0);
+  }
+}
+
+// Slide In Right Animation
+.js [data-animate="slide-in-right"] {
+  transform: translateX(40px);
+
+  &.animated {
+    transform: translateX(0);
+  }
+}
+
+// Slide In Left Animation
+.js [data-animate="slide-in-left"] {
+  transform: translateX(-40px);
+
+  &.animated {
+    transform: translateX(0);
+  }
+}
+
+// Staggered animations for consecutive blocks
+// Uses a loop to generate delays for up to 10 elements
+@for $i from 1 through 10 {
+  .js [data-animate]:nth-child(#{$i}) {
+    transition-delay: ($i - 1) * $animation-delay;
+  }
+}
+
+// Disable animations on mobile for better performance
+@media (max-width: 768px) {
+  .js [data-animate] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+
+    &.animated {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+}
+
+// Optional: Add a class to disable animations globally
+.no-animations [data-animate] {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+
+  &.animated {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

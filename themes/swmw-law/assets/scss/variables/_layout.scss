@@ -1,0 +1,58 @@
+@use "sass:math"; // Import the math module
+@use "spacing" as *;
+
+/* Layout Variables
+--------------------------------------------- */
+
+// Container Max Widths
+// These typically align with breakpoints but can be adjusted.
+
+$section-spacing-sm: $spacing-6;
+$section-spacing-md: $spacing-8;
+
+$container-max-width-sm: 992px;
+$container-max-width-md: 1140px;
+$container-max-width-lg: 100%;
+
+// A map for container max widths, similar to breakpoints:
+$container-max-widths: (
+  "sm": $container-max-width-sm,
+  "md": $container-max-width-md,
+  "lg": $container-max-width-lg,
+);
+
+// Default container padding (can be adjusted)
+$container-padding-x: $spacing-6; // Use spacing variable
+
+// Grid System
+$grid-columns: 12; // Standard 12-column grid
+$grid-gutter-width: 1.5rem; // Default space between columns (references spacing var)
+
+// Flexbox Column Widths (Percentages based on grid columns)
+// Useful for setting flex-basis or width in flex layouts.
+
+$flex-col-base-width: 100%;
+
+@function flex-col-width($cols, $total-cols: $grid-columns) {
+
+  @return math.percentage(math.div($cols, $total-cols));
+}
+
+$flex-col-1-width: flex-col-width(1);
+$flex-col-2-width: flex-col-width(2);
+$flex-col-3-width: flex-col-width(3);
+$flex-col-4-width: flex-col-width(4);
+$flex-col-5-width: flex-col-width(5);
+$flex-col-6-width: flex-col-width(6);
+$flex-col-7-width: flex-col-width(7);
+$flex-col-8-width: flex-col-width(8);
+$flex-col-9-width: flex-col-width(9);
+$flex-col-10-width: flex-col-width(10);
+$flex-col-11-width: flex-col-width(11);
+$flex-col-12-width: flex-col-width(12); // 100%
+
+// You might also want specific common fractions if preferred:
+$width-full: 100%;
+$width-half: 50%;
+$width-third: 33.3333%;
+$width-quarter: 25%;

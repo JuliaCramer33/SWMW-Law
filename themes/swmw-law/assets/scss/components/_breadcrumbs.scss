@@ -1,0 +1,82 @@
+// =============================================================================
+// BREADCRUMBS
+// =============================================================================
+// Breadcrumb navigation component for site navigation hierarchy.
+// Provides clear visual hierarchy and accessible navigation.
+// Usage:
+//   <nav class="breadcrumbs-nav">
+//     <div class="container">
+//       <ol class="breadcrumbs-list">
+//         <li class="breadcrumb-item breadcrumb-item--home">
+//           <a href="/"><span class="breadcrumb-home-icon">🏠</span>Home</a>
+//         </li>
+//         <li class="breadcrumb-separator">/</li>
+//         <li class="breadcrumb-item">
+//           <a href="/practice-areas">Practice Areas</a>
+//         </li>
+//         <li class="breadcrumb-separator">/</li>
+//         <li class="breadcrumb-item breadcrumb-item--current">
+//           Personal Injury
+//         </li>
+//       </ol>
+//     </div>
+//   </nav>
+// =============================================================================
+
+@use "../variables/variables" as *;
+
+.breadcrumbs-nav {
+  padding: $spacing-3 0;
+  background-color: $color-gray-f6;
+  border-bottom: 1px solid $color-border;
+  font-size: $font-size-sm;
+
+  .container {
+    // Inherits global container styles
+  }
+
+  .breadcrumbs-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .breadcrumb-item {
+    display: flex;
+    align-items: center;
+
+    a {
+      text-decoration: none;
+      color: $color-text-light;
+      transition: color $transition-duration-base ease;
+
+      &:hover,
+      &:focus {
+        color: $color-primary;
+        text-decoration: underline;
+      }
+    }
+
+    &--home {
+      .breadcrumb-home-icon {
+        margin-right: $spacing-1;
+        color: $color-text;
+        position: relative;
+        top: -1px;
+      }
+    }
+
+    &--current {
+      color: $color-secondary;
+      font-weight: $font-weight-medium;
+    }
+  }
+
+  .breadcrumb-separator {
+    margin: 0 $spacing-2;
+    color: $color-text;
+  }
+}

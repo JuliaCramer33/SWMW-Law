@@ -1,0 +1,126 @@
+@use "../variables/variables" as *;
+
+/* Text Utility Classes (Simplified for Gutenberg)
+--------------------------------------------- */
+
+// --- Text Wrapping & Breaking (Still needed outside blocks) ---
+.text-wrap {
+  white-space: normal !important;
+}
+
+.text-nowrap {
+  white-space: nowrap !important;
+}
+
+.text-break {
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+}
+
+// --- Text Transform (Still useful for custom styling) ---
+.text-lowercase {
+  text-transform: lowercase !important;
+}
+
+.text-uppercase {
+  text-transform: uppercase !important;
+}
+
+.text-capitalize {
+  text-transform: capitalize !important;
+}
+
+// --- Text Alignment ---
+.text-left {
+  text-align: left !important;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.text-right {
+  text-align: right !important;
+}
+
+.text-justify {
+  text-align: justify !important;
+}
+
+
+// --- Responsive Text Utilities (Essential for responsive design) ---
+@each $bpKey, $bpValue in $breakpoints {
+
+  @media (min-width: $bpValue) {
+    .text-#{$bpKey}-wrap {
+      white-space: normal !important;
+    }
+
+    .text-#{$bpKey}-nowrap {
+      white-space: nowrap !important;
+    }
+
+    .text-#{$bpKey}-break {
+      word-wrap: break-word !important;
+      word-break: break-word !important;
+    }
+
+    // Alignment
+    .text-#{$bpKey}-left {
+      text-align: left !important;
+    }
+    .text-#{$bpKey}-center {
+      text-align: center !important;
+    }
+    .text-#{$bpKey}-right {
+      text-align: right !important;
+    }
+    .text-#{$bpKey}-justify {
+      text-align: justify !important;
+    }
+  }
+
+  // "Down" utilities for max-width breakpoints
+  @media (max-width: ($bpValue - 1px)) {
+    .text-down-#{$bpKey}-left {
+      text-align: left !important;
+    }
+    .text-down-#{$bpKey}-center {
+      text-align: center !important;
+    }
+    .text-down-#{$bpKey}-right {
+      text-align: right !important;
+    }
+    .text-down-#{$bpKey}-justify {
+      text-align: justify !important;
+    }
+  }
+}
+
+// Simplified text utilities for Gutenberg-based theme.
+// Removed font weight, style, decoration, color, and line height utilities as Gutenberg handles these.
+
+// --- Text Decoration utilities (include nested anchors + states) ---
+.text-decoration-none,
+.text-decoration-none:hover,
+.text-decoration-none:focus {
+  text-decoration: none !important;
+}
+
+.text-decoration-none a,
+.text-decoration-none a:hover,
+.text-decoration-none a:focus {
+  text-decoration: none !important;
+}
+
+.text-decoration-underline,
+.text-decoration-underline:hover,
+.text-decoration-underline:focus {
+  text-decoration: underline !important;
+}
+
+.text-decoration-underline a,
+.text-decoration-underline a:hover,
+.text-decoration-underline a:focus {
+  text-decoration: underline !important;
+}

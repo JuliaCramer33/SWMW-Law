@@ -1,0 +1,26 @@
+/* Transition Variables */
+
+// Duration
+$transition-duration-base: 0.2s;
+$transition-duration-fast: 0.15s;
+$transition-duration-slow: 0.3s;
+
+// Easing
+$transition-easing-ease: ease;
+$transition-easing-linear: linear;
+$transition-easing-ease-in: ease-in;
+$transition-easing-ease-out: ease-out;
+$transition-easing-ease-in-out: ease-in-out;
+
+// Common Transitions
+$transition-base: all $transition-duration-base $transition-easing-ease;
+$transition-fast: all $transition-duration-fast $transition-easing-ease;
+$transition-slow: all $transition-duration-slow $transition-easing-ease;
+
+// Specific Property Transitions
+$transition-opacity: opacity $transition-duration-base $transition-easing-ease;
+$transition-transform: transform $transition-duration-base $transition-easing-ease;
+$transition-color: color $transition-duration-base $transition-easing-ease;
+$transition-background: background $transition-duration-base $transition-easing-ease;
+$transition-border: border $transition-duration-base $transition-easing-ease;
+$transition-shadow: box-shadow $transition-duration-base $transition-easing-ease;

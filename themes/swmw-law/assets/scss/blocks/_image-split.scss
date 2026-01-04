@@ -1,0 +1,134 @@
+
+@use "../variables/variables" as *;
+
+/**
+ * Image Split Block Styles
+ * Styles for the image split ACF block with two overlapping images
+ */
+
+.image-split-block {
+  position: relative;
+  z-index: -1; // stay below navigational overlays
+
+  .image-split-container {
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+
+    .image-split-column {
+      width: 100%;
+      box-sizing: border-box;
+
+      &.image-side {
+        .image-stack {
+          position: relative;
+          width: 100%;
+          margin-bottom: 50px; /* Equal to the overlap amount */
+
+          .image-1 {
+            display: block;
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            position: relative;
+            z-index: 1;
+          }
+
+          .image-2 {
+            position: absolute;
+            bottom: -50px;
+            right: 0;
+            width: 65%;
+            height: auto;
+            object-fit: cover;
+            // Keep above image-1 but ensure it does NOT cover dropdowns/menus.
+            z-index: $z-index-base; 
+          }
+        }
+      }
+    }
+  }
+
+  /* Left overlap positioning */
+  &.overlap-left {
+    .image-2 {
+      right: auto;
+      left: 0;
+    }
+  }
+
+  /* Right overlap positioning (default) */
+  &.overlap-right {
+    .image-2 {
+      left: auto;
+      right: 0;
+    }
+  }
+
+  @media (max-width: $breakpoint-md) {
+    .image-split-container {
+      .image-split-column {
+        width: 100%;
+      }
+    }
+  }
+}
+
+/* Manual staggered animation for images within the block */
+.image-split-block {
+  .image-1[data-animate] {
+    transition-delay: 0s;
+  }
+
+  .image-2[data-animate] {
+    transition-delay: 0.1s; /* 100ms delay for staggered effect */
+  }
+}
+
+.image-split-column.image-side {
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .image-stack {
+    position: relative;
+  }
+}
+
+.editor-styles-wrapper {
+  .wp-block-acf-image-split-block {
+    .image-split-container {
+      display: flex;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .image-split-column {
+      box-sizing: border-box;
+      width: 100%;
+    }
+
+    .image-stack {
+      position: relative;
+      margin-bottom: 50px; /* Match the frontend margin */
+    }
+
+    .image-1,
+    .image-2 {
+      clip-path: none;
+      position: static;
+      box-shadow: none;
+      border-radius: 0;
+    }
+
+    .image-2 {
+      width: 65%;
+      margin-top: -$spacing-10;
+      margin-left: auto;
+      margin-right: auto;
+      z-index: 2;
+    }
+  }
+}

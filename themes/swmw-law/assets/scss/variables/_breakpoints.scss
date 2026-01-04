@@ -1,0 +1,28 @@
+/* Breakpoints
+--------------------------------------------- */
+
+// Standard responsive breakpoints
+
+// Small devices (landscape phones, 576px and up)
+$breakpoint-sm: 576px !default;
+
+// Medium devices (tablets, 768px and up)
+$breakpoint-md: 768px !default;
+
+// Large devices (desktops, 992px and up)
+$breakpoint-lg: 992px !default;
+
+// Extra large devices (large desktops, 1200px and up)
+$breakpoint-xl: 1200px !default;
+
+// Extra extra large devices (larger desktops, 1400px and up)
+$breakpoint-xxl: 1400px !default;
+
+// You can also define a map for easier iteration if needed later:
+$breakpoints: (
+  "sm": $breakpoint-sm,
+  "md": $breakpoint-md,
+  "lg": $breakpoint-lg,
+  "xl": $breakpoint-xl,
+  "xxl": $breakpoint-xxl
+) !default;

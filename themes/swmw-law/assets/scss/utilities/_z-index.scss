@@ -1,0 +1,180 @@
+@use "../variables/z-index" as *;
+
+/* Z-index Utility Classes
+--------------------------------------------- */
+.z-0,
+.z-1,
+.z-10,
+.z-20,
+.z-30,
+.z-40,
+.z-50,
+.z-100,
+.z-200,
+.z-300,
+.z-400,
+.z-500,
+.z-1000,
+.z-2000,
+.z-3000,
+.z-4000,
+.z-5000,
+.z-9999,
+.z-n1,
+.z-n10,
+.z-n100 {
+  position: relative !important;
+}
+
+// Base z-index utilities using the theme's z-index variables
+.z-base {
+  z-index: $z-index-base !important;
+}
+
+.z-content-above {
+  z-index: $z-index-content-above !important;
+}
+
+.z-skip-link {
+  z-index: $z-index-skip-link !important;
+}
+
+.z-dropdown {
+  z-index: $z-index-dropdown !important;
+}
+
+.z-overlay {
+  z-index: $z-index-overlay !important;
+}
+
+.z-sticky {
+  z-index: $z-index-sticky !important;
+}
+
+.z-fixed {
+  z-index: $z-index-fixed !important;
+}
+
+.z-modal-backdrop {
+  z-index: $z-index-modal-backdrop !important;
+}
+
+.z-modal {
+  z-index: $z-index-modal !important;
+}
+
+.z-popover {
+  z-index: $z-index-popover !important;
+}
+
+.z-tooltip {
+  z-index: $z-index-tooltip !important;
+}
+
+.z-above-all {
+  z-index: $z-index-above-all !important;
+}
+
+.z-background {
+  z-index: $z-index-background !important;
+}
+
+.z-deep-background {
+  z-index: $z-index-deep-background !important;
+}
+
+// Common z-index values for quick use
+.z-0 {
+  z-index: 0 !important;
+}
+
+.z-1 {
+  z-index: 1 !important;
+}
+
+.z-10 {
+  z-index: 10 !important;
+}
+
+.z-20 {
+  z-index: 20 !important;
+}
+
+.z-30 {
+  z-index: 30 !important;
+}
+
+.z-40 {
+  z-index: 40 !important;
+}
+
+.z-50 {
+  z-index: 50 !important;
+}
+
+.z-100 {
+  z-index: 100 !important;
+}
+
+.z-200 {
+  z-index: 200 !important;
+}
+
+.z-300 {
+  z-index: 300 !important;
+}
+
+.z-400 {
+  z-index: 400 !important;
+}
+
+.z-500 {
+  z-index: 500 !important;
+}
+
+.z-1000 {
+  z-index: 1000 !important;
+}
+
+.z-2000 {
+  z-index: 2000 !important;
+}
+
+.z-3000 {
+  z-index: 3000 !important;
+}
+
+.z-4000 {
+  z-index: 4000 !important;
+}
+
+.z-5000 {
+  z-index: 5000 !important;
+}
+
+.z-9999 {
+  z-index: 9999 !important;
+}
+
+// Negative z-index utilities
+.z-n1 {
+  z-index: -1 !important;
+}
+
+.z-n10 {
+  z-index: -10 !important;
+}
+
+.z-n100 {
+  z-index: -100 !important;
+}
+
+// Auto z-index
+.z-auto {
+  z-index: auto !important;
+}
+
+// Inherit z-index
+.z-inherit {
+  z-index: inherit !important;
+}

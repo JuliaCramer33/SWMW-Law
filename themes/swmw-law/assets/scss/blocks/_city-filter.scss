@@ -1,0 +1,187 @@
+@use "../variables/variables" as *;
+
+/* Jobsites by City Block Styles
+--------------------------------------------- */
+.jobsites-by-city-block {
+  // 1. Block Title
+  .jobsites-title {
+    text-align: center;
+    margin-bottom: $spacing-8;
+    font-size: $h2-font-size;
+    color: $color-text;
+  }
+
+  // 2. Filter Bar (Desktop)
+  .jobsites-filter-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: $spacing-2 $spacing-1;
+    margin-bottom: $spacing-4;
+    text-align: center;
+
+    .filter-label {
+      font-weight: $font-weight-semibold;
+      color: $color-secondary;
+      margin-right: $spacing-4;
+      white-space: nowrap;
+      font-size: $font-size-sm;
+    }
+
+    .filter-letters {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: $spacing-2;
+    }
+
+    .filter-letter {
+      width: 2rem;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid $color-border;
+      border-radius: 50%;
+      background: none;
+      font-size: $font-size-sm;
+      font-weight: $font-weight-bold;
+      color: $color-text;
+      cursor: pointer;
+      transition: all $transition-duration-fast ease;
+      position: relative;
+
+      &:hover:not(:disabled),
+      &.active {
+        background: $color-secondary;
+        color: $color-white;
+        border-color: $color-secondary;
+        transform: scale(1.05);
+      }
+
+      &.has-cities:not(:disabled) {
+        border-color: $color-white;
+      }
+
+      &.no-cities {
+        opacity: 0.3;
+        pointer-events: none;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  // 3. Skip To Dropdown (Mobile)
+  .jobsites-skip-to {
+    display: none;
+    margin-bottom: $spacing-4;
+    text-align: center;
+
+    .skip-to-label {
+      display: block;
+      margin-bottom: $spacing-2;
+      font-weight: $font-weight-semibold;
+      color: $color-text;
+    }
+
+    select {
+      padding: $spacing-3 $spacing-4;
+      border: 2px solid $color-border;
+      border-radius: $border-radius-lg;
+      background: $color-white;
+      font-size: $font-size-base;
+      min-width: 200px;
+      cursor: pointer;
+    }
+  }
+
+  // 4. Accordion Layout - Now a flex container for JS-generated columns
+  .jobsites-accordion {
+    display: flex;
+    gap: $spacing-5; // Set column gap to ~1.25rem
+
+    .accordion-column {
+      flex: 1;
+      min-width: 0; // Prevents flexbox overflow issues
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-5; // Set row gap to ~1.25rem
+    }
+
+    // Remove the default top margin from the generic accordion panels
+    // as the column gap now handles the spacing.
+    .accordion-panel {
+      margin-top: 0;
+    }
+  }
+
+  // 5. City Groups
+  .city-group {
+    margin-bottom: $spacing-4;
+
+    .city-name {
+      font-size: $font-size-xl;
+      font-weight: $font-weight-semibold;
+      color: $color-text;
+      padding-bottom: $spacing-1;
+    }
+
+    .no-jobsites {
+      color: $color-text-light;
+      font-style: italic;
+      margin: $spacing-4 0;
+    }
+  }
+
+  // 6. Jobsites Grid
+  .jobsites-grid {
+    display: grid;
+    gap: $spacing-2;
+  }
+
+  .jobsite-card {
+    p {
+      margin: 0;
+    }
+  }
+
+  // 7. Responsive Layouts
+  @media (max-width: $breakpoint-lg) {
+    // Responsive column count is now handled by JavaScript
+  }
+
+  @media (max-width: $breakpoint-md) {
+    .jobsites-filter-bar {
+      display: none;
+    }
+
+    .jobsites-skip-to {
+      display: block;
+    }
+
+    // Responsive column count is now handled by JavaScript
+
+    .jobsite-card {
+      padding: $spacing-4;
+    }
+
+    .jobsites-title {
+      font-size: $font-size-xl;
+    }
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    .jobsites-title {
+      font-size: $font-size-lg;
+    }
+
+    .city-name {
+      font-size: $font-size-lg;
+    }
+
+    .jobsite-name {
+      font-size: $font-size-base;
+    }
+  }
+}

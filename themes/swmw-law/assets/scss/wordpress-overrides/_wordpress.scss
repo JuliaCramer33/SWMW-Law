@@ -1,0 +1,347 @@
+// Main WordPress Overrides Aggregator
+// This file forwards all specific WordPress override partials.
+@use "sass:map";
+@use "../variables/variables" as *;
+@use "../variables/breakpoints" as *;
+@use "../base/buttons" as *; // Ensure button mixins are available
+
+/* ==========================================================================
+#WORDPRESS-CONTENT-WIDTHS
+========================================================================== */
+
+// Custom Alignment Width Map
+$alignments: (
+  "sm": map.get($container-max-widths, "sm"),
+  "md": map.get($container-max-widths, "md"),
+  "lg": map.get($container-max-widths, "lg")
+);
+
+// Alignfull — stretch full-width and escape outer container
+.alignfull,
+.wp-block.alignfull,
+.wp-block-group.alignfull,
+.wp-acf-block.alignfull {
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  box-sizing: border-box;
+
+  // If padding is manually added via block style
+  &[style*="padding"] {
+    padding-left: inherit;
+    padding-right: inherit;
+  }
+}
+
+.alignwide,
+.wp-block.alignwide {
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+/* ================================
+  RESPONSIVE BLOCK OVERRIDES
+  ================================ */
+
+// Stack horizontal Group and Columns blocks on mobile.
+@media (max-width: $breakpoint-md) {
+  .wp-block-group.is-layout-flex,
+  .wp-block-columns.is-layout-flex {
+    flex-direction: column;
+    align-items: center; // Reset alignment for vertical stacking
+  }
+}
+
+/* ================================
+   IMAGE ALIGNMENT OVERRIDES
+   ================================ */
+
+a img.alignright {
+  float: right;
+  margin: $spacing-4 0 $spacing-4 $spacing-4;
+}
+
+a img.alignnone {
+  margin: $spacing-4 $spacing-4 $spacing-4 0;
+  max-width: $container-max-width-sm;
+}
+
+a img.alignleft {
+  float: left;
+  margin: $spacing-4 $spacing-4 $spacing-4 0;
+}
+
+a img.aligncenter {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ================================
+   WORDPRESS CAPTION STYLES
+   ================================ */
+
+.wp-caption {
+  background: $color-background;
+  border: 1px solid $color-border;
+  max-width: 96%;
+  padding: $spacing-2;
+  text-align: center;
+
+  &.alignnone,
+  &.alignleft {
+    margin: $spacing-4 $spacing-4 $spacing-4 0;
+  }
+
+  &.alignright {
+    margin: $spacing-4 0 $spacing-4 $spacing-4;
+  }
+
+  img {
+    border: 0 none;
+    height: auto;
+    margin: 0;
+    max-width: 98.5%;
+    padding: 0;
+    width: auto;
+  }
+
+  p.wp-caption-text {
+    font-size: $font-size-sm;
+    line-height: $base-line-height;
+    margin: 0;
+    padding: $spacing-2 0;
+  }
+}
+
+/* ================================
+   ACCESSIBILITY
+   ================================ */
+
+.screen-reader-text {
+  clip: rect(1px, 1px, 1px, 1px);
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+
+  &:focus {
+    background-color: $color-background;
+    border-radius: $border-radius;
+    box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
+    clip: auto !important;
+    color: $color-text;
+    display: block;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-bold;
+    height: auto;
+    left: $spacing-1;
+    line-height: normal;
+    padding: $spacing-3;
+    text-decoration: none;
+    top: $spacing-1;
+    width: auto;
+    z-index: 100000;
+  }
+}
+
+/* ================================
+   GALLERY STYLES
+   ================================ */
+
+.gallery {
+  margin-bottom: $spacing-4;
+
+  &-item {
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+    width: 100%;
+    padding: $spacing-2;
+
+    img {
+      border: none;
+      vertical-align: middle;
+    }
+  }
+
+  &-columns-2 .gallery-item {
+    max-width: 50%;
+  }
+
+  &-columns-3 .gallery-item {
+    max-width: 33.33%;
+  }
+
+  &-columns-4 .gallery-item {
+    max-width: 25%;
+  }
+
+  &-columns-5 .gallery-item {
+    max-width: 20%;
+  }
+
+  &-columns-6 .gallery-item {
+    max-width: 16.66%;
+  }
+
+  &-columns-7 .gallery-item {
+    max-width: 14.28%;
+  }
+
+  &-columns-8 .gallery-item {
+    max-width: 12.5%;
+  }
+
+  &-columns-9 .gallery-item {
+    max-width: 11.11%;
+  }
+}
+
+.gallery-caption {
+  display: block;
+  font-size: $font-size-sm;
+  padding: $spacing-2;
+  margin: 0;
+}
+
+/* ================================
+   BLOCKQUOTE STYLES
+   ================================ */
+
+blockquote {
+  margin: 0 0 $spacing-6 $spacing-6;
+  padding: 0 0 0 $spacing-6;
+  border-left: 3px solid $color-border;
+  font-style: italic;
+
+  p:last-child {
+    margin-bottom: $spacing-0;
+  }
+}
+
+/* ================================
+   WORDPRESS BUTTON ENHANCEMENTS
+   ================================ */
+
+/* =========================================
+   WP Fill Buttons: Palette + Custom Hex Swap
+   ========================================= */
+
+/* Defaults if no palette class present */
+.wp-block-button .wp-block-button__link {
+  --btn-bg: #{$color-primary};
+  --btn-text: #{$color-white};
+}
+
+/* Background palette slugs */
+.wp-block-button .wp-block-button__link.has-primary-background-color {
+  --btn-bg: var(--wp--preset--color--primary);
+}
+
+.wp-block-button .wp-block-button__link.has-secondary-background-color {
+  --btn-bg: var(--wp--preset--color--secondary);
+}
+
+.wp-block-button .wp-block-button__link.has-tertiary-background-color {
+  --btn-bg: var(--wp--preset--color--tertiary);
+}
+
+.wp-block-button .wp-block-button__link.has-accent-background-color {
+  --btn-bg: var(--wp--preset--color--accent);
+}
+
+.wp-block-button .wp-block-button__link.has-black-background-color {
+  --btn-bg: var(--wp--preset--color--black);
+}
+
+.wp-block-button .wp-block-button__link.has-white-background-color {
+  --btn-bg: var(--wp--preset--color--white);
+}
+
+/* Text (foreground) palette slugs */
+.wp-block-button .wp-block-button__link.has-primary-color {
+  --btn-text: var(--wp--preset--color--primary);
+}
+
+.wp-block-button .wp-block-button__link.has-secondary-color {
+  --btn-text: var(--wp--preset--color--secondary);
+}
+
+.wp-block-button .wp-block-button__link.has-tertiary-color {
+  --btn-text: var(--wp--preset--color--tertiary);
+}
+
+.wp-block-button .wp-block-button__link.has-accent-color {
+  --btn-text: var(--wp--preset--color--accent);
+}
+
+.wp-block-button .wp-block-button__link.has-black-color {
+  --btn-text: var(--wp--preset--color--black);
+}
+
+.wp-block-button .wp-block-button__link.has-white-color {
+  --btn-text: var(--wp--preset--color--white);
+}
+
+/* Default (Fill) style with animation + swap */
+.wp-block-button:not(.is-style-outline) .wp-block-button__link {
+
+  @include button-appearance;
+
+  /* Pre-hover: editor’s chosen colors */
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
+  border-color: var(--btn-bg);
+
+  /* Swipe uses original text color; label flips to bg */
+  @include button-animation(
+    $swipe-bg-color: var(--btn-text),
+    $hover-text-color: var(--btn-bg)
+  );
+
+  /* Explicit swap so hover text/bg are always correct */
+  &:hover,
+  &:focus {
+    background-color: var(--btn-text);
+    color: var(--btn-bg) !important;
+    border-color: var(--btn-bg);
+  }
+}
+
+
+// Outline Button Style
+.wp-block-button.is-style-outline .wp-block-button__link {
+
+  // For outline buttons, on hover, the background should fill with white,
+  // and the text color should change to primary (blue).
+  @include button-animation($swipe-bg-color: $color-white, $hover-text-color: $color-primary);
+
+  // Explicitly set hover color for higher specificity (diagnostic: !important added temporarily)
+  &:hover,
+  &:focus {
+    color: $color-primary !important; // Ensure text changes to blue on hover
+  }
+}
+
+/* ================================
+   CORE BLOCK OVERRIDES
+   ================================ */
+
+.wp-block-cover {
+  padding-left: $container-padding-x; // Use layout variable for horizontal padding
+  padding-right: $container-padding-x; // Use layout variable for horizontal padding
+}
+
+/* ================================
+   LAYOUT HELPER CLASSES
+   ================================ */
+
+.is-recontained {
+  padding-left: $container-padding-x;
+  padding-right: $container-padding-x;
+  box-sizing: border-box;
+}
+

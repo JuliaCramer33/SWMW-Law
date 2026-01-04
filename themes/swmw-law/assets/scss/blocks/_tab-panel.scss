@@ -1,0 +1,28 @@
+@use "../variables/variables" as *;
+
+/**
+ * Tab Panel Block Styles (Pattern)
+ * Styles for the tab panel ACF block
+ * This is a reusable pattern for tab content panels
+ */
+
+.wp-block-acf-tab-panel {
+  display: none;
+
+  &.active {
+    display: block;
+    animation: fadeIn 0.5s ease-in-out;
+  }
+}
+
+/* Animation Keyframes
+--------------------------------------------- */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

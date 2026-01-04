@@ -1,0 +1,29 @@
+/* Spacing Variables
+--------------------------------------------- */
+
+// Base spacing unit (relative to root font size)
+$base-spacing-unit: 1rem; // Corresponds to 16px if root is 16px
+
+// Spacing scale (adjust multipliers as needed)
+$spacing-0: 0;
+$spacing-1: $base-spacing-unit * 0.25; // 4px
+$spacing-2: $base-spacing-unit * 0.5;  // 8px
+$spacing-3: $base-spacing-unit * 0.75; // 12px
+$spacing-4: $base-spacing-unit;        // 16px
+$spacing-5: $base-spacing-unit * 1.25; // 20px
+$spacing-6: $base-spacing-unit * 1.5;  // 24px
+$spacing-8: $base-spacing-unit * 2;    // 32px
+$spacing-10: $base-spacing-unit * 2.5; // 40px
+$spacing-12: $base-spacing-unit * 3;   // 48px
+$spacing-16: $base-spacing-unit * 4;   // 64px
+$spacing-20: $base-spacing-unit * 5;   // 80px
+$spacing-24: $base-spacing-unit * 6;   // 96px
+$spacing-32: $base-spacing-unit * 8;   // 128px
+$spacing-40: $base-spacing-unit * 10;  // 160px
+$spacing-48: $base-spacing-unit * 12;  // 192px
+$spacing-56: $base-spacing-unit * 14;  // 224px
+$spacing-64: $base-spacing-unit * 16;  // 256px
+
+// Common usage examples (can be overridden or extended)
+$section-padding-y: $spacing-16; // Default vertical padding for sections
+$hero-min-height: 181px; // For archive hero min height, matches legacy design

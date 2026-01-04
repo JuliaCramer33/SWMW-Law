@@ -1,0 +1,29 @@
+{
+  "name": "acf/hero-dropdown-menu",
+  "title": "Page Navigation Menu",
+  "description": "A dropdown navigation menu that automatically generates anchor links from H2/H3 headings on the page.",
+  "category": "widgets",
+  "icon": "menu",
+  "keywords": [
+    "dropdown",
+    "menu",
+    "navigation",
+    "table of contents",
+    "anchor links",
+    "page navigation"
+  ],
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "template.php"
+  },
+  "supports": {
+    "anchor": true,
+    "customClassName": true,
+    "html": false,
+    "align": [
+      "full",
+      "right"
+    ]
+  },
+  "editorStyle": "file:./editor.css"
+}

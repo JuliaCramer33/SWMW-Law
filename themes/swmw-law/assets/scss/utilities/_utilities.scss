@@ -1,0 +1,17 @@
+/* Utility Classes (Simplified for Gutenberg)
+--------------------------------------------- */
+
+@use "../variables/variables" as *;
+@forward "borders";
+@forward "containers";
+@forward "display";
+@forward "flex";
+@forward "position";
+@forward "rows";
+@forward "sizing";
+@forward "spacing";
+@forward "text";
+@forward "z-index";
+
+// Simplified utility classes for Gutenberg-based theme.
+// Removed grid and columns utilities as Gutenberg handles layout.

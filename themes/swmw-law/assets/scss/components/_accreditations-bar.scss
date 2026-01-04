@@ -1,0 +1,128 @@
+@use "../variables/variables" as *;
+
+/**
+ * Accreditations Bar Component (Pattern)
+ * Styling for the Accreditations Bar component, displayed above the main footer
+ * This is a reusable pattern for displaying accreditation logos with title
+ */
+
+.accreditations-bar {
+  // Component-scoped variables
+  $accreditations-logo-max-width: 15.625rem; // 250px
+
+  background-color: $color-gray-lightest;
+  padding: $spacing-8 $spacing-6; // Mobile padding first
+  position: relative;
+  overflow: hidden;
+
+  // Content wrapper
+  &__content {
+    display: flex;
+    flex-direction: column; // Stacked on mobile
+    align-items: center; // Center content on mobile
+    gap: $spacing-12; // Space between title and logos (~2rem)
+    position: relative;
+    z-index: 1;
+  }
+
+  // Title area
+  &__title-area {
+    flex-shrink: 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-right: 0; // No padding on mobile
+    text-align: center; // Center title on mobile
+  }
+
+  // Title text
+  &__title {
+    font-size: $h3-font-size;
+    color: $color-text;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  // Logos area
+  &__logos-area {
+    flex-grow: 1;
+    position: relative;
+    z-index: 1;
+  }
+
+  // Logos container
+  &__logos {
+    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(120px, 1fr)); // Mobile: 2 columns (2/2)
+    gap: $spacing-6;
+    justify-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  // Individual logo items
+  &__logo-item {
+    img {
+      width: 100%;              // Fill available grid column
+      max-width: $accreditations-logo-max-width; // Cap via variable
+      height: auto;             // Preserve aspect ratio
+      object-fit: contain;      // Contain within the box without cropping
+      filter: grayscale(100%);
+      opacity: 0.8;
+      transition: all 0.3s ease;
+    }
+  }
+
+  // Overlap modifier
+  &--overlap {
+    margin-top: -60px; // Mobile overlap margin
+    z-index: 10;
+
+    + .accreditations-bar__container {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+
+  // Tablet and up: 4 columns (4/4)
+  @media (min-width: $breakpoint-md) {
+    &__logos {
+      grid-template-columns: repeat(4, minmax(120px, 1fr));
+    }
+  }
+
+  // Desktop styles
+  @media (min-width: $breakpoint-lg) {
+    padding: $spacing-12 $spacing-16; // Desktop padding
+
+    &__content {
+      flex-direction: column; // Keep stacked layout on desktop
+      align-items: center;
+    }
+
+    &__title-area {
+      padding-right: 0;
+      text-align: center;
+
+      &::after { display: none; } // Ensure slanted background stays removed
+    }
+
+    &__logos {
+      // Desktop: explicit 8 columns; template caps items to 8 so all fit in one row
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+    }
+
+    &--overlap {
+      margin-top: -40px; // Desktop overlap margin
+    }
+  }
+}
+
+// Container wrapper for spacing
+.accreditations-bar__container {
+  padding-top: $spacing-8;
+  padding-bottom: $spacing-8;
+}

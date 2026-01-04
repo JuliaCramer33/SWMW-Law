@@ -1,0 +1,80 @@
+@use "../variables/variables" as *;
+
+// =============================================================================
+// HERO ARCHIVE SECTION
+// =============================================================================
+// Styles for the archive hero/banner section
+// =============================================================================
+
+.hero-archive {
+  position: relative;
+  padding: $spacing-16 0;
+  background-size: cover;
+  background-position: center;
+  color: $color-white;
+
+  .container {
+    position: relative;
+    z-index: 2;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Grid Layout
+  // ---------------------------------------------------------------------------
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-8;
+    align-items: center;
+
+    @media (min-width: $breakpoint-md) {
+      grid-template-columns: 40% 1fr;
+      gap: $spacing-12;
+    }
+  }
+
+  // Results archive: give the title column a bit more room
+  &.hero-archive--results {
+    @media (min-width: $breakpoint-md) {
+      .hero-archive__grid {
+        grid-template-columns: 50% 1fr;
+      }
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Left Side (Title, Button, etc.)
+  // ---------------------------------------------------------------------------
+  &__left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $spacing-6;
+
+    .button {
+      background: transparent;
+      border: 1px solid $color-white;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Title
+  // ---------------------------------------------------------------------------
+  &__title {
+    color: $color-white;
+    margin: 0;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Right Side (Content)
+  // ---------------------------------------------------------------------------
+  &__right {
+    .hero-archive__content {
+      font-size: $font-size-base;
+
+      p {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

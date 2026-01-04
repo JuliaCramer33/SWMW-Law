@@ -1,0 +1,7 @@
+/* Layout Styles Importer
+--------------------------------------------- */
+
+// Import global partials in a cascading order.
+
+@forward "header";
+@use "footer";

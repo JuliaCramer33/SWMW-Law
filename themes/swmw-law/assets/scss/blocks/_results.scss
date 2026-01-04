@@ -1,0 +1,136 @@
+@use "sass:color";
+@use "../variables/variables" as *;
+
+/**
+ * Results Block Styles (Pattern)
+ * Styles for the results ACF block
+ * This block shares card styles with the results archive template
+ */
+
+.results-block {
+  // Ensure the block itself is full-width
+  width: 100%;
+  max-width: 100vw; // Go edge-to-edge
+  padding-left: 0;
+  padding-right: 0;
+
+  // Splide slider base styles
+  .results-slider.splide {
+    display: flex;
+    flex-direction: column;
+
+    .splide__track {
+      order: 1; // Ensure track is the first item
+    }
+
+    .splide__slide {
+      padding: $spacing-2 0; // Vertical padding only
+    }
+
+    .splide__list {
+      height: auto;
+    }
+
+    // Navigation arrows
+    .splide__arrows {
+      order: 2; // Ensure arrows are below the track
+      position: static;
+      margin-top: $spacing-8;
+      display: flex;
+      justify-content: center;
+      gap: $spacing-10;
+
+      .splide__arrow {
+        position: static;
+        transform: none;
+        background: transparent;
+        border: none;
+        width: auto;
+        height: auto;
+        opacity: 1;
+        padding: 0;
+        transition: transform 0.2s ease-in-out;
+
+        &.splide__arrow--next,
+        &.splide__arrow--prev {
+          transform: rotate(180deg);
+        }
+
+        &:hover {
+          transform: scale(1.1);
+
+          &.splide__arrow--next,
+          &.splide__arrow--prev {
+            transform: rotate(180deg) scale(1.1);
+          }
+
+          svg {
+            stroke: $color-secondary !important;
+          }
+        }
+
+        svg {
+          stroke: $color-primary !important;
+          width: 2.5rem;
+          height: 2.5rem;
+          fill: none;
+          transition: stroke 0.2s ease-in-out;
+        }
+
+        &:disabled {
+          opacity: 0.4;
+          cursor: not-allowed;
+
+          &:hover {
+            transform: scale(1);
+
+            svg {
+              stroke: $color-primary !important;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Static grid layout (3 or fewer results)
+  .results-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: $spacing-6;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: $spacing-4 0;
+
+    .result-item {
+      flex: 0 0 320px;
+      max-width: 320px;
+    }
+  }
+}
+
+/* Editor Styles
+--------------------------------------------- */
+.editor-styles-wrapper {
+  .wp-block-acf-results {
+    .results-slider-wrapper {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      gap: $spacing-6;
+      padding-bottom: $spacing-4;
+    }
+
+    // Use the shared .result-item-inner for styling, but constrain its size for the editor preview.
+    .result-item,
+    .result-card { // target both for safety
+      flex: 0 0 320px;
+      max-width: 320px;
+    }
+
+    .splide__arrows {
+      display: none;
+    }
+  }
+}

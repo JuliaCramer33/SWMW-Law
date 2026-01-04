@@ -1,0 +1,10 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "cspglobal/core-block-custom-breakpoints",
+	"version": "1.0.0",
+	"title": "Core Columns Block with Custom Breakpoints",
+	"category": "widgets",
+	"textdomain": "core-block-custom-breakpoints",
+	"editorScript": "file:./index.js"
+}

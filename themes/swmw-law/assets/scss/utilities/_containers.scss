@@ -1,0 +1,86 @@
+@use "sass:map";
+@use "../variables/layout" as *;
+@use "../variables/breakpoints" as *;
+
+/* Container Width Utility Classes
+--------------------------------------------- */
+
+// Base styles shared by all container types
+%container-base {
+  width: 100%;
+  padding-right: $container-padding-x;
+  padding-left: $container-padding-x;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.container,
+.container-lg,
+.container-md,
+.container-sm,
+.container-fluid {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: $container-padding-x;
+  padding-right: $container-padding-x;
+  box-sizing: border-box;
+}
+
+// Standard Responsive Container
+// Uses max-width that changes at each breakpoint.
+.container {
+
+  @extend %container-base;
+
+  // Apply max-width based on breakpoints
+  @media (min-width: map.get($breakpoints, "sm")) {
+    max-width: map.get($container-max-widths, "sm");
+  }
+
+  @media (min-width: map.get($breakpoints, "md")) {
+    max-width: map.get($container-max-widths, "md");
+  }
+
+  @media (min-width: map.get($breakpoints, "lg")) {
+    max-width: map.get($container-max-widths, "lg");
+  }
+}
+
+// Fixed-Width Containers
+// These classes maintain a fixed max-width across all screen sizes.
+@each $bpKey, $maxWidth in $container-max-widths {
+
+  .container-#{$bpKey} {
+
+    @extend %container-base;
+    max-width: $maxWidth !important; // Fix the max-width
+  }
+}
+
+// Fluid Container
+// Becomes full-width (like alignfull)
+.container-fluid {
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding-left: 0;
+  padding-right: 0;
+  box-sizing: border-box;
+}
+
+// Generate downward-facing responsive fluid containers
+@each $bpKey, $bpValue in $breakpoints {
+
+  @media (max-width: ($bpValue - 1px)) {
+    // Target elements that have BOTH a standard container class and the fluid override
+    [class*="container-"].container-fluid-down-#{$bpKey} {
+      width: 100vw;
+      max-width: 100vw;
+      margin-left: calc(50% - 50vw);
+      margin-right: calc(50% - 50vw);
+      box-sizing: border-box;
+    }
+  }
+}

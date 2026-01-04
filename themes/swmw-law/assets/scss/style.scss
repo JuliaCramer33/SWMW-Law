@@ -1,0 +1,25 @@
+/*!
+ * SWMW Law Theme
+ * Main SCSS file
+ */
+
+@charset "UTF-8";
+
+// 1. Configuration and helpers
+@forward "variables/variables";
+
+// Modules
+@use "variables/variables" as *; // Make all forwarded variables globally accessible
+@use "base/base";
+@use "utilities/utilities";
+@use "layout/header";
+@use "layout/layout";
+@use "components/components";
+@use "components/animations";
+@use "components/result-card";
+@use "blocks/blocks";
+@use "patterns/hero-locations";
+@use "blocks/tabs";
+@use "templates/templates";
+@use "wordpress-overrides/wordpress-overrides";
+

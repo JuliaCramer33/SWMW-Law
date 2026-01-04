@@ -1,0 +1,68 @@
+@use "sass:color"; // Import the color module
+
+/* Color Variables
+--------------------------------------------- */
+
+// Brand Colors
+$color-primary: #12477a;   // Blue
+$color-secondary: #417e4b; // Green
+$color-accent: #102813;   // Dark Green
+
+$color-secondary-light: #dbf2de; // Light Green
+$color-secondary-lighter: #effff1; // LighterGreen
+
+// Neutral Colors
+$color-white: #fff;
+$color-black: #000;
+$color-gray-lightest: #f6f6f6;
+$color-gray-lighter: #e0e1e5;  // Adjusted slightly lighter than lightest
+$color-gray-light: #dee2e6;   // Kept for general light borders/dividers
+$color-gray: #ced4da;      // Kept for mid-range gray needs
+$color-gray-dark: #adb5bd;    // Kept for slightly darker gray needs
+$color-gray-darker: #5f5f61; // Provided Medium Gray
+$color-gray-darkest: #495057;  // Kept for darker elements
+$color-charcoal: #43383e;    // Provided Text Color (used as base charcoal)
+$color-onyx: #212529;        // Kept for very dark elements/headings
+
+// Text Colors
+$color-text: $color-charcoal;          // Default body text
+$color-text-light: #666;
+$color-text-muted: $color-gray-dark;   // Muted text color
+$color-headings: $color-onyx;          // Heading text (using darkest neutral)
+
+// Link Colors
+$color-link: $color-primary;
+$color-link-hover: color.adjust($color-primary, $lightness: -10%); // New way
+
+// Background Colors
+$color-background: #fff; // Assuming a general background color
+$color-background-light: #f9f9f9;
+$color-background-dark: #f0f0f0; // A slightly darker background variant
+$color-background-alt: $color-gray-lightest; // Use provided Light Gray
+
+// Footer Colors
+$color-footer-bg: $color-white;
+$color-footer-text: $color-charcoal;
+$color-footer-text-muted: $color-gray-darker;
+
+// Border Colors
+$color-border:          $color-gray-light;       // Default border color
+$color-border-input:    #b8b8b8;                 // Input border color (added)
+$color-divider:         #e0e0e0;
+
+// Status Colors (Kept standard defaults)
+$color-success: #28a745;
+$color-warning: #ffc107;
+$color-error: #dc3545;
+$color-info: #17a2b8;
+
+// Gradients
+$gradient-green: linear-gradient(270deg, #417e4b 0%, #27472b 100%);
+$gradient-green-blue: linear-gradient(255.34deg, #2c5d34 -1.18%, #062f57 108.96%);
+$gradient-overlay: linear-gradient(210.84deg, rgba(28, 103, 175, 0.4) 44.97%, rgba(61, 147, 72, 0.4) 83.68%, rgba(0, 0, 0, 0.4) 119.41%);
+
+$color-gray-f6: #f6f6f6;
+
+// Social Colors
+$color-social-icon-gray: #aeafb1;
+$color-social-bg-gray: #ebedf1;

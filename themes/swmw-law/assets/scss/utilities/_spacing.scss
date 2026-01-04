@@ -1,0 +1,162 @@
+@use "../variables/breakpoints" as *;
+@use "../variables/variables" as *;
+
+/* Spacing Utility Classes
+--------------------------------------------- */
+
+// Map properties to their abbreviations
+$properties: (
+  m: margin,
+  p: padding
+);
+
+$directions: (
+  t: top,
+  r: right,
+  b: bottom,
+  l: left
+);
+
+// Spacing scale map (manual for now, could potentially generate from vars)
+$spacers: (
+  0: $spacing-0,
+  1: $spacing-1,
+  2: $spacing-2,
+  3: $spacing-3,
+  4: $spacing-4,
+  5: $spacing-5,
+  6: $spacing-6,
+  8: $spacing-8,
+  10: $spacing-10,
+  12: $spacing-12,
+  16: $spacing-16,
+  20: $spacing-20,
+  24: $spacing-24,
+  32: $spacing-32,
+  40: $spacing-40,
+  48: $spacing-48,
+  56: $spacing-56,
+  64: $spacing-64,
+  auto: auto
+);
+
+// Generate base utilities
+@each $propAbbr, $propName in $properties {
+  // All sides (e.g., .m-1, .p-2)
+  @each $sizeKey, $sizeValue in $spacers {
+    .#{$propAbbr}-#{$sizeKey} {
+      #{$propName}: $sizeValue !important;
+    }
+  }
+
+  // X-axis (e.g., .mx-1, .px-2)
+  @each $sizeKey, $sizeValue in $spacers {
+    .#{$propAbbr}x-#{$sizeKey} {
+      #{$propName}-left: $sizeValue !important;
+      #{$propName}-right: $sizeValue !important;
+    }
+  }
+
+  // Y-axis (e.g., .my-1, .py-2)
+  @each $sizeKey, $sizeValue in $spacers {
+    .#{$propAbbr}y-#{$sizeKey} {
+      #{$propName}-top: $sizeValue !important;
+      #{$propName}-bottom: $sizeValue !important;
+    }
+  }
+
+  // Individual sides (e.g., .mt-1, .pr-2)
+  @each $dirAbbr, $dirName in $directions {
+
+    @each $sizeKey, $sizeValue in $spacers {
+      .#{$propAbbr}#{$dirAbbr}-#{$sizeKey} {
+        #{$propName}-#{$dirName}: $sizeValue !important;
+      }
+    }
+  }
+}
+
+// Generate responsive utilities
+@each $bpKey, $bpValue in $breakpoints {
+
+  @media (min-width: $bpValue) {
+
+    @each $propAbbr, $propName in $properties {
+      // All sides (e.g., .m-md-1, .p-lg-2)
+      @each $sizeKey, $sizeValue in $spacers {
+        .#{$propAbbr}-#{$bpKey}-#{$sizeKey} {
+          #{$propName}: $sizeValue !important;
+        }
+      }
+
+      // X-axis (e.g., .mx-md-1, .px-lg-2)
+      @each $sizeKey, $sizeValue in $spacers {
+        .#{$propAbbr}x-#{$bpKey}-#{$sizeKey} {
+          #{$propName}-left: $sizeValue !important;
+          #{$propName}-right: $sizeValue !important;
+        }
+      }
+
+      // Y-axis (e.g., .my-md-1, .py-lg-2)
+      @each $sizeKey, $sizeValue in $spacers {
+
+        .#{$propAbbr}y-#{$bpKey}-#{$sizeKey} {
+          #{$propName}-top: $sizeValue !important;
+          #{$propName}-bottom: $sizeValue !important;
+        }
+      }
+
+      // Individual sides (e.g., .mt-md-1, .pr-lg-2)
+      @each $dirAbbr, $dirName in $directions {
+
+        @each $sizeKey, $sizeValue in $spacers {
+          .#{$propAbbr}#{$dirAbbr}-#{$bpKey}-#{$sizeKey} {
+            #{$propName}-#{$dirName}: $sizeValue !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Generate downward-facing responsive utilities
+@each $bpKey, $bpValue in $breakpoints {
+
+  @media (max-width: ($bpValue - 1px)) {
+
+    @each $propAbbr, $propName in $properties {
+      // All sides (e.g., .m-down-md-1, .p-down-lg-2)
+      @each $sizeKey, $sizeValue in $spacers {
+        .#{$propAbbr}-down-#{$bpKey}-#{$sizeKey} {
+          #{$propName}: $sizeValue !important;
+        }
+      }
+
+      // X-axis (e.g., .mx-down-md-1, .px-down-lg-2)
+      @each $sizeKey, $sizeValue in $spacers {
+        .#{$propAbbr}x-down-#{$bpKey}-#{$sizeKey} {
+          #{$propName}-left: $sizeValue !important;
+          #{$propName}-right: $sizeValue !important;
+        }
+      }
+
+      // Y-axis (e.g., .my-down-md-1, .py-down-lg-2)
+      @each $sizeKey, $sizeValue in $spacers {
+        .#{$propAbbr}y-down-#{$bpKey}-#{$sizeKey} {
+          #{$propName}-top: $sizeValue !important;
+          #{$propName}-bottom: $sizeValue !important;
+        }
+      }
+
+      // Individual sides (e.g., .mt-down-md-1, .pr-down-lg-2)
+      @each $dirAbbr, $dirName in $directions {
+
+        @each $sizeKey, $sizeValue in $spacers {
+          .#{$propAbbr}#{$dirAbbr}-down-#{$bpKey}-#{$sizeKey} {
+            #{$propName}-#{$dirName}: $sizeValue !important;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,107 @@
+@use "../variables/variables" as *;
+
+/* Form Styles
+--------------------------------------------- */
+
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="password"],
+input[type="search"],
+input[type="number"],
+input[type="tel"],
+input[type="date"],
+input[type="month"],
+input[type="week"],
+input[type="time"],
+input[type="datetime-local"],
+select,
+textarea {
+  display: block;
+  width: 100%;
+  padding: $spacing-4;
+  color: $color-text;
+  background-color: $color-background;
+  border: $border-width-base solid $color-border-input;
+  border-radius: $border-radius;
+  transition: border-color $transition-duration-base $transition-easing-ease-in-out, box-shadow $transition-duration-base $transition-easing-ease-in-out;
+  appearance: none;
+}
+
+select[multiple],
+select[size]:not([size="1"]) {
+  padding-right: $spacing-4;
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  display: inline-block;
+  margin-right: $spacing-2;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: $color-primary;
+  box-shadow: 0 0 0 2px rgba($color-primary, 0.25);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: $color-text-light;
+  opacity: 1;
+}
+
+input:disabled,
+select:disabled,
+textarea:disabled,
+input[readonly],
+select[readonly],
+textarea[readonly] {
+  background-color: $color-background-alt;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+// Form Layout
+fieldset {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+legend {
+  display: block;
+  width: 100%;
+  margin-bottom: $spacing-4;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+}
+
+label {
+  display: block;
+  margin-bottom: $spacing-2;
+  font-weight: $font-weight-medium;
+}
+
+//Formidable specific styles
+.fsform-container {
+  background: $color-white;
+  margin: 0;
+
+  form {
+    margin: 0;
+  }
+}
+
+.frm_forms .frm_form_fields > div:first-child {
+  padding: 0;
+  border: 1px solid #b8b8b8;
+  border-radius: 5px;
+}

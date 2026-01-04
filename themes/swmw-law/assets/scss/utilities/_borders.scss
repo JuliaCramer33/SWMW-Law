@@ -1,0 +1,41 @@
+@use "../variables/variables" as *;
+
+/* Border Utility Classes (Simplified for Gutenberg)
+--------------------------------------------- */
+
+// --- Border Removal Utilities (Still useful outside blocks) ---
+// Remove all borders
+.border-0 {
+  border: 0 !important;
+}
+
+// Remove specific borders
+.border-top-0 {
+  border-top: 0 !important;
+}
+
+.border-bottom-0 {
+  border-bottom: 0 !important;
+}
+
+.border-start-0 {
+  /* stylelint-disable-next-line property-no-unknown */
+  border-start: 0 !important;
+}
+
+.border-end-0 {
+  /* stylelint-disable-next-line property-no-unknown */
+  border-end: 0 !important;
+}
+
+// Remove left/right borders (for LTR/RTL compatibility)
+.border-left-0 {
+  border-left: 0 !important;
+}
+
+.border-right-0 {
+  border-right: 0 !important;
+}
+
+// Simplified border utilities for Gutenberg-based theme.
+// Removed border radius, width, style, and color utilities as Gutenberg handles these.

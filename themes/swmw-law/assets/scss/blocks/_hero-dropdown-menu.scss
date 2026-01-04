@@ -1,0 +1,241 @@
+@use "../variables/variables" as *;
+
+/**
+ * Hero Dropdown Menu Block Styles (Pattern)
+ * Styles for the hero dropdown menu ACF block
+ * This is a reusable pattern for dropdown navigation menus
+ */
+
+.hero-dropdown-menu {
+  width: 100%;
+  position: relative; // Ensure proper stacking context
+  // Keep below header/mega menu but above page content
+  z-index: $z-index-dropdown - 1;
+  // Ensure the dropdown can escape overflow constraints
+  overflow: visible !important;
+
+  .hero-dropdown-container {
+    position: relative;
+    width: 100%;
+    overflow: visible;
+  }
+
+  // Additional overflow handling for the dropdown itself
+  &.is-open {
+    // Ensure the dropdown container can extend beyond its boundaries
+    overflow: visible !important;
+
+    // Force the dropdown to be visible above all content
+    .hero-nav-list {
+      position: absolute;
+      // Below mega menu panel ($z-index-dropdown), above page content
+      z-index: $z-index-dropdown - 1;
+    }
+  }
+
+  // Hamburger menu toggle button
+  .hamburger-menu-toggle {
+    display: flex;
+    align-items: center;
+    gap: $spacing-4;
+    padding: $spacing-4 $spacing-8;
+    background-color: $color-gray-lightest;
+    color: $color-text;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: $transition-base;
+    border: none;
+    font-size: $font-size-sm;
+    font-family: $font-montserrat;
+    font-weight: $font-weight-semibold;
+    box-shadow: $box-shadow;
+    width: 100%;
+
+    &:hover,
+    &:focus {
+      background-color: $color-background-light;
+      color: $color-primary;
+    }
+  }
+
+  // Hamburger icon styles
+  .hamburger-icon {
+    display: flex;
+    flex-direction: column;
+    width: 20px;
+    height: 16px;
+    justify-content: space-between;
+    position: relative;
+
+    span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background-color: $color-text;
+      transition: $transition-base;
+      border-radius: $border-radius-pill;
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+
+      &:nth-child(1) {
+        top: 0;
+        transform: none;
+      }
+
+      &:nth-child(2) {
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      &:nth-child(3) {
+        top: 100%;
+        transform: translateY(-100%);
+      }
+    }
+
+    &.is-active {
+      span {
+        &:nth-child(1) {
+          transform: rotate(45deg) translate(0, 0);
+          top: 50%;
+        }
+
+        &:nth-child(2) {
+          opacity: 0;
+        }
+
+        &:nth-child(3) {
+          transform: rotate(-45deg) translate(0, 0);
+          top: 50%;
+        }
+      }
+    }
+  }
+
+  // Hamburger label
+  .hamburger-label {
+    font-weight: $font-weight-bold;
+    color: $color-text;
+    font-size: $font-size-sm;
+    font-family: $font-montserrat;
+  }
+
+  // Dropdown navigation list
+  .hero-nav-list {
+    display: none;
+    position: absolute;
+    top: 100%; // Position directly below the toggle button
+    left: 0;
+    width: 100%;
+    background-color: $color-white;
+    box-shadow: $box-shadow-lg;
+    border-radius: 0 0 8px 8px;
+    padding: $spacing-4 0;
+    margin-top: 0;
+    // Below mega menu panel ($z-index-dropdown), above page content
+    z-index: $z-index-dropdown - 1;
+    text-align: left;
+    // Ensure the dropdown can escape any overflow constraints
+    overflow: visible;
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      li {
+        margin: 0;
+
+        a {
+          display: block;
+          padding: $spacing-4 $spacing-8;
+          color: $color-text;
+          text-decoration: none;
+          font-size: $font-size-sm;
+          font-family: $font-montserrat;
+          font-weight: $font-weight-semibold;
+          transition: $transition-base;
+          border-radius: 0;
+
+          &:hover,
+          &:focus {
+            background-color: $color-background-light;
+            color: $color-primary;
+          }
+        }
+
+        // Submenu styles
+        .hero-nav-submenu {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          background-color: $color-gray-lightest;
+
+          .hero-nav-submenu-item {
+            a {
+              padding-left: $spacing-12; // Indent submenu items
+              font-size: $font-size-xs; // Smaller font size
+              font-weight: $font-weight-normal; // Less bold
+              color: $color-text-light; // Lighter color
+              line-height: 1.3; // Tighter line height
+
+              &:hover,
+              &:focus {
+                background-color: $color-background-light;
+                color: $color-primary;
+                font-weight: $font-weight-medium; // Slightly bolder on hover
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // (portal behavior removed)
+
+  // Loading and empty states
+  .hero-nav-loading,
+  .hero-nav-empty {
+    padding: $spacing-4 $spacing-8;
+    color: $color-text-light;
+    font-style: italic;
+    font-size: $font-size-sm;
+  }
+
+  // Open state styles
+  &.is-open {
+    .hamburger-menu-toggle {
+      border-radius: 8px 8px 0 0;
+      color: $color-text;
+    }
+
+    .hamburger-icon span {
+      background-color: $color-text;
+    }
+
+    .hamburger-label {
+      color: $color-text;
+    }
+
+    .hero-nav-list {
+      display: block;
+    }
+
+    // Hide the green header when open
+    .hero-nav-header {
+      display: none;
+    }
+  }
+
+  // Responsive styles
+  @media (max-width: 768px) {
+    .hero-nav-list {
+      min-width: 220px;
+      max-width: calc(100vw - 2rem);
+      // Absolute positioning relative to parent container
+    }
+  }
+}

@@ -1,0 +1,100 @@
+// =============================================================================
+// PAGINATION
+// =============================================================================
+// Pagination component for navigating through multiple pages of content.
+// Features circular page numbers with hover effects and accessible navigation.
+// Structure:
+//   .swmw-pagination
+//     .nav-links
+//       .page-numbers (numbered pages)
+//       .prev/.next (navigation arrows)
+//       .dots (ellipsis for skipped pages)
+//       .screen-reader-text (accessibility)
+// Usage:
+//   <nav class="swmw-pagination">
+//     <div class="nav-links">
+//       <a class="page-numbers prev" href="#">← Previous</a>
+//       <a class="page-numbers" href="#">1</a>
+//       <span class="page-numbers current">2</span>
+//       <a class="page-numbers" href="#">3</a>
+//       <span class="page-numbers dots">...</span>
+//       <a class="page-numbers" href="#">10</a>
+//       <a class="page-numbers next" href="#">Next →</a>
+//     </div>
+//   </nav>
+// =============================================================================
+
+@use "../variables/variables" as *;
+
+.swmw-pagination {
+  margin: $spacing-6 0;
+  margin-bottom: 150px; //this helps with the accred banner - padding.
+
+  .nav-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: $spacing-2;
+
+    .page-numbers {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: $color-primary;
+      border: 1px solid $color-divider;
+      border-radius: 50%;
+      height: 40px;
+      width: 40px;
+      font-weight: $font-weight-medium;
+      transition: all $transition-duration-base ease-in-out;
+
+      // Current page styling
+      &.current {
+        background-color: $color-secondary;
+        border-color: $color-secondary;
+        color: $color-white;
+      }
+
+      // Hover effect for clickable pages
+      &:not(.current):not(.dots):hover {
+        border-color: $color-primary;
+        background-color: rgba($color-primary, 0.1);
+      }
+
+      // Ellipsis styling
+      &.dots {
+        border: none;
+        color: $color-text-light;
+      }
+    }
+
+    // Previous/Next navigation arrows
+    .prev,
+    .next {
+      border: none;
+      background-color: transparent;
+      width: auto;
+      height: auto;
+
+      &:hover {
+        color: $color-secondary;
+        background-color: transparent;
+      }
+    }
+
+    // Accessibility: Hide screen reader text visually
+    .screen-reader-text {
+      border: 0;
+      clip: rect(1px, 1px, 1px, 1px);
+      clip-path: inset(50%);
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      padding: 0;
+      position: absolute;
+      width: 1px;
+      word-wrap: normal !important;
+    }
+  }
+}

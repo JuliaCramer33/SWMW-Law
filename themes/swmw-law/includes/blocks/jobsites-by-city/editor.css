@@ -1,0 +1,107 @@
+/* Jobsites by City Block - Editor Styles */
+
+.jobsites-by-city-block {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 0;
+}
+
+/* Hide the filter bar in editor for cleaner preview */
+.jobsites-filter-bar {
+  display: none !important;
+}
+
+.jobsites-skip-to {
+  display: none !important;
+}
+
+/* Make accordion panels more compact in editor */
+.jobsites-accordion {
+  column-count: 3;
+  column-gap: 1rem;
+  margin-top: 1rem;
+}
+
+.jobsites-accordion .accordion-panel {
+  display: inline-block;
+  width: 100%;
+  margin: 0.5rem 0;
+  break-inside: avoid;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #f9f9f9;
+}
+
+/* Collapse all accordion content in editor */
+.jobsites-accordion .accordion-panel-content {
+  display: none !important;
+}
+
+/* Style the accordion headers to show they're collapsible */
+.jobsites-accordion .accordion-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background-color: #f0f0f0;
+  cursor: default;
+  border-bottom: 1px solid #ddd;
+}
+
+.jobsites-accordion .accordion-panel-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+/* Add a visual indicator that content is hidden */
+.jobsites-accordion .accordion-panel-header::after {
+  content: " (collapsed in editor)";
+  font-size: 0.8rem;
+  color: #666;
+  font-weight: normal;
+}
+
+/* Hide the accordion icon in editor */
+.jobsites-accordion .accordion-panel-icon {
+  display: none !important;
+}
+
+/* Add a summary of what's in each panel */
+.jobsites-accordion .accordion-panel::after {
+  content: "Contains city data and jobsites";
+  display: block;
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+  color: #666;
+  font-style: italic;
+  background: #f5f5f5;
+  border-top: 1px solid #ddd;
+}
+
+/* Responsive adjustments for editor */
+@media (max-width: 768px) {
+  .jobsites-accordion {
+    column-count: 2;
+  }
+}
+
+@media (max-width: 480px) {
+  .jobsites-accordion {
+    column-count: 1;
+  }
+}
+
+/* Add a helpful note at the top */
+.jobsites-by-city-block::before {
+  content: "Jobsites by City Block - Accordion panels are collapsed in editor for better usability";
+  display: block;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  background: #e7f3ff;
+  border: 1px solid #b3d9ff;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: #0066cc;
+}

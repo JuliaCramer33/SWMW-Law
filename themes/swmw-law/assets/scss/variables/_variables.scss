@@ -1,0 +1,15 @@
+@use "sass:color"; // Import the color module
+@use "sass:math"; // Import the math module
+@forward "breakpoints";
+@forward "colors";
+@forward "typography";
+@forward "spacing";
+@forward "borders";
+@forward "shadows";
+@forward "transitions";
+@forward "z-index";
+@forward "layout";
+
+/* Variables Master File
+--------------------------------------------- */
+

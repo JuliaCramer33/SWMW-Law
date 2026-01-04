@@ -1,0 +1,38 @@
+{
+  "name": "acf/attorneys",
+  "title": "Attorneys",
+  "description": "A block to display a grid or slider of attorneys.",
+  "category": "swmw-blocks",
+  "icon": "groups",
+  "keywords": [
+    "attorneys",
+    "team",
+    "lawyers",
+    "slider",
+    "grid"
+  ],
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "template.php"
+  },
+  "supports": {
+    "mode": false,
+    "jsx": false,
+    "anchor": true,
+    "spacing": {
+      "margin": true,
+      "padding": true
+    },
+    "html": false,
+    "align": true
+  },
+  "example": {
+    "attributes": {
+      "mode": "preview",
+      "data": {
+        "is_preview": true
+      }
+    }
+  },
+  "editorStyle": "file:./editor.css"
+}

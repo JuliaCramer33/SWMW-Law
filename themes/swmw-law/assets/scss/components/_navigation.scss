@@ -1,0 +1,486 @@
+// =============================================================================
+// NAVIGATION
+// =============================================================================
+@use "../variables/variables" as *;
+@use "../base/buttons" as *;
+@use "sass:color";
+
+// =============================================================================
+// BASE NAVIGATION STYLES
+// =============================================================================
+
+.main-navigation,
+.utility-navigation {
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  li {
+    position: relative;
+    margin: 0 $spacing-3;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  a {
+    text-decoration: none;
+    padding: $spacing-1 0;
+    display: block;
+    font-family: $font-montserrat;
+    font-weight: $font-weight-bold;
+    font-size: $font-size-sm;
+    line-height: $h6-line-height;
+  }
+}
+
+// =============================================================================
+// MAIN NAVIGATION
+// =============================================================================
+
+.main-navigation {
+  > ul > li {
+    &:not(.button) > a:not(.button) {
+      position: relative;
+      color: $color-charcoal;
+      display: inline-block;
+      padding: $spacing-1 $spacing-2;
+      transition: color $transition-duration-base $transition-easing-ease-in-out;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 20%;
+        left: 0;
+        width: 2px;
+        height: 60%;
+        background-color: $color-secondary;
+        transform: scaleY(0) skewX(-25deg);
+        transition: transform $transition-duration-slow $transition-easing-ease-in-out;
+      }
+
+      &:hover,
+      &:focus {
+        color: $color-secondary;
+
+        &::before {
+          transform: scaleY(1) skewX(-20deg);
+        }
+      }
+    }
+
+    // Highlight the current page
+    &.current-menu-item > a:not(.button) {
+      color: $color-secondary;
+
+      &::before {
+        transform: scaleY(1) skewX(-20deg);
+      }
+    }
+  }
+
+  .menu-item-has-children {
+    &:not(.button) > a:not(.button) {
+      padding-right: $spacing-2;
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: -0.25em;
+        width: 6px;
+        height: 6px;
+        border: solid currentcolor;
+        border-width: 0 1px 1px 0;
+        transform: translateY(-50%) rotate(45deg);
+        transition: transform $transition-duration-base $transition-easing-ease-in-out;
+      }
+    }
+
+    &:not(.menu-item-has-mega-menu):not(.button) ul.sub-menu {
+      display: none;
+      position: absolute;
+      left: 0;
+      top: 100%;
+      background-color: $color-white;
+      box-shadow: $box-shadow-lg;
+      padding: $spacing-5 $spacing-2 $spacing-2;
+      min-width: 300px;
+      z-index: $z-index-dropdown;
+
+      li {
+        margin: 0;
+
+        a {
+          padding: $spacing-2 $spacing-3;
+          color: $color-charcoal;
+
+          &:hover,
+          &:focus {
+            background-color: $color-secondary;
+            color: $color-white;
+          }
+        }
+
+        // Highlight the current page in a sub-menu
+        &.current-menu-item > a {
+          background-color: $color-secondary;
+          color: $color-white;
+        }
+      }
+    }
+
+    .sub-menu.third-level-list.multi-column {
+      columns: 2;
+      column-gap: $spacing-6; // Adjust as needed
+
+      li {
+        break-inside: avoid;
+        padding-bottom: $spacing-2; // Add some padding between items in columns
+      }
+    }
+
+    &:hover > ul.sub-menu,
+    &:focus-within > ul.sub-menu {
+      display: block !important;
+    }
+  }
+
+  .menu-item.button {
+    padding: $spacing-1 $spacing-4;
+    display: none !important; // shown on desktop only
+
+    a {
+      color: $color-white;
+      font-weight: $font-weight-semibold;
+
+      &:hover {
+        color: $color-primary !important;
+      }
+    }
+
+    // Ensure the button does not change color when it's the current page
+    &.current-menu-item a {
+      color: $color-white !important;
+    }
+  }
+}
+
+// =============================================================================
+// UTILITY NAVIGATION
+// =============================================================================
+
+.utility-navigation {
+  ul {
+    justify-content: flex-end;
+
+    li {
+      margin: 0;
+    }
+  }
+
+  a:not(.button):not([class*="free-consultation-button"]) {
+    font-size: $font-size-xs;
+    color: $color-text;
+    padding: $spacing-2 $spacing-3;
+
+    &:hover,
+    &:focus {
+      color: $color-secondary;
+    }
+  }
+
+  // Highlight the current page in the utility menu
+  .current-menu-item > a:not(.button):not([class*="free-consultation-button"]) {
+    color: $color-secondary;
+  }
+}
+
+// =============================================================================
+// HEADER PHONE
+// =============================================================================
+
+.header-phone,
+.mobile-header-phone {
+  display: flex;
+  align-items: center;
+
+  .phone-icon {
+    filter: brightness(0) saturate(100%) invert(48%) sepia(19%) saturate(1358%) hue-rotate(76deg) brightness(95%) contrast(89%);
+    margin-right: $spacing-1;
+  }
+
+  a {
+    font-family: $font-poppins;
+    font-weight: $font-weight-bold;
+    font-size: $font-size-base;
+    color: $color-secondary;
+
+    &:hover {
+      text-decoration: underline;
+      color: color.adjust($color-secondary, $lightness: -10%);
+    }
+  }
+}
+
+.utility-nav-wrapper .header-phone {
+  border-left: 1px solid $color-border;
+  padding-left: $spacing-3;
+  margin-left: $spacing-1;
+}
+
+// =============================================================================
+// MOBILE NAVIGATION
+// =============================================================================
+
+.nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  width: 44px;
+  height: 44px;
+  position: relative;
+  z-index: $z-index-overlay + 1;
+
+  .hamburger {
+    width: 32px;
+    height: 32px;
+    position: relative;
+
+    span {
+      position: absolute;
+      height: 3px;
+      width: 100%;
+      background: $color-primary;
+      border-radius: 3px;
+      left: 0;
+      transition: 0.25s ease-in-out;
+
+      &:nth-child(1) {
+        top: 6px;
+      }
+
+      &:nth-child(2) {
+        top: 14px;
+      }
+
+      &:nth-child(3) {
+        top: 22px;
+      }
+    }
+  }
+
+  &.is-active .hamburger span {
+    &:nth-child(1) {
+      transform: rotate(45deg) translate(4px, 4px);
+    }
+
+    &:nth-child(2) {
+      opacity: 0;
+    }
+
+    &:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+  }
+
+  @media (max-width: #{$breakpoint-md - 1px}) {
+    display: flex;
+  }
+}
+
+.mobile-navigation-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 80vw;
+  max-width: 380px;
+  background: $color-white;
+  z-index: $z-index-dropdown;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.08);
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.7, 0, 0.3, 1);
+  border-top: 1px solid $color-divider;
+
+  &.is-open {
+    transform: translateX(0);
+    overflow-y: auto;
+  }
+
+  .mobile-navigation-panel-body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .mobile-primary-navigation,
+  .mobile-utility-navigation {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .mobile-primary-nav-list,
+  .mobile-utility-nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    li {
+      a {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: $spacing-3 $spacing-4;
+        font-family: $font-montserrat;
+        font-weight: $font-weight-bold;
+        font-size: $font-size-sm;
+        color: $color-charcoal;
+
+        &:hover {
+          color: $color-secondary;
+        }
+
+        &:focus {
+          outline: 2px solid $color-secondary;
+          outline-offset: -2px;
+          border-radius: 4px;
+        }
+
+        // Submenu items get more subtle focus styles
+        .sub-menu li a:focus {
+          outline: 1px solid rgba($color-secondary, 0.5);
+          outline-offset: -1px;
+          border-radius: 2px;
+        }
+      }
+
+      &.menu-item-has-children > a .submenu-arrow {
+        width: 8px;
+        height: 8px;
+        border-right: 2px solid currentcolor;
+        border-bottom: 2px solid currentcolor;
+        transform: rotate(45deg);
+        transition: transform 0.3s ease-in-out;
+      }
+
+      &.is-open > a .submenu-arrow {
+        transform: rotate(-135deg);
+      }
+    }
+
+    > li.is-open > a {
+      color: $color-white;
+      background-color: $color-secondary;
+    }
+
+    .sub-menu {
+      background-color: $color-gray-lightest;
+      padding-left: $spacing-4;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-in-out;
+
+      a {
+        font-weight: $font-weight-normal;
+      }
+    }
+  }
+
+  .mobile-bottom-links {
+    display: block;
+    margin: $spacing-4;
+    margin-top: auto;
+
+    .button {
+      width: 100%;
+      margin-bottom: $spacing-3;
+
+      a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: $spacing-2;
+        color: $color-white;
+      }
+
+      &::before {
+        background-color: $color-white;
+      }
+
+      &:hover {
+        a {
+          text-decoration: none;
+          color: $color-primary;
+        }
+      }
+
+      &.mobile-phone-button {
+        background: $color-white;
+        border-color: $color-secondary;
+
+        a {
+          color: $color-secondary;
+        }
+
+        &::before {
+          background-color: $color-secondary;
+        }
+
+        &:hover a {
+          color: $color-white;
+        }
+      }
+    }
+  }
+}
+
+body.mobile-menu-active {
+  overflow: hidden;
+}
+
+// RESPONSIVE
+@media (min-width: $breakpoint-lg) {
+  .main-navigation li.button {
+    display: flex;
+  }
+
+  .mobile-bottom-links {
+    display: none;
+  }
+}
+
+// Hide main nav button by default (mobile/tablet)
+nav .button,
+nav .menu-item.button,
+.main-navigation .button,
+.main-navigation .menu-item.button {
+  display: none !important;
+}
+
+// Show main nav button on desktop only
+@media (min-width: $breakpoint-lg) {
+  nav .button,
+  nav .menu-item.button,
+  .main-navigation .button,
+  .main-navigation .menu-item.button {
+    display: block !important;
+  }
+}

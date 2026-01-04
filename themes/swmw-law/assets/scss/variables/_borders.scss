@@ -1,0 +1,17 @@
+/* Border Variables
+--------------------------------------------- */
+
+// Default border width
+$border-width-base: 1px;
+
+// Border Colors (Defined in _colors.scss)
+// $color-border
+// $color-border-input
+
+// Border Radius
+$border-radius-none: 0;
+$border-radius-sm: 0.25rem; // Small radius
+$border-radius: 0.5rem;    // Default radius
+$border-radius-lg: 1rem;     // Large radius
+$border-radius-pill: 50rem;  // For creating pill shapes
+$border-radius-circle: 50%;  // For creating circular shapes

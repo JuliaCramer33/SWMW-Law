@@ -1,0 +1,171 @@
+@use "../variables/variables" as *;
+
+// =============================================================================
+// SINGLE POST PAGE STYLES
+// =============================================================================
+// For best results, wrap meta/categories in .container-md and main content in .container-sm
+// Example:
+// <div class="container-md"> ...meta/categories... </div>
+// <div class="container-sm"> ...main content... </div>
+// =============================================================================
+
+.single-post {
+
+  // ---------------------------------------------------------------------------
+  // Hero Section
+  // ---------------------------------------------------------------------------
+  .single-post-hero {
+    margin-bottom: $spacing-10;
+    padding-top: $spacing-6;
+
+    img {
+      width: 100%;
+      height: auto;
+      max-height: clamp(220px, 34vw, 420px); // keep width, but cap tall images
+      display: block;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Meta/Categories Section
+  // ---------------------------------------------------------------------------
+  .entry-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacing-4;
+    margin-bottom: $spacing-8;
+
+    .category-pills {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: $spacing-3;
+    }
+
+    .category-pill {
+      display: inline-block;
+      background-color: $color-secondary-lighter;
+      border: 1px solid $color-secondary-light;
+      color: $color-secondary;
+      padding: 0.5em 1.2em;
+      border-radius: 20px;
+      text-decoration: none;
+      font-size: $font-size-sm;
+      font-weight: $font-weight-medium;
+      transition: all 0.2s ease-in-out;
+
+      &:hover {
+        background-color: $color-secondary;
+        color: $color-white;
+      }
+    }
+
+    .meta-separator {
+      width: 100%;
+      border: 0;
+      border-top: 1px solid $color-divider;
+      margin: $spacing-2 0;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Date/Posted On
+  // ---------------------------------------------------------------------------
+  .posted-on {
+    font-size: $font-size-sm;
+    color: $color-text-light;
+    text-transform: uppercase;
+    font-weight: $font-weight-semibold;
+    width: 100%;
+    text-align: left;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Entry Header/Title
+  // ---------------------------------------------------------------------------
+  .entry-header {
+    text-align: left;
+    margin-top: $spacing-8;
+    margin-bottom: $spacing-10;
+  }
+
+  .entry-title {
+    color: $color-secondary;
+    margin: 0;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Post Navigation
+  // ---------------------------------------------------------------------------
+  .post-navigation {
+    margin-top: $spacing-16;
+    padding-top: $spacing-10;
+    border-top: 1px solid $color-divider;
+
+    .nav-links {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-previous,
+    .nav-next {
+      a {
+        display: inline-flex;
+        align-items: center;
+        gap: $spacing-2;
+        padding: $spacing-2 $spacing-4;
+        border: 1px solid $color-divider;
+        border-radius: 999px;
+        color: $color-primary;
+        text-decoration: none;
+        font-weight: $font-weight-semibold;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background-color: $color-primary;
+          color: $color-white;
+          border-color: $color-primary;
+        }
+      }
+    }
+
+    .nav-title {
+      // The text like "Prev Post"
+    }
+
+    .nav-arrow {
+      font-size: 1.25em;
+      line-height: 1;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Entry Footer
+  // ---------------------------------------------------------------------------
+  .entry-footer {
+    margin-top: $spacing-8;
+    padding-top: $spacing-4;
+    border-top: 1px solid $color-divider;
+    font-size: $font-size-sm;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Standalone Elements
+// -----------------------------------------------------------------------------
+.entry-date {
+  font-size: $font-size-sm;
+  color: $color-text-light;
+  text-transform: uppercase;
+  letter-spacing: $letter-spacing-wide;
+  margin-bottom: $spacing-1;
+  font-weight: $font-weight-semibold;
+  text-align: left;
+}
+
+.entry-content-container {
+  margin-left: auto;
+  margin-right: auto;
+}
