@@ -715,20 +715,19 @@ function swmw_law_output_results_schema() {
 add_action( 'wp_head', __NAMESPACE__ . '\swmw_law_output_results_schema', 20 );
 
 /**
- * Format Result amount for display: $X,XXX,XXX (rounded, no decimals).
+ * Format Result amount for display with smart rounding:
+ * - >= $1,000,000: round to nearest $100k and show as "$1.2 Million"
+ * - $1,000–$999,999: round to nearest thousand, show full number (e.g., "$851,000")
+ * - <$1,000: round to whole dollars
  */
 function swmw_law_get_formatted_amount( $post_id = null ) {
 	$post_id = $post_id ? $post_id : get_the_ID();
 	if ( ! $post_id ) {
 		return '';
 	}
-	// Prefer explicit display override if present
+	// Pull fields
 	$display_override = function_exists( 'get_field' ) ? (string) get_field( 'result_amount_display', $post_id ) : (string) get_post_meta( $post_id, 'result_amount_display', true );
-	if ( $display_override !== '' ) {
-		$txt = ltrim( trim( $display_override ), '$' );
-		return '$' . $txt;
-	}
-	$raw_text = function_exists( 'get_field' ) ? (string) get_field( 'result_amount', $post_id ) : (string) get_post_meta( $post_id, 'result_amount', true );
+	$raw_text         = function_exists( 'get_field' ) ? (string) get_field( 'result_amount', $post_id ) : (string) get_post_meta( $post_id, 'result_amount', true );
 	$num_meta = get_post_meta( $post_id, 'result_amount_num', true );
 	$val      = 0.0;
 	if ( $num_meta !== '' && is_numeric( $num_meta ) ) {
@@ -737,7 +736,26 @@ function swmw_law_get_formatted_amount( $post_id = null ) {
 		$val = swmw_law_parse_amount_to_number( $raw_text );
 	}
 	if ( $val > 0 ) {
+		// Millions: round to nearest 100k and display as "$X.X Million"
+		if ( $val >= 1000000 ) {
+			$millions     = round( $val / 1000000, 1 ); // 0.1 million = 100k
+			$millions_str = number_format( $millions, 1, '.', '' );
+			// Strip trailing .0 (e.g., 1.0 -> 1)
+			$millions_str = preg_replace( '/\\.0$/', '', $millions_str );
+			return '$' . $millions_str . ' Million';
+		}
+		// Thousands: round to nearest 1,000 and show full number
+		if ( $val >= 1000 ) {
+			$rounded_thousands = round( $val / 1000 ) * 1000;
+			return '$' . number_format( (float) $rounded_thousands, 0, '.', ',' );
+		}
+		// Under $1,000: whole dollars
 		return '$' . number_format( (float) round( $val ), 0, '.', ',' );
+	}
+	// If we couldn't derive a numeric value, fall back to display override if present
+	if ( $display_override !== '' ) {
+		$txt = ltrim( trim( $display_override ), '$' );
+		return '$' . $txt;
 	}
 	// Fallback: ensure a $ prefix and strip decimals if present.
 	if ( $raw_text !== '' ) {
