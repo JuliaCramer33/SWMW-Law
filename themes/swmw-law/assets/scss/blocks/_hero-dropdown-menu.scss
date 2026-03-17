@@ -20,7 +20,7 @@
     overflow: visible;
   }
 
-  // Additional overflow handling for the dropdown itself
+  // Additional overflow handling for the dropdown itself + open state styles
   &.is-open {
     // Ensure the dropdown container can extend beyond its boundaries
     overflow: visible !important;
@@ -30,6 +30,25 @@
       position: absolute;
       // Below mega menu panel ($z-index-dropdown), above page content
       z-index: $z-index-dropdown - 1;
+      display: block;
+    }
+
+    .hamburger-menu-toggle {
+      border-radius: 8px 8px 0 0;
+      color: $color-text;
+    }
+
+    .hamburger-icon span {
+      background-color: $color-text;
+    }
+
+    .hamburger-label {
+      color: $color-text;
+    }
+
+    // Hide the green header when open
+    .hero-nav-header {
+      display: none;
     }
   }
 
@@ -203,31 +222,6 @@
     color: $color-text-light;
     font-style: italic;
     font-size: $font-size-sm;
-  }
-
-  // Open state styles
-  &.is-open {
-    .hamburger-menu-toggle {
-      border-radius: 8px 8px 0 0;
-      color: $color-text;
-    }
-
-    .hamburger-icon span {
-      background-color: $color-text;
-    }
-
-    .hamburger-label {
-      color: $color-text;
-    }
-
-    .hero-nav-list {
-      display: block;
-    }
-
-    // Hide the green header when open
-    .hero-nav-header {
-      display: none;
-    }
   }
 
   // Responsive styles

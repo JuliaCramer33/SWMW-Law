@@ -14855,6 +14855,7 @@ nav .menu-item.button,
   z-index: -1;
   /* Left overlap positioning */
   /* Right overlap positioning (default) */
+  /* Manual staggered animation for images within the block */
 }
 .image-split-block .image-split-container {
   display: flex;
@@ -14900,8 +14901,6 @@ nav .menu-item.button,
     width: 100%;
   }
 }
-
-/* Manual staggered animation for images within the block */
 .image-split-block .image-1[data-animate] {
   transition-delay: 0s;
 }
@@ -14972,6 +14971,20 @@ nav .menu-item.button,
 .hero-dropdown-menu.is-open .hero-nav-list {
   position: absolute;
   z-index: 999;
+  display: block;
+}
+.hero-dropdown-menu.is-open .hamburger-menu-toggle {
+  border-radius: 8px 8px 0 0;
+  color: #43383e;
+}
+.hero-dropdown-menu.is-open .hamburger-icon span {
+  background-color: #43383e;
+}
+.hero-dropdown-menu.is-open .hamburger-label {
+  color: #43383e;
+}
+.hero-dropdown-menu.is-open .hero-nav-header {
+  display: none;
 }
 .hero-dropdown-menu .hamburger-menu-toggle {
   display: flex;
@@ -15105,22 +15118,6 @@ nav .menu-item.button,
   color: #666;
   font-style: italic;
   font-size: 0.875rem;
-}
-.hero-dropdown-menu.is-open .hamburger-menu-toggle {
-  border-radius: 8px 8px 0 0;
-  color: #43383e;
-}
-.hero-dropdown-menu.is-open .hamburger-icon span {
-  background-color: #43383e;
-}
-.hero-dropdown-menu.is-open .hamburger-label {
-  color: #43383e;
-}
-.hero-dropdown-menu.is-open .hero-nav-list {
-  display: block;
-}
-.hero-dropdown-menu.is-open .hero-nav-header {
-  display: none;
 }
 @media (max-width: 768px) {
   .hero-dropdown-menu .hero-nav-list {
@@ -15274,11 +15271,6 @@ nav .menu-item.button,
   align-items: center;
   justify-content: center;
   pointer-events: none;
-}
-.expandable-card .expanded-content {
-  margin-top: 1.25rem;
-  padding-top: 1.25rem;
-  animation: slideDown 0.3s ease-in-out;
 }
 .expandable-card .expanded-inner {
   color: #43383e;

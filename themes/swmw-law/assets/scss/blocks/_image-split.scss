@@ -42,7 +42,7 @@
             height: auto;
             object-fit: cover;
             // Keep above image-1 but ensure it does NOT cover dropdowns/menus.
-            z-index: $z-index-base; 
+            z-index: $z-index-base;
           }
         }
       }
@@ -72,10 +72,8 @@
       }
     }
   }
-}
 
-/* Manual staggered animation for images within the block */
-.image-split-block {
+  /* Manual staggered animation for images within the block */
   .image-1[data-animate] {
     transition-delay: 0s;
   }

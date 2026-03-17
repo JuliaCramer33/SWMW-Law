@@ -176,13 +176,6 @@
     pointer-events: none;
   }
 
-  // Expanded content area
-  .expanded-content {
-    margin-top: $spacing-5;
-    padding-top: $spacing-5;
-    animation: slideDown $transition-duration-slow $transition-easing-ease-in-out;
-  }
-
   // Inner content of expanded area
   .expanded-inner {
     color: $color-text;

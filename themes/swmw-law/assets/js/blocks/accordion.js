@@ -95,77 +95,124 @@ export class JobsitesAccordion {
     const jobsitesBlocks = context.querySelectorAll('.jobsites-by-city-block');
 
     jobsitesBlocks.forEach((block) => {
-      const accordion = block.querySelector('.jobsites-accordion');
-      if (!accordion || accordion.classList.contains('js-jobsites-initialized')) return;
+      if (block.classList.contains('js-jobsites-initialized')) return;
+      block.classList.add('js-jobsites-initialized');
 
-      accordion.classList.add('js-jobsites-initialized');
-
-      // After the columns are built, re-use the generic setup logic to make the panels clickable.
-      // This is more robust than duplicating the click-handling code.
-      const genericAccordionManager = new AccordionBlock();
-      genericAccordionManager.setupAccordion(accordion);
-
+      const scrollContainer = block.querySelector('.jobsites-directory-scroll');
+      const searchInput = block.querySelector('.jobsites-search-input');
+      const clearButton = block.querySelector('.jobsites-search-clear');
       const letterButtons = block.querySelectorAll('.filter-letter.has-cities');
       const skipSelect = block.querySelector('.jobsites-skip-to select');
-      const allPanels = accordion.querySelectorAll('.accordion-panel');
+      const noResults = block.querySelector('.jobsites-no-results');
+      const letterSections = block.querySelectorAll('.letter-section');
+      const cityGroups = block.querySelectorAll('.city-group');
 
-      letterButtons.forEach((button) => {
-        button.addEventListener('click', () => {
-          const letter = button.dataset.letter;
-          const targetPanel = accordion.querySelector(`.accordion-panel[data-letter="${letter}"]`);
-          if (!targetPanel) return;
+      // Show only one letter section at a time (like live)
+      function setVisibleLetter(letter) {
+        letterSections.forEach((section) => {
+          const isVisible = section.dataset.letter === letter;
+          section.classList.toggle('is-visible', isVisible);
+        });
+        letterButtons.forEach((btn) => {
+          btn.classList.toggle('active', btn.dataset.letter === letter);
+        });
+        if (skipSelect) {
+          skipSelect.value = letter || '';
+        }
+        updateNoResultsVisibility();
+      }
 
-          targetPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      function updateNoResultsVisibility() {
+        if (!noResults) return;
+        const isSearching = block.classList.contains('is-searching');
+        const sectionsWithCities = block.querySelectorAll('.letter-section:not(.is-hidden)');
+        const totalVisible = sectionsWithCities.length;
+        const totalCities = block.querySelectorAll('.city-group:not(.is-hidden)').length;
+        noResults.hidden = totalCities > 0;
+      }
 
-          // This logic now correctly handles closing other panels.
-          allPanels.forEach((p) => {
-            if (p !== targetPanel) {
-              p.classList.remove('is-open');
-              const h = p.querySelector('.accordion-panel-header');
-              const c = p.querySelector('.accordion-panel-content');
-              if (h) h.setAttribute('aria-expanded', 'false');
-              if (c) c.style.maxHeight = null;
-            }
-          });
+      // Default: show all letters (user can click a letter to filter to one)
+      block.classList.add('show-all');
 
-          const header = targetPanel.querySelector('.accordion-panel-header');
-          const content = targetPanel.querySelector('.accordion-panel-content');
-          if (!targetPanel.classList.contains('is-open')) {
-            targetPanel.classList.add('is-open');
-            if (header) header.setAttribute('aria-expanded', 'true');
-            if (content) content.style.maxHeight = content.scrollHeight + 'px';
+      function showAllLetters() {
+        block.classList.add('show-all');
+        letterSections.forEach((section) => section.classList.remove('is-visible'));
+        letterButtons.forEach((btn) => btn.classList.remove('active'));
+        if (skipSelect) skipSelect.value = '';
+        updateNoResultsVisibility();
+      }
+
+      // Search handler: when typing, show all letter sections that have matches; when empty, restore prior state
+      if (searchInput) {
+        searchInput.addEventListener('input', () => {
+          const query = searchInput.value.trim().toLowerCase();
+          const isSearching = query.length > 0;
+
+          block.classList.toggle('is-searching', isSearching);
+
+          if (clearButton) {
+            clearButton.hidden = !query;
           }
 
-          letterButtons.forEach((btn) => btn.classList.remove('active'));
-          button.classList.add('active');
+          cityGroups.forEach((group) => {
+            if (!query) {
+              group.classList.remove('is-hidden');
+              return;
+            }
+            const cityName = (group.dataset.city || '').toLowerCase();
+            const jobsiteNames = Array.from(group.querySelectorAll('.jobsite-name'))
+              .map((el) => (el.textContent || '').toLowerCase())
+              .join(' ');
+            const match = cityName.includes(query) || jobsiteNames.includes(query);
+            group.classList.toggle('is-hidden', !match);
+          });
+
+          letterSections.forEach((section) => {
+            const visibleCities = section.querySelectorAll('.city-group:not(.is-hidden)');
+            section.classList.toggle('is-hidden', visibleCities.length === 0);
+          });
+
+          if (!isSearching && !block.classList.contains('show-all')) {
+            const activeLetter = block.querySelector('.filter-letter.active')?.dataset.letter;
+            if (activeLetter) setVisibleLetter(activeLetter);
+          }
+          updateNoResultsVisibility();
+        });
+      }
+
+      if (clearButton) {
+        clearButton.addEventListener('click', () => {
+          if (searchInput) {
+            searchInput.value = '';
+            searchInput.dispatchEvent(new Event('input'));
+            searchInput.focus();
+          }
+        });
+      }
+
+      // Letter button click — filter to only this letter's section
+      letterButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          block.classList.remove('show-all');
+          setVisibleLetter(button.dataset.letter);
         });
       });
+
+      // Reset "×" button — show all letters again
+      const resetBtn = block.querySelector('.jobsites-reset-letter');
+      if (resetBtn) {
+        resetBtn.addEventListener('click', showAllLetters);
+      }
 
       if (skipSelect) {
         skipSelect.addEventListener('change', (e) => {
           const letter = e.target.value;
-          const targetPanel = accordion.querySelector(`.accordion-panel[data-letter="${letter}"]`);
-          if (!targetPanel) return;
-
-          targetPanel.scrollIntoView({ behavior: 'smooth' });
-
-          allPanels.forEach((p) => {
-            if (p !== targetPanel) {
-              p.classList.remove('is-open');
-              const h = p.querySelector('.accordion-panel-header');
-              const c = p.querySelector('.accordion-panel-content');
-              if (h) h.setAttribute('aria-expanded', 'false');
-              if (c) c.style.maxHeight = null;
-            }
-          });
-
-          const header = targetPanel.querySelector('.accordion-panel-header');
-          const content = targetPanel.querySelector('.accordion-panel-content');
-          if (!targetPanel.classList.contains('is-open')) {
-            targetPanel.classList.add('is-open');
-            if (header) header.setAttribute('aria-expanded', 'true');
-            if (content) content.style.maxHeight = content.scrollHeight + 'px';
+          if (!letter) {
+            showAllLetters();
+            return;
           }
+          block.classList.remove('show-all');
+          setVisibleLetter(letter);
         });
       }
     });
