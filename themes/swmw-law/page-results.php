@@ -14,7 +14,7 @@ get_header();
 get_template_part( 'template-parts/breadcrumbs' );
 ?>
 
-<main id="primary" class="site-main swmw-archive-page swmw-results-page">
+<main id="primary" class="site-main swmw-archive-page swmw-results-page has-background" style="background-color: #F6F6F8;">
 	<?php
 	while ( have_posts() ) :
 		the_post();
