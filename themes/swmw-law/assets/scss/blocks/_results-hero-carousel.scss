@@ -1,0 +1,218 @@
+@use "sass:color";
+@use "../variables/variables" as *;
+
+/**
+ * Results hero carousel — composite featured image (design baked into file) above white card.
+ * No semi-transparent CSS arch; image does not overlap card copy.
+ */
+
+.results-hero-carousel-block {
+  width: 100%;
+  position: relative;
+
+  .results-hero-carousel__arch {
+    position: relative;
+    overflow: hidden;
+    padding: $spacing-10 $spacing-8 $spacing-6;
+    border-radius: 0 0 3rem 3rem;
+
+    @media (min-width: $breakpoint-md) {
+      border-radius: 0 0 4.5rem 4.5rem;
+      padding-bottom: $spacing-8;
+    }
+  }
+
+  .results-hero-carousel__slider {
+    position: relative;
+    z-index: 1;
+  }
+
+  .results-hero-carousel__slide {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    height: auto;
+    // Lock slide sizing by breakpoint so visible-count is deterministic.
+    flex: 0 0 calc(100% / 3);
+    max-width: calc(100% / 3);
+  }
+
+  .results-hero-carousel__slide-inner {
+    width: 100%;
+    line-height: 0;
+    overflow: hidden;
+    margin: 0;
+    min-height: 350px;
+  }
+
+  .results-hero-carousel__figure-img {
+    display: block;
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    object-position: center top;
+    vertical-align: middle;
+  }
+
+  .results-hero-carousel__slide-inner-inner {
+    // Card sits closer to the image, centered with controlled side breathing room.
+    width: 100%;
+    margin: -0.5rem 0 0;
+    padding: 0 0 $spacing-2;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex: 1 1 auto;
+  }
+
+  .results-hero-carousel__card {
+    width: 95%;
+    min-width: 95%;
+    max-width: 95%;
+    margin: 0 auto;
+    display: flex;
+    flex: 1 1 auto;
+
+    .result-item-inner {
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
+      max-width: 100%;
+      height: 100%;
+      border-radius: 0;
+      box-shadow: 0 4px 10px 0 #0000001f;
+      margin-top: 0;
+      // Subtle overlap, keep normal reading rhythm.
+      padding-top: calc(#{$spacing-8} + 0.5rem);
+      padding-bottom: $spacing-8;
+    }
+
+    .result-title {
+      font-style: normal;
+      font-size: $font-size-lg;
+      color: $color-text;
+    }
+
+    .result-amount {
+      font-size: clamp(1.5rem, 4vw, 2.25rem);
+      margin-bottom: $spacing-3;
+    }
+
+    .result-category {
+      margin-bottom: $spacing-4;
+    }
+
+    .result-subtext {
+      font-style: normal;
+      font-size: $font-size-sm;
+      color: $color-text-light;
+    }
+
+    .result-description {
+      margin-top: 0;
+    }
+  }
+
+  .splide__slide {
+    padding: 0;
+  }
+
+  .splide__list {
+    display: flex;
+    gap: 0;
+    height: auto;
+    align-items: stretch;
+  }
+
+  @media (max-width: 991px) {
+    .results-hero-carousel__slide {
+      flex: 0 0 50%;
+      max-width: 50%;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .results-hero-carousel__slide {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  }
+
+  .splide__arrows {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 68%;
+    transform: translateY(-50%);
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none;
+    z-index: 5;
+  }
+
+  .splide__arrow {
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    align-self: center;
+    transform: rotate(0deg);
+    pointer-events: auto;
+    background: $color-primary;
+    border: none;
+    border-radius: 50%;
+    width: 2.75rem;
+    height: 2.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    box-shadow: $box-shadow-md;
+    color: $color-white;
+
+    &:hover,
+    &:focus {
+      background: color.adjust($color-primary, $lightness: -6%);
+      color: $color-white;
+    }
+
+    &.splide__arrow--prev {
+      margin-left: -0.35rem;
+      transform: rotate(180deg);
+    }
+
+    &.splide__arrow--next {
+      margin-right: -0.35rem;
+
+      svg {
+        transform: rotate(180deg);
+      }
+    }
+
+    svg {
+      stroke: currentcolor;
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .splide__arrows {
+      top: 66%;
+    }
+
+    .splide__arrow {
+      width: 2.35rem;
+      height: 2.35rem;
+
+      svg {
+        width: 1rem;
+        height: 1rem;
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "acf/results-hero-carousel",
+  "title": "Results hero carousel",
+  "description": "Featured case results in a carousel for the Results page. Pick posts via relationship; style the surrounding hero in the editor.",
+  "category": "swmw-custom-blocks",
+  "icon": "slides",
+  "keywords": [
+    "results",
+    "carousel",
+    "hero",
+    "slider",
+    "cases"
+  ],
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "template.php"
+  },
+  "supports": {
+    "anchor": true,
+    "customClassName": true,
+    "spacing": {
+      "margin": true,
+      "padding": true
+    },
+    "align": ["wide", "full"]
+  },
+  "editorStyle": "file:./editor.css"
+}

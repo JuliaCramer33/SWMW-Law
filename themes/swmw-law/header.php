@@ -11,10 +11,22 @@
 	<head>
 		<meta charset="<?php bloginfo( 'charset' ); ?>" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!-- Google Tag Manager -->
+		<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+		new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+		j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+		'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+		})(window,document,'script','dataLayer','GTM-WZLJMG7');</script>
+		<!-- End Google Tag Manager -->
+
 		<?php wp_head(); ?>
 	</head>
 	<body <?php body_class(); ?>>
 		<?php wp_body_open(); ?>
+		<!-- Google Tag Manager (noscript) -->
+		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WZLJMG7"
+		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+		<!-- End Google Tag Manager (noscript) -->
 
 		<a href="#main" class="skip-link sr-only"><?php esc_html_e( 'Skip to main content', 'swmw-law' ); ?></a>
 
@@ -56,6 +68,7 @@
               </nav>
               <?php
               $phone_number = get_theme_mod( 'swmw_law_phone' );
+              $phone_display = get_theme_mod( 'swmw_law_phone_display', $phone_number );
               if ( ! empty( $phone_number ) ) :
               ?>
                 <div class="header-phone">
@@ -64,7 +77,7 @@
 										<path d="M0 0h24v24H0V0z" fill="none"/>
 										<path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
 									</svg>
-									<span><?php echo esc_html( $phone_number ); ?></span>
+									<span><?php echo esc_html( $phone_display ); ?></span>
 								</a>
                 </div>
               <?php endif; ?>
@@ -116,6 +129,7 @@
 						
 						<?php
 						$phone_number = get_theme_mod( 'swmw_law_phone' );
+						$phone_display = get_theme_mod( 'swmw_law_phone_display', $phone_number );
 						if ( ! empty( $phone_number ) ) :
 						?>
 							<li class="button mobile-phone-button">
@@ -124,7 +138,7 @@
 										<path d="M0 0h24v24H0V0z" fill="none"/>
 										<path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
 									</svg>
-									<span><?php echo esc_html( $phone_number ); ?></span>
+									<span><?php echo esc_html( $phone_display ); ?></span>
 								</a>
 							</li>
 						<?php endif; ?>

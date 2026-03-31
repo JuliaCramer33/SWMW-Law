@@ -27,7 +27,7 @@ function initAccordionColumns() {
   const handleResize = () => {
     accordionContainers.forEach(container => {
       // Get all the original panels
-      const panels = Array.from(container.querySelectorAll(':scope > .accordion-panel'));
+      const panels = Array.from(container.querySelectorAll(':scope > .letter-section'));
       if (!panels.length) {
         return;
       }
@@ -165,72 +165,112 @@ class JobsitesAccordion {
   initJobsitesFeatures(context = document) {
     const jobsitesBlocks = context.querySelectorAll('.jobsites-by-city-block');
     jobsitesBlocks.forEach(block => {
-      const accordion = block.querySelector('.jobsites-accordion');
-      if (!accordion || accordion.classList.contains('js-jobsites-initialized')) return;
-      accordion.classList.add('js-jobsites-initialized');
-
-      // After the columns are built, re-use the generic setup logic to make the panels clickable.
-      // This is more robust than duplicating the click-handling code.
-      const genericAccordionManager = new AccordionBlock();
-      genericAccordionManager.setupAccordion(accordion);
+      if (block.classList.contains('js-jobsites-initialized')) return;
+      block.classList.add('js-jobsites-initialized');
+      const scrollContainer = block.querySelector('.jobsites-directory-scroll');
+      const searchInput = block.querySelector('.jobsites-search-input');
+      const clearButton = block.querySelector('.jobsites-search-clear');
       const letterButtons = block.querySelectorAll('.filter-letter.has-cities');
       const skipSelect = block.querySelector('.jobsites-skip-to select');
-      const allPanels = accordion.querySelectorAll('.accordion-panel');
+      const noResults = block.querySelector('.jobsites-no-results');
+      const letterSections = block.querySelectorAll('.letter-section');
+      const cityGroups = block.querySelectorAll('.city-group');
+
+      // Show only one letter section at a time (like live)
+      function setVisibleLetter(letter) {
+        letterSections.forEach(section => {
+          const isVisible = section.dataset.letter === letter;
+          section.classList.toggle('is-visible', isVisible);
+        });
+        letterButtons.forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.letter === letter);
+        });
+        if (skipSelect) {
+          skipSelect.value = letter || '';
+        }
+        updateNoResultsVisibility();
+      }
+      function updateNoResultsVisibility() {
+        if (!noResults) return;
+        const isSearching = block.classList.contains('is-searching');
+        const sectionsWithCities = block.querySelectorAll('.letter-section:not(.is-hidden)');
+        const totalVisible = sectionsWithCities.length;
+        const totalCities = block.querySelectorAll('.city-group:not(.is-hidden)').length;
+        noResults.hidden = totalCities > 0;
+      }
+
+      // Default: show all letters (user can click a letter to filter to one)
+      block.classList.add('show-all');
+      function showAllLetters() {
+        block.classList.add('show-all');
+        letterSections.forEach(section => section.classList.remove('is-visible'));
+        letterButtons.forEach(btn => btn.classList.remove('active'));
+        if (skipSelect) skipSelect.value = '';
+        updateNoResultsVisibility();
+      }
+
+      // Search handler: when typing, show all letter sections that have matches; when empty, restore prior state
+      if (searchInput) {
+        searchInput.addEventListener('input', () => {
+          const query = searchInput.value.trim().toLowerCase();
+          const isSearching = query.length > 0;
+          block.classList.toggle('is-searching', isSearching);
+          if (clearButton) {
+            clearButton.hidden = !query;
+          }
+          cityGroups.forEach(group => {
+            if (!query) {
+              group.classList.remove('is-hidden');
+              return;
+            }
+            const cityName = (group.dataset.city || '').toLowerCase();
+            const jobsiteNames = Array.from(group.querySelectorAll('.jobsite-name')).map(el => (el.textContent || '').toLowerCase()).join(' ');
+            const match = cityName.includes(query) || jobsiteNames.includes(query);
+            group.classList.toggle('is-hidden', !match);
+          });
+          letterSections.forEach(section => {
+            const visibleCities = section.querySelectorAll('.city-group:not(.is-hidden)');
+            section.classList.toggle('is-hidden', visibleCities.length === 0);
+          });
+          if (!isSearching && !block.classList.contains('show-all')) {
+            const activeLetter = block.querySelector('.filter-letter.active')?.dataset.letter;
+            if (activeLetter) setVisibleLetter(activeLetter);
+          }
+          updateNoResultsVisibility();
+        });
+      }
+      if (clearButton) {
+        clearButton.addEventListener('click', () => {
+          if (searchInput) {
+            searchInput.value = '';
+            searchInput.dispatchEvent(new Event('input'));
+            searchInput.focus();
+          }
+        });
+      }
+
+      // Letter button click — filter to only this letter's section
       letterButtons.forEach(button => {
         button.addEventListener('click', () => {
-          const letter = button.dataset.letter;
-          const targetPanel = accordion.querySelector(`.accordion-panel[data-letter="${letter}"]`);
-          if (!targetPanel) return;
-          targetPanel.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-
-          // This logic now correctly handles closing other panels.
-          allPanels.forEach(p => {
-            if (p !== targetPanel) {
-              p.classList.remove('is-open');
-              const h = p.querySelector('.accordion-panel-header');
-              const c = p.querySelector('.accordion-panel-content');
-              if (h) h.setAttribute('aria-expanded', 'false');
-              if (c) c.style.maxHeight = null;
-            }
-          });
-          const header = targetPanel.querySelector('.accordion-panel-header');
-          const content = targetPanel.querySelector('.accordion-panel-content');
-          if (!targetPanel.classList.contains('is-open')) {
-            targetPanel.classList.add('is-open');
-            if (header) header.setAttribute('aria-expanded', 'true');
-            if (content) content.style.maxHeight = content.scrollHeight + 'px';
-          }
-          letterButtons.forEach(btn => btn.classList.remove('active'));
-          button.classList.add('active');
+          block.classList.remove('show-all');
+          setVisibleLetter(button.dataset.letter);
         });
       });
+
+      // Reset "×" button — show all letters again
+      const resetBtn = block.querySelector('.jobsites-reset-letter');
+      if (resetBtn) {
+        resetBtn.addEventListener('click', showAllLetters);
+      }
       if (skipSelect) {
         skipSelect.addEventListener('change', e => {
           const letter = e.target.value;
-          const targetPanel = accordion.querySelector(`.accordion-panel[data-letter="${letter}"]`);
-          if (!targetPanel) return;
-          targetPanel.scrollIntoView({
-            behavior: 'smooth'
-          });
-          allPanels.forEach(p => {
-            if (p !== targetPanel) {
-              p.classList.remove('is-open');
-              const h = p.querySelector('.accordion-panel-header');
-              const c = p.querySelector('.accordion-panel-content');
-              if (h) h.setAttribute('aria-expanded', 'false');
-              if (c) c.style.maxHeight = null;
-            }
-          });
-          const header = targetPanel.querySelector('.accordion-panel-header');
-          const content = targetPanel.querySelector('.accordion-panel-content');
-          if (!targetPanel.classList.contains('is-open')) {
-            targetPanel.classList.add('is-open');
-            if (header) header.setAttribute('aria-expanded', 'true');
-            if (content) content.style.maxHeight = content.scrollHeight + 'px';
+          if (!letter) {
+            showAllLetters();
+            return;
           }
+          block.classList.remove('show-all');
+          setVisibleLetter(letter);
         });
       }
     });
@@ -393,33 +433,45 @@ function initAttorneysSlider() {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   initResultsHeroCarouselSlider: () => (/* binding */ initResultsHeroCarouselSlider),
 /* harmony export */   initResultsSlider: () => (/* binding */ initResultsSlider)
 /* harmony export */ });
+const arrowIconSvg = '<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M24.1304 11.8223L1.63037 11.8223M1.63037 11.8223L12.2554 1.19726M1.63037 11.8223L12.2554 22.4473" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+function mountResultsSplide(slider, options) {
+  const splide = new Splide(slider, options);
+  splide.on('mounted updated', () => {
+    setTimeout(() => {
+      const {
+        Arrows
+      } = splide.Components;
+      if (Arrows.arrows.prev) Arrows.arrows.prev.innerHTML = arrowIconSvg;
+      if (Arrows.arrows.next) Arrows.arrows.next.innerHTML = arrowIconSvg;
+    }, 0);
+  });
+  splide.mount();
+}
+
 /**
- * Initializes sliders for the Results Block.
+ * Initializes sliders for the Results Display block.
  */
 function initResultsSlider() {
   const sliders = document.querySelectorAll('.results-block .splide');
-  if (!sliders.length) {
-    return; // No sliders found on this page
-  }
+  if (!sliders.length) return;
   sliders.forEach(slider => {
-    const splide = new Splide(slider, {
+    mountResultsSplide(slider, {
       type: 'loop',
       perPage: 3,
-      gap: '1rem',
+      perMove: 1,
+      gap: '0',
       pagination: false,
       arrows: true,
       start: 0,
-      // ensure first selected result is the initial slide
       autoplay: true,
       interval: 4000,
-      // 4s between slides
       pauseOnHover: true,
       pauseOnFocus: true,
       drag: true,
       snap: true,
-      // Start at the first slide aligned to the left edge
       focus: 0,
       trimSpace: true,
       breakpoints: {
@@ -431,17 +483,38 @@ function initResultsSlider() {
         }
       }
     });
-    splide.on('mounted updated', () => {
-      setTimeout(() => {
-        const {
-          Arrows
-        } = splide.Components;
-        const arrowIcon = `<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M24.1304 11.8223L1.63037 11.8223M1.63037 11.8223L12.2554 1.19726M1.63037 11.8223L12.2554 22.4473" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-        if (Arrows.arrows.prev) Arrows.arrows.prev.innerHTML = arrowIcon;
-        if (Arrows.arrows.next) Arrows.arrows.next.innerHTML = arrowIcon;
-      }, 0);
+  });
+}
+
+/**
+ * Results hero carousel (Results landing) — same Splide behavior, separate block class.
+ */
+function initResultsHeroCarouselSlider() {
+  const sliders = document.querySelectorAll('.results-hero-carousel-block .splide');
+  if (!sliders.length) return;
+  sliders.forEach(slider => {
+    mountResultsSplide(slider, {
+      type: 'loop',
+      perPage: 3,
+      perMove: 1,
+      gap: '0',
+      pagination: false,
+      arrows: true,
+      start: 0,
+      autoplay: false,
+      drag: true,
+      snap: true,
+      focus: 0,
+      trimSpace: true,
+      breakpoints: {
+        991: {
+          perPage: 2
+        },
+        767: {
+          perPage: 1
+        }
+      }
     });
-    splide.mount();
   });
 }
 
@@ -1484,9 +1557,14 @@ __webpack_require__.r(__webpack_exports__);
       console.error('MAIN.JS - ERROR in initializeButtonHoverAnimation():', error);
     }
     try {
-      (0,_blocks_results_js__WEBPACK_IMPORTED_MODULE_3__.initResultsSlider)(); // Initialize the results slider
+      (0,_blocks_results_js__WEBPACK_IMPORTED_MODULE_3__.initResultsSlider)(); // Results Display block
     } catch (error) {
       console.error('MAIN.JS - ERROR in initResultsSlider():', error);
+    }
+    try {
+      (0,_blocks_results_js__WEBPACK_IMPORTED_MODULE_3__.initResultsHeroCarouselSlider)(); // Results hero carousel block
+    } catch (error) {
+      console.error('MAIN.JS - ERROR in initResultsHeroCarouselSlider():', error);
     }
     try {
       (0,_blocks_testimonials_js__WEBPACK_IMPORTED_MODULE_4__.initTestimonialsSlider)(); // Initialize the testimonials slider

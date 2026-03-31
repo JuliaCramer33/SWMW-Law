@@ -107,7 +107,9 @@
       padding-right: 0;
       text-align: center;
 
-      &::after { display: none; } // Ensure slanted background stays removed
+      &::after {
+        display: none;
+      } // Ensure slanted background stays removed
     }
 
     &__logos {

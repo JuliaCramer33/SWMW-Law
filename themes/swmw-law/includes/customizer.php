@@ -66,9 +66,28 @@ function customize_register( $wp_customize ) {
     $wp_customize->add_control(
         'swmw_law_phone',
         [
-            'label'    => __( 'Phone Number', 'swmw-law' ),
-            'section'  => 'swmw_law_contact_info',
-            'type'     => 'text',
+            'label'       => __( 'Phone Number', 'swmw-law' ),
+            'section'     => 'swmw_law_contact_info',
+            'type'        => 'text',
+            'description' => __( 'Numeric phone number used for tel: links (e.g. 844-857-7969).', 'swmw-law' ),
+        ]
+    );
+
+    $wp_customize->add_setting(
+        'swmw_law_phone_display',
+        [
+            'default'           => '',
+            'sanitize_callback' => 'sanitize_text_field',
+        ]
+    );
+
+    $wp_customize->add_control(
+        'swmw_law_phone_display',
+        [
+            'label'       => __( 'Phone Display Text', 'swmw-law' ),
+            'section'     => 'swmw_law_contact_info',
+            'type'        => 'text',
+            'description' => __( 'How the phone number appears on the site (e.g. 844-857-SWMW). Leave blank to show the numeric number.', 'swmw-law' ),
         ]
     );
 

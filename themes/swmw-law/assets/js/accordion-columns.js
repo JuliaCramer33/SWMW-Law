@@ -16,7 +16,7 @@ function initAccordionColumns() {
     accordionContainers.forEach((container) => {
       // Get all the original panels
       const panels = Array.from(
-        container.querySelectorAll(':scope > .accordion-panel')
+        container.querySelectorAll(':scope > .letter-section')
       );
       if (!panels.length) {
         return;

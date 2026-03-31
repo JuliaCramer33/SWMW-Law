@@ -1,3 +1,4 @@
+@use "sass:color";
 @use "../variables/variables" as *;
 
 /* Accordion Block Styles
@@ -29,7 +30,7 @@
     transition: background-color $transition-duration-fast ease-in-out;
 
     &:hover {
-      background-color: darken($color-gray-lightest, 5%);
+      background-color: color.adjust($color-gray-lightest, $lightness: -5%);
     }
 
     h3 {

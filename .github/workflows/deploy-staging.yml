@@ -1,46 +1,16 @@
-name: Deploy to WP Engine (Staging)
+# Deploys to WP Engine staging when pushing to develop.
+# Update wpe_env below to your WP Engine staging install name.
+
+name: Deploy to Staging
 
 on:
   push:
     branches:
-      - develop # Deploys when commits are pushed to the develop branch
+      - develop
 
 jobs:
-  build_and_deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Node 18 LTS
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: npm
-          cache-dependency-path: |
-            plugins/core-block-custom-breakpoints/package-lock.json
-            themes/swmw-law/package-lock.json
-
-      - name: Install libvips (sharp dependency)
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libvips-dev
-
-      - name: Build plugin assets
-        working-directory: ./plugins/core-block-custom-breakpoints
-        run: |
-          npm ci
-          npm run build
-
-      - name: Build theme assets
-        working-directory: ./themes/swmw-law
-        run: |
-          npm ci
-          npm run build
-
-      - name: Deploy to WP Engine Staging
-        uses: wpengine/github-action-wpe-site-deploy@v3
-        with:
-          WPE_SSHG_KEY_PRIVATE: ${{ secrets.WPE_SSHG_KEY_PRIVATE }}
-          WPE_ENV: "swmwlawstg"
-          REMOTE_PATH: "wp-content/"
-          FLAGS: '-azvr --inplace --delete --exclude-from=.deployignore'
+  deploy:
+    uses: ./.github/workflows/build-and-deploy.yml
+    with:
+      wpe_env: swmwlawstg  # ← WP Engine staging install name
+    secrets: inherit

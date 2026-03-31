@@ -1,0 +1,58 @@
+@use "../variables/variables" as *;
+
+/**
+ * Standalone result card (Query Loop). Visual parity with .results-hero-carousel__card minus image.
+ */
+
+.result-card-block {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+
+  .result-card-block__card {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
+
+    .result-item-inner {
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
+      max-width: 100%;
+      height: 100%;
+      flex: 1 1 auto;
+      min-height: 0;
+      border-radius: 0;
+      box-shadow: 0 4px 10px 0 #0000001f;
+      margin-top: 0;
+      padding-top: calc(#{$spacing-8} + 0.5rem);
+      padding-bottom: $spacing-8;
+    }
+
+    .result-title {
+      font-style: normal;
+      font-size: $font-size-lg;
+      color: $color-text;
+    }
+
+    .result-amount {
+      font-size: clamp(1.5rem, 4vw, 2.25rem);
+      margin-bottom: $spacing-3;
+    }
+
+    .result-category {
+      margin-bottom: $spacing-4;
+    }
+
+    .result-description {
+      margin-top: 0;
+    }
+  }
+}

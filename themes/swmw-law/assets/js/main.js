@@ -3,7 +3,10 @@
 import initializeButtonHoverAnimation from './button-hover-animation.js'; // Import the module
 import { initMobileMenu, initMobileSubMenus } from './mobile-menu.js';
 import { initMegaMenus, moveMegaPanels, equalizeMegaMenuHeights } from './mega-menu.js';
-import { initResultsSlider } from './blocks/results.js';
+import {
+  initResultsSlider,
+  initResultsHeroCarouselSlider,
+} from './blocks/results.js';
 import { initTestimonialsSlider } from './blocks/testimonials.js';
 import { initAttorneysSlider } from './blocks/attorneys.js';
 import { AccordionBlock, JobsitesAccordion } from './blocks/accordion.js';
@@ -184,9 +187,18 @@ import { initAccordionColumns } from './accordion-columns.js';
     }
 
     try {
-      initResultsSlider(); // Initialize the results slider
+      initResultsSlider(); // Results Display block
     } catch (error) {
       console.error('MAIN.JS - ERROR in initResultsSlider():', error);
+    }
+
+    try {
+      initResultsHeroCarouselSlider(); // Results hero carousel block
+    } catch (error) {
+      console.error(
+        'MAIN.JS - ERROR in initResultsHeroCarouselSlider():',
+        error
+      );
     }
 
     try {

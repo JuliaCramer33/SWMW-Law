@@ -23,6 +23,8 @@ function swmw_law_register_acf_blocks() {
 		'expandable-card',
 		'image-split',
 		'results',
+		'results-hero-carousel',
+		'result-card',
 		'tabs',
 		'tab-panel',
 		'testimonials',

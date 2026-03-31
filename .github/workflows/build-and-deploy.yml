@@ -1,0 +1,52 @@
+# Reusable workflow: build theme + plugin, then deploy to a WP Engine environment.
+# Called by deploy-staging.yml and deploy-production.yml with the appropriate WPE_ENV.
+
+name: Build and deploy to WP Engine
+
+on:
+  workflow_call:
+    inputs:
+      wpe_env:
+        required: true
+        type: string
+        description: WP Engine install/environment name (e.g. siteinstallstg)
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node 18 LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+          cache-dependency-path: |
+            plugins/core-block-custom-breakpoints/package-lock.json
+            themes/swmw-law/package-lock.json
+
+      - name: Install libvips (sharp dependency)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libvips-dev
+
+      - name: Build plugin assets
+        working-directory: ./plugins/core-block-custom-breakpoints
+        run: |
+          npm ci
+          npm run build
+
+      - name: Build theme assets
+        working-directory: ./themes/swmw-law
+        run: |
+          npm ci
+          npm run build
+
+      - name: Deploy to WP Engine
+        uses: wpengine/github-action-wpe-site-deploy@v3
+        with:
+          WPE_SSHG_KEY_PRIVATE: ${{ secrets.WPE_SSHG_KEY_PRIVATE }}
+          WPE_ENV: ${{ inputs.wpe_env }}
+          REMOTE_PATH: "wp-content/"
+          FLAGS: '-azvr --inplace --delete --exclude-from=.deployignore'

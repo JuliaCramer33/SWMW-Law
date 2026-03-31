@@ -16,6 +16,8 @@ if ( is_post_type_archive( 'attorney' ) ) {
 	$prefix = 'news_archive_';
 } elseif ( is_post_type_archive( 'swmw_result' ) ) {
 	$prefix = 'results_archive_';
+} elseif ( function_exists( '\SWMW_Law\swmw_law_is_results_landing_page' ) && \SWMW_Law\swmw_law_is_results_landing_page() ) {
+	$prefix = 'results_archive_';
 } elseif ( is_tax( 'swmw_result_category' ) ) {
 	// Use Results archive settings for "Type of Case" taxonomy pages
 	$prefix = 'results_archive_';
@@ -42,12 +44,17 @@ if ( is_tax( 'swmw_result_category' ) ) {
 
 // Fallback to the default WordPress archive title if the custom one isn't set.
 if ( empty( $hero_title ) ) {
-	$hero_title = get_the_archive_title();
+	if ( function_exists( '\SWMW_Law\swmw_law_is_results_landing_page' ) && \SWMW_Law\swmw_law_is_results_landing_page() ) {
+		$hero_title = get_the_title();
+	} else {
+		$hero_title = get_the_archive_title();
+	}
 }
 
 $hero_styles = '';
 $hero_classes = 'hero-archive';
-if ( is_post_type_archive( 'swmw_result' ) ) {
+if ( is_post_type_archive( 'swmw_result' )
+	|| ( function_exists( '\SWMW_Law\swmw_law_is_results_landing_page' ) && \SWMW_Law\swmw_law_is_results_landing_page() ) ) {
 	$hero_classes .= ' hero-archive--results';
 }
 if ( $background_image_url ) {

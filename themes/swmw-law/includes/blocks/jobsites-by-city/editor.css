@@ -6,7 +6,11 @@
   padding: 1rem 0;
 }
 
-/* Hide the filter bar in editor for cleaner preview */
+/* Hide interactive elements in editor */
+.jobsites-search {
+  display: none !important;
+}
+
 .jobsites-filter-bar {
   display: none !important;
 }
@@ -15,87 +19,86 @@
   display: none !important;
 }
 
-/* Make accordion panels more compact in editor */
-.jobsites-accordion {
-  column-count: 3;
-  column-gap: 1rem;
-  margin-top: 1rem;
+.jobsites-no-results {
+  display: none !important;
 }
 
-.jobsites-accordion .accordion-panel {
-  display: inline-block;
-  width: 100%;
-  margin: 0.5rem 0;
-  break-inside: avoid;
+/* Scroll container preview — show bounded area */
+.jobsites-directory-scroll {
+  max-height: 400px;
+  overflow-y: auto;
   border: 1px solid #ddd;
   border-radius: 4px;
-  background: #f9f9f9;
+  padding: 1rem;
+  background: #fafafa;
 }
 
-/* Collapse all accordion content in editor */
-.jobsites-accordion .accordion-panel-content {
-  display: none !important;
+/* Multi-column layout preview */
+.jobsites-directory {
+  column-count: 3;
+  column-gap: 1rem;
 }
 
-/* Style the accordion headers to show they're collapsible */
-.jobsites-accordion .accordion-panel-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem 1rem;
-  background-color: #f0f0f0;
-  cursor: default;
-  border-bottom: 1px solid #ddd;
+.letter-section {
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 0.75rem;
+  break-inside: avoid;
 }
 
-.jobsites-accordion .accordion-panel-title {
+.letter-heading {
   font-size: 1rem;
+  font-weight: 700;
+  color: #007cba;
+  margin: 0 0 0.5rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 2px solid #007cba;
+}
+
+.city-group {
+  margin-bottom: 0.5rem;
+  padding-left: 0.25rem;
+}
+
+.city-name {
+  font-size: 0.9rem;
   font-weight: 600;
   color: #333;
+  margin: 0 0 0.25rem;
+}
+
+.jobsites-list {
+  list-style: none;
   margin: 0;
+  padding: 0;
 }
 
-/* Add a visual indicator that content is hidden */
-.jobsites-accordion .accordion-panel-header::after {
-  content: " (collapsed in editor)";
-  font-size: 0.8rem;
-  color: #666;
-  font-weight: normal;
+.jobsite-item {
+  padding: 0.1rem 0;
 }
 
-/* Hide the accordion icon in editor */
-.jobsites-accordion .accordion-panel-icon {
-  display: none !important;
-}
-
-/* Add a summary of what's in each panel */
-.jobsites-accordion .accordion-panel::after {
-  content: "Contains city data and jobsites";
-  display: block;
-  padding: 0.5rem 1rem;
-  font-size: 0.8rem;
-  color: #666;
-  font-style: italic;
-  background: #f5f5f5;
-  border-top: 1px solid #ddd;
+.jobsite-name {
+  font-size: 0.85rem;
+  color: #555;
+  margin: 0;
 }
 
 /* Responsive adjustments for editor */
 @media (max-width: 768px) {
-  .jobsites-accordion {
+  .jobsites-directory {
     column-count: 2;
   }
 }
 
 @media (max-width: 480px) {
-  .jobsites-accordion {
+  .jobsites-directory {
     column-count: 1;
   }
 }
 
-/* Add a helpful note at the top */
+/* Helpful note at the top */
 .jobsites-by-city-block::before {
-  content: "Jobsites by City Block - Accordion panels are collapsed in editor for better usability";
+  content: "Jobsites by City — All cities expanded with scroll container and search (front-end only)";
   display: block;
   padding: 0.75rem;
   margin-bottom: 1rem;

@@ -64,6 +64,10 @@ add_action( 'after_setup_theme', function() {
     // Add custom image size for attorney cards
     // This will create a 400x480 image (5:6 aspect ratio) with hard crop from center-top
     add_image_size( 'attorney-card', 400, 480, array( 'center', 'top' ) );
+    // Results hero carousel: legacy square crop (other layouts).
+    add_image_size( 'swmw-result-hero-portrait', 360, 360, true );
+    // Results hero carousel block: wide composite (person + design in one file); proportional height.
+    add_image_size( 'swmw-result-hero-carousel', 900, 9999, false );
 }, 1 );
 
 
@@ -98,6 +102,7 @@ $includes = [
     'ACF/breadcrumbs',
     'button-icons',
     'blocks/blocks',
+    'results-landing',
 ];
 
 foreach ( $includes as $file_slug ) {
@@ -205,33 +210,6 @@ function swmw_law_category_archive_posts( $query ) {
     }
 }
 add_action( 'pre_get_posts', __NAMESPACE__ . '\swmw_law_category_archive_posts' );
-
-/**
- * Modify the main query for the results archive to exclude featured results.
- *
- * @param WP_Query $query The WP_Query instance (passed by reference).
- */
-function swmw_law_non_featured_results_archive_query( $query ) {
-	if ( ! is_admin() && $query->is_main_query() && is_post_type_archive( 'swmw_result' ) ) {
-		// Exclude featured from the main archive list (below the featured section)
-		$tax_query = $query->get( 'tax_query' );
-		if ( ! is_array( $tax_query ) ) {
-			$tax_query = array();
-		}
-		$tax_query[] = array(
-			'taxonomy' => 'swmw_result_status',
-			'field'    => 'slug',
-			'terms'    => array( 'featured' ),
-			'operator' => 'NOT IN',
-		);
-		$tax_query['relation'] = isset( $tax_query['relation'] ) ? $tax_query['relation'] : 'AND';
-		$query->set( 'tax_query', $tax_query );
-		$query->set( 'posts_per_page', -1 ); // Show all results
-		// Custom ordering: amount desc (handled in posts_clauses)
-		$query->set( 'results_custom_order', true );
-	}
-}
-add_action( 'pre_get_posts', __NAMESPACE__ . '\swmw_law_non_featured_results_archive_query' );
 
 /**
  * Custom ORDER BY for Results (archive and case-type taxonomy):
@@ -384,23 +362,6 @@ function swmw_law_save_result_amount_numeric( $post_id ) {
 add_action( 'save_post', __NAMESPACE__ . '\swmw_law_save_result_amount_numeric' );
 
 /**
- * Order the Results archive by numeric amount, descending (largest first),
- * while including posts without the numeric meta (fallback order by date).
- *
- * @param \WP_Query $query
- */
-function swmw_law_order_results_by_amount( $query ) {
-	if ( is_admin() || ! $query->is_main_query() ) {
-		return;
-	}
-	if ( is_post_type_archive( 'swmw_result' ) ) {
-		// Leave archive ordering as default (date DESC) and featured exclusion only (set elsewhere).
-		return;
-	}
-}
-add_action( 'pre_get_posts', __NAMESPACE__ . '\swmw_law_order_results_by_amount' );
-
-/**
  * One-time backfill: compute and store numeric amounts for existing Results.
  * Runs once for an admin user on next admin page load.
  */
@@ -475,25 +436,14 @@ function swmw_law_load_more_results_handler() {
         ob_start();
         while ( $results_query->have_posts() ) :
             $results_query->the_post();
-            // Use the same markup as in your grid:
-            $case_types     = get_the_terms( get_the_ID(), 'swmw_result_category' );
-            $case_type_name = ! empty( $case_types ) && ! is_wp_error( $case_types ) ? $case_types[0]->name : '';
-            ?>
-            <div class="result-item-inner">
-                <?php if ( $case_type_name ) : ?>
-                    <span class="result-category"><?php echo esc_html( $case_type_name ); ?></span>
-                <?php endif; ?>
-                <h3 class="result-amount"><?php echo esc_html( \SWMW_Law\swmw_law_get_formatted_amount() ); ?></h3>
-                <?php $heading_occ = \SWMW_Law\swmw_law_format_result_heading_occupation(); ?>
-                <?php if ( $heading_occ ) : ?>
-                    <h4 class="result-title"><?php echo esc_html( $heading_occ ); ?></h4>
-                <?php endif; ?>
-                <?php $subtext = \SWMW_Law\swmw_law_format_result_subtext(); ?>
-                <?php if ( $subtext ) : ?>
-                    <p class="result-subtext"><?php echo esc_html( $subtext ); ?></p>
-                <?php endif; ?>
-            </div>
-            <?php
+            get_template_part(
+                'template-parts/content',
+                'result-card',
+                array(
+                    'link_category'  => false,
+                    'show_secondary' => false,
+                )
+            );
         endwhile;
         $html = ob_get_clean();
         wp_send_json_success( [
@@ -600,7 +550,7 @@ function swmw_law_register_query_vars( $vars ) {
 add_filter( 'query_vars', __NAMESPACE__ . '\swmw_law_register_query_vars' );
 
 /**
- * Output structured data (JSON-LD) for Results archives and Result Category taxonomy pages.
+ * Output structured data (JSON-LD) for Results landing Page, Result Category taxonomy, and legacy contexts.
  * - CollectionPage with ItemList of Results
  * - BreadcrumbList
  */
@@ -608,29 +558,58 @@ function swmw_law_output_results_schema() {
 	if ( is_admin() ) {
 		return;
 	}
-	if ( ! ( is_post_type_archive( 'swmw_result' ) || is_tax( 'swmw_result_category' ) ) ) {
+	if ( ! ( swmw_law_is_results_landing_page() || is_tax( 'swmw_result_category' ) ) ) {
 		return;
 	}
 
 	global $wp_query;
-	if ( ! $wp_query || empty( $wp_query->posts ) ) {
+	$schema_posts = array();
+
+	if ( swmw_law_is_results_landing_page() ) {
+		$results_q = new \WP_Query(
+			array(
+				'post_type'              => 'swmw_result',
+				'post_status'            => 'publish',
+				'posts_per_page'         => -1,
+				'results_custom_order'   => true,
+				'no_found_rows'          => true,
+				'update_post_meta_cache' => false,
+				'update_post_term_cache' => true,
+				'tax_query'              => array(
+					array(
+						'taxonomy' => 'swmw_result_status',
+						'field'    => 'slug',
+						'terms'    => array( 'featured' ),
+						'operator' => 'NOT IN',
+					),
+				),
+			)
+		);
+		$schema_posts = $results_q->posts;
+	} elseif ( $wp_query && ! empty( $wp_query->posts ) ) {
+		$schema_posts = $wp_query->posts;
+	}
+
+	if ( empty( $schema_posts ) ) {
 		return;
 	}
 
 	// Build page context
 	$current_url = home_url( add_query_arg( array(), $_SERVER['REQUEST_URI'] ?? '' ) );
 	$page_name   = 'Results';
-	if ( is_tax( 'swmw_result_category' ) ) {
+	if ( swmw_law_is_results_landing_page() ) {
+		$page_name = get_the_title( get_queried_object_id() ) ?: 'Results';
+	} elseif ( is_tax( 'swmw_result_category' ) ) {
 		$term = get_queried_object();
 		if ( $term && ! is_wp_error( $term ) && isset( $term->name ) ) {
 			$page_name = 'Results: ' . $term->name;
 		}
 	}
 
-	// Build ItemList from current posts
+	// Build ItemList from posts
 	$item_list_elements = array();
-	$position = 1;
-	foreach ( $wp_query->posts as $post_obj ) {
+	$position           = 1;
+	foreach ( $schema_posts as $post_obj ) {
 		$post_id = isset( $post_obj->ID ) ? (int) $post_obj->ID : 0;
 		if ( $post_id <= 0 ) {
 			continue;
@@ -688,7 +667,7 @@ function swmw_law_output_results_schema() {
 			'@type' => 'ListItem',
 			'position' => 2,
 			'name' => 'Results',
-			'item' => get_post_type_archive_link( 'swmw_result' ),
+			'item' => swmw_law_get_results_page_url() ?: home_url( '/' ),
 		),
 	);
 	if ( is_tax( 'swmw_result_category' ) ) {
@@ -908,6 +887,28 @@ function swmw_law_format_result_heading_occupation( $post_id = null ) {
 }
 
 /**
+ * Map a US state abbreviation to its full name (empty string if unknown).
+ *
+ * @param string $code Two-letter code or similar.
+ * @return string
+ */
+function swmw_law_us_state_code_to_label( $code ) {
+	$code = strtoupper( trim( (string) $code ) );
+	static $map = null;
+	if ( null === $map ) {
+		$map = array(
+			'AL' => 'Alabama','AK' => 'Alaska','AZ' => 'Arizona','AR' => 'Arkansas','CA' => 'California','CO' => 'Colorado','CT' => 'Connecticut','DE' => 'Delaware','FL' => 'Florida','GA' => 'Georgia',
+			'HI' => 'Hawaii','ID' => 'Idaho','IL' => 'Illinois','IN' => 'Indiana','IA' => 'Iowa','KS' => 'Kansas','KY' => 'Kentucky','LA' => 'Louisiana','ME' => 'Maine','MD' => 'Maryland',
+			'MA' => 'Massachusetts','MI' => 'Michigan','MN' => 'Minnesota','MS' => 'Mississippi','MO' => 'Missouri','MT' => 'Montana','NE' => 'Nebraska','NV' => 'Nevada','NH' => 'New Hampshire','NJ' => 'New Jersey',
+			'NM' => 'New Mexico','NY' => 'New York','NC' => 'North Carolina','ND' => 'North Dakota','OH' => 'Ohio','OK' => 'Oklahoma','OR' => 'Oregon','PA' => 'Pennsylvania','RI' => 'Rhode Island','SC' => 'South Carolina',
+			'SD' => 'South Dakota','TN' => 'Tennessee','TX' => 'Texas','UT' => 'Utah','VT' => 'Vermont','VA' => 'Virginia','WA' => 'Washington','WV' => 'West Virginia','WI' => 'Wisconsin','WY' => 'Wyoming',
+			'DC' => 'District of Columbia',
+		);
+	}
+	return isset( $map[ $code ] ) ? $map[ $code ] : '';
+}
+
+/**
  * Subtext: Full state name only (SEO); author description prints separately by template.
  */
 function swmw_law_format_result_subtext( $post_id = null ) {
@@ -919,16 +920,54 @@ function swmw_law_format_result_subtext( $post_id = null ) {
 	if ( $state === '' ) {
 		return '';
 	}
-	$code = strtoupper( trim( $state ) );
-	$states = array(
-		'AL' => 'Alabama','AK' => 'Alaska','AZ' => 'Arizona','AR' => 'Arkansas','CA' => 'California','CO' => 'Colorado','CT' => 'Connecticut','DE' => 'Delaware','FL' => 'Florida','GA' => 'Georgia',
-		'HI' => 'Hawaii','ID' => 'Idaho','IL' => 'Illinois','IN' => 'Indiana','IA' => 'Iowa','KS' => 'Kansas','KY' => 'Kentucky','LA' => 'Louisiana','ME' => 'Maine','MD' => 'Maryland',
-		'MA' => 'Massachusetts','MI' => 'Michigan','MN' => 'Minnesota','MS' => 'Mississippi','MO' => 'Missouri','MT' => 'Montana','NE' => 'Nebraska','NV' => 'Nevada','NH' => 'New Hampshire','NJ' => 'New Jersey',
-		'NM' => 'New Mexico','NY' => 'New York','NC' => 'North Carolina','ND' => 'North Dakota','OH' => 'Ohio','OK' => 'Oklahoma','OR' => 'Oregon','PA' => 'Pennsylvania','RI' => 'Rhode Island','SC' => 'South Carolina',
-		'SD' => 'South Dakota','TN' => 'Tennessee','TX' => 'Texas','UT' => 'Utah','VT' => 'Vermont','VA' => 'Virginia','WA' => 'Washington','WV' => 'West Virginia','WI' => 'Wisconsin','WY' => 'Wyoming',
-		'DC' => 'District of Columbia',
-	);
-	return isset( $states[ $code ] ) ? $states[ $code ] : $state;
+	$code  = strtoupper( trim( $state ) );
+	$label = swmw_law_us_state_code_to_label( $code );
+	return $label !== '' ? $label : $state;
+}
+
+/**
+ * Grid-style line: Diagnosis (State1, State2). Splits result_state on commas/semicolons for multiple codes.
+ *
+ * @param int|null $post_id Post ID.
+ * @return string
+ */
+function swmw_law_format_result_diagnosis_states_caption( $post_id = null ) {
+	$post_id = $post_id ? (int) $post_id : (int) get_the_ID();
+	if ( ! $post_id ) {
+		return '';
+	}
+	$diagnosis = function_exists( 'get_field' ) ? trim( (string) get_field( 'result_liability_text', $post_id ) ) : trim( (string) get_post_meta( $post_id, 'result_liability_text', true ) );
+
+	$state_raw = function_exists( 'get_field' ) ? (string) get_field( 'result_state', $post_id ) : (string) get_post_meta( $post_id, 'result_state', true );
+	$state_raw = trim( $state_raw );
+
+	$labels = array();
+	if ( $state_raw !== '' ) {
+		$parts = preg_split( '/[,;]+/', $state_raw );
+		if ( is_array( $parts ) ) {
+			foreach ( $parts as $part ) {
+				$code = strtoupper( trim( (string) $part ) );
+				if ( $code === '' ) {
+					continue;
+				}
+				$name = swmw_law_us_state_code_to_label( $code );
+				$labels[] = $name !== '' ? $name : $code;
+			}
+		}
+	}
+	$labels = array_unique( $labels );
+	$states_joined = implode( ', ', $labels );
+
+	if ( $diagnosis !== '' && $states_joined !== '' ) {
+		return $diagnosis . ' (' . $states_joined . ')';
+	}
+	if ( $diagnosis !== '' ) {
+		return $diagnosis;
+	}
+	if ( $states_joined !== '' ) {
+		return '(' . $states_joined . ')';
+	}
+	return '';
 }
 
 /**
