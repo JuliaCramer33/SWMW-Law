@@ -1,0 +1,33 @@
+{
+  "name": "acf/jobsites-directory",
+  "title": "Jobsites Directory",
+  "description": "Display all jobsites in alphabetical accordion panels grouped by letter ranges.",
+  "category": "swmw-custom-blocks",
+  "icon": "list-view",
+  "keywords": [
+    "jobsites",
+    "directory",
+    "accordion",
+    "alphabetical"
+  ],
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "template.php"
+  },
+  "supports": {
+    "anchor": true,
+    "customClassName": true,
+    "html": false,
+    "spacing": {
+      "margin": true,
+      "padding": true
+    },
+    "align": [
+      "wide",
+      "full"
+    ],
+    "mode": false,
+    "jsx": true
+  },
+  "editorStyle": "file:./editor.css"
+}

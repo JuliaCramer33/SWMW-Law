@@ -1,0 +1,22 @@
+{
+  "name": "acf/result-card",
+  "title": "Result card",
+  "description": "Single result card for use inside a Query Loop (no image). Matches hero carousel card typography; shows diagnosis and states below the title.",
+  "category": "swmw-custom-blocks",
+  "icon": "index-card",
+  "keywords": ["result", "case", "card", "query loop", "swmw_result"],
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "template.php"
+  },
+  "supports": {
+    "anchor": true,
+    "customClassName": true,
+    "spacing": {
+      "margin": true,
+      "padding": true
+    },
+    "align": ["wide", "full"]
+  },
+  "editorStyle": "file:./editor.css"
+}

@@ -54,6 +54,54 @@ $alignments: (
   }
 }
 
+/* Query Loop — Post Template is a <ul>/<li>; override .entry-content ul/li prose styles */
+.entry-content .wp-block-post-template {
+  list-style: none;
+  padding-left: 0;
+  padding-right: 0;
+  padding-inline-start: 0;
+  margin-left: 0;
+  margin-bottom: 0;
+}
+
+.entry-content .wp-block-post-template > li {
+  list-style: none;
+  margin-bottom: 0;
+  padding-left: 0;
+  padding-inline-start: 0;
+}
+
+/* Query Loop: equal row heights — stretch items; card fills cell (see .result-card-block) */
+.entry-content .wp-block-post-template.is-layout-grid,
+.entry-content .wp-block-post-template.is-layout-flex {
+  align-items: stretch;
+}
+
+.entry-content .wp-block-post-template.is-layout-grid > li,
+.entry-content .wp-block-post-template.is-layout-flex > li {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.entry-content .wp-block-post-template.is-layout-grid > li > .wp-block-group:only-child,
+.entry-content .wp-block-post-template.is-layout-flex > li > .wp-block-group:only-child {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  width: 100%;
+}
+
+.entry-content .wp-block-post-template.is-layout-grid > li .result-card-block,
+.entry-content .wp-block-post-template.is-layout-flex > li .result-card-block {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  width: 100%;
+}
+
 /* ================================
    IMAGE ALIGNMENT OVERRIDES
    ================================ */

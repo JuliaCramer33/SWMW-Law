@@ -1,0 +1,36 @@
+/**
+ * Result card block — editor preview (matches front card shell).
+ */
+
+.wp-block-acf-result-card.result-card-block {
+  max-width: 100%;
+}
+
+.wp-block-acf-result-card .result-card-block__card {
+  max-width: 100%;
+}
+
+.wp-block-acf-result-card .result-card-block__card .result-item-inner {
+  border-radius: 0;
+  box-shadow: 0 4px 10px 0 #0000001f;
+  padding-top: 1.75rem;
+  padding-bottom: 1.75rem;
+}
+
+.wp-block-acf-result-card .result-card-block__card .result-title {
+  font-style: normal;
+  font-size: 1.125rem;
+}
+
+.wp-block-acf-result-card .result-card-block__card .result-amount {
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  margin-bottom: 0.75rem;
+}
+
+.wp-block-acf-result-card .result-card-block__card .result-category {
+  margin-bottom: 1rem;
+}
+
+.wp-block-acf-result-card .result-card-block__card .result-description {
+  margin-top: 0;
+}

@@ -1,0 +1,110 @@
+/* Jobsites by City Block - Editor Styles */
+
+.jobsites-by-city-block {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 0;
+}
+
+/* Hide interactive elements in editor */
+.jobsites-search {
+  display: none !important;
+}
+
+.jobsites-filter-bar {
+  display: none !important;
+}
+
+.jobsites-skip-to {
+  display: none !important;
+}
+
+.jobsites-no-results {
+  display: none !important;
+}
+
+/* Scroll container preview — show bounded area */
+.jobsites-directory-scroll {
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 1rem;
+  background: #fafafa;
+}
+
+/* Multi-column layout preview */
+.jobsites-directory {
+  column-count: 3;
+  column-gap: 1rem;
+}
+
+.letter-section {
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 0.75rem;
+  break-inside: avoid;
+}
+
+.letter-heading {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #007cba;
+  margin: 0 0 0.5rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 2px solid #007cba;
+}
+
+.city-group {
+  margin-bottom: 0.5rem;
+  padding-left: 0.25rem;
+}
+
+.city-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 0.25rem;
+}
+
+.jobsites-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.jobsite-item {
+  padding: 0.1rem 0;
+}
+
+.jobsite-name {
+  font-size: 0.85rem;
+  color: #555;
+  margin: 0;
+}
+
+/* Responsive adjustments for editor */
+@media (max-width: 768px) {
+  .jobsites-directory {
+    column-count: 2;
+  }
+}
+
+@media (max-width: 480px) {
+  .jobsites-directory {
+    column-count: 1;
+  }
+}
+
+/* Helpful note at the top */
+.jobsites-by-city-block::before {
+  content: "Jobsites by City — All cities expanded with scroll container and search (front-end only)";
+  display: block;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  background: #e7f3ff;
+  border: 1px solid #b3d9ff;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: #0066cc;
+}

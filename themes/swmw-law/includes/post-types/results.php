@@ -60,7 +60,8 @@ function register_result_cpt() {
 		'show_in_admin_bar'     => true,
 		'show_in_nav_menus'     => true,
 		'can_export'            => true,
-		'has_archive'           => 'results',
+		// Archive listing lives on a Page (slug "results") for block editor + Search & Filter; singles stay /results/{slug}/.
+		'has_archive'           => false,
 		'exclude_from_search'   => true,
 		'publicly_queryable'    => true,
 		'capability_type'       => 'post',

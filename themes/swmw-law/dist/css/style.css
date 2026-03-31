@@ -14847,6 +14847,249 @@ nav .menu-item.button,
  * Main SCSS file
  */
 /**
+ * Results hero carousel — composite featured image (design baked into file) above white card.
+ * No semi-transparent CSS arch; image does not overlap card copy.
+ */
+.results-hero-carousel-block {
+  width: 100%;
+  position: relative;
+}
+.results-hero-carousel-block .results-hero-carousel__arch {
+  position: relative;
+  overflow: hidden;
+  padding: 2.5rem 2rem 1.5rem;
+  border-radius: 0 0 3rem 3rem;
+}
+@media (min-width: 768px) {
+  .results-hero-carousel-block .results-hero-carousel__arch {
+    border-radius: 0 0 4.5rem 4.5rem;
+    padding-bottom: 2rem;
+  }
+}
+.results-hero-carousel-block .results-hero-carousel__slider {
+  position: relative;
+  z-index: 1;
+}
+.results-hero-carousel-block .results-hero-carousel__slide {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  height: auto;
+  flex: 0 0 33.3333333333%;
+  max-width: 33.3333333333%;
+}
+.results-hero-carousel-block .results-hero-carousel__slide-inner {
+  width: 100%;
+  line-height: 0;
+  overflow: hidden;
+  margin: 0;
+  min-height: 350px;
+}
+.results-hero-carousel-block .results-hero-carousel__figure-img {
+  display: block;
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+  object-position: center top;
+  vertical-align: middle;
+}
+.results-hero-carousel-block .results-hero-carousel__slide-inner-inner {
+  width: 100%;
+  margin: -0.5rem 0 0;
+  padding: 0 0 0.5rem;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex: 1 1 auto;
+}
+.results-hero-carousel-block .results-hero-carousel__card {
+  width: 95%;
+  min-width: 95%;
+  max-width: 95%;
+  margin: 0 auto;
+  display: flex;
+  flex: 1 1 auto;
+}
+.results-hero-carousel-block .results-hero-carousel__card .result-item-inner {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  border-radius: 0;
+  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.1215686275);
+  margin-top: 0;
+  padding-top: calc(2rem + 0.5rem);
+  padding-bottom: 2rem;
+}
+.results-hero-carousel-block .results-hero-carousel__card .result-title {
+  font-style: normal;
+  font-size: 1.125rem;
+  color: #43383e;
+}
+.results-hero-carousel-block .results-hero-carousel__card .result-amount {
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  margin-bottom: 0.75rem;
+}
+.results-hero-carousel-block .results-hero-carousel__card .result-category {
+  margin-bottom: 1rem;
+}
+.results-hero-carousel-block .results-hero-carousel__card .result-subtext {
+  font-style: normal;
+  font-size: 0.875rem;
+  color: #666;
+}
+.results-hero-carousel-block .results-hero-carousel__card .result-description {
+  margin-top: 0;
+}
+.results-hero-carousel-block .splide__slide {
+  padding: 0;
+}
+.results-hero-carousel-block .splide__list {
+  display: flex;
+  gap: 0;
+  height: auto;
+  align-items: stretch;
+}
+@media (max-width: 991px) {
+  .results-hero-carousel-block .results-hero-carousel__slide {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+@media (max-width: 767px) {
+  .results-hero-carousel-block .results-hero-carousel__slide {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+.results-hero-carousel-block .splide__arrows {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 68%;
+  transform: translateY(-50%);
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none;
+  z-index: 5;
+}
+.results-hero-carousel-block .splide__arrow {
+  position: relative !important;
+  left: auto !important;
+  right: auto !important;
+  top: auto !important;
+  align-self: center;
+  transform: rotate(0deg);
+  pointer-events: auto;
+  background: #12477a;
+  border: none;
+  border-radius: 50%;
+  width: 2.75rem;
+  height: 2.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  color: #fff;
+}
+.results-hero-carousel-block .splide__arrow:hover, .results-hero-carousel-block .splide__arrow:focus {
+  background: rgb(14.0657142857, 55.4814285714, 95.3342857143);
+  color: #fff;
+}
+.results-hero-carousel-block .splide__arrow.splide__arrow--prev {
+  margin-left: -0.35rem;
+  transform: rotate(180deg);
+}
+.results-hero-carousel-block .splide__arrow.splide__arrow--next {
+  margin-right: -0.35rem;
+}
+.results-hero-carousel-block .splide__arrow.splide__arrow--next svg {
+  transform: rotate(180deg);
+}
+.results-hero-carousel-block .splide__arrow svg {
+  stroke: currentcolor;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+@media (max-width: 767px) {
+  .results-hero-carousel-block .splide__arrows {
+    top: 66%;
+  }
+  .results-hero-carousel-block .splide__arrow {
+    width: 2.35rem;
+    height: 2.35rem;
+  }
+  .results-hero-carousel-block .splide__arrow svg {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+/*!
+ * SWMW Law Theme
+ * Main SCSS file
+ */
+/**
+ * Standalone result card (Query Loop). Visual parity with .results-hero-carousel__card minus image.
+ */
+.result-card-block {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.result-card-block .result-card-block__card {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+}
+.result-card-block .result-card-block__card .result-item-inner {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  border-radius: 0;
+  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.1215686275);
+  margin-top: 0;
+  padding-top: calc(2rem + 0.5rem);
+  padding-bottom: 2rem;
+}
+.result-card-block .result-card-block__card .result-title {
+  font-style: normal;
+  font-size: 1.125rem;
+  color: #43383e;
+}
+.result-card-block .result-card-block__card .result-amount {
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  margin-bottom: 0.75rem;
+}
+.result-card-block .result-card-block__card .result-category {
+  margin-bottom: 1rem;
+}
+.result-card-block .result-card-block__card .result-description {
+  margin-top: 0;
+}
+
+/*!
+ * SWMW Law Theme
+ * Main SCSS file
+ */
+/**
  * Image Split Block Styles
  * Styles for the image split ACF block with two overlapping images
  */
@@ -16329,6 +16572,54 @@ body.home h1 {
     align-items: center;
   }
 }
+/* Query Loop — Post Template is a <ul>/<li>; override .entry-content ul/li prose styles */
+.entry-content .wp-block-post-template {
+  list-style: none;
+  padding-left: 0;
+  padding-right: 0;
+  padding-inline-start: 0;
+  margin-left: 0;
+  margin-bottom: 0;
+}
+
+.entry-content .wp-block-post-template > li {
+  list-style: none;
+  margin-bottom: 0;
+  padding-left: 0;
+  padding-inline-start: 0;
+}
+
+/* Query Loop: equal row heights — stretch items; card fills cell (see .result-card-block) */
+.entry-content .wp-block-post-template.is-layout-grid,
+.entry-content .wp-block-post-template.is-layout-flex {
+  align-items: stretch;
+}
+
+.entry-content .wp-block-post-template.is-layout-grid > li,
+.entry-content .wp-block-post-template.is-layout-flex > li {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.entry-content .wp-block-post-template.is-layout-grid > li > .wp-block-group:only-child,
+.entry-content .wp-block-post-template.is-layout-flex > li > .wp-block-group:only-child {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  width: 100%;
+}
+
+.entry-content .wp-block-post-template.is-layout-grid > li .result-card-block,
+.entry-content .wp-block-post-template.is-layout-flex > li .result-card-block {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  width: 100%;
+}
+
 /* ================================
    IMAGE ALIGNMENT OVERRIDES
    ================================ */

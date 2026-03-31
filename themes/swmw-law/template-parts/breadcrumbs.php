@@ -77,12 +77,19 @@ if ( is_home() ) {
                     <?php
                 }
             }
-            // Case 3: For other CPTs, show their archive link.
+            // Case 3: For other CPTs, show their archive link (or Results Page when CPT has no archive).
             elseif ( is_singular() && ! is_page() && 'post' !== get_post_type() ) {
                 $post_type_obj = get_post_type_object( get_post_type() );
-                if ( $post_type_obj && $post_type_obj->has_archive ) {
-                    $archive_link = get_post_type_archive_link( get_post_type() );
+                $archive_link  = '';
+                $archive_label = '';
+                if ( $post_type_obj && 'swmw_result' === get_post_type() && function_exists( '\SWMW_Law\swmw_law_get_results_page_url' ) ) {
+                    $archive_link  = \SWMW_Law\swmw_law_get_results_page_url();
+                    $archive_label = $post_type_obj ? $post_type_obj->labels->name : __( 'Results', 'swmw-law' );
+                } elseif ( $post_type_obj && $post_type_obj->has_archive ) {
+                    $archive_link  = get_post_type_archive_link( get_post_type() );
                     $archive_label = $post_type_obj->labels->name;
+                }
+                if ( $archive_link ) {
                     ?>
                     <li class="breadcrumb-item breadcrumb-separator" aria-hidden="true">/</li>
                     <li class="breadcrumb-item">

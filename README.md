@@ -138,10 +138,14 @@ From `themes/swmw-law`:
 
 **Setup (one-time):**
 
-1. **Secret:** In the repo go to **Settings → Secrets and variables → Actions** and add `WPE_SSHG_KEY_PRIVATE` with the WP Engine SSH private key (from WP Engine User Portal or your host).
-2. **WP Engine env names:** Edit the `wpe_env` value in each workflow to match your installs:
-   - `.github/workflows/deploy-staging.yml` → your staging install name
-   - `.github/workflows/deploy-production.yml` → your production install name
+1. **SSH key pair:** Generate a **passwordless** SSH key pair (e.g. `ssh-keygen -t ed25519 -C "wpe-deploy" -f ~/.ssh/swmw_wpe_deploy -N ""`). Use this for GitHub Actions only.
+2. **WP Engine — add the *public* key:** In the [WP Engine User Portal](https://my.wpengine.com), open **SSH Gateway** (not Git Push) and add the **public** key for each install you deploy to (e.g. staging `swmwlawstg`, production `swmwlawnew`). [Guide: Add SSH Key to SSH Gateway](https://wpengine.com/support/ssh-gateway/#Add_SSH_Key).
+3. **GitHub — add the *private* key:** In the repo go to **Settings → Secrets and variables → Actions** and add a secret named `WPE_SSHG_KEY_PRIVATE` with the **private** key (entire contents of e.g. `~/.ssh/swmw_wpe_deploy`, including `-----BEGIN ... KEY-----` and `-----END ... KEY-----`).
+4. **WP Engine env names:** Edit the `wpe_env` value in each workflow to match your installs:
+   - `.github/workflows/deploy-staging.yml` → your staging install name (e.g. `swmwlawstg`)
+   - `.github/workflows/deploy-production.yml` → your production install name (e.g. `swmwlawnew`)
+
+**If you see `Permission denied (publickey)` in the deploy logs:** The public key is not installed for that environment in WP Engine’s **SSH Gateway**, or it doesn’t match the private key in `WPE_SSHG_KEY_PRIVATE`. Add the correct public key in the User Portal for the install named in `wpe_env` (e.g. `swmwlawstg` for staging).
 
 Build uses Node 18, `npm ci`, and installs `libvips-dev` for the plugin's sharp dependency. Only `wp-content/` is deployed; `.deployignore` excludes source and dev-only files. **Workflow layout:** A single reusable workflow (`.github/workflows/build-and-deploy.yml`) does the build and deploy; the staging and production workflows only trigger it with the right `wpe_env`, so you change env names in one place per environment.  
 

@@ -28,7 +28,8 @@ if ( is_post_type_archive( 'attorney' ) ) {
 	if ( ! empty( $custom_title ) ) {
 		$hero_title = $custom_title;
 	}
-} elseif ( is_post_type_archive( 'swmw_result' ) ) {
+} elseif ( is_post_type_archive( 'swmw_result' )
+	|| ( function_exists( '\SWMW_Law\swmw_law_is_results_landing_page' ) && \SWMW_Law\swmw_law_is_results_landing_page() ) ) {
 	$hero_background_image = get_field( 'results_archive_background_image', 'option' );
 	$custom_title          = get_field( 'results_archive_title', 'option' );
 	$hero_content          = get_field( 'results_archive_content', 'option' );
